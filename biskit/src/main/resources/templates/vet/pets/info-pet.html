@@ -62,7 +62,7 @@
               <!-- BOTÓN ELIMINAR -->
               <a
                 th:href="@{/vet/pets/delete/{id}(id=${pet.id})}"
-                class="absolute top-3 left-2 z-10 px-1 py-1 rounded-md opacity-0 text-[#b22222] hover:text-[#b22222] group-hover:opacity-100 bg-transparent text-xs">
+                class="absolute top-3 left-2 z-10 px-1 py-1 rounded-md opacity-0 text-[#b22222] hover:text-[#991B1B] transition-all duration-200 group-hover:opacity-100 bg-transparent text-xs">
                 <svg
                   class="h-6"
                   viewBox="0 0 24 24"
@@ -85,8 +85,8 @@
               </a>
               <!-- BOTÓN EDITAR -->
               <a
-                th:href="@{/vet/update-pet/{id}(id=${pet.id})}"
-                class="absolute top-3 left-10 z-10 px-1 py-1 rounded-md opacity-0 text-[#8c8787] hover:text-black group-hover:opacity-100 bg-transparent text-xs">
+                th:href="@{/vet/pets/update/{id}(id=${pet.id})}"
+                class="absolute top-3 left-10 z-10 px-1 py-1 rounded-md opacity-0 text-[#2b5392] hover:text-[#1a3a6b] transition-all duration-200 group-hover:opacity-100 bg-transparent text-xs">
                 <svg
                   class="h-6"
                   viewBox="0 0 24 24"
@@ -106,7 +106,7 @@
                       stroke-linejoin="round"></path>
                     <path
                       d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
-                      stroke="#5f5959"
+                      stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"></path>

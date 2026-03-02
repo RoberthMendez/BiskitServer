@@ -12,7 +12,7 @@ public class Client {
   private String cedula;
   private String correo;
   private String celular;
-  private List<Pet> pets;
+  private List<Pet> pets = new ArrayList<>();
 
   public Client(Integer id, String nombre, String cedula, String correo, String celular) {
     this.id = id;

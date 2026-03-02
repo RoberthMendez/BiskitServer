@@ -72,6 +72,19 @@ public class VetsController {
     return clientsPath + "add-client";
   }
 
+  @PostMapping("/clients/update")
+  public String actualizarCliente(@ModelAttribute("client") Client client) {
+
+    Client clientExistente = clientsService.getClientById(client.getId());
+    if (clientExistente != null) {
+      client.setPets(clientExistente.getPets());
+    }
+
+    clientsService.updateClient(client);
+    return "redirect:/vet/clients";
+
+  }
+
   // ----- Eliminar Cliente (DELETE) -----
   @GetMapping("/clients/delete/{id}")
   public String eliminarCliente(@PathVariable("id") Integer id) {
@@ -119,7 +132,7 @@ public class VetsController {
 
   // ----- Editar Mascota (UPDATE) -----
 
-  @GetMapping("/update-pet/{id}")
+  @GetMapping("/pets/update/{id}")
   public String mostrarFormularioUpdatePet(@PathVariable("id") Integer id, Model model) {
     Pet pet = petsService.getPetById(id);
     Client owner = clientsService.getClientByPetId(id);

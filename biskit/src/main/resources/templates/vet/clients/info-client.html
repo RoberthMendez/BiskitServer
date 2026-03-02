@@ -268,64 +268,68 @@
           </p>
         </div>
         <!-- Tabla para pantallas grandes -->
-        <div class="hidden lg:block overflow-x-auto">
-          <table
-            class="w-[calc(100%-7.5rem)] mx-15 text-left border border-[#EAE6E1] rounded-2xl overflow-hidden text-lg backdrop-blur-sm">
-            <thead>
-              <tr class="text-[#2B5392]">
-                <th class="px-8 py-6 font-semibold">Foto</th>
-                <th class="px-8 py-6 font-semibold">Nombre</th>
-                <th class="px-8 py-6 font-semibold">Especie</th>
-                <th class="px-8 py-6 font-semibold">Raza</th>
-                <th class="px-8 py-6 font-semibold">Edad</th>
-                <th class="px-8 py-6 font-semibold">Peso</th>
-                <th class="px-8 py-6 font-semibold">Enfermedad</th>
-                <th class="px-8 py-6 font-semibold text-center">Estado</th>
-              </tr>
-              <tr>
-                <td colspan="8">
-                  <div class="h-px bg-[#2B5392]/25"></div>
-                </td>
-              </tr>
-            </thead>
-            <tbody class="text-[#4A4A4A]">
-              <tr
-                th:each="pet : ${pets}"
-                class="group border-b border-[#EAE6E1] hover:bg-[#F2F6FC] transition-colors duration-200">
-                <td class="px-8 py-7">
-                  <img
-                    th:src="${pet.URLFoto}"
-                    alt="Mascota"
-                    class="w-16 h-16 rounded-full object-cover ring ring-[#2B5392]/10 transition-transform duration-200 group-hover:scale-105" />
-                </td>
-                <td
-                  class="px-8 py-7 font-semibold"
-                  th:text="${pet.nombre}"></td>
-                <td
-                  class="px-8 py-7 font-medium"
-                  th:text="${pet.especie.texto}"></td>
-                <td class="px-8 py-7" th:text="${pet.raza}"></td>
-                <td class="px-8 py-7" th:text="${pet.edad} + ' años'"></td>
-                <td class="px-8 py-7" th:text="${pet.peso} + ' kg'"></td>
-                <td class="px-8 py-7" th:text="${pet.enfermedad}"></td>
-                <td class="px-8 py-7 text-center">
-                  <span
-                    th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
-                    th:text="${pet.estado}"
-                    class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ebfaf1] text-[#2bab60]">
-                  </span>
-                  <span
-                    th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
-                    th:text="${pet.estado}"
-                    class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ededed] text-[#8c8c8c]">
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div
+          th:if="${pets != null and !pets.isEmpty()}"
+          class="hidden lg:flex justify-center w-full">
+          <div class="w-fit overflow-x-auto custom-scroll">
+            <table
+              class="text-left border border-[#EAE6E1] rounded-2xl overflow-hidden text-lg backdrop-blur-sm">
+              <thead>
+                <tr class="text-[#2B5392]">
+                  <th class="px-8 py-6 font-semibold">Foto</th>
+                  <th class="px-8 py-6 font-semibold">Nombre</th>
+                  <th class="px-8 py-6 font-semibold">Especie</th>
+                  <th class="px-8 py-6 font-semibold">Raza</th>
+                  <th class="px-8 py-6 font-semibold">Edad</th>
+                  <th class="px-8 py-6 font-semibold">Peso</th>
+                  <th class="px-8 py-6 font-semibold">Enfermedad</th>
+                  <th class="px-8 py-6 font-semibold text-center">Estado</th>
+                </tr>
+                <tr>
+                  <td colspan="8">
+                    <div class="h-px bg-[#2B5392]/25"></div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody class="text-[#4A4A4A]">
+                <tr
+                  th:each="pet : ${pets}"
+                  class="group border-b border-[#EAE6E1] hover:bg-[#F2F6FC] transition-colors duration-200">
+                  <td class="px-8 py-7">
+                    <img
+                      th:src="${pet.URLFoto}"
+                      alt="Mascota"
+                      class="w-16 h-16 rounded-full object-cover ring ring-[#2B5392]/10 transition-transform duration-200 group-hover:scale-105" />
+                  </td>
+                  <td
+                    class="px-8 py-7 font-semibold"
+                    th:text="${pet.nombre}"></td>
+                  <td
+                    class="px-8 py-7 font-medium"
+                    th:text="${pet.especie.texto}"></td>
+                  <td class="px-8 py-7" th:text="${pet.raza}"></td>
+                  <td class="px-8 py-7" th:text="${pet.edad} + ' años'"></td>
+                  <td class="px-8 py-7" th:text="${pet.peso} + ' kg'"></td>
+                  <td class="px-8 py-7" th:text="${pet.enfermedad}"></td>
+                  <td class="px-8 py-7 text-center">
+                    <span
+                      th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                      th:text="${pet.estado}"
+                      class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ebfaf1] text-[#2bab60]">
+                    </span>
+                    <span
+                      th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
+                      th:text="${pet.estado}"
+                      class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ededed] text-[#8c8c8c]">
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <!-- Cards para pantallas pequeñas y medianas -->
-        <div class="lg:hidden mx-4 sm:mx-8 md:mx-15 space-y-4">
+        <div class="lg:hidden space-y-4">
           <div
             th:each="pet : ${pets}"
             class="bg-white border border-[#EAE6E1] rounded-xl p-4 sm:p-6 hover:shadow-lg transition-shadow duration-200">
@@ -380,6 +384,12 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- Mensaje para cuando no hay mascotas -->
+        <div th:if="${pets.isEmpty()}" class="text-center py-12">
+          <p class="text-[#8D8580] text-lg">
+            No hay mascotas registradas para este cliente.
+          </p>
         </div>
       </section>
     </main>

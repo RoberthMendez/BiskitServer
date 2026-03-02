@@ -54,7 +54,15 @@ public class ClientsImpl implements ClientsService {
   @Override
   public List<Pet> getPetsByClientId(Integer clientId) {
     Client client = clientsRepo.getClientById(clientId);
-    return client.getPets();
+    // Obtener las versiones actualizadas de las mascotas desde PetsRepo
+    List<Pet> updatedPets = new ArrayList<>();
+    for (Pet pet : client.getPets()) {
+      Pet updatedPet = petsService.getPetById(pet.getId());
+      if (updatedPet != null) {
+        updatedPets.add(updatedPet);
+      }
+    }
+    return updatedPets;
   }
 
   @Override
@@ -69,6 +77,10 @@ public class ClientsImpl implements ClientsService {
       if (dueñoAnterior != null && !dueñoAnterior.getId().equals(clientId)) {
         dueñoAnterior.getPets().removeIf(p -> p.getId().equals(pet.getId()));
         dueñoIngresado.getPets().add(pet);
+      } else if (dueñoAnterior != null) {
+        // Si es el mismo dueño, actualizar la referencia en la lista
+        dueñoAnterior.getPets().removeIf(p -> p.getId().equals(pet.getId()));
+        dueñoAnterior.getPets().add(pet);
       }
     }
 
@@ -87,7 +99,11 @@ public class ClientsImpl implements ClientsService {
     List<Pair<Pet, String>> petAndClients = new ArrayList<>();
     clientsRepo.getClients().forEach(client -> {
       client.getPets().forEach(pet -> {
-        petAndClients.add(Pair.of(pet, client.getNombre()));
+        // Obtener la versión actualizada de la mascota desde PetsRepo
+        Pet updatedPet = petsService.getPetById(pet.getId());
+        if (updatedPet != null) {
+          petAndClients.add(Pair.of(updatedPet, client.getNombre()));
+        }
       });
     });
     return petAndClients;
