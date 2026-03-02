@@ -103,4 +103,13 @@ public class ClientsImpl implements ClientsService {
         .orElse(null);
   }
 
+  @Override
+  public void deletePetFromClient(Integer petId) {
+    Integer clientId = getClientByPetId(petId).getId();
+    Client client = clientsRepo.getClientById(clientId);
+    if (client != null) {
+      client.getPets().removeIf(pet -> pet.getId().equals(petId));
+    }
+  }
+
 }

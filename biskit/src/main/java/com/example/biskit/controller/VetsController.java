@@ -134,6 +134,7 @@ public class VetsController {
   @GetMapping("/pets/delete/{id}")
   public String eliminarMascota(@PathVariable("id") Integer id) {
     petsService.deletePet(id);
+    clientsService.deletePetFromClient(id);
     return "redirect:/vet/pets";
   }
 

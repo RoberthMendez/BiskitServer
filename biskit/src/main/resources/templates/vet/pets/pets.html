@@ -20,15 +20,50 @@
       <!----- Devolver ----->
       <div th:replace="fragmentos::volver-al-panel"></div>
       <!----- Titulo ----->
-      <div class="text-[#4a4a4a] mt-4 mb-7 mx-6 sm:mx-16 md:mx-24 lg:mx-36">
-        <h1
-          class="text-[#4a4a4a] text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wider">
-          Mascotas Registradas
-        </h1>
-        <p class="text-[#8d8580dd] font-medium text-sm sm:text-base">
-          Lista de todas las Mascotas de la Veterinaria
-        </p>
-      </div>
+      <section
+        class="grid grid-cols-2 mt-4 mb-7 mx-6 sm:mx-16 md:mx-24 lg:mx-36">
+        <!----- Mascotas Registradas ----->
+        <div class="text-[#4a4a4a]">
+          <h1
+            class="text-[#4a4a4a] text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wider">
+            Mascotas Registradas
+          </h1>
+          <p class="text-[#8d8580dd] font-medium text-sm sm:text-base">
+            Lista de todas las Mascotas de la Veterinaria
+          </p>
+        </div>
+        <!-- Agregar Macota -->
+        <div class="flex items-center justify-end">
+          <!-- Botón Secundario -->
+          <a
+            th:href="@{/vet/pets/add}"
+            class="flex items-center gap-2 bg-transparent border px-3 py-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200">
+            <svg
+              class="h-6 w-auto"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g id="Edit / Add_Plus">
+                  <path
+                    id="Vector"
+                    d="M6 12H12M12 12H18M12 12V18M12 12V6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+              </g>
+            </svg>
+            Agregar Mascota
+          </a>
+        </div>
+      </section>
       <!----- Buscar y Mascotas ----->
       <section class="mx-4 sm:mx-16 md:mx-24 lg:mx-36">
         <!-- Buscar -->
