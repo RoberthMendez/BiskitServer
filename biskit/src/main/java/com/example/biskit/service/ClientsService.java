@@ -26,4 +26,6 @@ public interface ClientsService {
 
     public Client getClientByPetId(Integer petId);
 
+    public void deletePetFromClient(Integer petId);
+
 }

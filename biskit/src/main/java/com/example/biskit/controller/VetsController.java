@@ -85,6 +85,7 @@ public class VetsController {
   @RequestMapping(value = "/pets/delete/{id}", method = { RequestMethod.GET, RequestMethod.POST })
   public String eliminarMascota(@PathVariable("id") Integer id) {
     petsService.deletePet(id);
+    clientsService.deletePetFromClient(id);
     return "redirect:/vet/pets";
   }
 
