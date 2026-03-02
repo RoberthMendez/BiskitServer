@@ -1,4 +1,4 @@
-package com.example.biskit.service;
+package com.example.biskit.service.Pets;
 
 import java.util.Collection;
 

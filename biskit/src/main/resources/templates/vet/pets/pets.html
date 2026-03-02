@@ -104,13 +104,10 @@
             class="card-mascota group cursor-pointer h-auto w-full max-w-xs mx-auto p-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
             <!-- CONTENIDO -->
             <article class="h-full">
-              <div
-                th:switch="${petClientname.getLeft().estado}"
-                class="relative overflow-hidden rounded-2xl">
+              <div class="relative overflow-hidden rounded-2xl">
                 <!-- BOTÓN ELIMINAR -->
                 <form
-                  th:action="@{/vet/pets/delete/{id}(id=${petClientname.getLeft().id})}"
-                  method="post">
+                  th:action="@{/vet/pets/delete/{id}(id=${petClientname.getLeft().id})}">
                   <button
                     type="submit"
                     class="cursor-pointer absolute top-3 left-3 z-10 px-1 py-1 rounded-md opacity-0 text-[#E2240B] hover:text-[#C41E08] group-hover:opacity-100 transition-all ease-[cubic-bezier(0.22,1,0.36,1)] bg-transparent text-xs font-semibold">
@@ -140,12 +137,12 @@
                   th:alt="${'Foto de ' + petClientname.getLeft().nombre}"
                   class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
                 <span
-                  th:case="${T(com.example.biskit.entities.Estado).ACTIVO}"
+                  th:if="${petClientname.getLeft().estado != null and petClientname.getLeft().estado.name() == 'ACTIVO'}"
                   th:text="${petClientname.getLeft().estado}"
                   class="absolute top-3 right-2 z-10 px-3 py-1 rounded-md text-xs font-semibold tracking-wide bg-[#ebfaf1] text-[#2bab60]">
                 </span>
                 <span
-                  th:case="${T(com.example.biskit.entities.Estado).INACTIVO}"
+                  th:if="${petClientname.getLeft().estado != null and petClientname.getLeft().estado.name() == 'INACTIVO'}"
                   th:text="${petClientname.getLeft().estado}"
                   class="absolute top-3 right-2 z-10 px-3 py-1 rounded-md text-xs font-semibold tracking-wide bg-[#ededed] text-[#8c8c8c]"></span>
               </div>

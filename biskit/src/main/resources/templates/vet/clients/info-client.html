@@ -12,42 +12,376 @@
   </head>
   <body>
     <header th:replace="fragmentos::navbar-logged"></header>
-    <main>
-      <!-- Volver a la Lista de Clientes -->
-      <a
-        th:fragment="volver-al-panel"
-        th:href="@{/vet}"
-        class="back-link group inline-flex justify-start items-center h-10 ml-4 sm:ml-8 md:ml-12 lg:ml-20 xl:ml-28 mt-6 sm:mt-8 mb-2">
-        <svg
-          class="h-9 mt-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
+    <!-- Volver a la Lista de Clientes -->
+    <a
+      th:href="@{/vet/clients}"
+      class="back-link group inline-flex justify-start items-center h-10 ml-4 sm:ml-8 md:ml-12 lg:ml-20 xl:ml-28 mt-6 sm:mt-8 mb-2">
+      <svg
+        class="h-9 mt-1"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            d="M8 12L16 12"
+            stroke="#6B6B6B"
+            stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M8 12L16 12"
-              stroke="#6B6B6B"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M11 9L8.08704 11.913V11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087V12.087L11 15"
-              stroke="#6B6B6B"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </g>
-        </svg>
-        <h2
-          class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300">
-          Lista de Clientes
-        </h2>
-      </a>
+            stroke-linejoin="round"></path>
+          <path
+            d="M11 9L8.08704 11.913V11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087V12.087L11 15"
+            stroke="#6B6B6B"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </g>
+      </svg>
+      <h2
+        class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300">
+        Lista de Clientes
+      </h2>
+    </a>
+    <main
+      class="flex flex-col gap-2 mx-4 mb-10 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-35 mt-2">
+      <!-- Info Cliente -->
+      <section
+        class="flex flex-col gap-6 sm:gap-8 md:gap-12 h-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-15 my-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
+        <!-- Parte superior -->
+        <article
+          class="flex flex-col sm:flex-row mx-4 sm:mx-8 md:mx-15 justify-between gap-4 sm:gap-6">
+          <!-- Nombre -->
+          <div class="flex flex-col">
+            <h1
+              th:text="${client.nombre}"
+              class="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#4a4a4a]"></h1>
+            <p class="text-[#8d8580dd] font-medium text-sm sm:text-base">
+              Información del Cliente
+            </p>
+          </div>
+          <!-- Acciones -->
+          <div
+            class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start sm:justify-end gap-3 w-full sm:w-auto">
+            <!-- Editar -->
+            <a
+              th:href="@{/vet/clients/update/{id}(id=${client.id})}"
+              class="flex gap-2 justify-center items-center bg-transparent border px-4 py-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200">
+              <svg
+                class="h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+              </svg>
+              Editar
+            </a>
+            <!-- Eliminar -->
+            <a
+              th:href="@{/vet/clients/delete/{id}(id=${client.id})}"
+              class="flex gap-2 justify-center items-center bg-transparent border px-4 py-2 rounded-lg text-[#B22222] border-[#B22222] hover:bg-[#B22222] hover:text-[#FBFAF8] transition-colors duration-200">
+              <svg
+                class="h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+              </svg>
+              Eliminar
+            </a>
+          </div>
+        </article>
+        <!-- Parte Inferior -->
+        <article
+          class="flex flex-col sm:flex-row justify-between gap-4 sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 mx-4 sm:mx-8 md:mx-15">
+          <!-- Cédula -->
+          <div class="flex gap-3 items-center w-full sm:w-auto">
+            <div
+              class="flex h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 bg-[#F2F7FF] rounded-xl items-center justify-center shrink-0">
+              <svg
+                class="h-7 w-auto sm:h-8 md:h-10"
+                viewBox="0 -0.5 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M3.5 7V17C3.5 18.1046 4.39543 19 5.5 19H19.5C20.6046 19 21.5 18.1046 21.5 17V7C21.5 5.89543 20.6046 5 19.5 5H5.5C4.39543 5 3.5 5.89543 3.5 7Z"
+                    stroke="#2B5392"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M15.5 10H18.5"
+                    stroke="#2B5392"
+                    stroke-width="1.5"
+                    stroke-linecap="round"></path>
+                  <path
+                    d="M15.5 13H18.5"
+                    stroke="#2B5392"
+                    stroke-width="1.5"
+                    stroke-linecap="round"></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M11.5 10C11.5 11.1046 10.6046 12 9.5 12C8.39543 12 7.5 11.1046 7.5 10C7.5 8.89543 8.39543 8 9.5 8C10.0304 8 10.5391 8.21071 10.9142 8.58579C11.2893 8.96086 11.5 9.46957 11.5 10Z"
+                    stroke="#2B5392"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M5.5 16C8.283 12.863 11.552 13.849 13.5 16"
+                    stroke="#2B5392"
+                    stroke-width="1.5"
+                    stroke-linecap="round"></path>
+                </g>
+              </svg>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <p class="text-xs sm:text-sm text-[#8D8580] font-medium">
+                Cédula
+              </p>
+              <p
+                th:text="${client.cedula}"
+                class="text-sm sm:text-base text-[#4A4A4A] font-semibold wrap-break-wordword"></p>
+            </div>
+          </div>
+          <!-- Teléfono -->
+          <div class="flex gap-3 items-center w-full sm:w-auto">
+            <div
+              class="flex h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 bg-[#F2F7FF] rounded-xl items-center justify-center shrink-0">
+              <svg
+                class="h-7 w-auto sm:h-8 md:h-10"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M16.1007 13.359L15.5719 12.8272H15.5719L16.1007 13.359ZM16.5562 12.9062L17.085 13.438H17.085L16.5562 12.9062ZM18.9728 12.5894L18.6146 13.2483L18.9728 12.5894ZM20.8833 13.628L20.5251 14.2869L20.8833 13.628ZM21.4217 16.883L21.9505 17.4148L21.4217 16.883ZM20.0011 18.2954L19.4723 17.7636L20.0011 18.2954ZM18.6763 18.9651L18.7459 19.7119H18.7459L18.6763 18.9651ZM8.81536 14.7266L9.34418 14.1947L8.81536 14.7266ZM4.00289 5.74561L3.2541 5.78816L3.2541 5.78816L4.00289 5.74561ZM10.4775 7.19738L11.0063 7.72922H11.0063L10.4775 7.19738ZM10.6342 4.54348L11.2346 4.09401L10.6342 4.54348ZM9.37326 2.85908L8.77286 3.30855V3.30855L9.37326 2.85908ZM6.26145 2.57483L6.79027 3.10667H6.79027L6.26145 2.57483ZM4.69185 4.13552L4.16303 3.60368H4.16303L4.69185 4.13552ZM12.0631 11.4972L12.5919 10.9654L12.0631 11.4972ZM16.6295 13.8909L17.085 13.438L16.0273 12.3743L15.5719 12.8272L16.6295 13.8909ZM18.6146 13.2483L20.5251 14.2869L21.2415 12.9691L19.331 11.9305L18.6146 13.2483ZM20.8929 16.3511L19.4723 17.7636L20.5299 18.8273L21.9505 17.4148L20.8929 16.3511ZM18.6067 18.2184C17.1568 18.3535 13.4056 18.2331 9.34418 14.1947L8.28654 15.2584C12.7186 19.6653 16.9369 19.8805 18.7459 19.7119L18.6067 18.2184ZM9.34418 14.1947C5.4728 10.3453 4.83151 7.10765 4.75168 5.70305L3.2541 5.78816C3.35456 7.55599 4.14863 11.144 8.28654 15.2584L9.34418 14.1947ZM10.7195 8.01441L11.0063 7.72922L9.9487 6.66555L9.66189 6.95073L10.7195 8.01441ZM11.2346 4.09401L9.97365 2.40961L8.77286 3.30855L10.0338 4.99296L11.2346 4.09401ZM5.73263 2.04299L4.16303 3.60368L5.22067 4.66736L6.79027 3.10667L5.73263 2.04299ZM10.1907 7.48257C9.66189 6.95073 9.66117 6.95144 9.66045 6.95216C9.66021 6.9524 9.65949 6.95313 9.659 6.95362C9.65802 6.95461 9.65702 6.95561 9.65601 6.95664C9.65398 6.95871 9.65188 6.96086 9.64972 6.9631C9.64539 6.96759 9.64081 6.97245 9.63599 6.97769C9.62634 6.98816 9.61575 7.00014 9.60441 7.01367C9.58174 7.04072 9.55605 7.07403 9.52905 7.11388C9.47492 7.19377 9.41594 7.2994 9.36589 7.43224C9.26376 7.70329 9.20901 8.0606 9.27765 8.50305C9.41189 9.36833 10.0078 10.5113 11.5343 12.0291L12.5919 10.9654C11.1634 9.54499 10.8231 8.68059 10.7599 8.27309C10.7298 8.07916 10.761 7.98371 10.7696 7.96111C10.7748 7.94713 10.7773 7.9457 10.7709 7.95525C10.7677 7.95992 10.7624 7.96723 10.7541 7.97708C10.75 7.98201 10.7451 7.98759 10.7394 7.99381C10.7365 7.99692 10.7335 8.00019 10.7301 8.00362C10.7285 8.00534 10.7268 8.00709 10.725 8.00889C10.7241 8.00979 10.7232 8.0107 10.7223 8.01162C10.7219 8.01208 10.7212 8.01278 10.7209 8.01301C10.7202 8.01371 10.7195 8.01441 10.1907 7.48257ZM11.5343 12.0291C13.0613 13.5474 14.2096 14.1383 15.0763 14.2713C15.5192 14.3392 15.8763 14.285 16.1472 14.1841C16.28 14.1346 16.3858 14.0763 16.4658 14.0227C16.5058 13.9959 16.5392 13.9704 16.5663 13.9479C16.5799 13.9367 16.5919 13.9262 16.6024 13.9166C16.6077 13.9118 16.6126 13.9073 16.6171 13.903C16.6194 13.9008 16.6215 13.8987 16.6236 13.8967C16.6246 13.8957 16.6256 13.8947 16.6266 13.8937C16.6271 13.8932 16.6279 13.8925 16.6281 13.8923C16.6288 13.8916 16.6295 13.8909 16.1007 13.359C15.5719 12.8272 15.5726 12.8265 15.5733 12.8258C15.5735 12.8256 15.5742 12.8249 15.5747 12.8244C15.5756 12.8235 15.5765 12.8226 15.5774 12.8217C15.5793 12.82 15.581 12.8183 15.5827 12.8166C15.5862 12.8133 15.5895 12.8103 15.5926 12.8074C15.5988 12.8018 15.6044 12.7969 15.6094 12.7929C15.6192 12.7847 15.6265 12.7795 15.631 12.7764C15.6403 12.7702 15.6384 12.773 15.6236 12.7785C15.5991 12.7876 15.501 12.8189 15.3038 12.7886C14.8905 12.7253 14.02 12.3853 12.5919 10.9654L11.5343 12.0291ZM9.97365 2.40961C8.95434 1.04802 6.94996 0.83257 5.73263 2.04299L6.79027 3.10667C7.32195 2.578 8.26623 2.63181 8.77286 3.30855L9.97365 2.40961ZM4.75168 5.70305C4.73201 5.35694 4.89075 4.9954 5.22067 4.66736L4.16303 3.60368C3.62571 4.13795 3.20329 4.89425 3.2541 5.78816L4.75168 5.70305ZM19.4723 17.7636C19.1975 18.0369 18.9029 18.1908 18.6067 18.2184L18.7459 19.7119C19.4805 19.6434 20.0824 19.2723 20.5299 18.8273L19.4723 17.7636ZM11.0063 7.72922C11.9908 6.7503 12.064 5.2019 11.2346 4.09401L10.0338 4.99295C10.4373 5.53193 10.3773 6.23938 9.9487 6.66555L11.0063 7.72922ZM20.5251 14.2869C21.3429 14.7315 21.4703 15.7769 20.8929 16.3511L21.9505 17.4148C23.2908 16.0821 22.8775 13.8584 21.2415 12.9691L20.5251 14.2869ZM17.085 13.438C17.469 13.0562 18.0871 12.9616 18.6146 13.2483L19.331 11.9305C18.2474 11.3414 16.9026 11.5041 16.0273 12.3743L17.085 13.438Z"
+                    fill="#2B5392"></path>
+                </g>
+              </svg>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <p class="text-xs sm:text-sm text-[#8D8580] font-medium">
+                Teléfono
+              </p>
+              <p
+                th:text="${client.celular}"
+                class="text-sm sm:text-base text-[#4A4A4A] font-semibold wrap-break-word"></p>
+            </div>
+          </div>
+          <!-- Correo -->
+          <div class="flex gap-3 items-center w-full sm:w-auto">
+            <div
+              class="flex h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 bg-[#F2F7FF] rounded-xl items-center justify-center shrink-0">
+              <svg
+                class="h-7 w-auto sm:h-8 md:h-10"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    stroke="#2b5392"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 9a2 2 0 012-2h22a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path
+                    stroke="#2b5392"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 9l11.862 8.212a2 2 0 002.276 0L29 9"></path>
+                </g>
+              </svg>
+            </div>
+            <div class="flex flex-col min-w-0 flex-1">
+              <p class="text-xs sm:text-sm text-[#8D8580] font-medium">
+                Correo
+              </p>
+              <p
+                th:text="${client.correo}"
+                class="text-sm sm:text-base text-[#4A4A4A] font-semibold break-all"></p>
+            </div>
+          </div>
+        </article>
+      </section>
+      <!-- Mascotas Registradas -->
+      <section
+        class="flex flex-col gap-4 h-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 md:py-10 my-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
+        <div class="flex flex-col mx-4 sm:mx-8 md:mx-15">
+          <h1
+            class="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#4a4a4a]">
+            Mascotas Registradas
+          </h1>
+          <p class="text-[#8d8580dd] font-medium text-sm sm:text-base">
+            Lista de las mascotas del cliente
+          </p>
+        </div>
+        <!-- Tabla para pantallas grandes -->
+        <div class="hidden lg:block overflow-x-auto">
+          <table
+            class="w-[calc(100%-7.5rem)] mx-15 text-left border border-[#EAE6E1] rounded-2xl overflow-hidden text-lg backdrop-blur-sm">
+            <thead>
+              <tr class="text-[#2B5392]">
+                <th class="px-8 py-6 font-semibold">Foto</th>
+                <th class="px-8 py-6 font-semibold">Nombre</th>
+                <th class="px-8 py-6 font-semibold">Especie</th>
+                <th class="px-8 py-6 font-semibold">Raza</th>
+                <th class="px-8 py-6 font-semibold">Edad</th>
+                <th class="px-8 py-6 font-semibold">Peso</th>
+                <th class="px-8 py-6 font-semibold">Enfermedad</th>
+                <th class="px-8 py-6 font-semibold text-center">Estado</th>
+              </tr>
+              <tr>
+                <td colspan="8">
+                  <div class="h-px bg-[#2B5392]/25"></div>
+                </td>
+              </tr>
+            </thead>
+            <tbody class="text-[#4A4A4A]">
+              <tr
+                th:each="pet : ${pets}"
+                class="group border-b border-[#EAE6E1] hover:bg-[#F2F6FC] transition-colors duration-200">
+                <td class="px-8 py-7">
+                  <img
+                    th:src="${pet.URLFoto}"
+                    alt="Mascota"
+                    class="w-16 h-16 rounded-full object-cover ring ring-[#2B5392]/10 transition-transform duration-200 group-hover:scale-105" />
+                </td>
+                <td
+                  class="px-8 py-7 font-semibold"
+                  th:text="${pet.nombre}"></td>
+                <td
+                  class="px-8 py-7 font-medium"
+                  th:text="${pet.especie.texto}"></td>
+                <td class="px-8 py-7" th:text="${pet.raza}"></td>
+                <td class="px-8 py-7" th:text="${pet.edad} + ' años'"></td>
+                <td class="px-8 py-7" th:text="${pet.peso} + ' kg'"></td>
+                <td class="px-8 py-7" th:text="${pet.enfermedad}"></td>
+                <td class="px-8 py-7 text-center">
+                  <span
+                    th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                    th:text="${pet.estado}"
+                    class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ebfaf1] text-[#2bab60]">
+                  </span>
+                  <span
+                    th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
+                    th:text="${pet.estado}"
+                    class="px-4 py-3 rounded-lg text-sm font-semibold bg-[#ededed] text-[#8c8c8c]">
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Cards para pantallas pequeñas y medianas -->
+        <div class="lg:hidden mx-4 sm:mx-8 md:mx-15 space-y-4">
+          <div
+            th:each="pet : ${pets}"
+            class="bg-white border border-[#EAE6E1] rounded-xl p-4 sm:p-6 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-start gap-4 mb-4">
+              <img
+                th:src="${pet.URLFoto}"
+                alt="Mascota"
+                class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring ring-[#2B5392]/10 shrink-0" />
+              <div class="flex-1 min-w-0">
+                <h3
+                  class="text-lg sm:text-xl font-semibold text-[#4A4A4A] mb-1 wrap-break-word"
+                  th:text="${pet.nombre}"></h3>
+                <p
+                  class="text-sm sm:text-base text-[#8D8580] font-medium"
+                  th:text="${pet.especie.texto}"></p>
+              </div>
+              <span
+                th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                th:text="${pet.estado}"
+                class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#ebfaf1] text-[#2bab60] whitespace-nowrap">
+              </span>
+              <span
+                th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
+                th:text="${pet.estado}"
+                class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#ededed] text-[#8c8c8c] whitespace-nowrap">
+              </span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
+              <div>
+                <p class="text-[#8D8580] text-xs sm:text-sm mb-1">Raza</p>
+                <p
+                  class="text-[#4A4A4A] font-medium wrap-break-word"
+                  th:text="${pet.raza}"></p>
+              </div>
+              <div>
+                <p class="text-[#8D8580] text-xs sm:text-sm mb-1">Edad</p>
+                <p
+                  class="text-[#4A4A4A] font-medium"
+                  th:text="${pet.edad} + ' años'"></p>
+              </div>
+              <div>
+                <p class="text-[#8D8580] text-xs sm:text-sm mb-1">Peso</p>
+                <p
+                  class="text-[#4A4A4A] font-medium"
+                  th:text="${pet.peso} + ' kg'"></p>
+              </div>
+              <div>
+                <p class="text-[#8D8580] text-xs sm:text-sm mb-1">Enfermedad</p>
+                <p
+                  class="text-[#4A4A4A] font-medium wrap-break-word"
+                  th:text="${pet.enfermedad}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <footer th:replace="fragmentos::footer"></footer>
   </body>

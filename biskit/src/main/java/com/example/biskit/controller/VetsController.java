@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.biskit.service.PetsService;
+import com.example.biskit.service.Clients.ClientsService;
+import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Pet;
-import com.example.biskit.service.ClientsService;
 
 @Controller
 @RequestMapping("/vet")
@@ -30,7 +29,7 @@ public class VetsController {
 
   private static final String clientsPath = "vet/clients/";
 
-  // ----- Mostrar Clientes -----
+  // ----- Mostrar Clientes (READ) -----
   @GetMapping("/clients")
   public String mostrarClientes(Model model) {
     model.addAttribute("clients", clientsService.getClients());
@@ -43,7 +42,15 @@ public class VetsController {
     return clientsPath + "tabla-bootstrap";
   }
 
-  // ----- Añadir Cliente -----
+  // ----- Mostrar Cliente (READ) -----
+  @GetMapping("/clients/{id}")
+  public String mostrarCliente(@PathVariable("id") Integer id, Model model) {
+    model.addAttribute("client", clientsService.getClientById(id));
+    model.addAttribute("pets", clientsService.getPetsByClientId(id));
+    return clientsPath + "info-client";
+  }
+
+  // ----- Añadir Cliente (CREATE) -----
   @GetMapping("/clients/add")
   public String mostrarFormularioNuevoCliente(Model model) {
     Client client = new Client(null, "", "", "", "");
@@ -57,22 +64,34 @@ public class VetsController {
     return "redirect:/vet/clients";
   }
 
-  // ----- Mostrar Cliente -----
-  @GetMapping("/clients/{id}")
-  public String mostrarCliente(@PathVariable("id") Integer id, Model model) {
-    model.addAttribute("client", clientsService.getClientById(id));
-    return clientsPath + "info-client";
+  // ----- Editar Cliente (UPDATE) -----
+  @GetMapping("/clients/update/{id}")
+  public String mostrarFormularioUpdateCliente(@PathVariable("id") Integer id, Model model) {
+    Client client = clientsService.getClientById(id);
+    model.addAttribute("client", client);
+    return clientsPath + "add-client";
+  }
+
+  // ----- Eliminar Cliente (DELETE) -----
+  @GetMapping("/clients/delete/{id}")
+  public String eliminarCliente(@PathVariable("id") Integer id) {
+    clientsService.deleteClient(id);
+    return "redirect:/vet/clients";
   }
 
   // ================ MASCOTAS ================
 
   private static final String petsPath = "vet/pets/";
 
+  // ----- Mostrar Mascotas (READ) -----
+
   @GetMapping("/pets")
   public String mostrarMascotas(Model model) {
     model.addAttribute("petsClientname", clientsService.getPetsAndClientNames());
     return petsPath + "pets";
   }
+
+  // ----- Mostrar Mascota (READ) -----
 
   @GetMapping("/pets/{id}")
   public String mostrarMascota(@PathVariable("id") Integer id, Model model) {
@@ -82,11 +101,7 @@ public class VetsController {
     return petsPath + "info-pet";
   }
 
-  @RequestMapping(value = "/pets/delete/{id}", method = { RequestMethod.GET, RequestMethod.POST })
-  public String eliminarMascota(@PathVariable("id") Integer id) {
-    petsService.deletePet(id);
-    return "redirect:/vet/pets";
-  }
+  // ----- Añadir Mascota (CREATE) -----
 
   @GetMapping("/pets/add")
   public String mostrarFormularioAddPet(Model model) {
@@ -102,6 +117,8 @@ public class VetsController {
     return "redirect:/vet/pets";
   }
 
+  // ----- Editar Mascota (UPDATE) -----
+
   @GetMapping("/update-pet/{id}")
   public String mostrarFormularioUpdatePet(@PathVariable("id") Integer id, Model model) {
     Pet pet = petsService.getPetById(id);
@@ -110,6 +127,14 @@ public class VetsController {
     model.addAttribute("owner", owner);
     model.addAttribute("clientes", clientsService.getClients());
     return petsPath + "add-pet";
+  }
+
+  // ----- Eliminar Mascota (DELETE) -----
+
+  @GetMapping("/pets/delete/{id}")
+  public String eliminarMascota(@PathVariable("id") Integer id) {
+    petsService.deletePet(id);
+    return "redirect:/vet/pets";
   }
 
 }
