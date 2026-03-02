@@ -26,37 +26,52 @@ public class VetsController {
   @Autowired
   private ClientsService clientsService;
 
-  // ---- CLIENTES -----
+  // ================ CLIENTES ================
+
+  private static final String clientsPath = "vet/clients/";
+
+  // ----- Mostrar Clientes -----
+  @GetMapping("/clients")
+  public String mostrarClientes(Model model) {
+    model.addAttribute("clients", clientsService.getClients());
+    return clientsPath + "clients";
+  }
 
   @GetMapping("/clients/table")
   public String tablaClientes(Model model) {
     model.addAttribute("clients", clientsService.getClients());
-    return "vet/tabla-bootstrap";
+    return clientsPath + "tabla-bootstrap";
   }
 
+  // ----- Añadir Cliente -----
+  @GetMapping("/clients/add")
+  public String mostrarFormularioNuevoCliente(Model model) {
+    Client client = new Client(null, "", "", "", "");
+    model.addAttribute("client", client);
+    return clientsPath + "add-client";
+  }
+
+  @PostMapping("/clients/add")
+  public String agregarCliente(@ModelAttribute("client") Client client) {
+    clientsService.addClient(client);
+    return "redirect:/vet/clients";
+  }
+
+  // ----- Mostrar Cliente -----
   @GetMapping("/clients/{id}")
   public String mostrarCliente(@PathVariable("id") Integer id, Model model) {
     model.addAttribute("client", clientsService.getClientById(id));
-    return "vet/client-info";
+    return clientsPath + "info-client";
   }
 
-  @GetMapping("/clients")
-  public String mostrarClientes(Model model) {
-    model.addAttribute("clients", clientsService.getClients());
-    return "vet/clients";
-  }
+  // ================ MASCOTAS ================
 
-  @GetMapping("/new-client")
-  public String mostrarFormularioNuevoCliente(Model model) {
-    model.addAttribute("client", new Object()); // Aquí puedes usar tu clase Client en lugar de Object
-    return "vet/new-client";
-  }
+  private static final String petsPath = "vet/pets/";
 
-  // ----- MASCOTAS -----
   @GetMapping("/pets")
   public String mostrarMascotas(Model model) {
     model.addAttribute("petsClientname", clientsService.getPetsAndClientNames());
-    return "vet/pets";
+    return petsPath + "pets";
   }
 
   @GetMapping("/pets/{id}")
@@ -64,7 +79,7 @@ public class VetsController {
     Client dueño = clientsService.getClientByPetId(id);
     model.addAttribute("pet", petsService.getPetById(id));
     model.addAttribute("dueño", dueño);
-    return "vet/info-pet";
+    return petsPath + "info-pet";
   }
 
   @RequestMapping(value = "/pets/delete/{id}", method = { RequestMethod.GET, RequestMethod.POST })
@@ -73,15 +88,15 @@ public class VetsController {
     return "redirect:/vet/pets";
   }
 
-  @GetMapping("/add-pet")
+  @GetMapping("/pets/add")
   public String mostrarFormularioAddPet(Model model) {
     Pet pet = new Pet(null, "", null, "", null, 0, 0.0f, "", "");
     model.addAttribute("pet", pet);
     model.addAttribute("clientes", clientsService.getClients());
-    return "add-pet";
+    return petsPath + "add-pet";
   }
 
-  @PostMapping("/add-pet")
+  @PostMapping("/pets/add")
   public String agregarMascota(@ModelAttribute("pet") Pet pet, @RequestParam("idCliente") Integer idCliente) {
     clientsService.addPetToClient(idCliente, pet);
     return "redirect:/vet/pets";
@@ -94,7 +109,7 @@ public class VetsController {
     model.addAttribute("pet", pet);
     model.addAttribute("owner", owner);
     model.addAttribute("clientes", clientsService.getClients());
-    return "add-pet";
+    return petsPath + "add-pet";
   }
 
 }

@@ -16,8 +16,8 @@
   <body>
     <header th:replace="fragmentos::navbar-logged"></header>
     <main>
-      <!-- Botón de Volver al Dashboard -->
-      <div th:replace="fragmentos::volver-al-dashboard"></div>
+      <!-- Botón de Volver al panel -->
+      <div th:replace="fragmentos::volver-al-panel"></div>
       <!-- CONTENIDO -->
       <section
         class="grid grid-cols-1 md:grid-cols-2 mx-4 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-28 mt-5 mb-10 gap-6 md:gap-8 lg:gap-12">
@@ -75,7 +75,11 @@
           </div>
           <!-- Form -->
           <div class="w-full p-4 sm:p-6 md:p-8 bg-[#FBFAF8]">
-            <form class="space-y-4 sm:space-y-5">
+            <form
+              class="space-y-4 sm:space-y-5"
+              th:object="${client}"
+              method="post"
+              th:action="@{/vet/clients/add}">
               <!-- Nombre completo -->
               <div>
                 <label
@@ -86,6 +90,7 @@
                 <div
                   class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3">
                   <input
+                    th:field="*{nombre}"
                     id="txtNombre"
                     type="text"
                     placeholder="Ej. Ana María Lopez García"
@@ -102,6 +107,7 @@
                 <div
                   class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3">
                   <input
+                    th:field="*{cedula}"
                     id="txtCedula"
                     type="number"
                     placeholder="Ej. 1011322781"
@@ -118,6 +124,7 @@
                 <div
                   class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3">
                   <input
+                    th:field="*{correo}"
                     id="txtCorreo"
                     type="email"
                     placeholder="Ej. correo@ejemplo.com"
@@ -134,6 +141,7 @@
                 <div
                   class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3">
                   <input
+                    th:field="*{celular}"
                     id="txtTelefono"
                     type="tel"
                     placeholder="Ej. 310 813 7245"
