@@ -6,23 +6,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.Pet;
 import com.example.biskit.service.Clients.ClientsService;
+import com.example.biskit.service.Pets.PetsService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.apache.commons.lang3.tuple.Pair;
-import java.util.List;
-import java.util.ArrayList;
-
 @Controller
 @RequestMapping("/client")
-public class ClientController {
+public class ClientsController {
 
   @Autowired
   ClientsService clientsService;
+
+  @Autowired
+  PetsService petsService;
 
   @GetMapping("/login")
   public String getMethodName(@RequestParam(required = false) String error, Model model) {
@@ -47,19 +47,17 @@ public class ClientController {
 
   @GetMapping("{id}/pets")
   public String getMethodName(@PathVariable("id") Integer id, Model model) {
+    model.addAttribute("client", clientsService.getClientById(id));
+    model.addAttribute("pets", clientsService.getPetsByClientId(id));
+    return "client/pets-client";
+  }
 
-    List<Pair<Pet, String>> petNamesAndVetNames = new ArrayList<>();
-
-    List<Pet> pets = clientsService.getPetsByClientId(id);
-    for (Pet pet : pets) {
-      String vetName = clientsService.getClientById(id).getNombre() != null
-          ? clientsService.getClientById(id).getNombre()
-          : "Sin veterinario asignado";
-      petNamesAndVetNames.add(Pair.of(pet, vetName));
-    }
-    model.addAttribute("petsClientname", petNamesAndVetNames);
-
-    return "vet/pets/pets";
+  @GetMapping("{idClient}/pets/{idPet}")
+  public String getMethodName(@PathVariable("idClient") Integer idClient, @PathVariable("idPet") Integer idPet,
+      Model model) {
+    model.addAttribute("client", clientsService.getClientById(idClient));
+    model.addAttribute("pet", petsService.getPetById(idPet));
+    return "client/info-pet";
   }
 
 }

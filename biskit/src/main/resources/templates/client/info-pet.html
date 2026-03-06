@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biskit</title>
+    <link rel="icon" type="image/png" th:href="@{/images/marca/icono.png}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <header th:replace="~{fragmentos::navbar-logged}"></header>
+    <main>
+      <a
+        th:href="@{/client/{id}/pets(id=${client.id})}"
+        class="back-link group inline-flex justify-start items-center h-10 ml-5 sm:ml-8 md:ml-16 lg:ml-28 mt-8 mb-2">
+        <svg
+          class="h-9 mt-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M8 12L16 12"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+            <path
+              d="M11 9L8.08704 11.913V11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087V12.087L11 15"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </g>
+        </svg>
+        <h2
+          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300">
+          Lista de Mascotas
+        </h2>
+      </a>
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-5 sm:mx-8 md:mx-30 lg:mx-40 gap-6 sm:gap-8 mt-5 mb-10">
+        <!----- Card de la Mascota ----->
+        <aside
+          class="card-mascota group h-auto w-full max-w-full md:max-w-xs lg:max-w-sm mx-auto p-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
+          <!-- CONTENIDO -->
+          <article class="h-full">
+            <div
+              th:switch="${pet.estado}"
+              class="relative overflow-hidden rounded-2xl">
+              <div class="relative">
+                <img
+                  th:src="${pet.URLFoto}"
+                  th:alt="${'Foto de ' + pet.nombre}"
+                  class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
+                <span
+                  th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                  th:text="${pet.estado.texto}"
+                  class="px-3 py-1 rounded-md text-[#2BAB60] bg-[#E1F8EA] absolute top-2 right-2 font-medium"></span>
+                <span
+                  th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
+                  th:text="${pet.estado.texto}"
+                  class="px-3 py-1 rounded-md text-[#6B6B6B] bg-[#EDEDED] absolute top-2 right-2 font-medium"></span>
+              </div>
+            </div>
+            <!-- Nombre y Raza -->
+            <div
+              class="flex justify-between items-center mx-2 mb-5 sm:mx-4 mt-3">
+              <h3
+                class="text-[#4a4a4a] font-bold text-lg sm:text-xl leading-none tracking-wider"
+                th:text="${pet.nombre}"></h3>
+              <p
+                class="text-[#6D6155] font-medium text-xs leading-none"
+                th:text="${pet.especie.getTexto() + ' · ' + pet.raza}"></p>
+            </div>
+            <!-- Edad y Peso -->
+            <div
+              class="flex justify-center items-center mx-2 sm:mx-4 my-3 gap-3 sm:gap-5">
+              <!-- Edad -->
+              <aside class="flex flex-col items-center gap-1">
+                <svg
+                  class="h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C20.1752 21.4816 19.3001 21.7706 18 21.8985"
+                      stroke="#2B5392"
+                      stroke-width="1.5"
+                      stroke-linecap="round"></path>
+                    <path
+                      d="M7 4V2.5"
+                      stroke="#2B5392"
+                      stroke-width="1.5"
+                      stroke-linecap="round"></path>
+                    <path
+                      d="M17 4V2.5"
+                      stroke="#2B5392"
+                      stroke-width="1.5"
+                      stroke-linecap="round"></path>
+                    <path
+                      d="M21.5 9H16.625H10.75M2 9H5.875"
+                      stroke="#2B5392"
+                      stroke-width="1.5"
+                      stroke-linecap="round"></path>
+                  </g>
+                </svg>
+                <p class="text-xs text-[#8D8580] font-semibold">EDAD</p>
+                <p
+                  class="text-xs text-[#282828] font-medium"
+                  th:text="${pet.edad == 1} ? ${pet.edad + ' año'} : ${pet.edad + ' años'}"></p>
+              </aside>
+              <!-- Peso -->
+              <aside class="flex flex-col items-center gap-1">
+                <svg
+                  class="h-4"
+                  viewBox="0 0 512 512"
+                  id="icons"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <rect
+                      x="48"
+                      y="48"
+                      width="416"
+                      height="416"
+                      rx="96"
+                      fill="none"
+                      stroke="#2B5392"
+                      stroke-linejoin="round"
+                      stroke-width="32"></rect>
+                    <path
+                      d="M388.94,151.56c-24.46-22.28-68.72-51.4-132.94-51.4s-108.48,29.12-132.94,51.4A34.66,34.66,0,0,0,120,199.64l33.32,39.21a26.07,26.07,0,0,0,33.6,5.21c15.92-9.83,40.91-21.64,69.1-21.64s53.18,11.81,69.1,21.64a26.07,26.07,0,0,0,33.6-5.21L392,199.64A34.66,34.66,0,0,0,388.94,151.56Z"
+                      fill="none"
+                      stroke="#2B5392"
+                      stroke-linejoin="round"
+                      stroke-width="32"></path>
+                  </g>
+                </svg>
+                <p class="text-xs text-[#8D8580] font-semibold">PESO</p>
+                <p
+                  class="text-xs text-[#282828] font-medium"
+                  th:text="${pet.peso} + ' Kg'"></p>
+              </aside>
+            </div>
+            <hr
+              class="border-[#6D6155] opacity-40 border-t my-5 mx-2 sm:mx-4" />
+            <!-- Diagnóstico -->
+            <div
+              class="flex flex-col justify-center items-center mx-2 sm:mx-4 gap-1">
+              <svg
+                class="h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8 3C8 4.10457 7.10457 5 6 5C5.36522 5 4.7995 4.70426 4.43312 4.24305L3.68377 4.49284C3.26354 4.63291 3.04437 4.9938 3.07687 5.34291C3.21171 6.79144 3.57308 9.0342 4.50664 10.8852C5.42593 12.7078 6.80542 14 8.99998 14C11.1945 14 12.574 12.7078 13.4933 10.8852C14.4269 9.0342 14.7883 6.79144 14.9231 5.3429C14.9556 4.9938 14.7365 4.63291 14.3162 4.49284L13.5669 4.24305C13.2005 4.70426 12.6348 5 12 5C10.8954 5 10 4.10457 10 3C10 1.89543 10.8954 1 12 1C12.8308 1 13.5433 1.50659 13.8455 2.22772L14.9487 2.59547C16.1618 2.99985 17.0416 4.16308 16.9145 5.52828C16.7719 7.06027 16.3817 9.59971 15.2791 11.7858C14.2796 13.7674 12.6201 15.5771 9.97404 15.9358C10.0144 16.4923 10.1026 17.1152 10.2753 17.7292C10.5254 18.6186 10.9354 19.4287 11.5733 20.0119C12.1909 20.5765 13.0987 20.9999 14.5001 20.9999C15.9014 20.9999 16.8093 20.5765 17.4268 20.0119C18.0648 19.4286 18.4747 18.6186 18.7249 17.7292C19.0249 16.6625 19.0693 15.5564 19.0521 14.8472C17.8598 14.4504 17 13.3256 17 12C17 10.3431 18.3432 9 20 9C21.6569 9 23 10.3431 23 12C23 13.2868 22.1899 14.3843 21.0518 14.8104C21.0711 15.6368 21.0261 16.9341 20.6502 18.2707C20.3378 19.3812 19.7791 20.5712 18.7764 21.4879C17.7533 22.4233 16.3487 22.9999 14.5001 22.9999C12.6515 22.9999 11.2468 22.4233 10.2238 21.4879C9.22107 20.5712 8.66231 19.3812 8.34997 18.2707C8.11685 17.4418 8.01127 16.6232 7.9691 15.9278C5.35608 15.5511 3.71316 13.7532 2.72091 11.7858C1.61832 9.5997 1.22808 7.06026 1.08548 5.52828C0.958397 4.16308 1.83818 2.99985 3.05131 2.59547L4.15456 2.22772C4.45669 1.50659 5.16919 1 6 1C7.10457 1 8 1.89543 8 3ZM20 13.0283C19.4321 13.0283 18.9717 12.5679 18.9717 12C18.9717 11.4321 19.4321 10.9717 20 10.9717C20.5679 10.9717 21.0283 11.4321 21.0283 12C21.0283 12.5679 20.5679 13.0283 20 13.0283Z"
+                    fill="#b33333"></path>
+                </g>
+              </svg>
+              <p class="text-xs text-[#8D8580] font-semibold">DIAGNÓSTICO</p>
+              <p
+                class="text-xs text-[#282828] font-medium"
+                th:text="${pet.enfermedad}"></p>
+            </div>
+          </article>
+        </aside>
+        <!----- Tratamientos ----->
+        <aside class="flex flex-col items-center lg:col-span-2">
+          <!-- Tratamientos -->
+          <article
+            class="flex flex-col h-auto w-full mx-auto p-6 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
+            <!-- Titulo -->
+            <div
+              class="flex justify-start items-center w-full mx-3 mt-2 mb-6 gap-1">
+              <svg
+                class="h-6 sm:h-8 w-auto shrink-0"
+                fill="#2B5392"
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 512 512"
+                xml:space="preserve"
+                stroke="#2B5392">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <g>
+                    <g>
+                      <path
+                        d="M384,221.091h-62.836l-27.927-62.836c-2.327-4.655-5.818-6.982-10.473-6.982c-4.655,0-9.309,2.327-10.473,6.982 l-51.2,116.364l-22.109-46.545c-2.327-3.491-5.818-6.982-10.473-6.982H128c-6.982,0-11.636,4.655-11.636,11.636 s4.655,11.636,11.636,11.636h52.364l30.255,62.836c2.327,3.491,5.818,6.982,10.473,6.982s8.145-2.327,10.473-6.982l51.2-115.2 l20.945,46.545c1.164,3.491,5.818,5.818,10.473,5.818H384c6.982,0,11.636-4.655,11.636-11.636S390.982,221.091,384,221.091z"></path>
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path
+                        d="M407.273,34.909h-69.818c0-6.982-4.655-11.636-11.636-11.636h-29.091c-4.655,0-8.145-2.327-9.309-4.655 C280.436,6.982,268.8,0,256,0s-24.436,6.982-30.255,18.618c-2.327,2.327-5.818,4.655-10.473,4.655h-29.091 c-6.982,0-11.636,4.655-11.636,11.636v58.182c0,6.982,4.655,11.636,11.636,11.636h139.636c6.982,0,11.636-4.655,11.636-11.636 c0-6.982-4.655-11.636-11.636-11.636h-128V46.545h17.455c12.8,0,24.436-6.982,30.255-17.455c4.655-8.145,16.291-6.982,20.945,0 c5.818,10.473,17.455,17.455,30.255,17.455h17.455c0,6.982,4.655,11.636,11.636,11.636h81.455c6.982,0,11.636,4.655,11.636,11.636 v407.273c0,6.982-4.655,11.636-11.636,11.636H104.727c-6.982,0-11.636-4.655-11.636-11.636V69.818 c0-6.982,4.655-11.636,11.636-11.636H128c6.982,0,11.636-4.655,11.636-11.636S134.982,34.909,128,34.909h-23.273 c-19.782,0-34.909,15.127-34.909,34.909v407.273c0,19.782,15.127,34.909,34.909,34.909h302.545 c19.782,0,34.909-15.127,34.909-34.909V69.818C442.182,50.036,427.055,34.909,407.273,34.909z"></path>
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path
+                        d="M279.273,372.364H128c-6.982,0-11.636,4.655-11.636,11.636s4.655,11.636,11.636,11.636h151.273 c6.982,0,11.636-4.655,11.636-11.636S286.255,372.364,279.273,372.364z"></path>
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path
+                        d="M209.455,418.909H128c-6.982,0-11.636,4.655-11.636,11.636s4.655,11.636,11.636,11.636h81.455 c6.982,0,11.636-4.655,11.636-11.636S216.436,418.909,209.455,418.909z"></path>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <h3
+                class="text-[#4a4a4a] font-black text-lg sm:text-xl md:text-2xl leading-none tracking-wider ml-2"
+                th:text="${'Tratamientos de ' + pet.nombre}"></h3>
+            </div>
+            <!-- Tratamientos -->
+            <div
+              class="overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-0 justify-center custom-scroll max-h-96">
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
+                <div class="w-1 bg-[#2B5392]"></div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
+                  <p class="text-base text-[#282828] font-medium">
+                    90mg de Selamectina
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </main>
+    <footer th:replace="~{fragmentos::footer}"></footer>
+  </body>
+</html>
