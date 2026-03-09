@@ -112,6 +112,8 @@
               method="post"
               th:action="${client.id != null} ? @{/vet/clients/update} : @{/vet/clients/add}">
               <input type="hidden" th:field="*{id}" />
+              <input type="hidden" th:field="*{usuario}" />
+              <input type="hidden" th:field="*{contraseña}" />
               <!-- Nombre completo -->
               <div>
                 <label

@@ -4,7 +4,7 @@
     <!---------- NAVBAR LANDING---------->
     <header
       th:fragment="navbar-landing"
-      class="group sticky top-0 z-1000 bg-[linear-gradient(90deg,#ecebe8_0%,#efeeeb_35%,#f2f1ee_50%,#f5f3f0_65%,#faf8f5_100%)]">
+      class="group sticky top-0 z-50 bg-[linear-gradient(90deg,#ecebe8_0%,#efeeeb_35%,#f2f1ee_50%,#f5f3f0_65%,#faf8f5_100%)]">
       <!-- Hidden checkbox for pure-CSS toggle -->
       <input type="checkbox" id="nav-toggle" class="hidden peer" />
 
@@ -79,7 +79,7 @@
           <li>
             <a
               class="flex items-center p-2 bg-[#2b5392] rounded-xl ml-3.75 [transition:background-color_0.25s_ease] hover:bg-[#1a3a6b]"
-              href="">
+              th:href="@{/client/login}">
               <img
                 th:src="@{/images/auxiliares/usuario.png}"
                 alt="usuario"
@@ -133,7 +133,7 @@
           <li>
             <a
               class="flex items-center p-2 bg-[#2b5392] rounded-xl [transition:background-color_0.25s_ease] hover:bg-[#1a3a6b]"
-              href="">
+              th:href="@{/client/login}">
               <img
                 th:src="@{/images/auxiliares/usuario.png}"
                 alt="usuario"
@@ -149,7 +149,7 @@
     <!---------- NAVBAR LOGGED ---------->
     <header
       th:fragment="navbar-logged"
-      class="group sticky top-0 z-1000 bg-[linear-gradient(90deg,#ecebe8_0%,#efeeeb_35%,#f2f1ee_50%,#f5f3f0_65%,#faf8f5_100%)]">
+      class="group sticky top-0 z-50 bg-[linear-gradient(90deg,#ecebe8_0%,#efeeeb_35%,#f2f1ee_50%,#f5f3f0_65%,#faf8f5_100%)]">
       <!-- Solo logo y botón de cerrar sesión -->
       <div class="flex h-[12.5vh] items-center justify-between px-7.5">
         <a href="/" th:href="@{/}" class="flex items-center shrink-0">

@@ -100,6 +100,7 @@
             <!-- Eliminar -->
             <a
               th:href="@{/vet/clients/delete/{id}(id=${client.id})}"
+              onClick="abrirModalEliminar(this.href); return false;"
               class="flex gap-2 justify-center items-center bg-transparent border px-4 py-2 rounded-lg text-[#B22222] border-[#B22222] hover:bg-[#B22222] hover:text-[#FBFAF8] transition-colors duration-200">
               <svg
                 class="h-6"
@@ -328,6 +329,7 @@
             </table>
           </div>
         </div>
+
         <!-- Cards para pantallas pequeñas y medianas -->
         <div class="lg:hidden space-y-4">
           <div
@@ -392,6 +394,34 @@
           </p>
         </div>
       </section>
+      <!-- Modal Eliminar -->
+      <article
+        id="modalEliminar"
+        class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div
+          class="bg-[#FBFAF8] w-[90%] max-w-md rounded-2xl shadow-xl px-8 py-10 animate-fadeIn text-center justify-center space-y-4">
+          <h2 class="text-xl font-extrabold text-[#4A4A4A] tracking-wide">
+            Confirmar Eliminación
+          </h2>
+          <p class="text-[#8d8580] text-center">
+            ¿Estás seguro de que deseas eliminar este cliente? Esta acción no se
+            puede deshacer.
+          </p>
+          <div class="flex justify-end gap-4">
+            <button
+              onclick="cerrarModalEliminar()"
+              class="cursor-pointer px-4 py-2 rounded-lg border border-[#2B5392] text-[#2B5392] hover:bg-[#2B5392] hover:text-white transition">
+              Cancelar
+            </button>
+            <button
+              onClick="confirmarEliminar()"
+              class="cursor-pointer px-4 py-2 rounded-lg border border-[#B22222] text-[#B22222] hover:bg-[#B22222] hover:text-white transition">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </article>
+      <script th:src="@{/js/modal-eliminar-cliente.js}"></script>
     </main>
     <footer th:replace="fragmentos::footer"></footer>
   </body>
