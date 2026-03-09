@@ -28,17 +28,17 @@ public class Client {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(name = "nombre", nullable = false)
+  @Column(name = "nombre", nullable = false, length = 100)
   private String nombre;
-  @Column(name = "cedula", nullable = false, unique = true)
+  @Column(name = "cedula", nullable = false, unique = true, length = 20)
   private String cedula;
-  @Column(name = "correo")
+  @Column(name = "correo", nullable = false, unique = true, length = 100)
   private String correo;
-  @Column(name = "celular")
+  @Column(name = "celular", nullable = false, length = 20)
   private String celular;
-  @Column(name = "usuario", unique = true)
+  @Column(name = "usuario", nullable = false, unique = true, length = 50)
   private String usuario;
-  @Column(name = "password")
+  @Column(name = "password", nullable = false, length = 100)
   private String password;
 
   @OneToMany(mappedBy = "owner")

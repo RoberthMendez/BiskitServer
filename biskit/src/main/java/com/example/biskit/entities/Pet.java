@@ -28,27 +28,27 @@ public class Pet {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "nombre", nullable = false)
+  @Column(name = "nombre", nullable = false, length = 100)
   private String nombre;
 
   @Column(name = "especie")
   @Enumerated(EnumType.STRING)
   private Especie especie; // Perro o Gato
 
-  @Column(name = "raza")
+  @Column(name = "raza", length = 100)
   private String raza;
 
   @Column(name = "estado")
   @Enumerated(EnumType.STRING)
   private Estado estado; // Activo o Inactivo
 
-  @Column(name = "edad")
+  @Column(name = "edad", nullable = false)
   private int edad;
   @Column(name = "peso")
   private float peso;
-  @Column(name = "enfermedad")
+  @Column(name = "enfermedad", length = 100)
   private String enfermedad;
-  @Column(name = "url_foto")
+  @Column(name = "url_foto", length = 255)
   private String URLFoto;
 
   @ManyToOne
