@@ -1,6 +1,5 @@
 window.addEventListener("load", () => {
-
-  document.querySelectorAll(".toggle-switch").forEach(toggle => {
+  document.querySelectorAll(".toggle-switch").forEach((toggle) => {
     const input = toggle.querySelector("input");
     const pill = toggle.querySelector(".toggle-pill");
     const spanInactive = toggle.querySelector(".toggle-inactive");
@@ -17,5 +16,4 @@ window.addEventListener("load", () => {
     updatePill(); // inicializa correctamente
     input.addEventListener("change", updatePill);
   });
-
 });

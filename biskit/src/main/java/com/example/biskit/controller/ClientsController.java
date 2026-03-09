@@ -50,11 +50,17 @@ public class ClientsController {
 
   @GetMapping("{id}/pets")
   public String getMethodName(@PathVariable("id") Long id, Model model) {
+    model.addAttribute("client", clientsService.getClientById(id));
+    model.addAttribute("pets", clientsService.getPetsByClientId(id));
+    return "client/pets-client";
+  }
 
-    List<Pet> pets = clientsService.getPetsByClientId(id);
-    model.addAttribute("petsClientname", pets);
-
-    return "vet/pets/pets";
+  @GetMapping("{idClient}/pets/{idPet}")
+  public String getMethodName(@PathVariable("idClient") Long idClient, @PathVariable("idPet") Long idPet,
+      Model model) {
+    model.addAttribute("client", clientsService.getClientById(idClient));
+    model.addAttribute("pet", petsService.getPetById(idPet));
+    return "client/info-pet";
   }
 
 }
