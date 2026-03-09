@@ -3,12 +3,12 @@ package com.example.biskit.service.Clients;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.lang3.tuple.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.Estado;
 import com.example.biskit.entities.Pet;
 
 import com.example.biskit.repo.ClientsRepo;
@@ -25,35 +25,39 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public Collection<Client> getClients() {
-    return clientsRepo.getClients();
+    return clientsRepo.findAll();
   }
 
   @Override
-  public Client getClientById(Integer id) {
-    return clientsRepo.getClientById(id);
+  public Client getClientById(Long id) {
+    return clientsRepo.findById(id).orElse(null);
   }
 
   @Override
   public void addClient(Client client) {
-    clientsRepo.saveClient(client);
+    clientsRepo.save(client);
   }
 
   @Override
   public void updateClient(Client client) {
-    clientsRepo.saveClient(client);
+    clientsRepo.save(client);
   }
 
   @Override
-  public void deleteClient(Integer id) {
-    Client cliente = clientsRepo.getClientById(id);
-    List<Integer> petIds = cliente.getPets().stream().map(pet -> pet.getId()).toList();
-    petIds.forEach(petId -> petsService.deletePet(petId));
-    clientsRepo.deleteClient(id);
+  public void deleteClient(Long id) {
+    // clientsRepo.deleteById(id);
+    Client client = clientsRepo.findById(id).orElseThrow();
+    for (Pet pet : client.getPets()) {
+      petsService.deletePet(pet.getId());
+    }
+    client.getPets().clear();
+    clientsRepo.delete(client);
+
   }
 
   @Override
-  public List<Pet> getPetsByClientId(Integer clientId) {
-    Client client = clientsRepo.getClientById(clientId);
+  public List<Pet> getPetsByClientId(Long clientId) {
+    Client client = clientsRepo.findById(clientId).orElse(null);
     // Obtener las versiones actualizadas de las mascotas desde PetsRepo
     List<Pet> updatedPets = new ArrayList<>();
     for (Pet pet : client.getPets()) {
@@ -66,77 +70,34 @@ public class ClientsImpl implements ClientsService {
   }
 
   @Override
-  public void addPetToClient(Integer clientId, Pet pet) {
+  public void addPetToClient(Long clientId, Pet pet) {
 
-    Client dueñoIngresado = clientsRepo.getClientById(clientId);
+    Client dueñoIngresado = clientsRepo.findById(clientId).orElse(null);
 
-    // Si la mascota se está actualizando
-    if (pet.getId() != null) {
-      Client dueñoAnterior = getClientByPetId(pet.getId());
-      // Si la mascota cambió de dueño, se actualiza la relación
-      if (dueñoAnterior != null && !dueñoAnterior.getId().equals(clientId)) {
-        dueñoAnterior.getPets().removeIf(p -> p.getId().equals(pet.getId()));
-        dueñoIngresado.getPets().add(pet);
-      } else if (dueñoAnterior != null) {
-        // Si es el mismo dueño, actualizar la referencia en la lista
-        dueñoAnterior.getPets().removeIf(p -> p.getId().equals(pet.getId()));
-        dueñoAnterior.getPets().add(pet);
-      }
-    }
-
-    // SI la mascota es nueva, se agrega a la lista de mascotas del dueño
     if (pet.getId() == null) {
       dueñoIngresado.getPets().add(pet);
+      pet.setEstado(Estado.ACTIVO);
     }
+    pet.setOwner(dueñoIngresado);
 
-    // Guardar la mascota en el repositorio de mascotas
     petsService.addPet(pet);
 
   }
 
   @Override
-  public List<Pair<Pet, String>> getPetsAndClientNames() {
-    List<Pair<Pet, String>> petAndClients = new ArrayList<>();
-    clientsRepo.getClients().forEach(client -> {
-      client.getPets().forEach(pet -> {
-        // Obtener la versión actualizada de la mascota desde PetsRepo
-        Pet updatedPet = petsService.getPetById(pet.getId());
-        if (updatedPet != null) {
-          petAndClients.add(Pair.of(updatedPet, client.getNombre()));
-        }
-      });
-    });
-    return petAndClients;
-  }
-
-  @Override
-  public Client getClientByPetId(Integer petId) {
-    return clientsRepo.getClients()
-        .stream()
-        .filter(c -> c.getPets() != null
-            && c.getPets().stream().anyMatch(p -> p.getId() != null && p.getId().equals(petId)))
-        .findFirst()
-        .orElse(null);
-  }
-
-  @Override
-  public void deletePetFromClient(Integer petId) {
-    Integer clientId = getClientByPetId(petId).getId();
-    Client client = clientsRepo.getClientById(clientId);
-    if (client != null) {
-      client.getPets().removeIf(pet -> pet.getId().equals(petId));
-    }
+  public void deletePetFromClient(Long petId) {
+    petsService.deletePet(petId);
   }
 
   @Override
   public boolean autenticarClient(String usuario, String contrasena) {
-    return clientsRepo.getClients().stream()
-        .anyMatch(client -> client.getUsuario().equals(usuario) && client.getContraseña().equals(contrasena));
+    return clientsRepo.findAll().stream()
+        .anyMatch(client -> client.getUsuario().equals(usuario) && client.getPassword().equals(contrasena));
   }
 
   @Override
   public Client findByUsuario(String usuario) {
-    return clientsRepo.getClients().stream()
+    return clientsRepo.findAll().stream()
         .filter(client -> client.getUsuario().equals(usuario))
         .findFirst()
         .orElse(null);

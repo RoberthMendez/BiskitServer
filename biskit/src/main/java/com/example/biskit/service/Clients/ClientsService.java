@@ -4,29 +4,24 @@ import java.util.Collection;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Pet;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 
 public interface ClientsService {
 
   public Collection<Client> getClients();
 
-  public Client getClientById(Integer id);
+  public Client getClientById(Long id);
 
   public void addClient(Client client);
 
   public void updateClient(Client client);
 
-  public void deleteClient(Integer id);
+  public void deleteClient(Long id);
 
-  public List<Pet> getPetsByClientId(Integer clientId);
+  public List<Pet> getPetsByClientId(Long clientId);
 
-  public void addPetToClient(Integer clientId, Pet pet);
+  public void addPetToClient(Long clientId, Pet pet);
 
-  public List<Pair<Pet, String>> getPetsAndClientNames();
-
-  public Client getClientByPetId(Integer petId);
-
-  public void deletePetFromClient(Integer petId);
+  public void deletePetFromClient(Long petId);
 
   public boolean autenticarClient(String usuario, String contrasena);
 

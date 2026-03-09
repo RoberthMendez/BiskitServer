@@ -38,7 +38,7 @@ public class VetsController {
 
   // ----- Mostrar Cliente (READ) -----
   @GetMapping("/clients/{id}")
-  public String mostrarCliente(@PathVariable("id") Integer id, Model model) {
+  public String mostrarCliente(@PathVariable("id") Long id, Model model) {
     model.addAttribute("client", clientsService.getClientById(id));
     model.addAttribute("pets", clientsService.getPetsByClientId(id));
     return clientsPath + "info-client";
@@ -47,7 +47,7 @@ public class VetsController {
   // ----- Añadir Cliente (CREATE) -----
   @GetMapping("/clients/add")
   public String mostrarFormularioNuevoCliente(Model model) {
-    Client client = new Client(null, "", "", "", "", "", null);
+    Client client = new Client();
     model.addAttribute("client", client);
     return clientsPath + "add-client";
   }
@@ -60,7 +60,7 @@ public class VetsController {
 
   // ----- Editar Cliente (UPDATE) -----
   @GetMapping("/clients/update/{id}")
-  public String mostrarFormularioUpdateCliente(@PathVariable("id") Integer id, Model model) {
+  public String mostrarFormularioUpdateCliente(@PathVariable("id") Long id, Model model) {
     Client client = clientsService.getClientById(id);
     model.addAttribute("client", client);
     return clientsPath + "add-client";
@@ -81,7 +81,7 @@ public class VetsController {
 
   // ----- Eliminar Cliente (DELETE) -----
   @GetMapping("/clients/delete/{id}")
-  public String eliminarCliente(@PathVariable("id") Integer id) {
+  public String eliminarCliente(@PathVariable("id") Long id) {
     clientsService.deleteClient(id);
     return "redirect:/vet/clients";
   }
@@ -94,17 +94,18 @@ public class VetsController {
 
   @GetMapping("/pets")
   public String mostrarMascotas(Model model) {
-    model.addAttribute("petsClientname", clientsService.getPetsAndClientNames());
+    model.addAttribute("pets", petsService.getPets());
     return petsPath + "pets";
   }
 
   // ----- Mostrar Mascota (READ) -----
 
   @GetMapping("/pets/{id}")
-  public String mostrarMascota(@PathVariable("id") Integer id, Model model) {
-    Client dueño = clientsService.getClientByPetId(id);
-    model.addAttribute("pet", petsService.getPetById(id));
-    model.addAttribute("dueño", dueño);
+  public String mostrarMascota(@PathVariable("id") Long id, Model model) {
+    Pet pet = petsService.getPetById(id);
+    Client owner = pet.getOwner();
+    model.addAttribute("pet", pet);
+    model.addAttribute("dueño", owner);
     return petsPath + "info-pet";
   }
 
@@ -112,14 +113,14 @@ public class VetsController {
 
   @GetMapping("/pets/add")
   public String mostrarFormularioAddPet(Model model) {
-    Pet pet = new Pet(null, "", null, "", null, 0, 0.0f, "", "");
+    Pet pet = new Pet();
     model.addAttribute("pet", pet);
     model.addAttribute("clientes", clientsService.getClients());
     return petsPath + "add-pet";
   }
 
   @PostMapping("/pets/add")
-  public String agregarMascota(@ModelAttribute("pet") Pet pet, @RequestParam("idCliente") Integer idCliente) {
+  public String agregarMascota(@ModelAttribute("pet") Pet pet, @RequestParam("idCliente") Long idCliente) {
     clientsService.addPetToClient(idCliente, pet);
     return "redirect:/vet/pets";
   }
@@ -127,9 +128,9 @@ public class VetsController {
   // ----- Editar Mascota (UPDATE) -----
 
   @GetMapping("/pets/update/{id}")
-  public String mostrarFormularioUpdatePet(@PathVariable("id") Integer id, Model model) {
+  public String mostrarFormularioUpdatePet(@PathVariable("id") Long id, Model model) {
     Pet pet = petsService.getPetById(id);
-    Client owner = clientsService.getClientByPetId(id);
+    Client owner = pet.getOwner();
     model.addAttribute("pet", pet);
     model.addAttribute("owner", owner);
     model.addAttribute("clientes", clientsService.getClients());
@@ -139,7 +140,7 @@ public class VetsController {
   // ----- Eliminar Mascota (DELETE) -----
 
   @GetMapping("/pets/delete/{id}")
-  public String eliminarMascota(@PathVariable("id") Integer id) {
+  public String eliminarMascota(@PathVariable("id") Long id) {
     petsService.deletePet(id);
     clientsService.deletePetFromClient(id);
     return "redirect:/vet/pets";

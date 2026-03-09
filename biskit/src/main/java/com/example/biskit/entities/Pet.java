@@ -1,33 +1,57 @@
 package com.example.biskit.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = "owner")
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Builder
 public class Pet {
 
-  private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "nombre", nullable = false)
   private String nombre;
+
+  @Column(name = "especie")
+  @Enumerated(EnumType.STRING)
   private Especie especie; // Perro o Gato
+
+  @Column(name = "raza")
   private String raza;
+
+  @Column(name = "estado")
+  @Enumerated(EnumType.STRING)
   private Estado estado; // Activo o Inactivo
+
+  @Column(name = "edad")
   private int edad;
+  @Column(name = "peso")
   private float peso;
+  @Column(name = "enfermedad")
   private String enfermedad;
+  @Column(name = "url_foto")
   private String URLFoto;
 
-  public void update(String nombre, Especie especie, String raza, Estado estado, int edad, float peso,
-      String enfermedad,
-      String dueño, String URLFoto) {
-    this.nombre = nombre;
-    this.especie = especie;
-    this.raza = raza;
-    this.estado = estado;
-    this.edad = edad;
-    this.peso = peso;
-    this.enfermedad = enfermedad;
-    this.URLFoto = URLFoto;
-  }
+  @ManyToOne
+  private Client owner;
 
 }

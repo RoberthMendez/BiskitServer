@@ -1,31 +1,46 @@
 package com.example.biskit.entities;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+
+@Getter
+@Setter
+@ToString(exclude = "pets")
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Client {
-  private Integer id;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @Column(name = "nombre", nullable = false)
   private String nombre;
+  @Column(name = "cedula", nullable = false, unique = true)
   private String cedula;
+  @Column(name = "correo")
   private String correo;
+  @Column(name = "celular")
   private String celular;
+  @Column(name = "usuario", unique = true)
   private String usuario;
-  private String contraseña;
-  private List<Pet> pets = new ArrayList<>();
+  @Column(name = "password")
+  private String password;
 
-  public Client(Integer id, String nombre, String cedula, String correo, String celular, String usuario,
-      String contraseña) {
-    this.id = id;
-    this.nombre = nombre;
-    this.cedula = cedula;
-    this.correo = correo;
-    this.celular = celular;
-    this.usuario = usuario;
-    this.contraseña = contraseña;
-    this.pets = new ArrayList<Pet>();
-  }
-
+  @OneToMany(mappedBy = "owner")
+  private List<Pet> pets;
 }

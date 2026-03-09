@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/client")
@@ -46,18 +44,10 @@ public class ClientController {
   }
 
   @GetMapping("{id}/pets")
-  public String getMethodName(@PathVariable("id") Integer id, Model model) {
-
-    List<Pair<Pet, String>> petNamesAndVetNames = new ArrayList<>();
+  public String getMethodName(@PathVariable("id") Long id, Model model) {
 
     List<Pet> pets = clientsService.getPetsByClientId(id);
-    for (Pet pet : pets) {
-      String vetName = clientsService.getClientById(id).getNombre() != null
-          ? clientsService.getClientById(id).getNombre()
-          : "Sin veterinario asignado";
-      petNamesAndVetNames.add(Pair.of(pet, vetName));
-    }
-    model.addAttribute("petsClientname", petNamesAndVetNames);
+    model.addAttribute("pets", pets);
 
     return "vet/pets/pets";
   }

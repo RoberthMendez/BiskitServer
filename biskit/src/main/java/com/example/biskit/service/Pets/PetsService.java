@@ -8,12 +8,12 @@ public interface PetsService {
 
   public Collection<Pet> getPets();
 
-  public Pet getPetById(Integer id);
+  public Pet getPetById(Long id);
 
   public void addPet(Pet pet);
 
   public void updatePet(Pet pet);
 
-  public void deletePet(Integer id);
+  public void deletePet(Long id);
 
 }

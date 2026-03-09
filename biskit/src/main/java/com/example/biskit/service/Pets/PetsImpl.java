@@ -16,27 +16,27 @@ public class PetsImpl implements PetsService {
 
   @Override
   public Collection<Pet> getPets() {
-    return petsRepo.getPets();
+    return petsRepo.findAll();
   }
 
   @Override
-  public Pet getPetById(Integer id) {
-    return petsRepo.getPetById(id);
+  public Pet getPetById(Long id) {
+    return petsRepo.findById(id).orElse(null);
   }
 
   @Override
   public void addPet(Pet pet) {
-    petsRepo.savePet(pet);
+    petsRepo.save(pet);
   }
 
   @Override
   public void updatePet(Pet pet) {
-    petsRepo.updatePet(pet);
+    petsRepo.save(pet);
   }
 
   @Override
-  public void deletePet(Integer id) {
-    petsRepo.deletePet(id);
+  public void deletePet(Long id) {
+    petsRepo.deleteById(id);
   }
 
 }
