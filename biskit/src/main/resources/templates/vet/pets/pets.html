@@ -156,9 +156,7 @@
             <article class="h-full">
               <div class="relative overflow-hidden rounded-2xl">
                 <!-- BOTÓN ELIMINAR -->
-                <form
-                  th:action="@{/vet/pets/delete/{id}(id=${petClientname.getLeft().id})}"
-                >
+                <form th:action="@{/vet/pets/delete/{id}(id=${pet.id})}">
                   <button
                     type="submit"
                     class="cursor-pointer absolute top-3 left-3 z-10 px-1 py-1 rounded-md opacity-0 text-[#b22222] hover:text-[#991B1B] transition-all duration-300 group-hover:opacity-100 bg-transparent text-xs font-semibold"
@@ -188,19 +186,19 @@
                   </button>
                 </form>
                 <img
-                  th:src="${petClientname.getLeft().URLFoto}"
-                  th:alt="${'Foto de ' + petClientname.getLeft().nombre}"
+                  th:src="${pet.URLFoto}"
+                  th:alt="${'Foto de ' + pet.nombre}"
                   class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
                 />
                 <span
-                  th:if="${petClientname.getLeft().estado != null and petClientname.getLeft().estado.name() == 'ACTIVO'}"
-                  th:text="${petClientname.getLeft().estado}"
+                  th:if="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                  th:text="${pet.estado}"
                   class="absolute top-3 right-2 z-10 px-3 py-1 rounded-md text-xs font-semibold tracking-wide bg-[#ebfaf1] text-[#2bab60]"
                 >
                 </span>
                 <span
-                  th:if="${petClientname.getLeft().estado != null and petClientname.getLeft().estado.name() == 'INACTIVO'}"
-                  th:text="${petClientname.getLeft().estado}"
+                  th:if="${pet.estado != null and pet.estado.name() == 'INACTIVO'}"
+                  th:text="${pet.estado}"
                   class="absolute top-3 right-2 z-10 px-3 py-1 rounded-md text-xs font-semibold tracking-wide bg-[#ededed] text-[#8c8c8c]"
                 ></span>
               </div>
@@ -208,11 +206,11 @@
               <div class="flex justify-between items-center mx-2 sm:mx-4 mt-3">
                 <h3
                   class="text-[#4a4a4a] font-bold text-lg sm:text-xl leading-none tracking-wider"
-                  th:text="${petClientname.getLeft().nombre}"
+                  th:text="${pet.nombre}"
                 ></h3>
                 <p
                   class="text-[#6D6155] font-medium text-xs leading-none"
-                  th:text="${petClientname.getLeft().especie.getTexto() + ' · ' + petClientname.getLeft().raza}"
+                  th:text="${pet.especie.getTexto() + ' · ' + pet.raza}"
                 ></p>
               </div>
               <!-- Edad, Peso y Dueño -->
@@ -266,7 +264,7 @@
                   <div class="flex flex-1 items-center">
                     <p
                       class="text-xs text-[#282828] font-medium"
-                      th:text="${petClientname.left.edad == 1} ? ${petClientname.left.edad + ' año'} : ${petClientname.left.edad + ' años'}"
+                      th:text="${pet.edad == 1} ? ${pet.edad + ' año'} : ${pet.edad + ' años'}"
                     ></p>
                   </div>
                 </aside>
@@ -313,7 +311,7 @@
                   <div class="flex flex-1 items-center">
                     <p
                       class="text-xs text-[#282828] font-medium"
-                      th:text="${petClientname.left.peso} + ' Kg'"
+                      th:text="${pet.peso} + ' Kg'"
                     ></p>
                   </div>
                 </aside>
@@ -353,7 +351,7 @@
                   <div class="flex flex-1 items-start justify-center">
                     <p
                       class="text-xs text-[#282828] font-medium text-center wrap-break-word leading-tight max-w-26"
-                      th:text="${petClientname.getRight()}"
+                      th:text="${pet.getOwner().getNombre()}"
                     ></p>
                   </div>
                 </aside>
@@ -389,7 +387,7 @@
                 <p class="text-xs text-[#8D8580] font-semibold">DIAGNÓSTICO</p>
                 <p
                   class="text-xs text-[#282828] font-medium"
-                  th:text="${petClientname.getLeft().enfermedad}"
+                  th:text="${pet.enfermedad}"
                 ></p>
               </div>
             </article>

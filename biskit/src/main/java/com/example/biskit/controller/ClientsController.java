@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Pet;
 import com.example.biskit.service.Clients.ClientsService;
+import com.example.biskit.service.Pets.PetsService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
@@ -17,10 +19,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/client")
-public class ClientController {
+public class ClientsController {
 
   @Autowired
   ClientsService clientsService;
+
+  @Autowired
+  PetsService petsService;
 
   @GetMapping("/login")
   public String getMethodName(@RequestParam(required = false) String error, Model model) {
@@ -47,7 +52,7 @@ public class ClientController {
   public String getMethodName(@PathVariable("id") Long id, Model model) {
 
     List<Pet> pets = clientsService.getPetsByClientId(id);
-    model.addAttribute("pets", pets);
+    model.addAttribute("petsClientname", pets);
 
     return "vet/pets/pets";
   }
