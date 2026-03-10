@@ -14,6 +14,8 @@ import com.example.biskit.entities.Pet;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.service.Pets.PetsImpl;
 
+import com.example.biskit.errors.ClientNotFoundException;
+
 @Service
 public class ClientsImpl implements ClientsService {
 
@@ -28,10 +30,6 @@ public class ClientsImpl implements ClientsService {
     return clientsRepo.findAll();
   }
 
-  @Override
-  public Client getClientById(Long id) {
-    return clientsRepo.findById(id).orElse(null);
-  }
 
   @Override
   public void addClient(Client client) {
@@ -102,5 +100,11 @@ public class ClientsImpl implements ClientsService {
         .findFirst()
         .orElse(null);
   }
+
+@Override
+public Client getClientById(Long id) {
+  return clientsRepo.findById(id)
+      .orElseThrow(() -> new ClientNotFoundException(id));
+}
 
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.biskit.entities.Pet;
 import com.example.biskit.repo.PetsRepo;
 
+import com.example.biskit.errors.PetNotFoundException;
+
 @Service
 public class PetsImpl implements PetsService {
 
@@ -17,11 +19,6 @@ public class PetsImpl implements PetsService {
   @Override
   public Collection<Pet> getPets() {
     return petsRepo.findAll();
-  }
-
-  @Override
-  public Pet getPetById(Long id) {
-    return petsRepo.findById(id).orElse(null);
   }
 
   @Override
@@ -38,5 +35,9 @@ public class PetsImpl implements PetsService {
   public void deletePet(Long id) {
     petsRepo.deleteById(id);
   }
-
+  @Override
+public Pet getPetById(Long id) {
+  return petsRepo.findById(id)
+      .orElseThrow(() -> new PetNotFoundException(id));
+}
 }
