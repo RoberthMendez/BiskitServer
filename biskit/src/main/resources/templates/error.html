@@ -1,14 +1,78 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
   <head>
-    <title>Error</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Error | Biskit</title>
+
+    <link rel="icon" type="image/png" th:href="@{/images/marca/icono.png}" />
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
-  <body>
-    <h1>Error</h1>
+  <body
+    class="min-h-screen font-[Inter,sans-serif] bg-white flex items-center justify-center"
+  >
+    <div class="text-center px-10">
+      <!-- MISMO ESTILO QUE BIENVENIDO A BISKIT -->
+      <h1
+        class="text-[38px] sm:text-[44px] leading-[1.1] font-semibold text-[#4a4a4a]"
+      >
+        Error
+      </h1>
 
-    <h2 th:text="${mensaje}"></h2>
+      <h2
+        th:text="${mensaje}"
+        class="mt-4 text-[15px] text-[#8d8580dd] font-semibold"
+      >
+        Mensaje de error
+      </h2>
 
-    <a href="/">Volver al inicio</a>
+      <div class="mt-10 flex justify-center">
+        <a
+          th:href="@{/}"
+          class="back-link group inline-flex justify-start items-center h-10"
+        >
+          <svg
+            class="h-9 mt-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8 12L16 12"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+
+            <path
+              d="M11 9L8.08704 11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087L11 15"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+
+          <h2
+            class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-lg text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+          >
+            Volver a la Página Principal
+          </h2>
+        </a>
+      </div>
+    </div>
   </body>
 </html>
