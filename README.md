@@ -1,15 +1,5 @@
 # 🐾 Biskit – Sistema de Gestión para Veterinaria
 
-## Descripción del proyecto
-
-Biskit es una aplicación web desarrollada para apoyar la gestión de una clínica veterinaria que se especializa en el cuidado y hospitalización de mascotas, principalmente perros y gatos.
-
-El sistema permite que el personal veterinario registre información de clientes y de sus mascotas, lleve control sobre el estado de cada animal y facilite que los dueños puedan consultar la información de sus mascotas mientras estas se encuentran en tratamiento dentro de la clínica.
-
-Este proyecto fue desarrollado como parte del curso **Desarrollo Web** de la **Pontificia Universidad Javeriana**, siguiendo una metodología de desarrollo por **Sprints**, donde en cada entrega se fueron agregando nuevas funcionalidades al sistema.
-
----
-
 ## Contexto del negocio
 
 La clínica veterinaria recibe mascotas que necesitan permanecer hospitalizadas durante algunos días mientras reciben tratamiento médico.
@@ -202,26 +192,18 @@ Esto permite probar el funcionamiento del sistema desde el inicio.
 
 ### 1. Clonar el repositorio
 
-```bash
+```
 git clone https://github.com/RoberthMendez/Biskit.git
 ```
 
-### 2. Entrar al proyecto
+### 2. Buscar el test y correr el BiskitApplication.java
 
-```bash
-cd Biskit
-```
+cuando encontramos el .java lo abrimos
 
-### 3. Ejecutar la aplicación
-
-```bash
-./mvnw spring-boot:run
-```
-
-### 4. Abrir la aplicación en el navegador
+### 3. Corremos
 
 ```
-http://localhost:8080
+buscamos el boton para correr el proyecto y le damos compilar
 ```
 
 ---
