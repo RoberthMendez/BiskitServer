@@ -32,7 +32,7 @@
         <!-- IZQUIERDA -->
         <div class="relative w-full h-full">
           <!-- botón volver (arriba) -->
-          <div class="pl-6 sm:pl-8 lg:pl-20 pt-10">
+          <div class="pl-6 sm:pl-8 lg:pl-16 pt-4">
             <a
               th:if="${isClient == null or !isClient}"
               th:href="@{/}"
@@ -68,13 +68,13 @@
                 </g>
               </svg>
               <h2
-                class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-lg text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+                class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-md text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
               >
                 Volver a la Página Principal
               </h2>
             </a>
           </div>
-          <div class="px-10 sm:px-18 lg:px-26 mt-10 flex">
+          <div class="px-10 sm:px-18 lg:px-26 mt-6 flex">
             <div class="w-full">
               <h1
                 class="text-[38px] sm:text-[44px] leading-[1.1] font-semibold text-[#4a4a4a]"
