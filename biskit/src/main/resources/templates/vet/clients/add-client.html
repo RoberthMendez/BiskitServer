@@ -110,10 +110,10 @@
               class="space-y-4 sm:space-y-5"
               th:object="${client}"
               method="post"
-              th:action="${client.id != null} ? @{/vet/clients/update} : @{/vet/clients/add}">
+              th:action="@{/vet/clients/add}">
               <input type="hidden" th:field="*{id}" />
               <input type="hidden" th:field="*{usuario}" />
-              <input type="hidden" th:field="*{contraseña}" />
+              <input type="hidden" th:field="*{password}" />
               <!-- Nombre completo -->
               <div>
                 <label

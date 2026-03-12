@@ -60,18 +60,14 @@ public class VetsClientsController {
     return clientsPath + "add-client";
   }
 
-  @PostMapping("/clients/update")
-  public String actualizarCliente(@ModelAttribute("client") Client client) {
+  // @PostMapping("/clients/update")
+  // public String actualizarCliente(@ModelAttribute("client") Client client) {
 
-    Client clientExistente = clientsService.getClientById(client.getId());
-    if (clientExistente != null) {
-      client.setPets(clientExistente.getPets());
-    }
+  //   Client clientExistente = clientsService.getClientById(client.getId());
+  //   clientsService.updateClient(clientExistente);
+  //   return "redirect:/vet/clients";
 
-    clientsService.updateClient(client);
-    return "redirect:/vet/clients";
-
-  }
+  // }
 
   // ----- Eliminar Cliente (DELETE) -----
   @GetMapping("/clients/delete/{id}")
