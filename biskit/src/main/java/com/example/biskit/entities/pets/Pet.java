@@ -1,14 +1,17 @@
 package com.example.biskit.entities.pets;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.Tratamiento;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
@@ -57,6 +60,9 @@ public class Pet {
   @ManyToOne
   @JoinColumn(name = "raza_id")
   private Raza raza;
+
+  @OneToMany(mappedBy = "mascota")
+  private List<Tratamiento> tratamientos;
 
   public int getEdad() {
     Date fechaActual = new Date(System.currentTimeMillis());
