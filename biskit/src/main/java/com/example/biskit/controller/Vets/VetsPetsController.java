@@ -15,6 +15,7 @@ import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.pets.Pet;
 
+
 @Controller
 @RequestMapping("/vet")
 public class VetsPetsController {
@@ -76,11 +77,20 @@ public class VetsPetsController {
 
   // ----- Eliminar Mascota (DELETE) -----
 
-  @GetMapping("/pets/delete/{id}")
+ /*  @GetMapping("/pets/delete/{id}")
   public String eliminarMascota(@PathVariable("id") Long id) {
     petsService.deletePet(id);
     clientsService.deletePetFromClient(id);
     return "redirect:/vet/pets";
   }
+//  */
+
+//   @PostMapping("/pets/cambiar-estado/{id}")
+//   public String postMethodName(@PathVariable("id") Long id, @RequestParam(name = "estado", defaultValue = "false") boolean estado) {
+//       petsService.cambiarEstadoPet(id, estado);
+//       return "redirect:/vet/pets";
+//   }
+  
+
 
 }
