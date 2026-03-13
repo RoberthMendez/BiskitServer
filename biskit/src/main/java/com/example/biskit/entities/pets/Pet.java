@@ -61,7 +61,7 @@ public class Pet {
   @JoinColumn(name = "raza_id")
   private Raza raza;
 
-  @OneToMany(mappedBy = "mascota")
+  @OneToMany(mappedBy = "pet")
   private List<Tratamiento> tratamientos;
 
   public int getEdad() {

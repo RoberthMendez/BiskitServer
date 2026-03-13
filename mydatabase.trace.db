@@ -164,3 +164,7 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Sebas/D
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 65 more
+2026-03-13 13:58:05.827813-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM TRATAMIENTO ESPECIALIDAD [*]CLIENT"
+Syntax error in SQL statement "SELECT * FROM TRATAMIENTO ESPECIALIDAD [*]CLIENT"; SQL statement:
+SELECT * FROM TRATAMIENTO ESPECIALIDAD CLIENT [42000-232]
