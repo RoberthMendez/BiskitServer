@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.Estado;
-import com.example.biskit.entities.Pet;
-
+import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.service.Pets.PetsImpl;
 
@@ -29,7 +27,6 @@ public class ClientsImpl implements ClientsService {
   public Collection<Client> getClients() {
     return clientsRepo.findAll();
   }
-
 
   @Override
   public void addClient(Client client) {
@@ -74,7 +71,7 @@ public class ClientsImpl implements ClientsService {
 
     if (pet.getId() == null) {
       dueñoIngresado.getPets().add(pet);
-      pet.setEstado(Estado.ACTIVO);
+      pet.setEstado(true);
     }
     pet.setOwner(dueñoIngresado);
 
@@ -101,10 +98,10 @@ public class ClientsImpl implements ClientsService {
         .orElse(null);
   }
 
-@Override
-public Client getClientById(Long id) {
-  return clientsRepo.findById(id)
-      .orElseThrow(() -> new ClientNotFoundException(id));
-}
+  @Override
+  public Client getClientById(Long id) {
+    return clientsRepo.findById(id)
+        .orElseThrow(() -> new ClientNotFoundException(id));
+  }
 
 }

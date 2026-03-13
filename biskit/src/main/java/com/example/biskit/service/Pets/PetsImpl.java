@@ -5,10 +5,9 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.biskit.entities.Pet;
-import com.example.biskit.repo.PetsRepo;
-
+import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
+import com.example.biskit.repo.pets.PetsRepo;
 
 @Service
 public class PetsImpl implements PetsService {
@@ -33,11 +32,14 @@ public class PetsImpl implements PetsService {
 
   @Override
   public void deletePet(Long id) {
-    petsRepo.deleteById(id);
+    Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+    pet.setEstado(false);
+    petsRepo.save(pet);
   }
+
   @Override
-public Pet getPetById(Long id) {
-  return petsRepo.findById(id)
-      .orElseThrow(() -> new PetNotFoundException(id));
-}
+  public Pet getPetById(Long id) {
+    return petsRepo.findById(id)
+        .orElseThrow(() -> new PetNotFoundException(id));
+  }
 }

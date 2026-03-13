@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import java.util.List;
 
+import com.example.biskit.entities.pets.Pet;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;

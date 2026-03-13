@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.Pet;
+import com.example.biskit.entities.pets.Pet;
 
 @Controller
 @RequestMapping("/vet")

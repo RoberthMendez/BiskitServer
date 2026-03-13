@@ -2,7 +2,7 @@ package com.example.biskit.service.Pets;
 
 import java.util.Collection;
 
-import com.example.biskit.entities.Pet;
+import com.example.biskit.entities.pets.Pet;
 
 public interface PetsService {
 

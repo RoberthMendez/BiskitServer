@@ -164,23 +164,21 @@
                   </div>
                 </div>
               </div>
-              <!-- Edad y Peso -->
+              <!-- Fecha de nacimiento y Peso -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Edad -->
+                <!-- Fecha de nacimiento -->
                 <div>
                   <label
-                    for="edad"
+                    for="fechaNacimiento"
                     class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2">
-                    Edad
+                    Fecha de nacimiento
                   </label>
                   <div
                     class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3">
                     <input
-                      th:field="*{edad}"
-                      th:value="${pet.edad == 0} ? '' : ${pet.edad}"
-                      id="edad"
-                      type="text"
-                      placeholder="Ej. 6"
+                      th:field="*{fechaNacimiento}"
+                      id="fechaNacimiento"
+                      type="date"
                       class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50" />
                   </div>
                 </div>

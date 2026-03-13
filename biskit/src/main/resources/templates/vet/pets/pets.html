@@ -168,7 +168,7 @@
                     <input
                       th:id="${'interruptor-' + pet.id}"
                       type="checkbox"
-                      th:checked="${pet.estado != null and pet.estado.name() == 'ACTIVO'}"
+                      th:checked="${pet.estado != null and pet.estado == true}"
                       class="hidden peer"
                     />
                     <span
@@ -198,7 +198,7 @@
                   ></h3>
                   <p
                     class="text-[#6D6155] font-medium text-xs leading-none"
-                    th:text="${pet.especie.getTexto() + ' · ' + pet.raza}"
+                    th:text="${pet.especie.nombre + ' · ' + pet.raza.nombre}"
                   ></p>
                 </div>
                 <!-- Edad, Peso y Dueño -->
@@ -252,7 +252,7 @@
                     <div class="flex flex-1 items-center">
                       <p
                         class="text-xs text-[#282828] font-medium"
-                        th:text="${pet.edad == 1} ? ${pet.edad + ' año'} : ${pet.edad + ' años'}"
+                        th:text="${pet.getEdad() == 1} ? ${pet.getEdad() + ' año'} : ${pet.getEdad() + ' años'}"
                       ></p>
                     </div>
                   </aside>
@@ -376,7 +376,7 @@
                   </p>
                   <p
                     class="text-xs text-[#282828] font-medium"
-                    th:text="${pet.enfermedad}"
+                    th:text="${pet.enfermedad.nombre}"
                   ></p>
                 </div>
               </div>
