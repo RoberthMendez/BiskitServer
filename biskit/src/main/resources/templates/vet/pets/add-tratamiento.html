@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biskit</title>
+
+    <link rel="icon" type="image/png" th:href="@{/images/marca/icono.png}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header th:replace="fragmentos::navbar-logged"></header>
+
+    <main>
+      <!-- Botón volver -->
+      <a
+        th:href="@{/vet/pets}"
+        class="back-link group inline-flex justify-start items-center h-10 ml-20 mt-6 mb-2"
+      >
+        <svg class="h-9 mt-1" viewBox="0 0 24 24" fill="none">
+          <path d="M8 12L16 12" stroke="#6B6B6B" stroke-width="2" />
+          <path
+            d="M11 9L8.08704 11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087L11 15"
+            stroke="#6B6B6B"
+            stroke-width="2"
+          />
+        </svg>
+
+        <h2
+          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc]"
+        >
+          Lista de Mascotas
+        </h2>
+      </a>
+
+      <section
+        class="grid grid-cols-1 items-center md:grid-cols-2 mx-4 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-28 mt-5 mb-10 gap-6 md:gap-8 lg:gap-12"
+      >
+        <!-- Imagen -->
+        <article
+          class="order-last relative rounded-[20px] overflow-hidden h-100"
+        >
+          <img
+            th:src="@{/images/add-tratamiento/tratamiento.jpg}"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+
+          <div
+            class="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"
+          ></div>
+
+          <div class="absolute bottom-0 left-0 z-10 p-6 text-[#FBFAF8]">
+            <div class="mb-2 flex items-center gap-2 text-sm font-medium">
+              <img th:src="@{/images/marca/icono.png}" class="h-6 w-6" />
+              <span>Biskit</span>
+            </div>
+
+            <h2
+              th:text="${tratamiento.id != null} ? 'Editar Tratamiento' : 'Registrar Tratamiento'"
+              class="mb-2 text-2xl font-black leading-tight tracking-wide"
+            ></h2>
+
+            <p
+              th:text="${tratamiento.id != null} ? 'Modifica la información del tratamiento' : 'Completa la información del tratamiento'"
+              class="text-sm text-[#FBFAF8]/80"
+            ></p>
+          </div>
+        </article>
+
+        <!-- Formulario -->
+        <article
+          class="flex flex-col shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] rounded-b-2xl overflow-hidden"
+        >
+          <!-- Título -->
+          <div
+            class="flex gap-7 items-center bg-[#F6F7F8] px-8 py-5 rounded-t-2xl"
+          >
+            <img th:src="@{/images/marca/icono.png}" class="h-10 w-10" />
+
+            <div class="flex flex-col">
+              <h2
+                th:text="${tratamiento.id != null} ? 'Actualizar Tratamiento' : 'Nuevo Tratamiento'"
+                class="text-2xl font-bold tracking-wide text-[#4A4A4A]"
+              ></h2>
+
+              <p
+                th:text="${tratamiento.id != null} ? 'Modifica la información del tratamiento' : 'Complete la información del tratamiento'"
+                class="text-xs text-[#8D8580] font-semibold"
+              ></p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <div class="w-full p-8 bg-[#FBFAF8]">
+            <form
+              class="space-y-5"
+              th:object="${tratamiento}"
+              method="post"
+              th:action="@{/vet/pets/tratamiento/add}"
+            >
+              <input type="hidden" th:field="*{id}" />
+
+              <!-- MASCOTA -->
+
+              <div>
+                <label
+                  class="block text-[#4A4A4A] text-base font-semibold mb-2"
+                >
+                  Mascota
+                </label>
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                >
+                  <select
+                    th:field="*{pet.id}"
+                    required
+                    class="w-full bg-transparent outline-none text-[#4A4A4A]"
+                  >
+                    <option value="">Seleccione mascota</option>
+                    <option
+                      th:each="p : ${pets}"
+                      th:value="${p.id}"
+                      th:text="${p.nombre + ' - ' + p.especie.nombre + ' - ' + p.raza.nombre}"
+                    ></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- VETERINARIO -->
+
+              <div>
+                <label
+                  class="block text-[#4A4A4A] text-base font-semibold mb-2"
+                >
+                  Veterinario
+                </label>
+
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                >
+                  <select
+                    th:field="*{vet.id}"
+                    required
+                    class="w-full bg-transparent outline-none text-[#4A4A4A]"
+                  >
+                    <option value="">Seleccione veterinario</option>
+
+                    <option
+                      th:each="v : ${vets}"
+                      th:value="${v.id}"
+                      th:text="${v.nombre}"
+                    ></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- FECHA -->
+
+              <div>
+                <label
+                  class="block text-[#4A4A4A] text-base font-semibold mb-2"
+                >
+                  Fecha
+                </label>
+
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                >
+                  <input
+                    type="date"
+                    th:field="*{fecha}"
+                    required
+                    class="w-full bg-transparent outline-none text-[#4A4A4A]"
+                  />
+                </div>
+              </div>
+
+              <!-- DROGAS -->
+              <div>
+                <label
+                  class="block text-[#4A4A4A] text-base font-semibold mb-2"
+                >
+                  Drogas
+                </label>
+                <div id="drogas-container" class="space-y-3">
+                  <!-- Drogas existentes -->
+                  <div
+                    th:each="drogaTrat : ${tratamiento.drogas}"
+                    class="flex gap-2 items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                  >
+                    <select
+                      name="drogasIds"
+                      required
+                      onchange="actualizarOpciones()"
+                      class="w-full bg-transparent outline-none text-[#4A4A4A]"
+                    >
+                      <option value="">Seleccione droga</option>
+
+                      <option
+                        th:each="d : ${drogas}"
+                        th:value="${d.id}"
+                        th:text="${d.nombre}"
+                        th:selected="${d.id == drogaTrat.id}"
+                      ></option>
+                    </select>
+
+                    <button
+                      th:if="${tratamiento.drogas.size() > 1}"
+                      type="button"
+                      onclick="eliminarDroga(this)"
+                      class="text-red-500 font-bold px-2"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <!-- Campo para tratamiento nuevo -->
+                  <div
+                    th:if="${#lists.isEmpty(tratamiento.drogas)}"
+                    class="flex gap-2 items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
+                  >
+                    <select
+                      name="drogasIds"
+                      required
+                      onchange="actualizarOpciones()"
+                      class="w-full bg-transparent outline-none text-[#4A4A4A]"
+                    >
+                      <option value="">Seleccione droga</option>
+
+                      <option
+                        th:each="d : ${drogas}"
+                        th:value="${d.id}"
+                        th:text="${d.nombre}"
+                      ></option>
+                    </select>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onclick="agregarDroga()"
+                  class="text-sm font-semibold text-[#2B5392] hover:underline mt-4 ml-2"
+                >
+                  + Agregar otra droga
+                </button>
+              </div>
+
+              <!-- BOTÓN -->
+
+              <button
+                type="submit"
+                class="flex items-center justify-center w-full mt-6 cursor-pointer bg-[#2b5392] text-[#FBFAF8] text-base font-semibold py-3 rounded-xl gap-2 transition shadow-md hover:bg-[#1a3a6b]"
+              >
+                <svg
+                  class="h-6 w-6 sm:h-7 sm:w-7"
+                  fill="#FBFAF8"
+                  viewBox="0 0 14 14"
+                  role="img"
+                  focusable="false"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M 5.1437726,1 C 3.8705419,1 3.6677179,2.73201 3.9942398,3.6074767 4.2014407,4.1664121 4.8325467,4.7063497 5.4802212,4.4766355 6.317792,4.0625461 6.5544419,3.0007815 6.3213426,2.1775701 6.2083061,1.6291807 5.7708219,1 5.1437726,1 Z M 8.7045202,1 C 8.0774706,1 7.639987,1.6291807 7.5269501,2.1775701 7.2938514,3.0007815 7.530503,4.0625461 8.3680716,4.4766355 9.0157459,4.7063497 9.6468518,4.1664121 9.8540529,3.6074767 10.180575,2.73201 9.9777512,1 8.7045202,1 Z M 1.4974872,3.775701 C 0.99453653,4.2786516 1.0603984,5.7259965 1.9741226,6.3271028 2.566345,6.6306959 3.1674111,6.238153 3.3759918,5.7663552 3.7282343,5.0962718 3.6314374,4.1437972 3.0115058,3.6635514 2.4181204,3.2675013 1.9623141,3.3108741 1.4974872,3.775701 Z M 10.974123,3.6635514 c -0.432609,0.2497664 -0.716729,1.4327204 -0.364486,2.1028038 0.208581,0.4717982 0.837684,0.8643407 1.429906,0.5607476 C 12.953267,5.7259965 13.000929,4.288489 12.488141,3.775701 12.010882,3.3762084 11.445922,3.3911577 10.974123,3.6635514 Z M 6.9928142,4.9252337 c -2.2297852,0 -4.0373832,1.807598 -4.0373832,4.0373831 C 2.955431,11.192402 4.763029,13 6.9928142,13 9.222599,13 11.030197,11.192402 11.030197,8.9626168 c 0,-2.2297851 -1.807598,-4.0373831 -4.0373828,-4.0373831 z m -0.8971963,1.3457944 1.7943926,0 0,1.7943925 1.7943925,0 0,1.7943924 -1.7943925,0.02804 0,1.766356 -1.7943926,0 0,-1.794393 -1.7943925,0 0,-1.7943924 1.7943925,0 z"
+                    ></path>
+                  </g>
+                </svg>
+                <span
+                  th:text="${tratamiento.id != null} ? 'Guardar Cambios' : 'Registrar Tratamiento'"
+                ></span>
+              </button>
+            </form>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer th:replace="fragmentos::footer"></footer>
+    <script th:src="@{/js/add-tratamiento.js}"></script>
+  </body>
+</html>

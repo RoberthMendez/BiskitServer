@@ -2,8 +2,11 @@ package com.example.biskit.entities;
 
 import com.example.biskit.entities.vets.Vet;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.Id;
@@ -33,8 +36,9 @@ public class Tratamiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
-    private Date fecha;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private LocalDate fecha;
 
     @ManyToOne
     private Pet pet;

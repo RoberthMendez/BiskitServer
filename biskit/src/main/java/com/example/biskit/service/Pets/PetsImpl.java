@@ -9,11 +9,24 @@ import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
 import com.example.biskit.repo.pets.PetsRepo;
 
+import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
+import com.example.biskit.service.Pets.Especie.EspecieService;
+import com.example.biskit.service.Pets.Raza.RazaService;
+
 @Service
 public class PetsImpl implements PetsService {
 
   @Autowired
   private PetsRepo petsRepo;
+
+  @Autowired
+  private EspecieService especieService;
+
+  @Autowired
+  private RazaService razaService;
+
+  @Autowired
+  private EnfermedadService enfermedadService;
 
   @Override
   public Collection<Pet> getPets() {
@@ -41,5 +54,13 @@ public class PetsImpl implements PetsService {
   public Pet getPetById(Long id) {
     return petsRepo.findById(id)
         .orElseThrow(() -> new PetNotFoundException(id));
+  }
+
+  @Override
+  public Pet asignarRelacionesDePetPorIds(Pet pet, Long idEspecie, Long idRaza, Long idEnfermedad) {
+    pet.setEspecie(especieService.getEspecieById(idEspecie));
+    pet.setRaza(razaService.getRazaById(idRaza));
+    pet.setEnfermedad(enfermedadService.getEnfermedadById(idEnfermedad));
+    return pet;
   }
 }

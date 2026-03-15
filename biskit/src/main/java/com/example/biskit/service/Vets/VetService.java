@@ -1,5 +1,11 @@
 package com.example.biskit.service.Vets;
 
-public class VetService {
+import com.example.biskit.entities.vets.Vet;
+import java.util.Collection;
+
+public interface VetService {
+
+    public Collection<Vet> getVets();
+    public Vet getVetById(Long id);
 
 }

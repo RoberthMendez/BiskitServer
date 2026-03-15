@@ -9,4 +9,6 @@ import com.example.biskit.entities.pets.Raza;
 public interface RazaRepo extends JpaRepository<Raza, Long> {
 
     Raza findByNombre(String nombre);
+
+    Raza findByNombreIgnoreCase(String nombre);
 }
