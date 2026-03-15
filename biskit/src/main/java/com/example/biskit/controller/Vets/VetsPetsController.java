@@ -68,9 +68,7 @@ public class VetsPetsController {
   @GetMapping("/pets/update/{id}")
   public String mostrarFormularioUpdatePet(@PathVariable("id") Long id, Model model) {
     Pet pet = petsService.getPetById(id);
-    Client owner = pet.getOwner();
     model.addAttribute("pet", pet);
-    model.addAttribute("owner", owner);
     model.addAttribute("clientes", clientsService.getClients());
     return petsPath + "add-pet";
   }

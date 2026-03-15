@@ -1,4 +1,4 @@
-﻿package com.example.biskit;
+package com.example.biskit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -537,7 +537,7 @@ public class DataLoader implements CommandLineRunner {
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(9f)
                            .URLFoto("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2957.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Jack").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Jack Sparrow").especie(perro)
                            .raza(razaDesdeString("West Highland white terrier"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(8f)
                            .URLFoto("https://images.dog.ceo/breeds/terrier-westhighland/n02098286_4120.jpg")
