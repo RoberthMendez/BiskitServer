@@ -16,4 +16,6 @@ public interface PetsService {
 
   public void deletePet(Long id);
 
+  public Pet asignarRelacionesDePetPorIds(Pet pet, Long idEspecie, Long idRaza, Long idEnfermedad);
+
 }

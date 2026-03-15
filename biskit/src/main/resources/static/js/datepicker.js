@@ -1,0 +1,57 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const fechaInput = document.getElementById("fechaNacimiento");
+
+  if (fechaInput && typeof Datepicker !== "undefined") {
+    Datepicker.locales.es = {
+      days: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ],
+      daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      today: "Hoy",
+      clear: "Borrar",
+      weekStart: 1,
+    };
+
+    new Datepicker(fechaInput, {
+      autohide: true,
+      language: "es",
+      format: "yyyy-mm-dd",
+      maxDate: new Date(),
+    });
+  }
+});
