@@ -50,4 +50,10 @@ public class TratamientosImpl implements TratamientosService {
 
     }
 
+    @Override
+    public void deleteTratamiento(Long id) {
+        Tratamiento tratamiento = getTratamientoById(id);
+        tratamientosRepo.delete(tratamiento);
+    }
+
 }

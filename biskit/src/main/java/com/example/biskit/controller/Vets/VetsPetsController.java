@@ -236,6 +236,16 @@ public class VetsPetsController {
     return petsPath + "info-tratamiento";
   }
 
+  // ----- Eliminar Tratamiento -----
+
+  @GetMapping("/pets/tratamiento/delete/{id}")
+  public String eliminarTratamiento(@PathVariable("id") Long id, Model model) {
+    Tratamiento tratamiento = tratamientosService.getTratamientoById(id);
+    tratamientosService.deleteTratamiento(id);
+
+    return "redirect:/vet/pets/" + tratamiento.getPet().getId();
+  }
+
   // ----- Eliminar Mascota (DELETE) -----
 
   /*
