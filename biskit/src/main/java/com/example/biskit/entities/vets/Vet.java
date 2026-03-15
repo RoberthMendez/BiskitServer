@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
+import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Tratamiento;
 
 @Entity
@@ -23,7 +26,7 @@ import com.example.biskit.entities.Tratamiento;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Veterinario {
+public class Vet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,24 +38,24 @@ public class Veterinario {
     @Column(nullable = false)
     private boolean estado;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 255, unique = true)
+    private String correo;
+
+    @Column(nullable = false, length = 20, unique = true)
     private String cedula;
 
-    @Column(nullable = false, length = 50, unique = true)
-    private String usuario;
+    @Column(length = 255)
+    private String urlFoto;
 
-    @Column(nullable = false, length = 255)
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "credenciales_id")
+    private Credenciales credenciales;
 
     @ManyToOne
     @JoinColumn(name = "especialidad_id")
     private Especialidad especialidad;
 
-    @Column(length = 255)
-    private String urlFoto;
-
-    // Tratamientos
-    @OneToMany(mappedBy = "veterinario")
+    @OneToMany(mappedBy = "vet")
     private List<Tratamiento> tratamientos;
 
 }

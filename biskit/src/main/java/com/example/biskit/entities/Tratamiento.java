@@ -1,10 +1,13 @@
 package com.example.biskit.entities;
 
-import com.example.biskit.entities.vets.Veterinario;
+import com.example.biskit.entities.vets.Vet;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +28,7 @@ import lombok.Builder;
 @Builder
 @Entity
 public class Tratamiento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,8 +37,12 @@ public class Tratamiento {
     private Date fecha;
 
     @ManyToOne
-    private Pet mascota;
+    private Pet pet;
 
     @ManyToOne
-    private Veterinario veterinario;
+    private Vet vet;
+
+    @ManyToMany
+    @Builder.Default
+    private List<Droga> drogas = new ArrayList<>();
 }

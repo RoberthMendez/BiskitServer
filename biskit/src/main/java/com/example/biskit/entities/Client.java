@@ -13,7 +13,9 @@ import com.example.biskit.entities.pets.Pet;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
@@ -38,10 +40,10 @@ public class Client {
   private String correo;
   @Column(name = "celular", nullable = false, length = 20)
   private String celular;
-  @Column(name = "usuario", nullable = false, unique = true, length = 50)
-  private String usuario;
-  @Column(name = "password", nullable = false, length = 100)
-  private String password;
+  
+  @OneToOne
+  @JoinColumn(name = "credenciales_id")
+  private Credenciales credenciales;
 
   @OneToMany(mappedBy = "owner")
   private List<Pet> pets;

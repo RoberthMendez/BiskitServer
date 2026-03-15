@@ -87,13 +87,13 @@ public class ClientsImpl implements ClientsService {
   @Override
   public boolean autenticarClient(String usuario, String contrasena) {
     return clientsRepo.findAll().stream()
-        .anyMatch(client -> client.getUsuario().equals(usuario) && client.getPassword().equals(contrasena));
+        .anyMatch(client -> client.getCredenciales().getUsuario().equals(usuario) && client.getCredenciales().getPassword().equals(contrasena));
   }
 
   @Override
   public Client findByUsuario(String usuario) {
     return clientsRepo.findAll().stream()
-        .filter(client -> client.getUsuario().equals(usuario))
+        .filter(client -> client.getCredenciales().getUsuario().equals(usuario))
         .findFirst()
         .orElse(null);
   }
