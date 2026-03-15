@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface EnfermedadRepo extends JpaRepository<Enfermedad, Long> {
 
+    Enfermedad findByNombreIgnoreCase(String nombre);
+
 }
