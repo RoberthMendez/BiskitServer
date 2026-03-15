@@ -76,7 +76,7 @@
 
         <!-- Formulario -->
         <article
-          class="flex flex-col overflow-hidden rounded-b-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)]"
+          class="flex flex-col overflow-visible rounded-b-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)]"
         >
           <!-- Título -->
           <div class="flex items-center gap-7 rounded-t-2xl bg-[#F6F7F8] px-8 py-5">
@@ -107,41 +107,82 @@
 
               <!-- MASCOTA -->
 
-              <div>
+              <div class="relative">
                 <label class="mb-2 block text-base font-semibold text-[#4A4A4A]"> Mascota </label>
                 <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-                  <select
-                    th:field="*{pet.id}"
+                  <input
+                    type="text"
+                    id="mascotaSearch"
+                    th:value="${tratamiento.pet != null ? tratamiento.pet.nombre : ''}"
+                    placeholder="Buscar mascota..."
+                    autocomplete="off"
                     required
                     class="w-full bg-transparent text-[#4A4A4A] outline-none"
+                  />
+                </div>
+                <input
+                  type="hidden"
+                  name="pet.id"
+                  id="mascotaId"
+                  th:value="${tratamiento.pet != null ? tratamiento.pet.id : ''}"
+                />
+                <div
+                  id="mascotaDropdown"
+                  class="custom-scroll pointer-events-none absolute z-10 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
+                >
+                  <div
+                    th:each="p : ${pets}"
+                    class="mascota-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
+                    th:data-id="${p.id}"
+                    th:data-nombre="${p.nombre}"
+                    th:data-especie="${p.especie.nombre}"
+                    th:data-raza="${p.raza.nombre}"
                   >
-                    <option value="">Seleccione mascota</option>
-                    <option
-                      th:each="p : ${pets}"
-                      th:value="${p.id}"
-                      th:text="${p.nombre + ' - ' + p.especie.nombre + ' - ' + p.raza.nombre}"
-                    ></option>
-                  </select>
+                    <p class="text-sm font-semibold text-gray-800" th:text="${p.nombre}"></p>
+                    <p
+                      class="text-xs text-gray-500"
+                      th:text="${p.especie.nombre + ' - ' + p.raza.nombre}"
+                    ></p>
+                  </div>
                 </div>
               </div>
 
               <!-- VETERINARIO -->
 
-              <div>
+              <div class="relative">
                 <label class="mb-2 block text-base font-semibold text-[#4A4A4A]">
                   Veterinario
                 </label>
 
                 <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-                  <select
-                    th:field="*{vet.id}"
+                  <input
+                    type="text"
+                    id="vetSearch"
+                    th:value="${tratamiento.vet != null ? tratamiento.vet.nombre : ''}"
+                    placeholder="Buscar veterinario..."
+                    autocomplete="off"
                     required
                     class="w-full bg-transparent text-[#4A4A4A] outline-none"
+                  />
+                </div>
+                <input
+                  type="hidden"
+                  name="vet.id"
+                  id="vetId"
+                  th:value="${tratamiento.vet != null ? tratamiento.vet.id : ''}"
+                />
+                <div
+                  id="vetDropdown"
+                  class="custom-scroll pointer-events-none absolute z-10 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
+                >
+                  <div
+                    th:each="v : ${vets}"
+                    class="vet-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
+                    th:data-id="${v.id}"
+                    th:data-nombre="${v.nombre}"
                   >
-                    <option value="">Seleccione veterinario</option>
-
-                    <option th:each="v : ${vets}" th:value="${v.id}" th:text="${v.nombre}"></option>
-                  </select>
+                    <p class="text-sm font-semibold text-gray-800" th:text="${v.nombre}"></p>
+                  </div>
                 </div>
               </div>
 
@@ -164,26 +205,27 @@
               <div>
                 <label class="mb-2 block text-base font-semibold text-[#4A4A4A]"> Drogas </label>
                 <div id="drogas-container" class="space-y-3">
-                  <!-- Drogas existentes -->
                   <div
                     th:each="drogaTrat : ${tratamiento.drogas}"
-                    class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
+                    class="relative flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
                   >
-                    <select
+                    <div class="flex-1">
+                      <input
+                        type="text"
+                        th:value="${drogaTrat.nombre}"
+                        th:id="'drogaSearch' + ${drogaTratStat.index}"
+                        placeholder="Buscar droga"
+                        autocomplete="off"
+                        required
+                        class="w-full bg-transparent text-[#4A4A4A] outline-none"
+                      />
+                    </div>
+                    <input
+                      type="hidden"
                       name="drogasIds"
-                      required
-                      onchange="actualizarOpciones()"
-                      class="w-full bg-transparent text-[#4A4A4A] outline-none"
-                    >
-                      <option value="">Seleccione droga</option>
-
-                      <option
-                        th:each="d : ${drogas}"
-                        th:value="${d.id}"
-                        th:text="${d.nombre}"
-                        th:selected="${d.id == drogaTrat.id}"
-                      ></option>
-                    </select>
+                      th:value="${drogaTrat.id}"
+                      th:id="'drogaId' + ${drogaTratStat.index}"
+                    />
 
                     <button
                       th:if="${tratamiento.drogas.size() > 1}"
@@ -193,27 +235,52 @@
                     >
                       ✕
                     </button>
+
+                    <div
+                      th:id="'drogaDropdown' + ${drogaTratStat.index}"
+                      class="custom-scroll pointer-events-none absolute top-full z-20 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
+                    >
+                      <div
+                        th:each="d : ${drogas}"
+                        class="droga-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
+                        th:data-id="${d.id}"
+                        th:data-nombre="${d.nombre}"
+                      >
+                        <p class="text-sm font-semibold text-gray-800" th:text="${d.nombre}"></p>
+                      </div>
+                    </div>
                   </div>
 
                   <!-- Campo para tratamiento nuevo -->
                   <div
                     th:if="${#lists.isEmpty(tratamiento.drogas)}"
-                    class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
+                    class="relative flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3"
                   >
-                    <select
-                      name="drogasIds"
-                      required
-                      onchange="actualizarOpciones()"
-                      class="w-full bg-transparent text-[#4A4A4A] outline-none"
-                    >
-                      <option value="">Seleccione droga</option>
+                    <div class="flex-1">
+                      <input
+                        type="text"
+                        id="drogaSearch0"
+                        placeholder="Buscar droga"
+                        autocomplete="off"
+                        required
+                        class="w-full bg-transparent text-[#4A4A4A] outline-none"
+                      />
+                    </div>
+                    <input type="hidden" name="drogasIds" id="drogaId0" />
 
-                      <option
+                    <div
+                      id="drogaDropdown0"
+                      class="custom-scroll pointer-events-none absolute top-full right-0 left-0 z-20 mt-1 hidden max-h-60 w-auto -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
+                    >
+                      <div
                         th:each="d : ${drogas}"
-                        th:value="${d.id}"
-                        th:text="${d.nombre}"
-                      ></option>
-                    </select>
+                        class="droga-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
+                        th:data-id="${d.id}"
+                        th:data-nombre="${d.nombre}"
+                      >
+                        <p class="text-sm font-semibold text-gray-800" th:text="${d.nombre}"></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <button
