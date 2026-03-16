@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -80,6 +82,26 @@ public class VetsPetsController {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     dateFormat.setLenient(false);
     binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+  }
+
+  // ----- Cambiar Estado de Mascota -----
+
+  @PatchMapping("/pets/update-estado/{id}")
+  @ResponseBody
+  public Map<String, Object> cambiarEstadoMascota(@PathVariable("id") Long id,
+      @RequestBody Map<String, Boolean> body) {
+    Map<String, Object> response = new HashMap<>();
+    try {
+      Pet pet = petsService.getPetById(id);
+      pet.setEstado(body.get("estado"));
+      petsService.updatePet(pet);
+      response.put("ok", true);
+      response.put("estado", pet.isEstado());
+    } catch (Exception e) {
+      response.put("ok", false);
+      response.put("message", "Error al actualizar el estado");
+    }
+    return response;
   }
 
   // ----- Mostrar Mascotas (READ) -----

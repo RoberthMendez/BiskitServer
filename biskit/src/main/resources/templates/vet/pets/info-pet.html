@@ -97,13 +97,14 @@
                   class="h-48 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:h-56 md:h-65"
                 />
                 <label
-                  th:for="${'interruptor-' + pet.id}"
+                  onclick="event.stopPropagation()"
                   class="toggle-switch absolute bottom-3 left-1/2 z-20 flex w-fit -translate-x-1/2 cursor-pointer items-center rounded-full bg-[#FBFAF8] px-1 py-1 shadow-sm"
                 >
                   <input
                     th:id="${'interruptor-' + pet.id}"
+                    th:attr="data-pet-id=${pet.id}"
                     type="checkbox"
-                    th:checked="${pet.estado != null and pet.estado}"
+                    th:checked="${pet.estado != null and pet.estado == true}"
                     class="peer hidden"
                   />
                   <span
@@ -328,7 +329,7 @@
               <a
                 th:each="t : ${pet.tratamientos}"
                 th:href="@{/vet/pets/tratamiento/{id}(id=${t.id})}"
-                class="flex gap-2 mx-5 mb-5 hover:bg-blue-50 rounded-lg p-2 transition"
+                class="mx-5 mb-5 flex gap-2 rounded-lg p-2 transition hover:bg-blue-50"
               >
                 <div class="w-0.5 bg-[#2B5392]"></div>
 

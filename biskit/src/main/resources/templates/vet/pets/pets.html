@@ -181,10 +181,10 @@
                   >
                     <input
                       th:id="${'interruptor-' + pet.id}"
+                      th:attr="data-pet-id=${pet.id}"
                       type="checkbox"
                       th:checked="${pet.estado != null and pet.estado == true}"
                       class="peer hidden"
-                      onClick="cambiarEstadoMascota(pet.id, this.checked)"
                     />
                     <span
                       aria-hidden="true"

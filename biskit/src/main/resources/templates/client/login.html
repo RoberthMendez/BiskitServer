@@ -25,70 +25,24 @@
     </style>
   </head>
 
-  <body class="min-h-screen font-[Inter,sans-serif] bg-white">
+  <body class="min-h-screen bg-white font-[Inter,sans-serif]">
     <!-- Pantalla completa -->
-    <main class="w-screen h-screen">
-      <section class="w-full h-full grid grid-cols-1 lg:grid-cols-2">
+    <main class="h-screen w-screen">
+      <section class="grid h-full w-full grid-cols-1 lg:grid-cols-2">
         <!-- IZQUIERDA -->
-        <div class="relative w-full h-full">
+        <div class="relative flex h-full w-full flex-col justify-center">
           <!-- botón volver (arriba) -->
-          <div class="pl-6 sm:pl-8 lg:pl-16 pt-4">
-            <a
-              th:if="${isClient == null or !isClient}"
-              th:href="@{/}"
-              class="back-link group inline-flex justify-start items-center h-10 mt-6 sm:mt-8 mb-2"
-            >
-              <svg
-                class="h-9 mt-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M8 12L16 12"
-                    stroke="#6B6B6B"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M11 9L8.08704 11.913V11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087V12.087L11 15"
-                    stroke="#6B6B6B"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                </g>
-              </svg>
-              <h2
-                class="underline underline-offset-6 font-bold tracking-wider text-base sm:text-md text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
-              >
-                Volver a la Página Principal
-              </h2>
-            </a>
-          </div>
-          <div class="px-10 sm:px-18 lg:px-26 mt-6 flex">
+          <div class="mt-6 flex px-10 sm:px-18 lg:px-26">
             <div class="w-full">
-              <h1
-                class="text-[38px] sm:text-[44px] leading-[1.1] font-semibold text-[#4a4a4a]"
-              >
+              <h1 class="text-[38px] leading-[1.1] font-semibold text-[#4a4a4a] sm:text-[44px]">
                 Bienvenido a Biskit
               </h1>
-              <p
-                class="mt-4 text-[15px] text-[#8d8580dd] font-semibold max-w-md"
-              >
-                Inicia sesión para ver el historial y seguimiento de tus
-                mascotas en nuestra veterinaria.
+              <p class="mt-4 max-w-md text-[15px] font-semibold text-[#8d8580dd]">
+                Inicia sesión para ver el historial y seguimiento de tus mascotas en nuestra
+                veterinaria.
               </p>
               <form
-                class="relative mt-6 space-y-9 max-w-md"
+                class="relative mt-6 max-w-md space-y-9"
                 th:action="@{/client/login}"
                 method="post"
                 autocomplete="on"
@@ -100,11 +54,11 @@
                     type="text"
                     required
                     placeholder=" "
-                    class="peer w-full bg-transparent border-0 border-b border-gray-300 focus:border-gray-800 focus:ring-0 px-0 pt-6 pb-2 text-gray-900 outline-none"
+                    class="peer w-full border-0 border-b border-gray-300 bg-transparent px-0 pt-6 pb-2 text-gray-900 outline-none focus:border-gray-800 focus:ring-0"
                   />
                   <label
                     for="usuario"
-                    class="cursor-text absolute left-0 top-2 text-sm text-gray-500 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600"
+                    class="absolute top-2 left-0 cursor-text text-sm text-gray-500 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Usuario
                   </label>
@@ -116,11 +70,11 @@
                     type="password"
                     required
                     placeholder=" "
-                    class="peer w-full bg-transparent border-0 border-b border-gray-300 focus:border-gray-800 focus:ring-0 px-0 pt-6 pb-2 text-gray-900 outline-none"
+                    class="peer w-full border-0 border-b border-gray-300 bg-transparent px-0 pt-6 pb-2 text-gray-900 outline-none focus:border-gray-800 focus:ring-0"
                   />
                   <label
                     for="contrasena"
-                    class="cursor-text absolute left-0 top-2 text-sm text-gray-500 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600"
+                    class="absolute top-2 left-0 cursor-text text-sm text-gray-500 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Contraseña
                   </label>
@@ -128,7 +82,7 @@
                 <div class="pt-2">
                   <button
                     type="submit"
-                    class="cursor-pointer w-44 h-12 rounded-full bg-[#2b5392] text-white font-medium shadow-[0_10px_25px_rgba(120,169,215,0.35)] transition-all duration-300 hover:bg-[#1a3a6b]"
+                    class="h-12 w-44 cursor-pointer rounded-full bg-[#2b5392] font-medium text-white shadow-[0_10px_25px_rgba(120,169,215,0.35)] transition-all duration-300 hover:bg-[#1a3a6b]"
                   >
                     Ingresar
                   </button>
@@ -136,18 +90,18 @@
                 <p
                   th:if="${error}"
                   th:text="${error}"
-                  class="absolute left-0 -bottom-24 w-full text-[#B22222] bg-[#FEE2E2] px-5 py-4 rounded-md border border-[#B22222]"
+                  class="absolute -bottom-24 left-0 w-full rounded-md border border-[#B22222] bg-[#FEE2E2] px-5 py-4 text-[#B22222]"
                 ></p>
               </form>
             </div>
           </div>
         </div>
         <!-- DERECHA: IMAGEN (pantalla completa) -->
-        <div class="relative hidden lg:block w-full h-full">
+        <div class="relative hidden h-full w-full lg:block">
           <img
             th:src="@{/images/client/login.png}"
             alt="Login Cliente"
-            class="absolute inset-0 w-full h-full object-cover object-center"
+            class="absolute inset-0 h-full w-full object-cover object-center"
           />
         </div>
       </section>
