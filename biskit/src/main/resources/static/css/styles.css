@@ -22,5 +22,66 @@ a {
   text-decoration: none;
 }
 
+/* Scroll reveal animations */
+.reveal-up {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
 
+.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
 
+/* Hero initial load animation */
+#hero h2,
+#hero p,
+#hero > div {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+body.hero-ready #hero h2,
+body.hero-ready #hero p,
+body.hero-ready #hero > div {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+body.hero-ready #hero h2 {
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.hero-ready #hero p {
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 120ms,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+}
+
+body.hero-ready #hero > div {
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 220ms,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-up,
+  .reveal-up.is-visible,
+  #hero h2,
+  #hero p,
+  #hero > div {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

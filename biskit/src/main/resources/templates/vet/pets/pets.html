@@ -21,7 +21,7 @@
       <!----- Devolver ----->
       <div th:replace="fragmentos::volver-al-panel"></div>
       <!----- Titulo ----->
-      <section class="mx-6 mt-4 mb-7 grid grid-cols-2 sm:mx-16 md:mx-24 lg:mx-36">
+      <section id="pets-titulo" class="mx-6 mt-4 mb-7 grid grid-cols-2 sm:mx-16 md:mx-24 lg:mx-36">
         <!----- Mascotas Registradas ----->
         <div class="text-[#4a4a4a]">
           <h1 class="text-2xl font-semibold tracking-wider text-[#4a4a4a] sm:text-3xl md:text-4xl">
@@ -65,7 +65,7 @@
       <!----- Buscar y Mascotas ----->
       <section class="mx-4 sm:mx-16 md:mx-24 lg:mx-36">
         <!-- Buscar -->
-        <div class="mb-5 flex h-10 items-center rounded-full bg-[#efe7df80]">
+        <div id="pets-buscar" class="mb-5 flex h-10 items-center rounded-full bg-[#efe7df80]">
           <svg class="ml-5 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -388,5 +388,78 @@
     <footer th:replace="fragmentos::footer"></footer>
     <script th:src="@{/js/pets.js}"></script>
     <script th:src="@{/js/switch-estado.js}"></script>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // --- Animación de carga: volver, título, botón y buscador ---
+        const volver = document.querySelector(".back-link");
+        const titulo = document.querySelector("#pets-titulo > div:first-child");
+        const botonAgregar = document.querySelector("#pets-titulo > div:last-child");
+        const buscador = document.querySelector("#pets-buscar");
+        const headerEls = [volver, titulo, botonAgregar, buscador].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 80);
+              });
+            });
+          });
+        }
+
+        // --- Animación scroll: tarjetas de mascotas ---
+        const cards = [...document.querySelectorAll(".card-mascota")];
+        if (!cards.length || prefersReducedMotion) return;
+
+        cards.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 55;
+        const CARD_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = CARD_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        cards.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>

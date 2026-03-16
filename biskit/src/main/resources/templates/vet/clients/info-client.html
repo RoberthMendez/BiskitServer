@@ -43,10 +43,13 @@
         Lista de Clientes
       </h2>
     </a>
-    <main class="mx-4 mt-2 mb-10 flex flex-col gap-2 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-35">
+    <main
+      id="info-client-main"
+      class="mx-4 mt-2 mb-10 flex flex-col gap-2 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-35"
+    >
       <!-- Info Cliente -->
       <section
-        class="my-3 flex h-auto flex-col gap-6 rounded-2xl bg-[#FBFAF8] px-4 py-8 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] lg:gap-8 lg:px-6 lg:py-10 xl:gap-12 xl:px-8 xl:py-15"
+        class="info-client-top my-3 flex h-auto flex-col gap-6 rounded-2xl bg-[#FBFAF8] px-4 py-8 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] lg:gap-8 lg:px-6 lg:py-10 xl:gap-12 xl:px-8 xl:py-15"
       >
         <!-- Parte superior -->
         <article
@@ -250,7 +253,7 @@
       </section>
       <!-- Mascotas Registradas -->
       <section
-        class="my-3 flex h-auto flex-col gap-4 rounded-2xl bg-[#FBFAF8] px-4 py-6 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] sm:px-6 sm:py-10 md:px-8 md:py-10"
+        class="info-client-pets my-3 flex h-auto flex-col gap-4 rounded-2xl bg-[#FBFAF8] px-4 py-6 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] sm:px-6 sm:py-10 md:px-8 md:py-10"
       >
         <div class="mx-4 flex flex-col sm:mx-8 md:mx-15">
           <h1 class="text-2xl font-semibold text-[#4a4a4a] sm:text-3xl md:text-4xl">
@@ -289,7 +292,7 @@
               <tbody class="text-[#4A4A4A]">
                 <tr
                   th:each="pet : ${pets}"
-                  class="group border-b border-[#EAE6E1] transition-colors duration-200 hover:bg-[#F2F6FC]"
+                  class="info-client-pet-row group border-b border-[#EAE6E1] transition-colors duration-200 hover:bg-[#F2F6FC]"
                 >
                   <td class="flex px-8 py-7">
                     <img
@@ -329,7 +332,7 @@
         <div class="space-y-4 lg:hidden">
           <div
             th:each="pet : ${pets}"
-            class="rounded-xl border border-[#EAE6E1] bg-white p-4 transition-shadow duration-200 hover:shadow-lg sm:p-6"
+            class="info-client-pet-card rounded-xl border border-[#EAE6E1] bg-white p-4 transition-shadow duration-200 hover:shadow-lg sm:p-6"
           >
             <div class="mb-4 flex items-start gap-4">
               <img
@@ -424,5 +427,79 @@
       <script th:src="@{/js/modal-eliminar-cliente.js}"></script>
     </main>
     <footer th:replace="fragmentos::footer"></footer>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const backLink = document.querySelector(".back-link");
+        const topSection = document.querySelector(".info-client-top");
+        const topParts = topSection ? [...topSection.querySelectorAll(":scope > article")] : [];
+        const headerEls = [backLink, ...topParts].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 90);
+              });
+            });
+          });
+        }
+
+        const petsSection = document.querySelector(".info-client-pets");
+        const petRows = [...document.querySelectorAll(".info-client-pet-row")];
+        const petCards = [...document.querySelectorAll(".info-client-pet-card")];
+        const scrollTargets = [petsSection, ...petRows, ...petCards].filter(Boolean);
+
+        if (!scrollTargets.length || prefersReducedMotion) return;
+
+        scrollTargets.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 50;
+        const REVEAL_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = REVEAL_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        scrollTargets.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>
