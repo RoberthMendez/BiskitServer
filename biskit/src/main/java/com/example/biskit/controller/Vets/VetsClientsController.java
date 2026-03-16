@@ -26,6 +26,11 @@ public class VetsClientsController {
 
   private static final String clientsPath = "vet/clients/";
 
+  @GetMapping("")
+  public String getMethodName() {
+    return "vet/vet-panel";
+  }
+
   // ----- Mostrar Clientes (READ) -----
   @GetMapping("/clients")
   public String mostrarClientes(Model model) {
