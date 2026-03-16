@@ -33,5 +33,11 @@ public class CredencialesImpl implements CredencialesService {
     public void deleteCredenciales(Long id) {
         credencialesRepo.deleteById(id);
     }  
+
+    @Override
+    public boolean existeUsuario(String usuario) {
+
+        return credencialesRepo.existsByUsuario(usuario);
+    }
     
 }

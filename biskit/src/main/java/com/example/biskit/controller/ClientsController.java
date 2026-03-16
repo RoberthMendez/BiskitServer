@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Pets.PetsService;
+import com.example.biskit.service.Tratamientos.TratamientosService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,9 @@ public class ClientsController {
 
   @Autowired
   ClientsService clientsService;
+
+  @Autowired
+  TratamientosService tratamientosService;
 
   @Autowired
   PetsService petsService;
@@ -58,6 +65,20 @@ public class ClientsController {
     model.addAttribute("client", clientsService.getClientById(idClient));
     model.addAttribute("pet", petsService.getPetById(idPet));
     return "client/info-pet";
+  }
+
+  @GetMapping("/pets/tratamiento/{idTratamiento}")
+  public String mostrarTratamiento(@PathVariable("idTratamiento") Long idTratamiento, Model model) {
+
+    Tratamiento tratamiento = tratamientosService.getTratamientoById(idTratamiento);
+    Pet pet = tratamiento.getPet();
+    Client owner = pet.getOwner();
+    Vet vet = tratamiento.getVet();
+    model.addAttribute("tratamiento", tratamiento);
+    model.addAttribute("pet", pet);
+    model.addAttribute("owner", owner);
+    model.addAttribute("veterinario", vet);
+    return "client/info-tratamiento";
   }
 
 }

@@ -24,5 +24,8 @@ public class DrogasImpl implements DrogasService {
         return drogasRepo.findById(id).orElseThrow(() -> new RuntimeException("No se encontró droga con id: " + id));
     }
 
-
+    @Override
+    public void saveDroga(Droga droga) {
+        drogasRepo.save(droga);
+    }
 }

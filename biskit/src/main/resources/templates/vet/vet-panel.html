@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Panel Veterinario</title>
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Arial, sans-serif;
+                background: #f5f7fb;
+            }
+
+            .panel {
+                text-align: center;
+            }
+
+            .panel h1 {
+                margin-bottom: 24px;
+                color: #2b2b2b;
+            }
+
+            .actions {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+            }
+
+            .btn {
+                text-decoration: none;
+                padding: 10px 18px;
+                border-radius: 8px;
+                background: #2b5392;
+                color: #fff;
+                font-weight: 600;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="panel">
+            <h1>Este es un panel provisional, pronto se verá el chevere</h1>
+            <div class="actions">
+                <a class="btn" th:href="@{/vet/pets}">Ir a mascotas</a>
+                <a class="btn" th:href="@{/vet/clients}">Ir a clientes</a>
+            </div>
+        </main>
+    </body>
+</html>

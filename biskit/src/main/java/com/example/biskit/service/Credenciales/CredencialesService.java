@@ -12,5 +12,7 @@ public interface CredencialesService {
     public void addCredenciales(Credenciales credenciales);
 
     public void deleteCredenciales(Long id);
-    
+
+    public boolean existeUsuario(String usuario);
+
 }

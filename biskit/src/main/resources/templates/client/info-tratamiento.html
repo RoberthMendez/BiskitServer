@@ -92,7 +92,7 @@
           </div>
 
           <a
-            th:href="@{/vet/pets/{id}(id=${pet.id})}"
+            th:href="@{/client/{ownerid}/pets/{id}(ownerid=${owner.id},id=${pet.id})}"
             class="back-link group absolute top-8 left-5 sm:left-8 md:left-16 lg:left-28 z-10 inline-flex justify-start items-center h-10"
           >
             <svg
@@ -135,99 +135,24 @@
         <div
           class="container mx-auto px-4 pb-12 max-w-5xl relative z-20 -mt-32 md:-mt-48"
         >
-          <div
-            class="mb-6 flex items-end justify-between gap-4 scroll-reveal"
-            data-reveal
-          >
-            <div class="text-left">
-              <p
-                class="text-sm font-medium text-blue-500 uppercase tracking-[0.3em] mb-2"
+          <div class="mb-6 text-left scroll-reveal" data-reveal>
+            <p
+              class="text-sm font-medium text-blue-500 uppercase tracking-[0.3em] mb-2"
+            >
+              Paciente
+            </p>
+            <h1
+              class="text-3xl md:text-4xl font-bold text-gray-900"
+              th:text="${pet.nombre}"
+            ></h1>
+            <p class="text-gray-600 mt-2 capitalize text-base md:text-lg">
+              <span th:text="${pet.especie.nombre}"></span>
+              <span
+                th:if="${pet.raza != null}"
+                th:text="${' · ' + pet.raza.nombre}"
               >
-                Paciente
-              </p>
-              <h1
-                class="text-3xl md:text-4xl font-bold text-gray-900"
-                th:text="${pet.nombre}"
-              ></h1>
-              <p class="text-gray-600 mt-2 capitalize text-base md:text-lg">
-                <span th:text="${pet.especie.nombre}"></span>
-                <span
-                  th:if="${pet.raza != null}"
-                  th:text="${' · ' + pet.raza.nombre}"
-                >
-                </span>
-              </p>
-            </div>
-
-            <div class="flex items-center gap-2 shrink-0 self-end">
-              <!-- Editar -->
-              <a
-                th:href="@{/vet/pets/tratamiento/update/{id}(id=${tratamiento.id})}"
-                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-semibold px-4 py-2.5 hover:bg-slate-100 hover:text-slate-800 transition-colors duration-200"
-              >
-                <svg
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005Z"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                Editar
-              </a>
-
-              <!-- Eliminar -->
-              <form
-                th:action="@{/vet/pets/tratamiento/delete/{id}(id=${tratamiento.id})}"
-                method="post"
-                onsubmit="
-                  return confirm(
-                    '¿Seguro que deseas eliminar este tratamiento?',
-                  );
-                "
-              >
-                <button
-                  type="submit"
-                  class="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-semibold px-4 py-2.5 hover:bg-rose-100 hover:text-rose-800 transition-colors duration-200 hover:cursor-pointer"
-                >
-                  <svg
-                    class="h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 6H5H21"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 6H19Z"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  Eliminar
-                </button>
-              </form>
-            </div>
+              </span>
+            </p>
           </div>
 
           <div
@@ -581,6 +506,27 @@
                       th:text="${veterinario.especialidad.nombre != null ? 'Especializado en ' + veterinario.especialidad.nombre : 'Especialidad no registrada'}"
                     ></p>
                   </div>
+
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2B5392] text-white font-semibold px-4 py-2.5 hover:bg-[#234577] transition-colors duration-200 self-start hover:cursor-pointer"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 10H16M8 14H13M7 20L4 21V6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V16C20 17.1046 19.1046 18 18 18H9L7 20Z"
+                        stroke="white"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    Chatear
+                  </button>
                 </div>
               </div>
             </div>
@@ -614,27 +560,6 @@
                     </span>
                   </div>
                 </div>
-
-                <button
-                  type="button"
-                  class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2B5392] text-white font-semibold px-4 py-2.5 hover:bg-[#234577] transition-colors duration-200 self-start mt-auto hover:cursor-pointer"
-                >
-                  <svg
-                    class="h-5 w-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 10H16M8 14H13M7 20L4 21V6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V16C20 17.1046 19.1046 18 18 18H9L7 20Z"
-                      stroke="white"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  Chatear
-                </button>
               </div>
             </div>
           </div>
@@ -643,7 +568,6 @@
     </main>
     <footer th:replace="fragmentos::footer"></footer>
     <script th:src="@{/js/switch-estado.js}"></script>
-
     <script th:src="@{/js/info-tratamiento.js}"></script>
   </body>
 </html>

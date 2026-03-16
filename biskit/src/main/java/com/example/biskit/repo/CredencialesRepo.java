@@ -7,4 +7,5 @@ import com.example.biskit.entities.Credenciales;
 @Repository
 public interface CredencialesRepo extends JpaRepository<Credenciales, Long> {
 
+    boolean existsByUsuario(String usuario);
 }

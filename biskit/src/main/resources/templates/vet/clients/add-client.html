@@ -106,6 +106,9 @@
               method="post"
               th:action="@{/vet/clients/add}"
             >
+            <div th:if="${error}">
+              <p class="text-red-500 text-sm" th:text="${error}"></p>
+            </div>
               <input type="hidden" th:field="*{id}" />
               <!-- Nombre completo -->
               <div>

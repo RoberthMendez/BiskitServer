@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.repo.ClientsRepo;
-import com.example.biskit.service.Pets.PetsImpl;
+import com.example.biskit.service.Pets.PetsService;
+import com.example.biskit.service.Credenciales.CredencialesService;
 
 import com.example.biskit.errors.ClientNotFoundException;
 
@@ -21,7 +23,10 @@ public class ClientsImpl implements ClientsService {
   private ClientsRepo clientsRepo;
 
   @Autowired
-  private PetsImpl petsService;
+  private PetsService petsService;
+
+  @Autowired
+  private CredencialesService credencialesService;
 
   @Override
   public Collection<Client> getClients() {
@@ -30,6 +35,14 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public void addClient(Client client) {
+
+    Credenciales credenciales = Credenciales.builder()
+        .usuario(client.getCorreo())
+        .password(client.getCedula())
+        .build();
+
+    credencialesService.addCredenciales(credenciales);
+    client.setCredenciales(credenciales);
     clientsRepo.save(client);
   }
 
@@ -87,7 +100,8 @@ public class ClientsImpl implements ClientsService {
   @Override
   public boolean autenticarClient(String usuario, String contrasena) {
     return clientsRepo.findAll().stream()
-        .anyMatch(client -> client.getCredenciales().getUsuario().equals(usuario) && client.getCredenciales().getPassword().equals(contrasena));
+        .anyMatch(client -> client.getCredenciales().getUsuario().equals(usuario)
+            && client.getCredenciales().getPassword().equals(contrasena));
   }
 
   @Override
@@ -104,4 +118,15 @@ public class ClientsImpl implements ClientsService {
         .orElseThrow(() -> new ClientNotFoundException(id));
   }
 
+  @Override
+  public boolean existeCedula(String cedula) {
+    return clientsRepo.findAll().stream()
+        .anyMatch(client -> client.getCedula().equals(cedula));
+  }
+
+  @Override
+  public boolean existeCorreo(String correo) {
+    return clientsRepo.findAll().stream()
+        .anyMatch(client -> client.getCorreo().equals(correo));
+  }
 }

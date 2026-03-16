@@ -11,4 +11,6 @@ public interface VetService {
 
     public void addVet(Vet vet);
 
+    public void saveVet(Vet vet);
+
 }
