@@ -1,6 +1,5 @@
 package com.example.biskit.service.Vets;
 
-import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.repo.vets.VetsRepo;

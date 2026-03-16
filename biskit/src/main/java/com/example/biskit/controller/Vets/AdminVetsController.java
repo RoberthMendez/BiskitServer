@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.service.Vets.EspecialidadesService;
 import com.example.biskit.service.Vets.VetService;
 import com.example.biskit.entities.Credenciales;
@@ -29,9 +28,6 @@ public class AdminVetsController {
 
     @Autowired
     private EspecialidadesService especialidadesService;
-
-    @Autowired
-    private CredencialesService credencialesService;
 
     private static final String vetsPath = "admin/vet/";
 
