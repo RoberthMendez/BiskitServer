@@ -9,6 +9,8 @@ public interface VetService {
 
     public Vet getVetById(Long id);
 
+    public void addVet(Vet vet);
+
     public void saveVet(Vet vet);
 
 }

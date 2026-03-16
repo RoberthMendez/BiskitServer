@@ -1,22 +1,27 @@
 package com.example.biskit.service.Credenciales;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.biskit.repo.CredencialesRepo;
-import com.example.biskit.entities.Credenciales;
-
 import org.springframework.stereotype.Service;
 
-@Service
+import com.example.biskit.entities.Credenciales;
+import com.example.biskit.repo.CredencialesRepo;
 
+@Service
 public class CredencialesImpl implements CredencialesService {
+
     @Autowired
     private CredencialesRepo credencialesRepo;
 
     @Override
-    public boolean existeUsuario(String usuario) {
+    public Collection<Credenciales> getCredenciales() {
+        return credencialesRepo.findAll();
+    }
 
-        return credencialesRepo.existsByUsuario(usuario);
+    @Override
+    public Credenciales getCredencialesById(Long id) {
+        return credencialesRepo.findById(id).orElseThrow(() -> new RuntimeException("No se encontraron credenciales con id: " + id));
     }
 
     @Override
@@ -24,4 +29,15 @@ public class CredencialesImpl implements CredencialesService {
         credencialesRepo.save(credenciales);
     }
 
+    @Override
+    public void deleteCredenciales(Long id) {
+        credencialesRepo.deleteById(id);
+    }  
+
+    @Override
+    public boolean existeUsuario(String usuario) {
+
+        return credencialesRepo.existsByUsuario(usuario);
+    }
+    
 }
