@@ -176,9 +176,7 @@ public class VetsPetsController {
   @GetMapping("/pets/update/{id}")
   public String mostrarFormularioUpdatePet(@PathVariable("id") Long id, Model model) {
     Pet pet = petsService.getPetById(id);
-    Client owner = pet.getOwner();
     model.addAttribute("pet", pet);
-    model.addAttribute("owner", owner);
     model.addAttribute("clientes", clientsService.getClients());
     model.addAttribute("especies", especieService.getAllEspecies());
     model.addAttribute("razas", razaService.getAllRazas());
@@ -245,6 +243,8 @@ public class VetsPetsController {
     model.addAttribute("veterinario", vet);
     return petsPath + "info-tratamiento";
   }
+
+  // ----- Eliminar Tratamiento -----
 
   @PostMapping("/pets/tratamiento/delete/{id}")
   public String eliminarTratamiento(@PathVariable("id") Long id) {

@@ -1,4 +1,4 @@
-﻿package com.example.biskit;
+package com.example.biskit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -360,260 +360,260 @@ public class DataLoader implements CommandLineRunner {
 
         public void cargarMascotas() {
 
-                Especie perro = especieRepo.findByNombre("Perro");
-                Especie gato = especieRepo.findByNombre("Gato");
+          Especie perro = especieRepo.findByNombre("Perro");
+          Especie gato = especieRepo.findByNombre("Gato");
 
-                // PERROS ----------------------------------------------------
-                petsRepo.save(Pet.builder().nombre("Princesa").especie(perro)
-                                .raza(razaDesdeString("Lebrel afgano"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(27f)
-                                .URLFoto("https://images.dog.ceo/breeds/hound-afghan/n02088094_1406.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Charlie").especie(perro)
-                                .raza(razaDesdeString("Beagle"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(12f)
-                                .URLFoto("https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Buddy").especie(perro)
-                                .raza(razaDesdeString("Labrador retriever"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(30f)
-                                .URLFoto("https://images.dog.ceo/breeds/labrador/n02099712_7937.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Toby").especie(perro)
-                                .raza(razaDesdeString("Carlino"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(8f)
-                                .URLFoto("https://images.dog.ceo/breeds/pug/n02110958_11239.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Zeus").especie(perro)
-                                .raza(razaDesdeString("Husky siberiano"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(22f)
-                                .URLFoto("https://images.dog.ceo/breeds/husky/n02110185_1469.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Leo").especie(perro)
-                                .raza(razaDesdeString("Cocker spaniel"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(13f)
-                                .URLFoto("https://images.dog.ceo/breeds/spaniel-cocker/n02102318_1671.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Duke").especie(perro)
-                                .raza(razaDesdeString("Terrier de Norwich"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-norwich/n02094258_2070.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Oliver").especie(perro)
-                                .raza(razaDesdeString("Golden retriever"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(28f)
-                                .URLFoto("https://images.dog.ceo/breeds/retriever-golden/n02099601_3004.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Bentley").especie(perro)
-                                .raza(razaDesdeString("Pastor de Shetland"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(10f)
-                                .URLFoto("https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_10095.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Louie").especie(perro)
-                                .raza(razaDesdeString("Terrier de Yorkshire"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(4f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3812.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Simba").especie(perro)
-                                .raza(razaDesdeString("Bóxer"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(26f)
-                                .URLFoto("https://images.dog.ceo/breeds/boxer/n02108089_9724.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Cooper").especie(perro)
-                                .raza(razaDesdeString("Dálmata"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
-                                .URLFoto("https://images.dog.ceo/breeds/dalmatian/cooper2.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Thor").especie(perro)
-                                .raza(razaDesdeString("Bullmastiff"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(40f)
-                                .URLFoto("https://images.dog.ceo/breeds/mastiff-bull/n02108422_5106.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Kira").especie(perro)
-                                .raza(razaDesdeString("Akita"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(32f)
-                                .URLFoto("https://images.dog.ceo/breeds/akita/512px-Ainu-Dog.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Loki").especie(perro)
-                                .raza(razaDesdeString("Papillón"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(5f)
-                                .URLFoto("https://images.dog.ceo/breeds/papillon/n02086910_7949.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Rex").especie(perro)
-                                .raza(razaDesdeString("Terrier americano"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(11f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-american/n02093428_1482.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Coco").especie(perro)
-                                .raza(razaDesdeString("Chihuahua"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(3f)
-                                .URLFoto("https://images.dog.ceo/breeds/chihuahua/n02085620_7436.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Bobby").especie(perro)
-                                .raza(razaDesdeString("Terrier australiano"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(7f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-australian/n02096294_7175.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Nala").especie(perro)
-                                .raza(razaDesdeString("Dingo"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(18f)
-                                .URLFoto("https://images.dog.ceo/breeds/dingo/n02115641_1228.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Shadow").especie(perro)
-                                .raza(razaDesdeString("Kelpie australiano"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(19f)
-                                .URLFoto("https://images.dog.ceo/breeds/kelpie/n02105412_1973.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Bruno").especie(perro)
-                                .raza(razaDesdeString("Malamute de Alaska"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(35f)
-                                .URLFoto("https://images.dog.ceo/breeds/malamute/n02110063_13625.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Apolo").especie(perro)
-                                .raza(razaDesdeString("Galgo italiano"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(7f)
-                                .URLFoto("https://images.dog.ceo/breeds/greyhound-italian/n02091032_1266.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Hunter").especie(perro)
-                                .raza(razaDesdeString("Otterhound"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(32f)
-                                .URLFoto("https://images.dog.ceo/breeds/otterhound/n02091635_1319.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Sasha").especie(perro)
-                                .raza(razaDesdeString("Saluki"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
-                                .URLFoto("https://images.dog.ceo/breeds/saluki/n02091831_5745.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Koda").especie(perro)
-                                .raza(razaDesdeString("Basenji"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(10f)
-                                .URLFoto("https://images.dog.ceo/breeds/basenji/n02110806_4156.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Balto").especie(perro)
-                                .raza(razaDesdeString("Boyero de Flandes"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(34f)
-                                .URLFoto("https://images.dog.ceo/breeds/bouvier/n02106382_9651.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Ace").especie(perro)
-                                .raza(razaDesdeString("Border collie"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
-                                .URLFoto("https://images.dog.ceo/breeds/collie-border/n02106166_355.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Maverick").especie(perro)
-                                .raza(razaDesdeString("Komondor"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(45f)
-                                .URLFoto("https://images.dog.ceo/breeds/komondor/n02105505_853.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Sam").especie(perro)
-                                .raza(razaDesdeString("Leonberger"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(48f)
-                                .URLFoto("https://images.dog.ceo/breeds/leonberg/n02111129_4903.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Oso").especie(perro)
-                                .raza(razaDesdeString("Terranova"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(50f)
-                                .URLFoto("https://images.dog.ceo/breeds/newfoundland/n02111277_3907.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Chop").especie(perro)
-                                .raza(razaDesdeString("Rottweiler"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(42f)
-                                .URLFoto("https://images.dog.ceo/breeds/rottweiler/n02106550_8776.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Buster").especie(perro)
-                                .raza(razaDesdeString("Chow chow"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(60f)
-                                .URLFoto("https://images.dog.ceo/breeds/chow/n02112137_7428.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Rita").especie(perro)
-                                .raza(razaDesdeString("Weimaraner"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(25f)
-                                .URLFoto("https://images.dog.ceo/breeds/weimaraner/n02092339_8024.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Finn").especie(perro)
-                                .raza(razaDesdeString("Whippet"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(9f)
-                                .URLFoto("https://images.dog.ceo/breeds/whippet/n02091134_392.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Oscar").especie(perro)
-                                .raza(razaDesdeString("Terrier escocés"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(9f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2957.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Jack").especie(perro)
-                                .raza(razaDesdeString("West Highland white terrier"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(8f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-westhighland/n02098286_4120.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Luna").especie(perro)
-                                .raza(razaDesdeString("Vizsla"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
-                                .URLFoto("https://images.dog.ceo/breeds/vizsla/n02100583_12660.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Milo").especie(perro)
-                                .raza(razaDesdeString("Pekinés"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
-                                .URLFoto("https://images.dog.ceo/breeds/pekinese/n02086079_11089.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Dexter").especie(perro)
-                                .raza(razaDesdeString("Pinscher miniatura"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(5f)
-                                .URLFoto("https://images.dog.ceo/breeds/pinscher-miniature/n02107312_1885.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Ranger").especie(perro)
-                                .raza(razaDesdeString("Pointer alemán"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(23f)
-                                .URLFoto("https://images.dog.ceo/breeds/pointer-german/n02100236_689.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Archie").especie(perro)
-                                .raza(razaDesdeString("Caniche miniatura"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(9f)
-                                .URLFoto("https://images.dog.ceo/breeds/poodle-miniature/n02113712_3049.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Musa").especie(perro)
-                                .raza(razaDesdeString("Caniche estándar"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(22f)
-                                .URLFoto("https://images.dog.ceo/breeds/poodle-standard/n02113799_448.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Gizo").especie(perro)
-                                .raza(razaDesdeString("Caniche toy"))
-                                .fechaNacimiento(calcularFechaNacimiento(2)).peso(4f)
-                                .URLFoto("https://images.dog.ceo/breeds/poodle-toy/n02113624_5459.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Fausto").especie(perro)
-                                .raza(razaDesdeString("Schnauzer miniatura"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(8f)
-                                .URLFoto("https://images.dog.ceo/breeds/schnauzer-miniature/n02097047_6884.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Manolo").especie(perro)
-                                .raza(razaDesdeString("Setter inglés"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
-                                .URLFoto("https://images.dog.ceo/breeds/setter-english/n02100735_7553.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Pequitas").especie(perro)
-                                .raza(razaDesdeString("Spaniel bretón"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
-                                .URLFoto("https://images.dog.ceo/breeds/spaniel-brittany/n02101388_2429.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Momoa").especie(perro)
-                                .raza(razaDesdeString("Spaniel irlandés"))
-                                .fechaNacimiento(calcularFechaNacimiento(5)).peso(20f)
-                                .URLFoto("https://images.dog.ceo/breeds/spaniel-irish/n02102973_1377.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Benji").especie(perro)
-                                .raza(razaDesdeString("Terrier irlandés"))
-                                .fechaNacimiento(calcularFechaNacimiento(4)).peso(12f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-irish/n02093991_1038.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Rocco").especie(perro)
-                                .raza(razaDesdeString("Terrier kerry blue"))
-                                .fechaNacimiento(calcularFechaNacimiento(6)).peso(17f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-kerryblue/n02093859_1239.jpg")
-                                .estado(true).build());
-                petsRepo.save(Pet.builder().nombre("Lucky").especie(perro)
-                                .raza(razaDesdeString("Terrier lakeland"))
-                                .fechaNacimiento(calcularFechaNacimiento(3)).peso(9f)
-                                .URLFoto("https://images.dog.ceo/breeds/terrier-lakeland/n02095570_1270.jpg")
-                                .estado(true).build());
+          // PERROS ----------------------------------------------------
+          petsRepo.save(Pet.builder().nombre("Princesa").especie(perro)
+                           .raza(razaDesdeString("Lebrel afgano"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(27f)
+                           .URLFoto("https://images.dog.ceo/breeds/hound-afghan/n02088094_1406.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Charlie").especie(perro)
+                           .raza(razaDesdeString("Beagle"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(12f)
+                           .URLFoto("https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Buddy").especie(perro)
+                           .raza(razaDesdeString("Labrador retriever"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(30f)
+                           .URLFoto("https://images.dog.ceo/breeds/labrador/n02099712_7937.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Toby").especie(perro)
+                           .raza(razaDesdeString("Carlino"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(8f)
+                           .URLFoto("https://images.dog.ceo/breeds/pug/n02110958_11239.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Zeus").especie(perro)
+                           .raza(razaDesdeString("Husky siberiano"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(22f)
+                           .URLFoto("https://images.dog.ceo/breeds/husky/n02110185_1469.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Leo").especie(perro)
+                           .raza(razaDesdeString("Cocker spaniel"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(13f)
+                           .URLFoto("https://images.dog.ceo/breeds/spaniel-cocker/n02102318_1671.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Duke").especie(perro)
+                           .raza(razaDesdeString("Terrier de Norwich"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-norwich/n02094258_2070.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Oliver").especie(perro)
+                           .raza(razaDesdeString("Golden retriever"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(28f)
+                           .URLFoto("https://images.dog.ceo/breeds/retriever-golden/n02099601_3004.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Bentley").especie(perro)
+                           .raza(razaDesdeString("Pastor de Shetland"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(10f)
+                           .URLFoto("https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_10095.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Louie").especie(perro)
+                           .raza(razaDesdeString("Terrier de Yorkshire"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(4f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3812.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Simba").especie(perro)
+                           .raza(razaDesdeString("Bóxer"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(26f)
+                           .URLFoto("https://images.dog.ceo/breeds/boxer/n02108089_9724.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Cooper").especie(perro)
+                           .raza(razaDesdeString("Dálmata"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
+                           .URLFoto("https://images.dog.ceo/breeds/dalmatian/cooper2.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Thor").especie(perro)
+                           .raza(razaDesdeString("Bullmastiff"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(40f)
+                           .URLFoto("https://images.dog.ceo/breeds/mastiff-bull/n02108422_5106.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Kira").especie(perro)
+                           .raza(razaDesdeString("Akita"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(32f)
+                           .URLFoto("https://images.dog.ceo/breeds/akita/512px-Ainu-Dog.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Loki").especie(perro)
+                           .raza(razaDesdeString("Papillón"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(5f)
+                           .URLFoto("https://images.dog.ceo/breeds/papillon/n02086910_7949.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Rex").especie(perro)
+                           .raza(razaDesdeString("Terrier americano"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(11f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-american/n02093428_1482.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Coco").especie(perro)
+                           .raza(razaDesdeString("Chihuahua"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(3f)
+                           .URLFoto("https://images.dog.ceo/breeds/chihuahua/n02085620_7436.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Bobby").especie(perro)
+                           .raza(razaDesdeString("Terrier australiano"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(7f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-australian/n02096294_7175.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Nala").especie(perro)
+                           .raza(razaDesdeString("Dingo"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(18f)
+                           .URLFoto("https://images.dog.ceo/breeds/dingo/n02115641_1228.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Shadow").especie(perro)
+                           .raza(razaDesdeString("Kelpie australiano"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(19f)
+                           .URLFoto("https://images.dog.ceo/breeds/kelpie/n02105412_1973.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Bruno").especie(perro)
+                           .raza(razaDesdeString("Malamute de Alaska"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(35f)
+                           .URLFoto("https://images.dog.ceo/breeds/malamute/n02110063_13625.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Apolo").especie(perro)
+                           .raza(razaDesdeString("Galgo italiano"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(7f)
+                           .URLFoto("https://images.dog.ceo/breeds/greyhound-italian/n02091032_1266.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Hunter").especie(perro)
+                           .raza(razaDesdeString("Otterhound"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(32f)
+                           .URLFoto("https://images.dog.ceo/breeds/otterhound/n02091635_1319.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Sasha").especie(perro)
+                           .raza(razaDesdeString("Saluki"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
+                           .URLFoto("https://images.dog.ceo/breeds/saluki/n02091831_5745.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Koda").especie(perro)
+                           .raza(razaDesdeString("Basenji"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(10f)
+                           .URLFoto("https://images.dog.ceo/breeds/basenji/n02110806_4156.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Balto").especie(perro)
+                          .raza(razaDesdeString("Boyero de Flandes"))
+                          .fechaNacimiento(calcularFechaNacimiento(5)).peso(34f)
+                          .URLFoto("https://images.dog.ceo/breeds/bouvier/n02106382_9651.jpg")
+                          .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Ace").especie(perro)
+                           .raza(razaDesdeString("Border collie"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
+                           .URLFoto("https://images.dog.ceo/breeds/collie-border/n02106166_355.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Maverick").especie(perro)
+                           .raza(razaDesdeString("Komondor"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(45f)
+                           .URLFoto("https://images.dog.ceo/breeds/komondor/n02105505_853.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Sam").especie(perro)
+                           .raza(razaDesdeString("Leonberger"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(48f)
+                           .URLFoto("https://images.dog.ceo/breeds/leonberg/n02111129_4903.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Oso").especie(perro)
+                           .raza(razaDesdeString("Terranova"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(50f)
+                           .URLFoto("https://images.dog.ceo/breeds/newfoundland/n02111277_3907.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Chop").especie(perro)
+                           .raza(razaDesdeString("Rottweiler"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(42f)
+                           .URLFoto("https://images.dog.ceo/breeds/rottweiler/n02106550_8776.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Buster").especie(perro)
+                           .raza(razaDesdeString("Chow chow"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(60f)
+                           .URLFoto("https://images.dog.ceo/breeds/chow/n02112137_7428.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Rita").especie(perro)
+                           .raza(razaDesdeString("Weimaraner"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(25f)
+                           .URLFoto("https://images.dog.ceo/breeds/weimaraner/n02092339_8024.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Finn").especie(perro)
+                           .raza(razaDesdeString("Whippet"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(9f)
+                           .URLFoto("https://images.dog.ceo/breeds/whippet/n02091134_392.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Oscar").especie(perro)
+                           .raza(razaDesdeString("Terrier escocés"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(9f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2957.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Jack Sparrow").especie(perro)
+                           .raza(razaDesdeString("West Highland white terrier"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(8f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-westhighland/n02098286_4120.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Luna").especie(perro)
+                           .raza(razaDesdeString("Vizsla"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
+                           .URLFoto("https://images.dog.ceo/breeds/vizsla/n02100583_12660.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Milo").especie(perro)
+                           .raza(razaDesdeString("Pekinés"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
+                           .URLFoto("https://images.dog.ceo/breeds/pekinese/n02086079_11089.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Dexter").especie(perro)
+                           .raza(razaDesdeString("Pinscher miniatura"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(5f)
+                           .URLFoto("https://images.dog.ceo/breeds/pinscher-miniature/n02107312_1885.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Ranger").especie(perro)
+                           .raza(razaDesdeString("Pointer alemán"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(23f)
+                           .URLFoto("https://images.dog.ceo/breeds/pointer-german/n02100236_689.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Archie").especie(perro)
+                          .raza(razaDesdeString("Caniche miniatura"))
+                          .fechaNacimiento(calcularFechaNacimiento(4)).peso(9f)
+                          .URLFoto("https://images.dog.ceo/breeds/poodle-miniature/n02113712_3049.jpg")
+                          .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Musa").especie(perro)
+                           .raza(razaDesdeString("Caniche estándar"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(22f)
+                           .URLFoto("https://images.dog.ceo/breeds/poodle-standard/n02113799_448.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Gizo").especie(perro)
+                           .raza(razaDesdeString("Caniche toy"))
+                           .fechaNacimiento(calcularFechaNacimiento(2)).peso(4f)
+                           .URLFoto("https://images.dog.ceo/breeds/poodle-toy/n02113624_5459.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Fausto").especie(perro)
+                           .raza(razaDesdeString("Schnauzer miniatura"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(8f)
+                           .URLFoto("https://images.dog.ceo/breeds/schnauzer-miniature/n02097047_6884.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Manolo").especie(perro)
+                           .raza(razaDesdeString("Setter inglés"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
+                           .URLFoto("https://images.dog.ceo/breeds/setter-english/n02100735_7553.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Pequitas").especie(perro)
+                           .raza(razaDesdeString("Spaniel bretón"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
+                           .URLFoto("https://images.dog.ceo/breeds/spaniel-brittany/n02101388_2429.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Momoa").especie(perro)
+                           .raza(razaDesdeString("Spaniel irlandés"))
+                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(20f)
+                           .URLFoto("https://images.dog.ceo/breeds/spaniel-irish/n02102973_1377.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Benji").especie(perro)
+                           .raza(razaDesdeString("Terrier irlandés"))
+                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(12f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-irish/n02093991_1038.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Rocco").especie(perro)
+                           .raza(razaDesdeString("Terrier kerry blue"))
+                           .fechaNacimiento(calcularFechaNacimiento(6)).peso(17f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-kerryblue/n02093859_1239.jpg")
+                           .estado(true).build());
+          petsRepo.save(Pet.builder().nombre("Lucky").especie(perro)
+                           .raza(razaDesdeString("Terrier lakeland"))
+                           .fechaNacimiento(calcularFechaNacimiento(3)).peso(9f)
+                           .URLFoto("https://images.dog.ceo/breeds/terrier-lakeland/n02095570_1270.jpg")
+                           .estado(true).build());
 
                 // GATOSSSS --------------------------------------------------------
 

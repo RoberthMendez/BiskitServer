@@ -21,17 +21,13 @@
       <!----- Devolver ----->
       <div th:replace="fragmentos::volver-al-panel"></div>
       <!----- Titulo ----->
-      <section
-        class="grid grid-cols-2 mt-4 mb-7 mx-6 sm:mx-16 md:mx-24 lg:mx-36"
-      >
+      <section id="pets-titulo" class="mx-6 mt-4 mb-7 grid grid-cols-2 sm:mx-16 md:mx-24 lg:mx-36">
         <!----- Mascotas Registradas ----->
         <div class="text-[#4a4a4a]">
-          <h1
-            class="text-[#4a4a4a] text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wider"
-          >
+          <h1 class="text-2xl font-semibold tracking-wider text-[#4a4a4a] sm:text-3xl md:text-4xl">
             Mascotas Registradas
           </h1>
-          <p class="text-[#8d8580dd] font-medium text-sm sm:text-base">
+          <p class="text-sm font-medium text-[#8d8580dd] sm:text-base">
             Lista de todas las Mascotas de la Veterinaria
           </p>
         </div>
@@ -39,7 +35,7 @@
         <div class="flex items-center justify-end">
           <a
             th:href="@{/vet/pets/add}"
-            class="flex items-center gap-2 bg-transparent border px-3 py-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200"
+            class="flex items-center gap-2 rounded-lg border border-[#2B5392] bg-transparent px-3 py-2 text-[#2B5392] transition-colors duration-200 hover:bg-[#2B5392] hover:text-[#FBFAF8]"
           >
             <svg
               class="h-6 w-auto"
@@ -48,11 +44,7 @@
               xmlns="http://www.w3.org/2000/svg"
             >
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <g id="Edit / Add_Plus">
                   <path
@@ -73,19 +65,10 @@
       <!----- Buscar y Mascotas ----->
       <section class="mx-4 sm:mx-16 md:mx-24 lg:mx-36">
         <!-- Buscar -->
-        <div class="flex items-center mb-5 h-10 bg-[#efe7df80] rounded-full">
-          <svg
-            class="h-6 ml-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+        <div id="pets-buscar" class="mb-5 flex h-10 items-center rounded-full bg-[#efe7df80]">
+          <svg class="ml-5 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
               <g clip-path="url(#clip0_15_152)">
                 <rect width="24" height="24" fill=""></rect>
@@ -112,63 +95,94 @@
             type="text"
             id="busquedaMascota"
             placeholder="Buscar mascota..."
-            class="text-xs ml-2.5 text-[#2b5392] bg-transparent border-none focus:outline-none w-full"
+            class="ml-2.5 w-full border-none bg-transparent text-xs text-[#2b5392] focus:outline-none"
           />
         </div>
         <!-- Mensaje de no encontrado -->
         <div
           id="sinResultados"
-          class="hidden mx-2 sm:mx-10 my-20 flex-col items-center justify-center text-center gap-4"
+          class="mx-2 my-20 hidden flex-col items-center justify-center gap-4 text-center sm:mx-10"
         >
-          <p class="text-[#8d8580dd] text-base mb-2">
+          <p class="mb-2 text-base text-[#8d8580dd]">
             No se encontraron mascotas que coincidan con tu búsqueda
           </p>
           <button
             id="limpiarBusqueda"
-            class="px-4 py-2 rounded-xl text-[#6D6155] border border-[#6D6155]/30 bg-[#6D6155]/5 hover:bg-[#6D6155]/10 hover:text-[#4F453D] transition-all duration-200 cursor-pointer"
+            class="cursor-pointer rounded-xl border border-[#6D6155]/30 bg-[#6D6155]/5 px-4 py-2 text-[#6D6155] transition-all duration-200 hover:bg-[#6D6155]/10 hover:text-[#4F453D]"
           >
             Limpiar búsqueda
           </button>
         </div>
         <!-- MASCOTAS -->
         <!-- Validación: mostrar mensaje si no hay mascotas -->
-        <div
-          th:if="${pets == null or pets.isEmpty()}"
-          class="mx-2 sm:mx-10 my-20 text-center"
-        >
-          <p class="text-[#8d8580dd] text-base">
-            No hay mascotas registradas en el sistema
-          </p>
+        <div th:if="${pets == null or pets.isEmpty()}" class="mx-2 my-20 text-center sm:mx-10">
+          <p class="text-base text-[#8d8580dd]">No hay mascotas registradas en el sistema</p>
         </div>
         <!-- Grid de mascotas (solo si existen) -->
         <section
           th:if="${pets != null and !pets.isEmpty()}"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mx-2 sm:mx-10 mb-10 gap-6 sm:gap-8 lg:gap-10"
+          class="mx-2 mb-10 grid grid-cols-1 gap-6 sm:mx-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10 2xl:grid-cols-4"
         >
           <!-- Card -->
-          <a
-            th:href="@{/vet/pets/{id}(id=${pet.id})}"
+          <article
             th:each="pet : ${pets}"
-            th:attr="data-nombre=${pet.nombre}"
-            class="card-mascota group cursor-pointer h-auto w-full max-w-xs mx-auto p-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            th:attr="data-nombre=${pet.nombre},data-url=@{/vet/pets/{id}(id=${pet.id})}"
+            onclick="window.location.href = this.dataset.url"
+            class="card-mascota group mx-auto h-auto w-full max-w-xs cursor-pointer rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- CONTENIDO -->
             <article class="h-full">
-              <div class="overflow-hidden rounded-2xl space-y-3">
+              <div class="space-y-3 overflow-hidden rounded-2xl">
                 <div class="relative">
+                  <a
+                    th:href="@{/vet/pets/update/{id}(id=${pet.id})}"
+                    onclick="event.stopPropagation()"
+                    class="absolute top-3 left-3 z-10 rounded-md px-1 py-1 text-[#2b5392] transition-all duration-200 hover:text-[#1a3a6b]"
+                  >
+                    <svg
+                      class="h-7 transition-all duration-200 hover:scale-105"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </g>
+                    </svg>
+                  </a>
                   <img
                     th:src="${pet.URLFoto}"
                     th:alt="${'Foto de ' + pet.nombre}"
-                    class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                    class="h-48 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:h-56 md:h-65"
                   />
                   <label
-                    class="toggle-switch absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex w-fit items-center py-1 px-1 cursor-pointer bg-[#FBFAF8] rounded-full shadow-sm"
+                    onclick="event.stopPropagation()"
+                    class="toggle-switch absolute bottom-3 left-1/2 z-20 flex w-fit -translate-x-1/2 cursor-pointer items-center rounded-full bg-[#FBFAF8] px-1 py-1 shadow-sm"
                   >
                     <input
                       th:id="${'interruptor-' + pet.id}"
                       type="checkbox"
                       th:checked="${pet.estado != null and pet.estado == true}"
-                      class="hidden peer"
+                      class="peer hidden"
                     />
                     <span
                       aria-hidden="true"
@@ -176,36 +190,34 @@
                     >
                     </span>
                     <span
-                      class="toggle-inactive relative z-10 rounded-full text-xs font-semibold tracking-wide px-3 py-1 text-[#5F5F5F] transition-all duration-300 ease-in-out peer-checked:text-[#6B6B6B] peer-checked:font-normal"
+                      class="toggle-inactive relative z-10 rounded-full px-3 py-1 text-xs font-semibold tracking-wide text-[#5F5F5F] transition-all duration-300 ease-in-out peer-checked:font-normal peer-checked:text-[#6B6B6B]"
                     >
                       Inactivo
                     </span>
                     <span
-                      class="toggle-active relative z-10 rounded-full text-xs font-normal tracking-wide px-3 py-1 text-[#6B6B6B] transition-all duration-300 ease-in-out peer-checked:text-[#2BAB60] peer-checked:font-medium"
+                      class="toggle-active relative z-10 rounded-full px-3 py-1 text-xs font-normal tracking-wide text-[#6B6B6B] transition-all duration-300 ease-in-out peer-checked:font-medium peer-checked:text-[#2BAB60]"
                     >
                       Activo
                     </span>
                   </label>
                 </div>
                 <!-- Nombre y Raza -->
-                <div
-                  class="flex justify-between items-center mx-2 sm:mx-4 mt-3"
-                >
+                <div class="mx-2 mt-3 flex items-center justify-between sm:mx-4">
                   <h3
-                    class="text-[#4a4a4a] font-bold text-lg sm:text-xl leading-none tracking-wider"
+                    class="text-lg leading-none font-bold tracking-wider text-[#4a4a4a] sm:text-xl"
                     th:text="${pet.nombre}"
                   ></h3>
                   <p
-                    class="text-[#6D6155] font-medium text-xs leading-none"
+                    class="text-xs leading-none font-medium text-[#6D6155]"
                     th:text="${pet.especie.nombre + ' · ' + pet.raza.nombre}"
                   ></p>
                 </div>
                 <!-- Edad, Peso y Dueño -->
                 <div
-                  class="grid grid-cols-3 mx-4 gap-3 sm:gap-5 items-stretch justify-items-center"
+                  class="mx-4 grid grid-cols-3 items-stretch justify-items-center gap-3 sm:gap-5"
                 >
                   <!-- EDAD -->
-                  <aside class="flex flex-col items-center w-full">
+                  <aside class="flex w-full flex-col items-center">
                     <div class="flex flex-col items-center gap-1">
                       <svg
                         class="h-4"
@@ -246,17 +258,17 @@
                           ></path>
                         </g>
                       </svg>
-                      <p class="text-xs text-[#8D8580] font-semibold">EDAD</p>
+                      <p class="text-xs font-semibold text-[#8D8580]">EDAD</p>
                     </div>
                     <div class="flex flex-1 items-center">
                       <p
-                        class="text-xs text-[#282828] font-medium"
+                        class="text-xs font-medium text-[#282828]"
                         th:text="${pet.getEdad() == 1} ? ${pet.getEdad() + ' año'} : ${pet.getEdad() + ' años'}"
                       ></p>
                     </div>
                   </aside>
                   <!-- PESO -->
-                  <aside class="flex flex-col items-center w-full">
+                  <aside class="flex w-full flex-col items-center">
                     <div class="flex flex-col items-center gap-1">
                       <svg
                         class="h-4"
@@ -292,17 +304,17 @@
                           ></path>
                         </g>
                       </svg>
-                      <p class="text-xs text-[#8D8580] font-semibold">PESO</p>
+                      <p class="text-xs font-semibold text-[#8D8580]">PESO</p>
                     </div>
                     <div class="flex flex-1 items-center">
                       <p
-                        class="text-xs text-[#282828] font-medium"
+                        class="text-xs font-medium text-[#282828]"
                         th:text="${pet.peso} + ' Kg'"
                       ></p>
                     </div>
                   </aside>
                   <!-- DUEÑO -->
-                  <aside class="flex flex-col items-center w-full">
+                  <aside class="flex w-full flex-col items-center">
                     <div class="flex flex-col items-center gap-1">
                       <svg
                         class="h-4"
@@ -317,13 +329,7 @@
                           stroke-linejoin="round"
                         ></g>
                         <g id="SVGRepo_iconCarrier">
-                          <circle
-                            cx="12"
-                            cy="6"
-                            r="4"
-                            stroke="#2B5392"
-                            stroke-width="1.5"
-                          ></circle>
+                          <circle cx="12" cy="6" r="4" stroke="#2B5392" stroke-width="1.5"></circle>
                           <path
                             d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
                             stroke="#2B5392"
@@ -332,23 +338,19 @@
                           ></path>
                         </g>
                       </svg>
-                      <p class="text-xs text-[#8D8580] font-semibold">DUEÑO</p>
+                      <p class="text-xs font-semibold text-[#8D8580]">DUEÑO</p>
                     </div>
                     <div class="flex flex-1 items-start justify-center">
                       <p
-                        class="text-xs text-[#282828] font-medium text-center wrap-break-word leading-tight max-w-26"
+                        class="max-w-26 text-center text-xs leading-tight font-medium wrap-break-word text-[#282828]"
                         th:text="${pet.owner.nombre}"
                       ></p>
                     </div>
                   </aside>
                 </div>
-                <hr
-                  class="border-[#6D6155] opacity-40 border-t my-2 mx-2 sm:mx-4"
-                />
+                <hr class="mx-2 my-2 border-t border-[#6D6155] opacity-40 sm:mx-4" />
                 <!-- Diagnóstico -->
-                <div
-                  class="flex flex-col justify-center items-center mx-2 sm:mx-4 gap-1"
-                >
+                <div class="mx-2 flex flex-col items-center justify-center gap-1 sm:mx-4">
                   <svg
                     class="h-4"
                     viewBox="0 0 24 24"
@@ -370,17 +372,15 @@
                       ></path>
                     </g>
                   </svg>
-                  <p class="text-xs text-[#8D8580] font-semibold">
-                    DIAGNÓSTICO
-                  </p>
+                  <p class="text-xs font-semibold text-[#8D8580]">DIAGNÓSTICO</p>
                   <p
-                    class="text-xs text-[#282828] font-medium"
+                    class="text-xs font-medium text-[#282828]"
                     th:text="${pet.enfermedad.nombre}"
                   ></p>
                 </div>
               </div>
             </article>
-          </a>
+          </article>
         </section>
       </section>
     </main>
@@ -388,5 +388,78 @@
     <footer th:replace="fragmentos::footer"></footer>
     <script th:src="@{/js/pets.js}"></script>
     <script th:src="@{/js/switch-estado.js}"></script>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // --- Animación de carga: volver, título, botón y buscador ---
+        const volver = document.querySelector(".back-link");
+        const titulo = document.querySelector("#pets-titulo > div:first-child");
+        const botonAgregar = document.querySelector("#pets-titulo > div:last-child");
+        const buscador = document.querySelector("#pets-buscar");
+        const headerEls = [volver, titulo, botonAgregar, buscador].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 80);
+              });
+            });
+          });
+        }
+
+        // --- Animación scroll: tarjetas de mascotas ---
+        const cards = [...document.querySelectorAll(".card-mascota")];
+        if (!cards.length || prefersReducedMotion) return;
+
+        cards.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 55;
+        const CARD_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = CARD_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        cards.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>

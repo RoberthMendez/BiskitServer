@@ -19,20 +19,11 @@
     <main>
       <a
         th:href="@{/vet/pets}"
-        class="back-link group inline-flex justify-start items-center h-10 ml-5 sm:ml-8 md:ml-16 lg:ml-28 mt-8 mb-2"
+        class="back-link group mt-8 mb-2 ml-5 inline-flex h-10 items-center justify-start sm:ml-8 md:ml-16 lg:ml-28"
       >
-        <svg
-          class="h-9 mt-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="mt-1 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
             <path
               d="M8 12L16 12"
@@ -51,41 +42,35 @@
           </g>
         </svg>
         <h2
-          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+          class="ml-1 text-lg font-bold tracking-wider text-[#4a4a4acc] underline underline-offset-6 transition-colors duration-300 group-hover:text-[#4A4A4Aee]"
         >
           Lista de Mascotas
         </h2>
       </a>
       <section
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-5 sm:mx-8 md:mx-30 lg:mx-40 gap-8 mt-5 mb-10"
+        id="info-pet-layout"
+        class="mx-5 mt-5 mb-10 grid grid-cols-1 gap-8 sm:mx-8 md:mx-30 md:grid-cols-2 lg:mx-40 lg:grid-cols-3"
       >
         <!----- Card de la Mascota ----->
         <aside
-          class="card-mascota group h-auto w-full max-w-full md:max-w-xs lg:max-w-sm mx-auto p-3 bg-[#FBFAF8] rounded-2xlcard-mascota group rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          class="card-mascota info-pet-card group rounded-2xlcard-mascota group mx-auto h-auto w-full max-w-full rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] md:max-w-xs lg:max-w-sm"
         >
           <!-- CONTENIDO -->
           <article class="h-full">
-            <div
-              th:switch="${pet.estado}"
-              class="relative overflow-hidden rounded-2xl"
-            >
+            <div th:switch="${pet.estado}" class="relative overflow-hidden rounded-2xl">
               <!-- BOTÓN EDITAR -->
               <a
                 th:href="@{/vet/pets/update/{id}(id=${pet.id})}"
-                class="absolute top-3 left-3 z-10 px-1 py-1 rounded-md text-[#2b5392] hover:text-[#1a3a6b] transition-all duration-200 bg-transparent text-xs"
+                class="absolute top-3 left-3 z-10 rounded-md bg-transparent px-1 py-1 text-xs text-[#2b5392] transition-all duration-200 hover:text-[#1a3a6b]"
               >
                 <svg
-                  class="h-6 hover:h-7 transition-all duration-200"
+                  class="hover:h-7.15 h-7 transition-all duration-200"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
@@ -108,17 +93,17 @@
                 <img
                   th:src="${pet.URLFoto}"
                   th:alt="${'Foto de ' + pet.nombre}"
-                  class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                  class="h-48 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:h-56 md:h-65"
                 />
                 <label
                   th:for="${'interruptor-' + pet.id}"
-                  class="toggle-switch absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex w-fit items-center py-1 px-1 cursor-pointer bg-[#FBFAF8] rounded-full shadow-sm"
+                  class="toggle-switch absolute bottom-3 left-1/2 z-20 flex w-fit -translate-x-1/2 cursor-pointer items-center rounded-full bg-[#FBFAF8] px-1 py-1 shadow-sm"
                 >
                   <input
                     th:id="${'interruptor-' + pet.id}"
                     type="checkbox"
                     th:checked="${pet.estado != null and pet.estado}"
-                    class="hidden peer"
+                    class="peer hidden"
                   />
                   <span
                     aria-hidden="true"
@@ -126,12 +111,12 @@
                   >
                   </span>
                   <span
-                    class="toggle-inactive relative z-10 rounded-full text-xs font-semibold tracking-wide px-3 py-1 text-[#5F5F5F] transition-all duration-300 ease-in-out peer-checked:text-[#6B6B6B] peer-checked:font-normal"
+                    class="toggle-inactive relative z-10 rounded-full px-3 py-1 text-xs font-semibold tracking-wide text-[#5F5F5F] transition-all duration-300 ease-in-out peer-checked:font-normal peer-checked:text-[#6B6B6B]"
                   >
                     Inactivo
                   </span>
                   <span
-                    class="toggle-active relative z-10 rounded-full text-xs font-normal tracking-wide px-3 py-1 text-[#6B6B6B] transition-all duration-300 ease-in-out peer-checked:text-[#2BAB60] peer-checked:font-medium"
+                    class="toggle-active relative z-10 rounded-full px-3 py-1 text-xs font-normal tracking-wide text-[#6B6B6B] transition-all duration-300 ease-in-out peer-checked:font-medium peer-checked:text-[#2BAB60]"
                   >
                     Activo
                   </span>
@@ -139,36 +124,23 @@
               </div>
             </div>
             <!-- Nombre y Raza -->
-            <div
-              class="flex justify-between items-center mx-2 mb-5 sm:mx-4 mt-3"
-            >
+            <div class="mx-2 mt-3 mb-5 flex items-center justify-between sm:mx-4">
               <h3
-                class="text-[#4a4a4a] font-bold text-lg sm:text-xl leading-none tracking-wider"
+                class="text-lg leading-none font-bold tracking-wider text-[#4a4a4a] sm:text-xl"
                 th:text="${pet.nombre}"
               ></h3>
               <p
-                class="text-[#6D6155] font-medium text-xs leading-none"
+                class="text-xs leading-none font-medium text-[#6D6155]"
                 th:text="${pet.especie.nombre + ' · ' + pet.raza.nombre}"
               ></p>
             </div>
             <!-- Edad y Peso -->
-            <div
-              class="flex justify-center items-center mx-2 sm:mx-4 my-3 gap-3 sm:gap-5"
-            >
+            <div class="mx-2 my-3 flex items-center justify-center gap-3 sm:mx-4 sm:gap-5">
               <!-- Edad -->
               <aside class="flex flex-col items-center gap-1">
-                <svg
-                  class="h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg class="h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C20.1752 21.4816 19.3001 21.7706 18 21.8985"
@@ -196,9 +168,9 @@
                     ></path>
                   </g>
                 </svg>
-                <p class="text-xs text-[#8D8580] font-semibold">EDAD</p>
+                <p class="text-xs font-semibold text-[#8D8580]">EDAD</p>
                 <p
-                  class="text-xs text-[#282828] font-medium"
+                  class="text-xs font-medium text-[#282828]"
                   th:text="${pet.edad == 1} ? ${pet.edad + ' año'} : ${pet.edad + ' años'}"
                 ></p>
               </aside>
@@ -212,11 +184,7 @@
                   fill="#000000"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <rect
                       x="48"
@@ -238,32 +206,16 @@
                     ></path>
                   </g>
                 </svg>
-                <p class="text-xs text-[#8D8580] font-semibold">PESO</p>
-                <p
-                  class="text-xs text-[#282828] font-medium"
-                  th:text="${pet.peso} + ' Kg'"
-                ></p>
+                <p class="text-xs font-semibold text-[#8D8580]">PESO</p>
+                <p class="text-xs font-medium text-[#282828]" th:text="${pet.peso} + ' Kg'"></p>
               </aside>
             </div>
-            <hr
-              class="border-[#6D6155] opacity-40 border-t my-5 mx-2 sm:mx-4"
-            />
+            <hr class="mx-2 my-5 border-t border-[#6D6155] opacity-40 sm:mx-4" />
             <!-- Diagnóstico -->
-            <div
-              class="flex flex-col justify-center items-center mx-2 sm:mx-4 gap-1"
-            >
-              <svg
-                class="h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+            <div class="mx-2 flex flex-col items-center justify-center gap-1 sm:mx-4">
+              <svg class="h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <path
                     fill-rule="evenodd"
@@ -273,11 +225,8 @@
                   ></path>
                 </g>
               </svg>
-              <p class="text-xs text-[#8D8580] font-semibold">DIAGNÓSTICO</p>
-              <p
-                class="text-xs text-[#282828] font-medium"
-                th:text="${pet.enfermedad.nombre}"
-              ></p>
+              <p class="text-xs font-semibold text-[#8D8580]">DIAGNÓSTICO</p>
+              <p class="text-xs font-medium text-[#282828]" th:text="${pet.enfermedad.nombre}"></p>
             </div>
           </article>
         </aside>
@@ -285,16 +234,14 @@
         <aside class="flex flex-col gap-5 lg:col-span-2">
           <!-- Tratamientos -->
           <article
-            class="flex flex-col h-1/2 w-full mx-auto p-4 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            class="info-pet-tratamientos mx-auto flex h-1/2 w-full flex-col rounded-2xl bg-[#FBFAF8] p-4 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- Titulo -->
-            <div
-              class="flex justify-between items-center w-full mx-3 mt-2 mb-6"
-            >
+            <div class="mx-3 mt-2 mb-6 flex w-full items-center justify-between">
               <!--Icono y titulo -->
               <div class="flex items-center gap-1">
                 <svg
-                  class="h-6 sm:h-8 w-auto shrink-0"
+                  class="h-6 w-auto shrink-0 sm:h-8"
                   fill="#2B5392"
                   version="1.1"
                   id="Layer_1"
@@ -305,11 +252,7 @@
                   stroke="#2B5392"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <g>
                       <g>
@@ -343,7 +286,7 @@
                 </svg>
 
                 <h3
-                  class="text-[#4a4a4a] font-black text-lg sm:text-xl md:text-2xl leading-none tracking-wider ml-2"
+                  class="ml-2 text-lg leading-none font-black tracking-wider text-[#4a4a4a] sm:text-xl md:text-2xl"
                   th:text="${'Tratamientos de ' + pet.nombre}"
                 ></h3>
               </div>
@@ -351,7 +294,7 @@
               <!-- Derecha: botón -->
               <a
                 th:href="@{/vet/pets/tratamiento/add(id=${pet.id})}"
-                class="flex items-center gap-2 bg-transparent border mr-6 px-3 py-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200"
+                class="mr-6 flex items-center gap-2 rounded-lg border border-[#2B5392] bg-transparent px-3 py-2 text-[#2B5392] transition-colors duration-200 hover:bg-[#2B5392] hover:text-[#FBFAF8]"
               >
                 <svg
                   class="h-6 w-auto"
@@ -360,11 +303,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <g id="Edit / Add_Plus">
                       <path
@@ -383,7 +322,7 @@
             </div>
             <!-- Tratamientos -->
             <div
-              class="overflow-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-center custom-scroll"
+              class="custom-scroll grid grid-cols-1 justify-center overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
             >
               <a
                 th:each="t : ${pet.tratamientos}"
@@ -395,13 +334,13 @@
                 <div class="flex flex-col gap-1">
                   <!-- Fecha del tratamiento -->
                   <p
-                    class="text-xs text-[#8D8580] font-semibold"
+                    class="text-xs font-semibold text-[#8D8580]"
                     th:text="${#temporals.format(t.fecha,'dd-MM-yyyy')}"
                   ></p>
 
                   <!-- Drogas del tratamiento -->
                   <p
-                    class="text-xs text-[#282828] font-medium"
+                    class="text-xs font-medium text-[#282828]"
                     th:each="d : ${t.drogas}"
                     th:text="${d.nombre}"
                   ></p>
@@ -411,10 +350,10 @@
           </article>
           <!-- Dueño -->
           <article
-            class="flex flex-col h-1/2 w-full mx-auto p-3 items-center bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            class="info-pet-dueno mx-auto flex h-1/2 w-full flex-col items-center rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- Titulo -->
-            <div class="flex justify-start items-center w-full px-5 mt-2 gap-1">
+            <div class="mt-2 flex w-full items-center justify-start gap-1 px-5">
               <svg
                 class="h-7 w-auto"
                 viewBox="0 0 24 24"
@@ -422,19 +361,9 @@
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
-                  <circle
-                    cx="12"
-                    cy="6"
-                    r="4"
-                    stroke="#2B5392"
-                    stroke-width="1.5"
-                  ></circle>
+                  <circle cx="12" cy="6" r="4" stroke="#2B5392" stroke-width="1.5"></circle>
                   <path
                     d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
                     stroke="#2B5392"
@@ -443,16 +372,14 @@
                   ></path>
                 </g>
               </svg>
-              <h3
-                class="text-[#4a4a4a] font-black text-xl leading-none tracking-wider ml-2"
-              >
+              <h3 class="ml-2 text-xl leading-none font-black tracking-wider text-[#4a4a4a]">
                 Información del Dueño
               </h3>
             </div>
             <!-- Info del Dueño -->
-            <div class="flex-1 flex flex-col justify-center gap-3 px-3 w-full">
+            <div class="flex w-full flex-1 flex-col justify-center gap-3 px-3">
               <!-- Nombre -->
-              <div class="flex items-center gap-2 w-full">
+              <div class="flex w-full items-center gap-2">
                 <svg
                   class="h-5 w-auto"
                   viewBox="0 0 24 24"
@@ -460,19 +387,9 @@
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
-                    <circle
-                      cx="12"
-                      cy="6"
-                      r="4"
-                      stroke="#2B5392"
-                      stroke-width="1.5"
-                    ></circle>
+                    <circle cx="12" cy="6" r="4" stroke="#2B5392" stroke-width="1.5"></circle>
                     <path
                       d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
                       stroke="#2B5392"
@@ -481,16 +398,13 @@
                     ></path>
                   </g>
                 </svg>
-                <div class="flex justify-between w-full">
-                  <p class="text-xs text-[#8D8580] font-semibold">Nombre</p>
-                  <p
-                    class="text-xs text-[#282828] font-medium"
-                    th:text="${dueño.nombre}"
-                  ></p>
+                <div class="flex w-full justify-between">
+                  <p class="text-xs font-semibold text-[#8D8580]">Nombre</p>
+                  <p class="text-xs font-medium text-[#282828]" th:text="${dueño.nombre}"></p>
                 </div>
               </div>
               <!-- Cédula -->
-              <div class="flex items-center gap-2 w-full">
+              <div class="flex w-full items-center gap-2">
                 <svg
                   class="h-5 w-auto"
                   viewBox="0 -0.5 25 25"
@@ -498,11 +412,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       fill-rule="evenodd"
@@ -542,16 +452,13 @@
                     ></path>
                   </g>
                 </svg>
-                <div class="flex justify-between w-full">
-                  <p class="text-xs text-[#8D8580] font-semibold">Cédula</p>
-                  <p
-                    class="text-xs text-[#282828] font-medium"
-                    th:text="${dueño.cedula}"
-                  ></p>
+                <div class="flex w-full justify-between">
+                  <p class="text-xs font-semibold text-[#8D8580]">Cédula</p>
+                  <p class="text-xs font-medium text-[#282828]" th:text="${dueño.cedula}"></p>
                 </div>
               </div>
               <!-- Celular -->
-              <div class="flex items-center gap-2 w-full">
+              <div class="flex w-full items-center gap-2">
                 <svg
                   class="h-5 w-auto"
                   viewBox="0 0 24 24"
@@ -559,11 +466,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M16.1007 13.359L15.5719 12.8272H15.5719L16.1007 13.359ZM16.5562 12.9062L17.085 13.438H17.085L16.5562 12.9062ZM18.9728 12.5894L18.6146 13.2483L18.9728 12.5894ZM20.8833 13.628L20.5251 14.2869L20.8833 13.628ZM21.4217 16.883L21.9505 17.4148L21.4217 16.883ZM20.0011 18.2954L19.4723 17.7636L20.0011 18.2954ZM18.6763 18.9651L18.7459 19.7119H18.7459L18.6763 18.9651ZM8.81536 14.7266L9.34418 14.1947L8.81536 14.7266ZM4.00289 5.74561L3.2541 5.78816L3.2541 5.78816L4.00289 5.74561ZM10.4775 7.19738L11.0063 7.72922H11.0063L10.4775 7.19738ZM10.6342 4.54348L11.2346 4.09401L10.6342 4.54348ZM9.37326 2.85908L8.77286 3.30855V3.30855L9.37326 2.85908ZM6.26145 2.57483L6.79027 3.10667H6.79027L6.26145 2.57483ZM4.69185 4.13552L4.16303 3.60368H4.16303L4.69185 4.13552ZM12.0631 11.4972L12.5919 10.9654L12.0631 11.4972ZM16.6295 13.8909L17.085 13.438L16.0273 12.3743L15.5719 12.8272L16.6295 13.8909ZM18.6146 13.2483L20.5251 14.2869L21.2415 12.9691L19.331 11.9305L18.6146 13.2483ZM20.8929 16.3511L19.4723 17.7636L20.5299 18.8273L21.9505 17.4148L20.8929 16.3511ZM18.6067 18.2184C17.1568 18.3535 13.4056 18.2331 9.34418 14.1947L8.28654 15.2584C12.7186 19.6653 16.9369 19.8805 18.7459 19.7119L18.6067 18.2184ZM9.34418 14.1947C5.4728 10.3453 4.83151 7.10765 4.75168 5.70305L3.2541 5.78816C3.35456 7.55599 4.14863 11.144 8.28654 15.2584L9.34418 14.1947ZM10.7195 8.01441L11.0063 7.72922L9.9487 6.66555L9.66189 6.95073L10.7195 8.01441ZM11.2346 4.09401L9.97365 2.40961L8.77286 3.30855L10.0338 4.99296L11.2346 4.09401ZM5.73263 2.04299L4.16303 3.60368L5.22067 4.66736L6.79027 3.10667L5.73263 2.04299ZM10.1907 7.48257C9.66189 6.95073 9.66117 6.95144 9.66045 6.95216C9.66021 6.9524 9.65949 6.95313 9.659 6.95362C9.65802 6.95461 9.65702 6.95561 9.65601 6.95664C9.65398 6.95871 9.65188 6.96086 9.64972 6.9631C9.64539 6.96759 9.64081 6.97245 9.63599 6.97769C9.62634 6.98816 9.61575 7.00014 9.60441 7.01367C9.58174 7.04072 9.55605 7.07403 9.52905 7.11388C9.47492 7.19377 9.41594 7.2994 9.36589 7.43224C9.26376 7.70329 9.20901 8.0606 9.27765 8.50305C9.41189 9.36833 10.0078 10.5113 11.5343 12.0291L12.5919 10.9654C11.1634 9.54499 10.8231 8.68059 10.7599 8.27309C10.7298 8.07916 10.761 7.98371 10.7696 7.96111C10.7748 7.94713 10.7773 7.9457 10.7709 7.95525C10.7677 7.95992 10.7624 7.96723 10.7541 7.97708C10.75 7.98201 10.7451 7.98759 10.7394 7.99381C10.7365 7.99692 10.7335 8.00019 10.7301 8.00362C10.7285 8.00534 10.7268 8.00709 10.725 8.00889C10.7241 8.00979 10.7232 8.0107 10.7223 8.01162C10.7219 8.01208 10.7212 8.01278 10.7209 8.01301C10.7202 8.01371 10.7195 8.01441 10.1907 7.48257ZM11.5343 12.0291C13.0613 13.5474 14.2096 14.1383 15.0763 14.2713C15.5192 14.3392 15.8763 14.285 16.1472 14.1841C16.28 14.1346 16.3858 14.0763 16.4658 14.0227C16.5058 13.9959 16.5392 13.9704 16.5663 13.9479C16.5799 13.9367 16.5919 13.9262 16.6024 13.9166C16.6077 13.9118 16.6126 13.9073 16.6171 13.903C16.6194 13.9008 16.6215 13.8987 16.6236 13.8967C16.6246 13.8957 16.6256 13.8947 16.6266 13.8937C16.6271 13.8932 16.6279 13.8925 16.6281 13.8923C16.6288 13.8916 16.6295 13.8909 16.1007 13.359C15.5719 12.8272 15.5726 12.8265 15.5733 12.8258C15.5735 12.8256 15.5742 12.8249 15.5747 12.8244C15.5756 12.8235 15.5765 12.8226 15.5774 12.8217C15.5793 12.82 15.581 12.8183 15.5827 12.8166C15.5862 12.8133 15.5895 12.8103 15.5926 12.8074C15.5988 12.8018 15.6044 12.7969 15.6094 12.7929C15.6192 12.7847 15.6265 12.7795 15.631 12.7764C15.6403 12.7702 15.6384 12.773 15.6236 12.7785C15.5991 12.7876 15.501 12.8189 15.3038 12.7886C14.8905 12.7253 14.02 12.3853 12.5919 10.9654L11.5343 12.0291ZM9.97365 2.40961C8.95434 1.04802 6.94996 0.83257 5.73263 2.04299L6.79027 3.10667C7.32195 2.578 8.26623 2.63181 8.77286 3.30855L9.97365 2.40961ZM4.75168 5.70305C4.73201 5.35694 4.89075 4.9954 5.22067 4.66736L4.16303 3.60368C3.62571 4.13795 3.20329 4.89425 3.2541 5.78816L4.75168 5.70305ZM19.4723 17.7636C19.1975 18.0369 18.9029 18.1908 18.6067 18.2184L18.7459 19.7119C19.4805 19.6434 20.0824 19.2723 20.5299 18.8273L19.4723 17.7636ZM11.0063 7.72922C11.9908 6.7503 12.064 5.2019 11.2346 4.09401L10.0338 4.99295C10.4373 5.53193 10.3773 6.23938 9.9487 6.66555L11.0063 7.72922ZM20.5251 14.2869C21.3429 14.7315 21.4703 15.7769 20.8929 16.3511L21.9505 17.4148C23.2908 16.0821 22.8775 13.8584 21.2415 12.9691L20.5251 14.2869ZM17.085 13.438C17.469 13.0562 18.0871 12.9616 18.6146 13.2483L19.331 11.9305C18.2474 11.3414 16.9026 11.5041 16.0273 12.3743L17.085 13.438Z"
@@ -571,16 +474,13 @@
                     ></path>
                   </g>
                 </svg>
-                <div class="flex justify-between w-full">
-                  <p class="text-xs text-[#8D8580] font-semibold">Celular</p>
-                  <p
-                    class="text-xs text-[#282828] font-medium"
-                    th:text="${dueño.celular}"
-                  ></p>
+                <div class="flex w-full justify-between">
+                  <p class="text-xs font-semibold text-[#8D8580]">Celular</p>
+                  <p class="text-xs font-medium text-[#282828]" th:text="${dueño.celular}"></p>
                 </div>
               </div>
               <!-- Correo -->
-              <div class="flex items-center gap-2 w-full">
+              <div class="flex w-full items-center gap-2">
                 <svg
                   class="h-5 w-auto"
                   viewBox="0 0 32 32"
@@ -588,11 +488,7 @@
                   fill="none"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       stroke="#2b5392"
@@ -609,12 +505,9 @@
                     ></path>
                   </g>
                 </svg>
-                <div class="flex justify-between w-full">
-                  <p class="text-xs text-[#8D8580] font-semibold">Correo</p>
-                  <p
-                    class="text-xs text-[#282828] font-medium"
-                    th:text="${dueño.correo}"
-                  ></p>
+                <div class="flex w-full justify-between">
+                  <p class="text-xs font-semibold text-[#8D8580]">Correo</p>
+                  <p class="text-xs font-medium text-[#282828]" th:text="${dueño.correo}"></p>
                 </div>
               </div>
             </div>
@@ -624,5 +517,76 @@
     </main>
     <footer th:replace="fragmentos::footer"></footer>
     <script th:src="@{/js/switch-estado.js}"></script>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const backLink = document.querySelector(".back-link");
+        const petCard = document.querySelector(".info-pet-card");
+        const tratamientosCard = document.querySelector(".info-pet-tratamientos");
+        const duenoCard = document.querySelector(".info-pet-dueno");
+        const headerEls = [backLink, petCard, tratamientosCard, duenoCard].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 90);
+              });
+            });
+          });
+        }
+
+        const tratamientosItems = [...document.querySelectorAll(".info-pet-tratamiento-item")];
+        if (!tratamientosItems.length || prefersReducedMotion) return;
+
+        tratamientosItems.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 45;
+        const REVEAL_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = REVEAL_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        tratamientosItems.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>

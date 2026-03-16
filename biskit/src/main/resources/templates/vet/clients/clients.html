@@ -12,7 +12,8 @@
 
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header th:replace="~{fragmentos::navbar-logged}"></header>
@@ -21,15 +22,17 @@
       <div th:replace="~{fragmentos::volver-al-panel}"></div>
       <!-- Titulo -->
       <section
-        class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 mb-7 mx-4 sm:mx-16 md:mx-24 lg:mx-36">
+        id="clients-titulo"
+        class="mx-4 mt-4 mb-7 grid grid-cols-1 gap-4 sm:mx-16 sm:grid-cols-2 md:mx-24 lg:mx-36"
+      >
         <!-- Clientes Registrados -->
         <div class="text-[#4a4a4a]">
           <h1
-            class="text-[#4a4a4a] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-wider">
+            class="text-xl font-semibold tracking-wider text-[#4a4a4a] sm:text-2xl md:text-3xl lg:text-4xl"
+          >
             Clientes Registrados
           </h1>
-          <p
-            class="text-[#8d8580dd] font-medium text-xs sm:text-sm md:text-base">
+          <p class="text-xs font-medium text-[#8d8580dd] sm:text-sm md:text-base">
             Lista de todos los Clientes de la Veterinaria
           </p>
         </div>
@@ -37,17 +40,16 @@
         <div class="flex items-center justify-start sm:justify-end">
           <a
             th:href="@{/vet/clients/add}"
-            class="flex items-center gap-2 bg-transparent border px-3 py-2 rounded-lg text-sm sm:text-base text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200">
+            class="flex items-center gap-2 rounded-lg border border-[#2B5392] bg-transparent px-3 py-2 text-sm text-[#2B5392] transition-colors duration-200 hover:bg-[#2B5392] hover:text-[#FBFAF8] sm:text-base"
+          >
             <svg
-              class="h-5 sm:h-6 w-auto"
+              class="h-5 w-auto sm:h-6"
               viewBox="0 0 24 24"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <g id="Edit / Add_Plus">
                   <path
@@ -56,7 +58,8 @@
                     stroke="currentColor"
                     stroke-width="2"
                     stroke-linecap="round"
-                    stroke-linejoin="round"></path>
+                    stroke-linejoin="round"
+                  ></path>
                 </g>
               </g>
             </svg>
@@ -65,19 +68,17 @@
         </div>
       </section>
       <!-- Contenido -->
-      <section class="mx-4 sm:mx-16 md:mx-24 lg:mx-36 mb-10">
+      <section class="mx-4 mb-10 sm:mx-16 md:mx-24 lg:mx-36">
         <!-- Buscador -->
-        <div class="flex items-center mb-5 h-10 bg-[#efe7df80] rounded-full">
+        <div id="clients-buscar" class="mb-5 flex h-10 items-center rounded-full bg-[#efe7df80]">
           <svg
-            class="h-5 sm:h-6 ml-4 sm:ml-5 shrink-0"
+            class="ml-4 h-5 shrink-0 sm:ml-5 sm:h-6"
             viewBox="0 0 24 24"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
               <g clip-path="url(#clip0_15_152)">
                 <rect width="24" height="24" fill=""></rect>
@@ -86,10 +87,12 @@
                   cy="10.5"
                   r="6.5"
                   stroke="#2B5392BD"
-                  stroke-linejoin="round"></circle>
+                  stroke-linejoin="round"
+                ></circle>
                 <path
                   d="M19.6464 20.3536C19.8417 20.5488 20.1583 20.5488 20.3536 20.3536C20.5488 20.1583 20.5488 19.8417 20.3536 19.6464L19.6464 20.3536ZM20.3536 19.6464L15.3536 14.6464L14.6464 15.3536L19.6464 20.3536L20.3536 19.6464Z"
-                  fill="#2B5392BD"></path>
+                  fill="#2B5392BD"
+                ></path>
               </g>
               <defs>
                 <clipPath id="clip0_15_152">
@@ -102,38 +105,43 @@
             type="text"
             id="busquedaMascota"
             placeholder="Buscar por cédula..."
-            class="text-xs sm:text-sm ml-2.5 text-[#2b5392] bg-transparent border-none focus:outline-none w-full pr-4" />
+            class="ml-2.5 w-full border-none bg-transparent pr-4 text-xs text-[#2b5392] focus:outline-none sm:text-sm"
+          />
         </div>
         <!-- Tabla de clientes (visible desde md) -->
-        <article class="hidden md:flex justify-center w-full">
+        <article class="hidden w-full justify-center md:flex">
           <!-- Contenedor exterior (bordes redondeados reales) -->
-          <div
-            class="w-full bg-[#FBFAF8] rounded-xl border border-[#EAE6E1] overflow-hidden">
+          <div class="w-full overflow-hidden rounded-xl border border-[#EAE6E1] bg-[#FBFAF8]">
             <!-- Contenedor que maneja el scroll -->
-            <div
-              class="overflow-x-auto overflow-y-auto custom-scroll max-h-166">
+            <div class="custom-scroll max-h-166 overflow-x-auto overflow-y-auto">
               <table
-                class="w-full min-w-175 text-left text-sm lg:text-base xl:text-lg backdrop-blur-sm">
+                class="w-full min-w-175 text-left text-sm backdrop-blur-sm lg:text-base xl:text-lg"
+              >
                 <thead class="bg-[#FBFAF8]">
                   <tr class="text-[#2B5392]">
                     <th
-                      class="sticky top-0 bg-[#FBFAF8] z-20 px-4 lg:px-8 py-4 lg:py-6 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)]">
+                      class="sticky top-0 z-20 bg-[#FBFAF8] px-4 py-4 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)] lg:px-8 lg:py-6"
+                    >
                       Nombre
                     </th>
                     <th
-                      class="sticky top-0 bg-[#FBFAF8] z-20 px-4 lg:px-8 py-4 lg:py-6 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)]">
+                      class="sticky top-0 z-20 bg-[#FBFAF8] px-4 py-4 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)] lg:px-8 lg:py-6"
+                    >
                       Cédula
                     </th>
                     <th
-                      class="sticky top-0 bg-[#FBFAF8] z-20 px-4 lg:px-8 py-4 lg:py-6 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)]">
+                      class="sticky top-0 z-20 bg-[#FBFAF8] px-4 py-4 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)] lg:px-8 lg:py-6"
+                    >
                       Correo
                     </th>
                     <th
-                      class="sticky top-0 bg-[#FBFAF8] z-20 px-4 lg:px-8 py-4 lg:py-6 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)]">
+                      class="sticky top-0 z-20 bg-[#FBFAF8] px-4 py-4 font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)] lg:px-8 lg:py-6"
+                    >
                       Celular
                     </th>
                     <th
-                      class="sticky top-0 bg-[#FBFAF8] z-20 px-4 lg:px-8 py-4 lg:py-6 font-semibold text-center shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)]">
+                      class="sticky top-0 z-20 bg-[#FBFAF8] px-4 py-4 text-center font-semibold shadow-[inset_0_-1px_0_0_rgba(43,83,146,0.25)] lg:px-8 lg:py-6"
+                    >
                       Acciones
                     </th>
                   </tr>
@@ -141,52 +149,56 @@
                 <tbody class="text-[#4A4A4A]">
                   <tr
                     th:each="client : ${clients}"
-                    class="cursor-pointer group border-b border-[#EAE6E1] hover:bg-[#F2F6FC] transition-colors duration-200"
-                    th:onclick="|window.location.href='@{/vet/clients/{id}(id=${client.id})}'|">
+                    class="clients-row group cursor-pointer border-b border-[#EAE6E1] transition-colors duration-200 hover:bg-[#F2F6FC]"
+                    th:onclick="|window.location.href='@{/vet/clients/{id}(id=${client.id})}'|"
+                  >
                     <td
-                      class="px-4 lg:px-8 py-5 lg:py-7 font-semibold"
-                      th:text="${client.nombre}"></td>
+                      class="px-4 py-5 font-semibold lg:px-8 lg:py-7"
+                      th:text="${client.nombre}"
+                    ></td>
 
                     <td
-                      class="px-4 lg:px-8 py-5 lg:py-7 font-medium"
-                      th:text="${client.cedula}"></td>
+                      class="px-4 py-5 font-medium lg:px-8 lg:py-7"
+                      th:text="${client.cedula}"
+                    ></td>
 
-                    <td
-                      class="px-4 lg:px-8 py-5 lg:py-7"
-                      th:text="${client.correo}"></td>
+                    <td class="px-4 py-5 lg:px-8 lg:py-7" th:text="${client.correo}"></td>
 
-                    <td
-                      class="px-4 lg:px-8 py-5 lg:py-7"
-                      th:text="${client.celular}"></td>
+                    <td class="px-4 py-5 lg:px-8 lg:py-7" th:text="${client.celular}"></td>
 
-                    <td class="px-4 lg:px-8 py-5 lg:py-7 text-center">
+                    <td class="px-4 py-5 text-center lg:px-8 lg:py-7">
                       <div class="flex items-center justify-end gap-3">
                         <a
                           th:href="@{/vet/clients/update/{id}(id=${client.id})}"
-                          class="flex gap-2 justify-center items-center bg-transparent border px-3 lg:px-4 py-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200">
+                          class="flex items-center justify-center gap-2 rounded-lg border border-[#2B5392] bg-transparent px-3 py-2 text-[#2B5392] transition-colors duration-200 hover:bg-[#2B5392] hover:text-[#FBFAF8] lg:px-4"
+                        >
                           <svg
                             class="h-5 lg:h-6"
                             viewBox="0 0 24 24"
                             fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g
                               id="SVGRepo_tracerCarrier"
                               stroke-linecap="round"
-                              stroke-linejoin="round"></g>
+                              stroke-linejoin="round"
+                            ></g>
                             <g id="SVGRepo_iconCarrier">
                               <path
                                 d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
                                 stroke="currentColor"
                                 stroke-width="1.5"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"></path>
+                                stroke-linejoin="round"
+                              ></path>
                               <path
                                 d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
                                 stroke="currentColor"
                                 stroke-width="1.5"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"></path>
+                                stroke-linejoin="round"
+                              ></path>
                             </g>
                           </svg>
                         </a>
@@ -197,24 +209,28 @@
                             abrirModalEliminar(this.href);
                             return false;
                           "
-                          class="flex gap-2 justify-center items-center bg-transparent border px-3 lg:px-4 py-2 rounded-lg text-[#B22222] border-[#B22222] hover:bg-[#B22222] hover:text-[#FBFAF8] transition-colors duration-200">
+                          class="flex items-center justify-center gap-2 rounded-lg border border-[#B22222] bg-transparent px-3 py-2 text-[#B22222] transition-colors duration-200 hover:bg-[#B22222] hover:text-[#FBFAF8] lg:px-4"
+                        >
                           <svg
                             class="h-5 lg:h-6"
                             viewBox="0 0 24 24"
                             fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g
                               id="SVGRepo_tracerCarrier"
                               stroke-linecap="round"
-                              stroke-linejoin="round"></g>
+                              stroke-linejoin="round"
+                            ></g>
                             <g id="SVGRepo_iconCarrier">
                               <path
                                 d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17"
                                 stroke="currentColor"
                                 stroke-width="1.75"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"></path>
+                                stroke-linejoin="round"
+                              ></path>
                             </g>
                           </svg>
                         </a>
@@ -227,37 +243,40 @@
           </div>
         </article>
         <!-- Vista de tarjetas para móvil -->
-        <div class="md:hidden flex flex-col gap-3">
+        <div class="flex flex-col gap-3 md:hidden">
           <div
             th:each="client : ${clients}"
-            class="bg-[#FBFAF8] rounded-xl p-4 border border-[#EAE6E1] cursor-pointer hover:bg-[#F2F6FC] transition-colors duration-200"
-            th:onclick="|window.location.href='@{/vet/clients/{id}(id=${client.id})}'|">
-            <div class="flex items-center justify-between mb-3">
-              <h3
-                class="text-[#4A4A4A] font-semibold text-base"
-                th:text="${client.nombre}"></h3>
+            class="clients-card cursor-pointer rounded-xl border border-[#EAE6E1] bg-[#FBFAF8] p-4 transition-colors duration-200 hover:bg-[#F2F6FC]"
+            th:onclick="|window.location.href='@{/vet/clients/{id}(id=${client.id})}'|"
+          >
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="text-base font-semibold text-[#4A4A4A]" th:text="${client.nombre}"></h3>
               <div class="flex gap-2">
                 <a
                   th:href="@{/vet/clients/update/{id}(id=${client.id})}"
                   onclick="event.stopPropagation()"
-                  class="flex items-center justify-center bg-transparent border p-2 rounded-lg text-[#2B5392] border-[#2B5392] hover:bg-[#2B5392] hover:text-[#FBFAF8] transition-colors duration-200">
+                  class="flex items-center justify-center rounded-lg border border-[#2B5392] bg-transparent p-2 text-[#2B5392] transition-colors duration-200 hover:bg-[#2B5392] hover:text-[#FBFAF8]"
+                >
                   <svg
                     class="h-4 w-4"
                     viewBox="0 0 24 24"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
-                      stroke-linejoin="round"></path>
+                      stroke-linejoin="round"
+                    ></path>
                     <path
                       d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
                       stroke="currentColor"
                       stroke-width="1.5"
                       stroke-linecap="round"
-                      stroke-linejoin="round"></path>
+                      stroke-linejoin="round"
+                    ></path>
                   </svg>
                 </a>
                 <a
@@ -267,35 +286,36 @@
                     abrirModalEliminar(this.href);
                     return false;
                   "
-                  class="flex items-center justify-center bg-transparent border p-2 rounded-lg text-[#B22222] border-[#B22222] hover:bg-[#B22222] hover:text-[#FBFAF8] transition-colors duration-200">
+                  class="flex items-center justify-center rounded-lg border border-[#B22222] bg-transparent p-2 text-[#B22222] transition-colors duration-200 hover:bg-[#B22222] hover:text-[#FBFAF8]"
+                >
                   <svg
                     class="h-4 w-4"
                     viewBox="0 0 24 24"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17"
                       stroke="currentColor"
                       stroke-width="1.75"
                       stroke-linecap="round"
-                      stroke-linejoin="round"></path>
+                      stroke-linejoin="round"
+                    ></path>
                   </svg>
                 </a>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-1.5 text-sm">
               <div class="flex items-center gap-2">
-                <span class="text-[#2B5392] font-medium min-w-15">Cédula</span>
+                <span class="min-w-15 font-medium text-[#2B5392]">Cédula</span>
                 <span class="text-[#4A4A4A]" th:text="${client.cedula}"></span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-[#2B5392] font-medium min-w-15">Correo</span>
-                <span
-                  class="text-[#4A4A4A] truncate"
-                  th:text="${client.correo}"></span>
+                <span class="min-w-15 font-medium text-[#2B5392]">Correo</span>
+                <span class="truncate text-[#4A4A4A]" th:text="${client.correo}"></span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-[#2B5392] font-medium min-w-15">Celular</span>
+                <span class="min-w-15 font-medium text-[#2B5392]">Celular</span>
                 <span class="text-[#4A4A4A]" th:text="${client.celular}"></span>
               </div>
             </div>
@@ -305,25 +325,26 @@
       <!-- Modal Eliminar -->
       <article
         id="modalEliminar"
-        class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+        class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40 backdrop-blur-sm"
+      >
         <div
-          class="bg-[#FBFAF8] w-[90%] max-w-md rounded-2xl shadow-xl px-8 py-10 animate-fadeIn text-center justify-center space-y-4">
-          <h2 class="text-xl font-extrabold text-[#4A4A4A] tracking-wide">
-            Confirmar Eliminación
-          </h2>
-          <p class="text-[#8d8580] text-center">
-            ¿Estás seguro de que deseas eliminar este cliente? Esta acción no se
-            puede deshacer.
+          class="animate-fadeIn w-[90%] max-w-md justify-center space-y-4 rounded-2xl bg-[#FBFAF8] px-8 py-10 text-center shadow-xl"
+        >
+          <h2 class="text-xl font-extrabold tracking-wide text-[#4A4A4A]">Confirmar Eliminación</h2>
+          <p class="text-center text-[#8d8580]">
+            ¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer.
           </p>
           <div class="flex justify-end gap-4">
             <button
               onclick="cerrarModalEliminar()"
-              class="cursor-pointer px-4 py-2 rounded-lg border border-[#2B5392] text-[#2B5392] hover:bg-[#2B5392] hover:text-white transition">
+              class="cursor-pointer rounded-lg border border-[#2B5392] px-4 py-2 text-[#2B5392] transition hover:bg-[#2B5392] hover:text-white"
+            >
               Cancelar
             </button>
             <button
               onClick="confirmarEliminar()"
-              class="cursor-pointer px-4 py-2 rounded-lg border border-[#B22222] text-[#B22222] hover:bg-[#B22222] hover:text-white transition">
+              class="cursor-pointer rounded-lg border border-[#B22222] px-4 py-2 text-[#B22222] transition hover:bg-[#B22222] hover:text-white"
+            >
               Eliminar
             </button>
           </div>
@@ -331,6 +352,80 @@
       </article>
     </main>
     <footer th:replace="fragmentos::footer"></footer>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const backLink = document.querySelector(".back-link");
+        const titulo = document.querySelector("#clients-titulo > div:first-child");
+        const btnAgregar = document.querySelector("#clients-titulo > div:last-child");
+        const buscador = document.querySelector("#clients-buscar");
+        const headerEls = [backLink, titulo, btnAgregar, buscador].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 80);
+              });
+            });
+          });
+        }
+
+        const rows = [...document.querySelectorAll(".clients-row")];
+        const cards = [...document.querySelectorAll(".clients-card")];
+        const scrollTargets = [...rows, ...cards];
+
+        if (!scrollTargets.length || prefersReducedMotion) return;
+
+        scrollTargets.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 45;
+        const REVEAL_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = REVEAL_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        scrollTargets.forEach((el) => observer.observe(el));
+      })();
+    </script>
     <script th:src="@{/js/modal-eliminar-cliente.js}"></script>
   </body>
 </html>
