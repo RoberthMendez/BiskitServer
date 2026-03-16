@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biskit</title>
+    <link rel="icon" type="image/png" th:href="@{/images/marca/icono.png}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header th:replace="fragmentos::navbar-logged"></header>
+    <main>
+      <a
+        th:href="@{/}"
+        class="back-link group inline-flex justify-start items-center h-10 ml-5 sm:ml-8 md:ml-16 lg:ml-28 mt-8 mb-2"
+      >
+        <svg
+          class="h-9 mt-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M8 12L16 12"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M11 9L8.08704 11.913V11.913C8.03897 11.961 8.03897 12.039 8.08704 12.087V12.087L11 15"
+              stroke="#6B6B6B"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </g>
+        </svg>
+        <h2
+          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+        >
+          Panel de Administrador
+        </h2>
+      </a>
+
+      <section
+        class="grid grid-cols-1 items-center md:grid-cols-2 mx-4 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-28 mt-5 mb-10 gap-6 md:gap-8 lg:gap-12"
+      >
+        <!----- CARD DE IMAGEN ----->
+        <div
+          class="order-last relative overflow-hidden rounded-2xl h-75 md:h-160 w-full shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)]"
+        >
+          <img
+            src="/images/add-vet/add-vet.jpg"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"
+          ></div>
+          <div class="absolute bottom-6 left-8 text-white max-w-md">
+            <div class="mb-2 flex items-center gap-2 text-xs sm:text-sm font-medium">
+              <img
+                th:src="@{/images/marca/icono.png}"
+                alt="icono"
+                class="h-5 w-5 sm:h-6 sm:w-6"
+              />
+              <span>Biskit</span>
+            </div>
+            <h2 class="text-3xl font-bold leading-tight">
+              Un gran equipo hace la diferencia
+            </h2>
+            <p 
+                th:text="${vet.id != null} ? 'Edite los campos de los datos que desea actualizar' : 'Registra los datos del veterinario para incorporarlo al equipo y gestionar su acceso al sistema.'"
+                class="mt-3 text-sm opacity-90">  
+            </p>
+          </div>
+        </div>
+        
+        <!---- Formulario ------>
+        <article
+          class="flex flex-col gap-0 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] rounded-b-2xl overflow-hidden"
+        >
+          <!-- Título -->
+          <div
+            class="flex gap-4 sm:gap-7 items-center bg-[#F6F7F8] px-4 sm:px-6 md:px-8 py-4 sm:py-5 rounded-t-2xl"
+          >
+            <img
+              th:src="@{/images/marca/icono.png}"
+              alt="icono"
+              class="h-8 w-8 sm:h-10 sm:w-10"
+            />
+            <div class="flex flex-col">
+              <h2
+                th:text="${vet.id != null} ? 'Actualizar Veterinario' : 'Nuevo Veterinario'"
+                class="text-xl sm:text-2xl font-bold tracking-wide text-[#4A4A4A]"
+              ></h2>
+              <p
+                th:text="${vet.id != null} ? 'Edite los datos del veterinario' : 'Complete la información del nuevo veterinario'"
+                class="text-[10px] sm:text-xs text-[#8D8580] font-semibold"
+              ></p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <div class="w-full p-4 sm:p-6 md:p-8 bg-[#FBFAF8]">
+            <form
+              th:object="${vet}"
+              th:action="@{/admin/vets/add}"
+              method="post"
+              class="space-y-4 sm:space-y-5"
+            >
+              <input type="hidden" th:field="*{id}" />
+              <input type="hidden" th:field="*{credenciales.id}" />
+              <input type="hidden" th:field="*{credenciales.usuario}" />
+              <input type="hidden" th:field="*{credenciales.password}" />
+
+              <!-- ── DATOS DEL VETERINARIO ── -->
+
+              <!-- Nombre -->
+              <div>
+                <label
+                  for="nombre"
+                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                >
+                  Nombre completo
+                </label>
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                >
+                  <input
+                    th:field="*{nombre}"
+                    id="nombre"
+                    type="text"
+                    placeholder="Ej. Dr. Carlos Pérez"
+                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                  />
+                </div>
+              </div>
+
+              <!-- Correo y Cédula -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Correo -->
+                <div>
+                  <label
+                    for="correo"
+                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                  >
+                    Correo electrónico
+                  </label>
+                  <div
+                    class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                  >
+                    <input
+                      th:field="*{correo}"
+                      id="correo"
+                      type="email"
+                      placeholder="Ej. carlos@biskit.com"
+                      class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                    />
+                  </div>
+                </div>
+
+                <!-- Cédula -->
+                <div>
+                  <label
+                    for="cedula"
+                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                  >
+                    Cédula
+                  </label>
+                  <div
+                    class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                  >
+                    <input
+                      th:field="*{cedula}"
+                      id="cedula"
+                      type="text"
+                      placeholder="Ej. 1234567890"
+                      class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Especialidad -->
+              <div class="relative">
+                <label
+                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                >
+                  Especialidad
+                </label>
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 py-3"
+                >
+                  <input
+                    type="text"
+                    id="especialidadSearch"
+                    th:value="${vet.especialidad != null ? vet.especialidad.nombre : ''}"
+                    placeholder="Buscar especialidad..."
+                    autocomplete="off"
+                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A]"
+                  />
+                </div>
+                <input
+                  type="hidden"
+                  th:field="*{especialidad.id}"
+                  id="especialidadId"
+                  th:value="${vet.especialidad != null ? vet.especialidad.id : ''}"
+                />
+                <div
+                  id="especialidadDropdown"
+                  class="absolute custom-scroll z-10 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto transition-all duration-100 ease-out opacity-0 -translate-y-1 scale-95 pointer-events-none hidden"
+                >
+                  <div
+                    th:each="esp : ${especialidades}"
+                    class="especialidad-option px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                    th:data-id="${esp.id}"
+                    th:data-nombre="${esp.nombre}"
+                  >
+                    <p
+                      class="font-semibold text-sm text-gray-800"
+                      th:text="${esp.nombre}"
+                    ></p>
+                  </div>
+                  <div
+                    id="openAddEspecialidadModal"
+                    class="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                  >
+                    <p
+                      class="font-semibold text-sm text-[#2b5392] flex items-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#2b5392"
+                      >
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8V11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H13V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V13H8C7.44771 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11H11V8Z"
+                            fill="#2b5392"
+                          ></path>
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
+                            fill="#2b5392"
+                          ></path>
+                        </g>
+                      </svg>
+                      Agregar Especialidad
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- URL Foto -->
+              <div>
+                <label
+                  for="urlFoto"
+                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                >
+                  Foto (URL)
+                </label>
+                <div
+                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                >
+                  <input
+                    th:field="*{urlFoto}"
+                    id="urlFoto"
+                    type="text"
+                    placeholder="Ej. https://ejemplo.com/foto.jpg"
+                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                  />
+                </div>
+              </div>
+
+              <!-- Estado (solo al editar) -->
+              <div th:if="*{id != null}">
+                <label
+                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                >
+                  Estado
+                </label>
+                <select
+                  th:field="*{estado}"
+                  class="bg-gray-50 w-full text-[#4A4A4A] border border-gray-200 rounded-xl px-3 py-2 h-12"
+                >
+                  <option th:value="true">Activo</option>
+                  <option th:value="false">Inactivo</option>
+                </select>
+              </div>
+
+              <!-- Botón -->
+              <button
+                type="submit"
+                class="flex items-center justify-center w-full mt-4 sm:mt-6 cursor-pointer bg-[#2b5392] text-[#FBFAF8] text-sm sm:text-base font-semibold py-2.5 sm:py-3 rounded-xl gap-2 transition shadow-md hover:bg-[#1a3a6b] [transition:background-color_0.25s_ease]"
+              >
+                <svg
+                  class="h-6 w-6 sm:h-7 sm:w-7"
+                  fill="#FBFAF8"
+                  viewBox="0 0 14 14"
+                  role="img"
+                  focusable="false"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M 5.1437726,1 C 3.8705419,1 3.6677179,2.73201 3.9942398,3.6074767 4.2014407,4.1664121 4.8325467,4.7063497 5.4802212,4.4766355 6.317792,4.0625461 6.5544419,3.0007815 6.3213426,2.1775701 6.2083061,1.6291807 5.7708219,1 5.1437726,1 Z M 8.7045202,1 C 8.0774706,1 7.639987,1.6291807 7.5269501,2.1775701 7.2938514,3.0007815 7.530503,4.0625461 8.3680716,4.4766355 9.0157459,4.7063497 9.6468518,4.1664121 9.8540529,3.6074767 10.180575,2.73201 9.9777512,1 8.7045202,1 Z M 1.4974872,3.775701 C 0.99453653,4.2786516 1.0603984,5.7259965 1.9741226,6.3271028 2.566345,6.6306959 3.1674111,6.238153 3.3759918,5.7663552 3.7282343,5.0962718 3.6314374,4.1437972 3.0115058,3.6635514 2.4181204,3.2675013 1.9623141,3.3108741 1.4974872,3.775701 Z M 10.974123,3.6635514 c -0.432609,0.2497664 -0.716729,1.4327204 -0.364486,2.1028038 0.208581,0.4717982 0.837684,0.8643407 1.429906,0.5607476 C 12.953267,5.7259965 13.000929,4.288489 12.488141,3.775701 12.010882,3.3762084 11.445922,3.3911577 10.974123,3.6635514 Z M 6.9928142,4.9252337 c -2.2297852,0 -4.0373832,1.807598 -4.0373832,4.0373831 C 2.955431,11.192402 4.763029,13 6.9928142,13 9.222599,13 11.030197,11.192402 11.030197,8.9626168 c 0,-2.2297851 -1.807598,-4.0373831 -4.0373828,-4.0373831 z m -0.8971963,1.3457944 1.7943926,0 0,1.7943925 1.7943925,0 0,1.7943924 -1.7943925,0.02804 0,1.766356 -1.7943926,0 0,-1.794393 -1.7943925,0 0,-1.7943924 1.7943925,0 z"
+                    ></path>
+                  </g>
+                </svg>
+                <span
+                  th:text="${vet.id != null} ? 'Guardar Cambios' : 'Registrar Veterinario'"
+                ></span>
+              </button>
+
+              <p
+                th:if="*{id == null}"
+                class="text-sm text-[#8D8580] font-medium text-center mt-2"
+              >
+                El estado del veterinario se establecerá automáticamente como
+                <span class="text-[#2b5392] font-semibold">Activo</span>
+              </p>
+            </form>
+          </div>
+          <!-- Modal para agregar especialidad -->
+          <div
+            id="addEspecialidadModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-4"
+          >
+            <div class="w-full max-w-md rounded-2xl bg-[#FBFAF8] p-6 shadow-xl">
+              <div class="mb-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-[#4A4A4A]">Agregar Especialidad</h3>
+                <button
+                  id="closeAddEspecialidadModal"
+                  type="button"
+                  class="text-2xl font-bold text-[#8D8580] hover:text-[#4A4A4A] transition-colors"
+                >
+                  ×
+                </button>
+              </div>
+
+              <p class="mb-3 text-sm text-[#8D8580]">
+                Ingresa el nombre de la nueva especialidad
+              </p>
+
+              <input
+                id="newEspecialidadNombre"
+                type="text"
+                placeholder="Ej. Cardiología"
+                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-[#4A4A4A] outline-none focus:border-[#2b5392] focus:ring-2 focus:ring-[#2b5392]/20"
+              />
+
+              <p
+                id="addEspecialidadError"
+                class="mt-2 hidden text-sm font-medium text-red-600"
+              ></p>
+
+              <div class="mt-5 flex justify-end gap-2">
+                <button
+                  id="cancelAddEspecialidad"
+                  type="button"
+                  class="rounded-xl border border-gray-200 bg-white px-4 py-2 font-semibold text-[#4A4A4A] hover:bg-gray-100 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  id="saveNewEspecialidad"
+                  type="button"
+                  class="rounded-xl bg-[#2b5392] px-4 py-2 font-semibold text-white hover:bg-[#1a3a6b] transition-colors"
+                >
+                  Agregar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer th:replace="fragmentos::footer"></footer>
+    <script th:src="@{/js/add-vet.js}"></script>
+  </body>
+</html>
