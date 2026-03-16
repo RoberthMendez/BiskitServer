@@ -39,10 +39,13 @@ public class Pet {
 
   @Column(name = "estado")
   private boolean estado;
+
   @Column(name = "fecha_nacimiento", nullable = false)
   private Date fechaNacimiento;
+
   @Column(name = "peso")
   private float peso;
+  
   @Column(name = "url_foto", length = 255)
   private String URLFoto;
 

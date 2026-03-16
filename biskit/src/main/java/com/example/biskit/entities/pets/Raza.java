@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 @AllArgsConstructor
 @Builder
 public class Raza {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,4 +29,5 @@ public class Raza {
     @ManyToOne
     @JoinColumn(name = "especie_id", nullable = false)
     private Especie especie;
+    
 }

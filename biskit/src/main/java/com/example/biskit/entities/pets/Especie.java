@@ -20,6 +20,7 @@ public class Especie {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  
   @Column(name = "nombre", nullable = false, length = 100, unique = true)
   private String nombre;
 
