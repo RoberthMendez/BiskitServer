@@ -8,8 +8,6 @@ import java.util.Collection;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.repo.DrogasRepo;
 
-import com.example.biskit.entities.Tratamiento;
-
 @Service
 public class DrogasImpl implements DrogasService {
 
