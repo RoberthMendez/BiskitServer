@@ -28,4 +28,7 @@ public interface ClientsService {
 
   public Client findByUsuario(String usuario);
 
+  public boolean existeCedula(String cedula);
+
+  public boolean existeCorreo(String usuario);
 }

@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.service.Clients.ClientsService;
+
+import com.example.biskit.service.Credenciales.CredencialesService;
 
 @Controller
 @RequestMapping("/vet")
@@ -40,14 +43,54 @@ public class VetsClientsController {
 
   // ----- Añadir Cliente (CREATE) -----
   @GetMapping("/clients/add")
-  public String mostrarFormularioNuevoCliente(Model model) {
-    Client client = new Client();
-    model.addAttribute("client", client);
+  public String mostrarFormularioNuevoCliente(@RequestParam(required = false) String error, Model model) {
+
+    model.addAttribute("client", new Client());
+
+    if (error != null) {
+      if (error.equals("nombre_vacio")) {
+        model.addAttribute("error", "El campo de nombre no puede estar vacío");
+      } else if (error.equals("cedula_vacia")) {
+        model.addAttribute("error", "El campo de cédula no puede estar vacío");
+      } else if (error.equals("usuario_vacio")) {
+        model.addAttribute("error", "El campo de correo no puede estar vacío");
+      } else if (error.equals("celular_vacio")) {
+        model.addAttribute("error", "El campo de teléfono no puede estar vacío");
+      } else if (error.equals("cedula_existente")) {
+        model.addAttribute("error", "La cédula ya está registrada con un cliente existente");
+      } else if (error.equals("correo_existente")) {
+        model.addAttribute("error", "El correo ya está registrado con un cliente existente");
+      }
+    }
+
     return clientsPath + "add-client";
   }
 
   @PostMapping("/clients/add")
   public String agregarCliente(@ModelAttribute("client") Client client) {
+
+    if (client.getNombre().isEmpty()) {
+      return "redirect:/vet/clients/add?error=nombre_vacio";
+    }
+    if (client.getCedula().isEmpty()) {
+      return "redirect:/vet/clients/add?error=cedula_vacia";
+    }
+    if (client.getCorreo().isEmpty()) {
+      return "redirect:/vet/clients/add?error=usuario_vacio";
+    }
+    if (client.getCelular().isEmpty()) {
+      return "redirect:/vet/clients/add?error=celular_vacio";
+    }
+
+    if (clientsService.existeCedula(client.getCedula())) {
+      return "redirect:/vet/clients/add?error=cedula_existente";
+    }
+
+    if (clientsService.existeCorreo(client.getCorreo())) {
+      return "redirect:/vet/clients/add?error=correo_existente";
+
+    }
+
     clientsService.addClient(client);
     return "redirect:/vet/clients";
   }
@@ -63,9 +106,9 @@ public class VetsClientsController {
   // @PostMapping("/clients/update")
   // public String actualizarCliente(@ModelAttribute("client") Client client) {
 
-  //   Client clientExistente = clientsService.getClientById(client.getId());
-  //   clientsService.updateClient(clientExistente);
-  //   return "redirect:/vet/clients";
+  // Client clientExistente = clientsService.getClientById(client.getId());
+  // clientsService.updateClient(clientExistente);
+  // return "redirect:/vet/clients";
 
   // }
 
