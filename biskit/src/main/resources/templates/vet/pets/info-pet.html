@@ -48,11 +48,12 @@
         </h2>
       </a>
       <section
+        id="info-pet-layout"
         class="mx-5 mt-5 mb-10 grid grid-cols-1 gap-8 sm:mx-8 md:mx-30 md:grid-cols-2 lg:mx-40 lg:grid-cols-3"
       >
         <!----- Card de la Mascota ----->
         <aside
-          class="card-mascota group rounded-2xlcard-mascota group mx-auto h-auto w-full max-w-full rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] md:max-w-xs lg:max-w-sm"
+          class="card-mascota info-pet-card group rounded-2xlcard-mascota group mx-auto h-auto w-full max-w-full rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] md:max-w-xs lg:max-w-sm"
         >
           <!-- CONTENIDO -->
           <article class="h-full">
@@ -233,7 +234,7 @@
         <aside class="flex flex-col gap-5 lg:col-span-2">
           <!-- Tratamientos -->
           <article
-            class="mx-auto flex h-1/2 w-full flex-col rounded-2xl bg-[#FBFAF8] p-4 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
+            class="info-pet-tratamientos mx-auto flex h-1/2 w-full flex-col rounded-2xl bg-[#FBFAF8] p-4 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- Titulo -->
             <div class="mx-3 mt-2 mb-6 flex w-full items-center justify-between">
@@ -326,7 +327,7 @@
               <a
                 th:each="t : ${pet.tratamientos}"
                 th:href="@{/vet/pets/tratamiento/update/{id}(id=${t.id})}"
-                class="mx-5 mb-5 flex gap-2 rounded-lg p-2 transition hover:bg-blue-50"
+                class="info-pet-tratamiento-item mx-5 mb-5 flex gap-2 rounded-lg p-2 transition hover:bg-blue-50"
               >
                 <div class="w-0.5 bg-[#2B5392]"></div>
 
@@ -349,7 +350,7 @@
           </article>
           <!-- Dueño -->
           <article
-            class="mx-auto flex h-1/2 w-full flex-col items-center rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
+            class="info-pet-dueno mx-auto flex h-1/2 w-full flex-col items-center rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- Titulo -->
             <div class="mt-2 flex w-full items-center justify-start gap-1 px-5">
@@ -516,5 +517,76 @@
     </main>
     <footer th:replace="fragmentos::footer"></footer>
     <script th:src="@{/js/switch-estado.js}"></script>
+    <script>
+      (() => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const backLink = document.querySelector(".back-link");
+        const petCard = document.querySelector(".info-pet-card");
+        const tratamientosCard = document.querySelector(".info-pet-tratamientos");
+        const duenoCard = document.querySelector(".info-pet-dueno");
+        const headerEls = [backLink, petCard, tratamientosCard, duenoCard].filter(Boolean);
+
+        if (!prefersReducedMotion) {
+          headerEls.forEach((el) => el.classList.add("reveal-up"));
+
+          const HEADER_TRANSITION =
+            "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              headerEls.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.transition = HEADER_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * 90);
+              });
+            });
+          });
+        }
+
+        const tratamientosItems = [...document.querySelectorAll(".info-pet-tratamiento-item")];
+        if (!tratamientosItems.length || prefersReducedMotion) return;
+
+        tratamientosItems.forEach((el) => el.classList.add("reveal-up"));
+
+        const STAGGER_MS = 45;
+        const REVEAL_TRANSITION =
+          "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)";
+
+        const observer = new IntersectionObserver(
+          (entries, currentObserver) => {
+            const intersecting = entries.filter((e) => e.isIntersecting);
+            if (!intersecting.length) return;
+
+            intersecting
+              .sort((a, b) =>
+                a.target.compareDocumentPosition(b.target) & Node.DOCUMENT_POSITION_FOLLOWING
+                  ? -1
+                  : 1,
+              )
+              .forEach((entry, i) => {
+                const el = entry.target;
+                currentObserver.unobserve(el);
+                setTimeout(() => {
+                  el.style.transition = REVEAL_TRANSITION;
+                  el.classList.add("is-visible");
+                  setTimeout(() => {
+                    el.style.transition = "";
+                    el.classList.remove("reveal-up");
+                  }, 700);
+                }, i * STAGGER_MS);
+              });
+          },
+          { threshold: 0, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        tratamientosItems.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>
