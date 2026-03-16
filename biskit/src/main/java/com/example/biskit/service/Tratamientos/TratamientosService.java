@@ -7,6 +7,9 @@ import com.example.biskit.entities.Tratamiento;
 public interface TratamientosService {
 
     public Tratamiento getTratamientoById(Long id);
+
     public void addTratamiento(Tratamiento tratamiento, List<Long> drogasIds);
-    
+
+    public void deleteTratamiento(Long id);
+
 }

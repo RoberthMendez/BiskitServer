@@ -21,7 +21,12 @@ public class VetImpl implements VetService {
 
     @Override
     public Vet getVetById(Long id) {
-        return vetsRepo.findById(id).orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+        return vetsRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
     }
 
+    @Override
+    public void saveVet(Vet vet) {
+        vetsRepo.save(vet);
+    }
 }

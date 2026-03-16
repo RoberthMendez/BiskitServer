@@ -32,6 +32,7 @@ import com.example.biskit.entities.pets.Especie;
 import com.example.biskit.entities.pets.Enfermedad;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.pets.Raza;
+import com.example.biskit.entities.vets.Vet;
 
 @Controller
 @RequestMapping("/vet")
@@ -104,6 +105,7 @@ public class VetsPetsController {
     return "redirect:/vet/pets";
   }
 
+  // ----- Agregar Enfermedad -----
   @PostMapping("/pets/enfermedades/add")
   @ResponseBody
   public Map<String, Object> agregarEnfermedad(@RequestParam("nombre") String nombre) {
@@ -127,6 +129,8 @@ public class VetsPetsController {
     response.put("nombre", enfermedad.getNombre());
     return response;
   }
+
+  // Añadir Raza
 
   @PostMapping("/pets/razas/add")
   @ResponseBody
@@ -232,27 +236,22 @@ public class VetsPetsController {
   @GetMapping("/pets/tratamiento/{id}")
   public String mostrarTratamiento(@PathVariable("id") Long id, Model model) {
     Tratamiento tratamiento = tratamientosService.getTratamientoById(id);
+    Pet pet = tratamiento.getPet();
+    Client owner = pet.getOwner();
+    Vet vet = tratamiento.getVet();
     model.addAttribute("tratamiento", tratamiento);
+    model.addAttribute("pet", pet);
+    model.addAttribute("owner", owner);
+    model.addAttribute("veterinario", vet);
     return petsPath + "info-tratamiento";
   }
 
-  // ----- Eliminar Mascota (DELETE) -----
-
-  /*
-   * @GetMapping("/pets/delete/{id}")
-   * public String eliminarMascota(@PathVariable("id") Long id) {
-   * petsService.deletePet(id);
-   * clientsService.deletePetFromClient(id);
-   * return "redirect:/vet/pets";
-   * }
-   * //
-   */
-
-  // @PostMapping("/pets/cambiar-estado/{id}")
-  // public String postMethodName(@PathVariable("id") Long id, @RequestParam(name
-  // = "estado", defaultValue = "false") boolean estado) {
-  // petsService.cambiarEstadoPet(id, estado);
-  // return "redirect:/vet/pets";
-  // }
+  @PostMapping("/pets/tratamiento/delete/{id}")
+  public String eliminarTratamiento(@PathVariable("id") Long id) {
+    Tratamiento tratamiento = tratamientosService.getTratamientoById(id);
+    Long petId = tratamiento.getPet().getId();
+    tratamientosService.deleteTratamiento(id);
+    return "redirect:/vet/pets/" + petId;
+  }
 
 }

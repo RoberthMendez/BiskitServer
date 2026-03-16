@@ -8,6 +8,8 @@ import java.util.Collection;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.repo.DrogasRepo;
 
+import com.example.biskit.entities.Tratamiento;
+
 @Service
 public class DrogasImpl implements DrogasService {
 
@@ -24,5 +26,8 @@ public class DrogasImpl implements DrogasService {
         return drogasRepo.findById(id).orElseThrow(() -> new RuntimeException("No se encontró droga con id: " + id));
     }
 
-
+    @Override
+    public void saveDroga(Droga droga) {
+        drogasRepo.save(droga);
+    }
 }
