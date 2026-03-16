@@ -128,19 +128,20 @@
             th:each="pet : ${pets}"
             th:attr="data-nombre=${pet.nombre},data-url=@{/vet/pets/{id}(id=${pet.id})}"
             onclick="window.location.href = this.dataset.url"
-            class="card-mascota group mx-auto h-auto w-full max-w-xs cursor-pointer rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
+            class="card-mascota group mx-auto h-auto w-full max-w-xs cursor-pointer rounded-2xl bg-[#FBFAF8] pb-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- CONTENIDO -->
             <article class="h-full">
               <div class="space-y-3 overflow-hidden rounded-2xl">
                 <div class="relative">
+                  <!-- Botón de Editar -->
                   <a
                     th:href="@{/vet/pets/update/{id}(id=${pet.id})}"
                     onclick="event.stopPropagation()"
-                    class="absolute top-3 left-3 z-10 rounded-md px-1 py-1 text-[#2b5392] transition-all duration-200 hover:text-[#1a3a6b]"
+                    class="group/editar absolute top-4 left-4 z-10 rounded-lg border border-white/30 bg-white/20 p-2 text-white shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-white/30"
                   >
                     <svg
-                      class="h-7 transition-all duration-200 hover:scale-105"
+                      class="h-5 transition-all duration-200 group-hover/editar:scale-105"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"

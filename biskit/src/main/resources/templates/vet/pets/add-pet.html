@@ -22,21 +22,12 @@
     <header th:replace="fragmentos::navbar-logged"></header>
     <main>
       <a
-        th:href="@{/}"
-        class="back-link group inline-flex justify-start items-center h-10 ml-5 sm:ml-8 md:ml-16 lg:ml-28 mt-8 mb-2"
+        th:href="@{/vet/pets}"
+        class="back-link group mt-8 mb-2 ml-5 inline-flex h-10 items-center justify-start sm:ml-8 md:ml-16 lg:ml-28"
       >
-        <svg
-          class="h-9 mt-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="mt-1 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
             <path
               d="M8 12L16 12"
@@ -55,22 +46,22 @@
           </g>
         </svg>
         <h2
-          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+          class="ml-1 text-lg font-bold tracking-wider text-[#4a4a4acc] underline underline-offset-6 transition-colors duration-300 group-hover:text-[#4A4A4Aee]"
         >
           Panel de Veterinario
         </h2>
       </a>
       <section
-        class="grid grid-cols-1 items-center md:grid-cols-2 mx-4 sm:mx-8 md:mx-12 lg:mx-20 xl:mx-28 mt-5 mb-10 gap-6 md:gap-8 lg:gap-12"
+        class="mx-4 mt-5 mb-10 grid grid-cols-1 items-center gap-6 sm:mx-8 md:mx-12 md:grid-cols-2 md:gap-8 lg:mx-20 lg:gap-12 xl:mx-28"
       >
         <!----- CARD DE IMAGEN ----->
         <div
-          class="order-last relative overflow-hidden rounded-2xl h-75 md:h-150 w-full shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)]"
+          class="relative order-last h-75 w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] md:h-150"
         >
           <!-- Imagen -->
           <img
             src="/images/add-pet/add-pet.jpg"
-            class="absolute inset-0 w-full h-full object-cover"
+            class="absolute inset-0 h-full w-full object-cover"
           />
 
           <!-- Degradado  -->
@@ -79,52 +70,42 @@
           ></div>
 
           <!-- Texto -->
-          <div class="absolute bottom-6 left-8 text-white max-w-md">
-            <div
-              class="mb-2 flex items-center gap-2 text-xs sm:text-sm font-medium"
-            >
-              <img
-                th:src="@{/images/marca/icono.png}"
-                alt="icono"
-                class="h-5 w-5 sm:h-6 sm:w-6"
-              />
+          <div class="absolute bottom-6 left-8 max-w-md text-white">
+            <div class="mb-2 flex items-center gap-2 text-xs font-medium sm:text-sm">
+              <img th:src="@{/images/marca/icono.png}" alt="icono" class="h-5 w-5 sm:h-6 sm:w-6" />
               <span>Biskit</span>
             </div>
-            <h2 class="text-3xl font-bold leading-tight">
+            <h2 class="text-3xl leading-tight font-bold">
               Cada paciente merece atención personalizada
             </h2>
             <p class="mt-3 text-sm opacity-90">
-              Registra los datos del nuevo paciente para brindarle el mejor
-              cuidado durante su hospitalización.
+              Registra los datos del nuevo paciente para brindarle el mejor cuidado durante su
+              hospitalización.
             </p>
           </div>
         </div>
         <!---- Formulario ------>
         <article
-          class="flex flex-col gap-0 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] rounded-b-2xl overflow-hidden"
+          class="flex flex-col gap-0 overflow-hidden rounded-b-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)]"
         >
           <!-- Titulo -->
           <div
-            class="flex gap-4 sm:gap-7 items-center bg-[#F6F7F8] px-4 sm:px-6 md:px-8 py-4 sm:py-5 rounded-t-2xl"
+            class="flex items-center gap-4 rounded-t-2xl bg-[#F6F7F8] px-4 py-4 sm:gap-7 sm:px-6 sm:py-5 md:px-8"
           >
-            <img
-              th:src="@{/images/marca/icono.png}"
-              alt="icono"
-              class="h-8 w-8 sm:h-10 sm:w-10"
-            />
+            <img th:src="@{/images/marca/icono.png}" alt="icono" class="h-8 w-8 sm:h-10 sm:w-10" />
             <div class="flex flex-col">
               <h2
                 th:text="${pet.id != null} ? 'Actualizar Mascota' : 'Nuevo Paciente'"
-                class="text-xl sm:text-2xl font-bold tracking-wide text-[#4A4A4A]"
+                class="text-xl font-bold tracking-wide text-[#4A4A4A] sm:text-2xl"
               ></h2>
               <p
                 th:text="${pet.id != null} ? 'Edite los datos del paciente' : 'Complete la información del nuevo paciente'"
-                class="text-[10px] sm:text-xs text-[#8D8580] font-semibold"
+                class="text-[10px] font-semibold text-[#8D8580] sm:text-xs"
               ></p>
             </div>
           </div>
           <!-- Form -->
-          <div class="w-full p-4 sm:p-6 md:p-8 bg-[#FBFAF8]">
+          <div class="w-full bg-[#FBFAF8] p-4 sm:p-6 md:p-8">
             <form
               th:object="${pet}"
               th:action="@{/vet/pets/add}"
@@ -135,35 +116,31 @@
               <div>
                 <label
                   for="nombre-mascota"
-                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                  class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                 >
                   Nombre del paciente
                 </label>
-                <div
-                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
-                >
+                <div class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 sm:px-4 sm:py-3">
                   <input
                     th:field="*{nombre}"
                     id="nombre-mascota"
                     type="text"
                     placeholder="Ej. Firulais, Michi..."
-                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                    class="w-full bg-transparent text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 outline-none sm:text-base"
                   />
                 </div>
               </div>
               <!-- Especie y Raza -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <!-- Especie -->
                 <div class="relative">
-                  <label
-                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
-                  >
+                  <label class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base">
                     Especie
                   </label>
 
                   <div
                     th:field="*{especie}"
-                    class="bg-gray-50 w-full text-[#4A4A4A] border border-gray-200 rounded-xl px-3 py-2 h-11"
+                    class="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-[#4A4A4A]"
                   >
                     <input
                       type="text"
@@ -171,7 +148,7 @@
                       th:value="${pet.especie != null ? pet.especie.nombre : ''}"
                       placeholder="Seleccione la especie..."
                       autocomplete="off"
-                      class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A]"
+                      class="w-full bg-transparent text-sm text-[#4A4A4A] outline-none sm:text-base"
                     />
                   </div>
 
@@ -186,16 +163,16 @@
                   <!-- Dropdown -->
                   <div
                     id="especieDropdown"
-                    class="absolute custom-scroll z-30 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto transition-all duration-100 ease-out opacity-0 -translate-y-1 scale-95 pointer-events-none hidden"
+                    class="custom-scroll pointer-events-none absolute z-30 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
                   >
                     <div
                       th:each="especie : ${especies}"
-                      class="especie-option px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                      class="especie-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                       th:data-nombre="${especie.nombre}"
                       th:data-id="${especie.id}"
                     >
                       <p
-                        class="font-semibold text-sm text-gray-800"
+                        class="text-sm font-semibold text-gray-800"
                         th:text="${especie.nombre}"
                       ></p>
                     </div>
@@ -205,13 +182,13 @@
                 <div class="relative">
                   <label
                     for="razaSearch"
-                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                    class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                   >
                     Raza
                   </label>
                   <!-- Input visible -->
                   <div
-                    class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                    class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 sm:px-4 sm:py-3"
                   >
                     <input
                       type="text"
@@ -219,7 +196,7 @@
                       th:value="${pet.raza != null ? pet.raza.nombre : ''}"
                       autocomplete="off"
                       placeholder="Seleccione la raza..."
-                      class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                      class="w-full bg-transparent text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 outline-none sm:text-base"
                     />
                   </div>
 
@@ -232,29 +209,24 @@
 
                   <div
                     id="razaDropdown"
-                    class="absolute custom-scroll z-30 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto transition-all duration-100 ease-out opacity-0 -translate-y-1 scale-95 pointer-events-none hidden"
+                    class="custom-scroll pointer-events-none absolute z-30 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
                   >
                     <div
                       th:each="raza : ${razas}"
-                      class="raza-option px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                      class="raza-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                       th:data-nombre="${raza.nombre}"
                       th:data-id="${raza.id}"
                       th:data-especie-id="${raza.especie != null ? raza.especie.id : ''}"
                     >
-                      <p
-                        class="font-semibold text-sm text-gray-800"
-                        th:text="${raza.nombre}"
-                      ></p>
+                      <p class="text-sm font-semibold text-gray-800" th:text="${raza.nombre}"></p>
                     </div>
                     <div
                       id="openAddRazaModal"
-                      class="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                      class="cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                     >
-                      <p
-                        class="font-semibold text-sm text-[#2b5392] flex items-center gap-2"
-                      >
+                      <p class="flex items-center gap-2 text-sm font-semibold text-[#2b5392]">
                         <svg
-                          class="w-4 h-4 shrink-0"
+                          class="h-4 w-4 shrink-0"
                           viewBox="0 0 24 24"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -286,21 +258,21 @@
                 </div>
               </div>
               <!-- Fecha de nacimiento y Peso -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <!-- Fecha de nacimiento -->
                 <div class="relative max-w-sm">
                   <label
                     for="fechaNacimiento"
-                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                    class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                   >
                     Fecha de nacimiento
                   </label>
                   <div class="relative">
                     <div
-                      class="absolute inset-y-0 left-3 z-10 flex items-center pointer-events-none"
+                      class="pointer-events-none absolute inset-y-0 left-3 z-10 flex items-center"
                     >
                       <svg
-                        class="h-5 w-5 text-body"
+                        class="text-body h-5 w-5"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -330,7 +302,7 @@
                       id="fechaNacimiento"
                       type="text"
                       placeholder="Seleccione la fecha de nacimiento..."
-                      class="block w-full ps-10 pe-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[#4A4A4A] text-sm sm:text-base outline-none transition focus:border-[#2b5392] focus:ring-2 focus:ring-[#2b5392]/20 placeholder-[#4A4A4A]/50"
+                      class="block w-full rounded-xl border border-gray-200 bg-gray-50 py-3 ps-10 pe-3 text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 transition outline-none focus:border-[#2b5392] focus:ring-2 focus:ring-[#2b5392]/20 sm:text-base"
                     />
                   </div>
                 </div>
@@ -338,12 +310,12 @@
                 <div>
                   <label
                     for="peso"
-                    class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                    class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                   >
                     Peso (kg)
                   </label>
                   <div
-                    class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
+                    class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 sm:px-4 sm:py-3"
                   >
                     <input
                       th:field="*{peso}"
@@ -351,7 +323,7 @@
                       id="peso"
                       type="text"
                       placeholder="Ej. 10.5"
-                      class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                      class="w-full bg-transparent text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 outline-none sm:text-base"
                     />
                   </div>
                 </div>
@@ -359,23 +331,19 @@
 
               <!-- Dueño -->
               <div class="relative">
-                <label
-                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
-                >
+                <label class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base">
                   Dueño
                 </label>
 
                 <!-- Input visible -->
-                <div
-                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 py-3"
-                >
+                <div class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-3">
                   <input
                     type="text"
                     id="clienteSearch"
                     th:value="${owner != null ? owner.nombre : ''}"
                     placeholder="Buscar por nombre..."
                     autocomplete="off"
-                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A]"
+                    class="w-full bg-transparent text-sm text-[#4A4A4A] outline-none sm:text-base"
                   />
                 </div>
 
@@ -390,36 +358,28 @@
                 <!-- Dropdown -->
                 <div
                   id="clienteDropdown"
-                  class="absolute custom-scroll z-10 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto transition-all duration-100 ease-out opacity-0 -translate-y-1 scale-95 pointer-events-none hidden"
+                  class="custom-scroll pointer-events-none absolute z-10 mt-1 hidden max-h-60 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
                 >
                   <div
                     th:each="cliente : ${clientes}"
-                    class="cliente-option px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                    class="cliente-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                     th:data-nombre="${cliente.nombre}"
                     th:data-cedula="${cliente.cedula}"
                     th:data-id="${cliente.id}"
                   >
-                    <p
-                      class="font-semibold text-sm text-gray-800"
-                      th:text="${cliente.nombre}"
-                    ></p>
-                    <p
-                      class="text-xs text-gray-500"
-                      th:text="'Cédula: ' + ${cliente.cedula}"
-                    ></p>
+                    <p class="text-sm font-semibold text-gray-800" th:text="${cliente.nombre}"></p>
+                    <p class="text-xs text-gray-500" th:text="'Cédula: ' + ${cliente.cedula}"></p>
                   </div>
                 </div>
               </div>
               <!-- Estado -->
               <div th:if="*{id != null}">
-                <label
-                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
-                >
+                <label class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base">
                   Estado
                 </label>
                 <select
                   th:field="*{estado}"
-                  class="bg-gray-50 w-full text-[#4A4A4A] border border-gray-200 rounded-xl px-3 py-2 h-12"
+                  class="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-[#4A4A4A]"
                 >
                   <option th:value="true">Activo</option>
                   <option th:value="false">Inactivo</option>
@@ -429,21 +389,19 @@
               <div class="relative">
                 <label
                   for="enfermedadSearch"
-                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                  class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                 >
                   Enfermedad / Diagnóstico
                 </label>
                 <!-- Input visible -->
-                <div
-                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
-                >
+                <div class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 sm:px-4 sm:py-3">
                   <input
                     type="text"
                     id="enfermedadSearch"
                     th:value="${pet.enfermedad != null ? pet.enfermedad.nombre : ''}"
                     autocomplete="off"
                     placeholder="Seleccione la enfermedad o diagnóstico del paciente..."
-                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                    class="w-full bg-transparent text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 outline-none sm:text-base"
                   />
                 </div>
 
@@ -456,16 +414,16 @@
 
                 <div
                   id="enfermedadDropdown"
-                  class="absolute custom-scroll z-30 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-50 overflow-y-auto transition-all duration-100 ease-out opacity-0 -translate-y-1 scale-95 pointer-events-none hidden"
+                  class="custom-scroll pointer-events-none absolute z-30 mt-1 hidden max-h-50 w-full -translate-y-1 scale-95 overflow-y-auto rounded-xl border border-gray-200 bg-white opacity-0 shadow-lg transition-all duration-100 ease-out"
                 >
                   <div
                     th:each="enfermedad : ${enfermedades}"
-                    class="enfermedad-option px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                    class="enfermedad-option cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                     th:data-nombre="${enfermedad.nombre}"
                     th:data-id="${enfermedad.id}"
                   >
                     <p
-                      class="font-semibold text-sm text-gray-800"
+                      class="text-sm font-semibold text-gray-800"
                       th:text="${enfermedad.nombre}"
                     ></p>
                   </div>
@@ -473,13 +431,11 @@
                   <!-- Agregar enfermedad -->
                   <div
                     id="openAddEnfermedadModal"
-                    class="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                    class="cursor-pointer border-b border-gray-100 px-4 py-3 hover:bg-blue-50"
                   >
-                    <p
-                      class="font-semibold text-sm text-[#2b5392] flex items-center gap-2"
-                    >
+                    <p class="flex items-center gap-2 text-sm font-semibold text-[#2b5392]">
                       <svg
-                        class="w-4 h-4 shrink-0"
+                        class="h-4 w-4 shrink-0"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -513,19 +469,17 @@
               <div>
                 <label
                   for="foto"
-                  class="block text-[#4A4A4A] text-sm sm:text-base font-semibold mb-2"
+                  class="mb-2 block text-sm font-semibold text-[#4A4A4A] sm:text-base"
                 >
                   Foto (URL)
                 </label>
-                <div
-                  class="bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3"
-                >
+                <div class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 sm:px-4 sm:py-3">
                   <input
                     th:field="*{URLFoto}"
                     id="foto"
                     type="text"
                     placeholder="Ej. https://ejemplo.com/foto.jpg"
-                    class="w-full bg-transparent outline-none text-sm sm:text-base text-[#4A4A4A] placeholder-[#4A4A4A]/50"
+                    class="w-full bg-transparent text-sm text-[#4A4A4A] placeholder-[#4A4A4A]/50 outline-none sm:text-base"
                   />
                 </div>
               </div>
@@ -535,7 +489,7 @@
               <!-- Botón -->
               <button
                 type="submit"
-                class="flex items-center justify-center w-full mt-4 sm:mt-6 cursor-pointer bg-[#2b5392] text-[#FBFAF8] text-sm sm:text-base font-semibold py-2.5 sm:py-3 rounded-xl gap-2 transition shadow-md hover:bg-[#1a3a6b] [transition:background-color_0.25s_ease]"
+                class="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#2b5392] py-2.5 text-sm font-semibold text-[#FBFAF8] shadow-md transition [transition:background-color_0.25s_ease] hover:bg-[#1a3a6b] sm:mt-6 sm:py-3 sm:text-base"
               >
                 <svg
                   class="h-6 w-6 sm:h-7 sm:w-7"
@@ -547,27 +501,18 @@
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M 5.1437726,1 C 3.8705419,1 3.6677179,2.73201 3.9942398,3.6074767 4.2014407,4.1664121 4.8325467,4.7063497 5.4802212,4.4766355 6.317792,4.0625461 6.5544419,3.0007815 6.3213426,2.1775701 6.2083061,1.6291807 5.7708219,1 5.1437726,1 Z M 8.7045202,1 C 8.0774706,1 7.639987,1.6291807 7.5269501,2.1775701 7.2938514,3.0007815 7.530503,4.0625461 8.3680716,4.4766355 9.0157459,4.7063497 9.6468518,4.1664121 9.8540529,3.6074767 10.180575,2.73201 9.9777512,1 8.7045202,1 Z M 1.4974872,3.775701 C 0.99453653,4.2786516 1.0603984,5.7259965 1.9741226,6.3271028 2.566345,6.6306959 3.1674111,6.238153 3.3759918,5.7663552 3.7282343,5.0962718 3.6314374,4.1437972 3.0115058,3.6635514 2.4181204,3.2675013 1.9623141,3.3108741 1.4974872,3.775701 Z M 10.974123,3.6635514 c -0.432609,0.2497664 -0.716729,1.4327204 -0.364486,2.1028038 0.208581,0.4717982 0.837684,0.8643407 1.429906,0.5607476 C 12.953267,5.7259965 13.000929,4.288489 12.488141,3.775701 12.010882,3.3762084 11.445922,3.3911577 10.974123,3.6635514 Z M 6.9928142,4.9252337 c -2.2297852,0 -4.0373832,1.807598 -4.0373832,4.0373831 C 2.955431,11.192402 4.763029,13 6.9928142,13 9.222599,13 11.030197,11.192402 11.030197,8.9626168 c 0,-2.2297851 -1.807598,-4.0373831 -4.0373828,-4.0373831 z m -0.8971963,1.3457944 1.7943926,0 0,1.7943925 1.7943925,0 0,1.7943924 -1.7943925,0.02804 0,1.766356 -1.7943926,0 0,-1.794393 -1.7943925,0 0,-1.7943924 1.7943925,0 z"
                     ></path>
                   </g>
                 </svg>
-                <span
-                  th:text="${pet.id != null} ? 'Guardar Cambios' : 'Registrar Mascota'"
-                ></span>
+                <span th:text="${pet.id != null} ? 'Guardar Cambios' : 'Registrar Mascota'"></span>
               </button>
-              <p
-                th:if="*{id == null}"
-                class="text-sm text-[#8D8580] font-medium text-center mt-2"
-              >
+              <p th:if="*{id == null}" class="mt-2 text-center text-sm font-medium text-[#8D8580]">
                 El estado del paciente se establecerá automáticamente como
-                <span class="text-[#2b5392] font-semibold">Activo</span>
+                <span class="font-semibold text-[#2b5392]">Activo</span>
               </p>
             </form>
           </div>
@@ -582,7 +527,7 @@
                 <button
                   type="button"
                   id="closeAddRazaModal"
-                  class="text-xl leading-none text-[#8D8580] hover:text-[#4A4A4A] cursor-pointer"
+                  class="cursor-pointer text-xl leading-none text-[#8D8580] hover:text-[#4A4A4A]"
                 >
                   ×
                 </button>
@@ -599,23 +544,20 @@
                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-[#4A4A4A] outline-none focus:border-[#2b5392] focus:ring-2 focus:ring-[#2b5392]/20"
               />
 
-              <p
-                id="addRazaError"
-                class="mt-2 hidden text-sm font-medium text-red-600"
-              ></p>
+              <p id="addRazaError" class="mt-2 hidden text-sm font-medium text-red-600"></p>
 
               <div class="mt-5 flex justify-end gap-2">
                 <button
                   type="button"
                   id="cancelAddRaza"
-                  class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-[#4A4A4A] hover:bg-gray-100 cursor-pointer"
+                  class="cursor-pointer rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-[#4A4A4A] hover:bg-gray-100"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
                   id="saveNewRaza"
-                  class="rounded-xl bg-[#2b5392] px-4 py-2 text-sm font-semibold text-[#FBFAF8] hover:bg-[#1a3a6b] cursor-pointer"
+                  class="cursor-pointer rounded-xl bg-[#2b5392] px-4 py-2 text-sm font-semibold text-[#FBFAF8] hover:bg-[#1a3a6b]"
                 >
                   Guardar
                 </button>
@@ -629,13 +571,11 @@
           >
             <div class="w-full max-w-md rounded-2xl bg-[#FBFAF8] p-6 shadow-xl">
               <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-[#4A4A4A]">
-                  Agregar Enfermedad
-                </h3>
+                <h3 class="text-lg font-bold text-[#4A4A4A]">Agregar Enfermedad</h3>
                 <button
                   type="button"
                   id="closeAddEnfermedadModal"
-                  class="text-xl leading-none text-[#8D8580] hover:text-[#4A4A4A] cursor-pointer"
+                  class="cursor-pointer text-xl leading-none text-[#8D8580] hover:text-[#4A4A4A]"
                 >
                   ×
                 </button>
@@ -652,23 +592,20 @@
                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-[#4A4A4A] outline-none focus:border-[#2b5392] focus:ring-2 focus:ring-[#2b5392]/20"
               />
 
-              <p
-                id="addEnfermedadError"
-                class="mt-2 hidden text-sm font-medium text-red-600"
-              ></p>
+              <p id="addEnfermedadError" class="mt-2 hidden text-sm font-medium text-red-600"></p>
 
               <div class="mt-5 flex justify-end gap-2">
                 <button
                   type="button"
                   id="cancelAddEnfermedad"
-                  class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-[#4A4A4A] hover:bg-gray-100 cursor-pointer"
+                  class="cursor-pointer rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-[#4A4A4A] hover:bg-gray-100"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
                   id="saveNewEnfermedad"
-                  class="rounded-xl bg-[#2b5392] px-4 py-2 text-sm font-semibold text-[#FBFAF8] hover:bg-[#1a3a6b] cursor-pointer"
+                  class="cursor-pointer rounded-xl bg-[#2b5392] px-4 py-2 text-sm font-semibold text-[#FBFAF8] hover:bg-[#1a3a6b]"
                 >
                   Guardar
                 </button>
