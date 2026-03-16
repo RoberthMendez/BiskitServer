@@ -112,6 +112,9 @@
               method="post"
               class="space-y-4 sm:space-y-5"
             >
+            <div th:if="${error != null}">
+              <p class="text-red-500 text-sm" th:text="${error}"></p>
+            </div>
               <!-- Nombre del paciente -->
               <div>
                 <label

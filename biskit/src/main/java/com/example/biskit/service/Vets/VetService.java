@@ -6,6 +6,11 @@ import java.util.Collection;
 public interface VetService {
 
     public Collection<Vet> getVets();
+
     public Vet getVetById(Long id);
+
+    public void addVet(Vet vet);
+
+    public void saveVet(Vet vet);
 
 }

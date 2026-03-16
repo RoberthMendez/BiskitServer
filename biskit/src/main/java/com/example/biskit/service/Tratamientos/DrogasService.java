@@ -10,4 +10,6 @@ public interface DrogasService {
 
     public Droga getDrogaById(Long id);
 
+    public void saveDroga(Droga droga);
+
 }

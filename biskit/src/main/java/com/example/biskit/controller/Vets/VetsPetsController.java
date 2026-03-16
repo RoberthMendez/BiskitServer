@@ -2,14 +2,19 @@ package com.example.biskit.controller.Vets;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +37,7 @@ import com.example.biskit.entities.pets.Especie;
 import com.example.biskit.entities.pets.Enfermedad;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.pets.Raza;
+import com.example.biskit.entities.vets.Vet;
 
 @Controller
 @RequestMapping("/vet")
@@ -63,6 +69,19 @@ public class VetsPetsController {
 
   private static final String petsPath = "vet/pets/";
 
+  /*
+   * Configura en Spring MVC cómo convertir las fechas que llegan como texto desde
+   * un formulario (formato yyyy-MM-dd) en objetos Date de Java, validando que
+   * tengan un formato correcto.
+   */
+  @InitBinder // "Ejecuta este método antes de hacer el binding de los datos del formulario a
+              // los objetos Java
+  public void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+  }
+
   // ----- Mostrar Mascotas (READ) -----
 
   @GetMapping("/pets")
@@ -85,8 +104,29 @@ public class VetsPetsController {
   // ----- Añadir Mascota (CREATE) -----
 
   @GetMapping("/pets/add")
-  public String mostrarFormularioAddPet(Model model) {
+  public String mostrarFormularioAddPet(@RequestParam(required = false) String error, Model model) {
+
+    if (error != null) {
+      if (error.equals("1")) {
+        model.addAttribute("error", "Debes ingresar el nombre de la mascota");
+      } else if (error.equals("2")) {
+        model.addAttribute("error", "Debes seleccionar un cliente para la mascota");
+      } else if (error.equals("3")) {
+        model.addAttribute("error", "Debes seleccionar una especie para la mascota");
+      } else if (error.equals("4")) {
+        model.addAttribute("error", "Debes seleccionar una raza para la mascota");
+      } else if (error.equals("5")) {
+        model.addAttribute("error", "Debes seleccionar una enfermedad para la mascota");
+      } else if (error.equals("6")) {
+        model.addAttribute("error", "Debes seleccionar la fecha de nacimiento de la mascota");
+      } else if (error.equals("7")) {
+        model.addAttribute("error", "Debes ingresar la URL de la foto de la mascota");
+      } else if (error.equals("8")) {
+        model.addAttribute("error", "Debes ingresar un peso válido para la mascota");
+      }
+    }
     Pet pet = new Pet();
+    pet.setFechaNacimiento(null);
     model.addAttribute("pet", pet);
     model.addAttribute("clientes", clientsService.getClients());
     model.addAttribute("especies", especieService.getAllEspecies());
@@ -96,14 +136,37 @@ public class VetsPetsController {
   }
 
   @PostMapping("/pets/add")
-  public String agregarMascota(@ModelAttribute("pet") Pet pet, @RequestParam("idCliente") Long idCliente,
-      @RequestParam("idEspecie") Long idEspecie, @RequestParam("idRaza") Long idRaza,
-      @RequestParam("idEnfermedad") Long idEnfermedad) {
+  public String agregarMascota(@ModelAttribute("pet") Pet pet,
+      @RequestParam(name = "idCliente", required = false) Long idCliente,
+      @RequestParam(name = "idEspecie", required = false) Long idEspecie,
+      @RequestParam(name = "idRaza", required = false) Long idRaza,
+      @RequestParam(name = "idEnfermedad", required = false) Long idEnfermedad) {
+
+    if (pet.getNombre() == null || pet.getNombre().trim().isEmpty()) {
+      return "redirect:/vet/pets/add?error=1";
+    } else if (idCliente == null) {
+      return "redirect:/vet/pets/add?error=2";
+    } else if (idEspecie == null) {
+      return "redirect:/vet/pets/add?error=3";
+    } else if (idRaza == null) {
+      return "redirect:/vet/pets/add?error=4";
+    } else if (idEnfermedad == null) {
+      return "redirect:/vet/pets/add?error=5";
+    } else if (pet.getFechaNacimiento() == null) {
+      return "redirect:/vet/pets/add?error=6";
+    } else if (pet.getURLFoto() == null || pet.getURLFoto().trim().isEmpty()) {
+      return "redirect:/vet/pets/add?error=7";
+    } else if (pet.getPeso() == 0 || pet.getPeso() <= 0) {
+      return "redirect:/vet/pets/add?error=8";
+
+    }
+
     pet = petsService.asignarRelacionesDePetPorIds(pet, idEspecie, idRaza, idEnfermedad);
     clientsService.addPetToClient(idCliente, pet);
     return "redirect:/vet/pets";
   }
 
+  // ----- Agregar Enfermedad -----
   @PostMapping("/pets/enfermedades/add")
   @ResponseBody
   public Map<String, Object> agregarEnfermedad(@RequestParam("nombre") String nombre) {
@@ -127,6 +190,8 @@ public class VetsPetsController {
     response.put("nombre", enfermedad.getNombre());
     return response;
   }
+
+  // Añadir Raza
 
   @PostMapping("/pets/razas/add")
   @ResponseBody
@@ -230,37 +295,24 @@ public class VetsPetsController {
   @GetMapping("/pets/tratamiento/{id}")
   public String mostrarTratamiento(@PathVariable("id") Long id, Model model) {
     Tratamiento tratamiento = tratamientosService.getTratamientoById(id);
+    Pet pet = tratamiento.getPet();
+    Client owner = pet.getOwner();
+    Vet vet = tratamiento.getVet();
     model.addAttribute("tratamiento", tratamiento);
+    model.addAttribute("pet", pet);
+    model.addAttribute("owner", owner);
+    model.addAttribute("veterinario", vet);
     return petsPath + "info-tratamiento";
   }
 
   // ----- Eliminar Tratamiento -----
 
-  @GetMapping("/pets/tratamiento/delete/{id}")
-  public String eliminarTratamiento(@PathVariable("id") Long id, Model model) {
+  @PostMapping("/pets/tratamiento/delete/{id}")
+  public String eliminarTratamiento(@PathVariable("id") Long id) {
     Tratamiento tratamiento = tratamientosService.getTratamientoById(id);
+    Long petId = tratamiento.getPet().getId();
     tratamientosService.deleteTratamiento(id);
-
-    return "redirect:/vet/pets/" + tratamiento.getPet().getId();
+    return "redirect:/vet/pets/" + petId;
   }
-
-  // ----- Eliminar Mascota (DELETE) -----
-
-  /*
-   * @GetMapping("/pets/delete/{id}")
-   * public String eliminarMascota(@PathVariable("id") Long id) {
-   * petsService.deletePet(id);
-   * clientsService.deletePetFromClient(id);
-   * return "redirect:/vet/pets";
-   * }
-   * //
-   */
-
-  // @PostMapping("/pets/cambiar-estado/{id}")
-  // public String postMethodName(@PathVariable("id") Long id, @RequestParam(name
-  // = "estado", defaultValue = "false") boolean estado) {
-  // petsService.cambiarEstadoPet(id, estado);
-  // return "redirect:/vet/pets";
-  // }
 
 }

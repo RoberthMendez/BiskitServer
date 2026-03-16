@@ -327,8 +327,8 @@
             >
               <a
                 th:each="t : ${pet.tratamientos}"
-                th:href="@{/vet/pets/tratamiento/update/{id}(id=${t.id})}"
-                class="info-pet-tratamiento-item mx-5 mb-5 flex gap-2 rounded-lg p-2 transition hover:bg-blue-50"
+                th:href="@{/vet/pets/tratamiento/{id}(id=${t.id})}"
+                class="flex gap-2 mx-5 mb-5 hover:bg-blue-50 rounded-lg p-2 transition"
               >
                 <div class="w-0.5 bg-[#2B5392]"></div>
 

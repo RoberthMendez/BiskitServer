@@ -292,98 +292,30 @@
             </div>
             <!-- Tratamientos -->
             <div
-              class="overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-0 justify-center custom-scroll max-h-96"
+              class="overflow-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-center custom-scroll"
             >
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
+              <a
+                th:each="t : ${pet.tratamientos}"
+                th:href="@{/client/pets/tratamiento/{id}(id=${t.id})}"
+                class="flex gap-2 mx-5 mb-5 hover:bg-blue-50 rounded-lg p-2 transition"
+              >
+                <div class="w-0.5 bg-[#2B5392]"></div>
+
+                <div class="flex flex-col gap-1">
+                  <!-- Fecha del tratamiento -->
+                  <p
+                    class="text-sm text-[#8D8580] font-semibold"
+                    th:text="${#temporals.format(t.fecha,'dd-MM-yyyy')}"
+                  ></p>
+
+                  <!-- Drogas del tratamiento -->
+                  <p
+                    class="text-sm text-[#282828] font-medium"
+                    th:each="d : ${t.drogas}"
+                    th:text="${d.nombre}"
+                  ></p>
                 </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-3 mx-auto py-5 px-4 w-full max-w-xs">
-                <div class="w-1 bg-[#2B5392]"></div>
-                <div class="flex flex-col gap-2">
-                  <p class="text-sm text-[#8D8580] font-semibold">23-02-2026</p>
-                  <p class="text-base text-[#282828] font-medium">
-                    90mg de Selamectina
-                  </p>
-                </div>
-              </div>
+              </a>
             </div>
           </article>
         </aside>
