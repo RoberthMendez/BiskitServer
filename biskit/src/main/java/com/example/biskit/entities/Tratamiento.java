@@ -49,4 +49,5 @@ public class Tratamiento {
     @ManyToMany
     @Builder.Default
     private List<Droga> drogas = new ArrayList<>();
+    
 }

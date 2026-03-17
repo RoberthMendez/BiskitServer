@@ -112,9 +112,9 @@
               method="post"
               class="space-y-4 sm:space-y-5"
             >
-            <div th:if="${error != null}">
-              <p class="text-red-500 text-sm" th:text="${error}"></p>
-            </div>
+              <div th:if="${error != null}">
+                <p class="text-sm text-red-500" th:text="${error}"></p>
+              </div>
               <!-- Nombre del paciente -->
               <div>
                 <label
@@ -343,7 +343,7 @@
                   <input
                     type="text"
                     id="clienteSearch"
-                    th:value="${owner != null ? owner.nombre : ''}"
+                    th:value="${pet.owner != null ? pet.owner.nombre : ''}"
                     placeholder="Buscar por nombre..."
                     autocomplete="off"
                     class="w-full bg-transparent text-sm text-[#4A4A4A] outline-none sm:text-base"
@@ -355,7 +355,7 @@
                   type="hidden"
                   name="idCliente"
                   id="clienteId"
-                  th:value="${owner != null ? owner.id : ''}"
+                  th:value="${pet.owner != null ? pet.owner.id : ''}"
                 />
 
                 <!-- Dropdown -->

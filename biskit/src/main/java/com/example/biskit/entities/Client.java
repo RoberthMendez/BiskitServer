@@ -9,6 +9,9 @@ import lombok.ToString;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.example.biskit.entities.pets.Pet;
 
 import jakarta.persistence.Entity;
@@ -32,12 +35,16 @@ public class Client {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Column(name = "nombre", nullable = false, length = 100)
   private String nombre;
+
   @Column(name = "cedula", nullable = false, unique = true, length = 20)
   private String cedula;
+
   @Column(name = "correo", nullable = false, unique = true, length = 100)
   private String correo;
+
   @Column(name = "celular", nullable = false, length = 20)
   private String celular;
   
@@ -46,5 +53,7 @@ public class Client {
   private Credenciales credenciales;
 
   @OneToMany(mappedBy = "owner")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Pet> pets;
+  
 }

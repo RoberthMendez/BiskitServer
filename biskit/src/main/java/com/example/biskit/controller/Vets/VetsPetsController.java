@@ -88,8 +88,8 @@ public class VetsPetsController {
 
   @PatchMapping("/pets/update-estado/{id}")
   @ResponseBody
-  public Map<String, Object> cambiarEstadoMascota(@PathVariable("id") Long id,
-      @RequestBody Map<String, Boolean> body) {
+  public Map<String, Object> cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
+
     Map<String, Object> response = new HashMap<>();
     try {
       Pet pet = petsService.getPetById(id);

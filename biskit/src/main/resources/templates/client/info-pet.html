@@ -19,20 +19,11 @@
     <main>
       <a
         th:href="@{/client/{id}/pets(id=${client.id})}"
-        class="back-link group inline-flex justify-start items-center h-10 ml-5 sm:ml-8 md:ml-16 lg:ml-28 mt-8 mb-2"
+        class="back-link group mt-8 mb-2 ml-5 inline-flex h-10 items-center justify-start sm:ml-8 md:ml-16 lg:ml-28"
       >
-        <svg
-          class="h-9 mt-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="mt-1 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
             <path
               d="M8 12L16 12"
@@ -51,17 +42,17 @@
           </g>
         </svg>
         <h2
-          class="underline underline-offset-6 font-bold tracking-wider text-lg ml-1 text-[#4a4a4acc] group-hover:text-[#4A4A4Aee] transition-colors duration-300"
+          class="ml-1 text-lg font-bold tracking-wider text-[#4a4a4acc] underline underline-offset-6 transition-colors duration-300 group-hover:text-[#4A4A4Aee]"
         >
           Lista de Mascotas
         </h2>
       </a>
       <section
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-5 sm:mx-8 md:mx-30 lg:mx-40 gap-6 sm:gap-8 mt-5 mb-10"
+        class="mx-5 mt-5 mb-10 grid grid-cols-1 gap-6 sm:mx-8 sm:gap-8 md:mx-30 md:grid-cols-2 lg:mx-40 lg:grid-cols-3"
       >
         <!----- Card de la Mascota ----->
         <aside
-          class="card-mascota group h-auto w-full max-w-full md:max-w-xs lg:max-w-sm mx-auto p-3 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          class="card-mascota group mx-auto h-auto w-full max-w-full rounded-2xl bg-[#FBFAF8] p-3 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] md:max-w-xs lg:max-w-sm"
         >
           <!-- CONTENIDO -->
           <article class="h-full">
@@ -70,51 +61,38 @@
                 <img
                   th:src="${pet.URLFoto}"
                   th:alt="${'Foto de ' + pet.nombre}"
-                  class="h-48 sm:h-56 md:h-65 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                  class="h-48 w-full object-cover object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] sm:h-56 md:h-65"
                 />
                 <span
                   th:if="${pet.estado != null and pet.estado == true}"
-                  class="px-3 py-1 rounded-md text-[#2BAB60] bg-[#E1F8EA] absolute top-2 right-2 font-medium"
+                  class="absolute top-2 right-2 rounded-md bg-[#E1F8EA] px-3 py-1 font-medium text-[#2BAB60]"
                   >ACTIVO</span
                 >
                 <span
                   th:if="${pet.estado != null and pet.estado == false}"
-                  class="px-3 py-1 rounded-md text-[#6B6B6B] bg-[#EDEDED] absolute top-2 right-2 font-medium"
+                  class="absolute top-2 right-2 rounded-md bg-[#EDEDED] px-3 py-1 font-medium text-[#6B6B6B]"
                   >INACTIVO</span
                 >
               </div>
             </div>
             <!-- Nombre y Raza -->
-            <div
-              class="flex justify-between items-center mx-2 mb-5 sm:mx-4 mt-3"
-            >
+            <div class="mx-2 mt-3 flex flex-col gap-1 sm:mx-4">
               <h3
-                class="text-[#4a4a4a] font-bold text-lg sm:text-xl leading-none tracking-wider"
+                class="truncate text-center text-lg leading-none font-bold tracking-wider text-[#4a4a4a] sm:text-xl"
                 th:text="${pet.nombre}"
               ></h3>
               <p
-                class="text-[#6D6155] font-medium text-xs leading-none"
+                class="truncate text-center text-xs leading-none font-medium text-[#6D6155]"
                 th:text="${pet.especie.nombre + ' · ' + pet.raza.nombre}"
               ></p>
             </div>
             <!-- Edad y Peso -->
-            <div
-              class="flex justify-center items-center mx-2 sm:mx-4 my-3 gap-3 sm:gap-5"
-            >
+            <div class="mx-2 my-3 flex items-center justify-center gap-3 sm:mx-4 sm:gap-5">
               <!-- Edad -->
               <aside class="flex flex-col items-center gap-1">
-                <svg
-                  class="h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg class="h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C20.1752 21.4816 19.3001 21.7706 18 21.8985"
@@ -142,9 +120,9 @@
                     ></path>
                   </g>
                 </svg>
-                <p class="text-xs text-[#8D8580] font-semibold">EDAD</p>
+                <p class="text-xs font-semibold text-[#8D8580]">EDAD</p>
                 <p
-                  class="text-xs text-[#282828] font-medium"
+                  class="text-xs font-medium text-[#282828]"
                   th:text="${pet.getEdad() == 1} ? ${pet.getEdad() + ' año'} : ${pet.getEdad() + ' años'}"
                 ></p>
               </aside>
@@ -158,11 +136,7 @@
                   fill="#000000"
                 >
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <rect
                       x="48"
@@ -184,32 +158,16 @@
                     ></path>
                   </g>
                 </svg>
-                <p class="text-xs text-[#8D8580] font-semibold">PESO</p>
-                <p
-                  class="text-xs text-[#282828] font-medium"
-                  th:text="${pet.peso} + ' Kg'"
-                ></p>
+                <p class="text-xs font-semibold text-[#8D8580]">PESO</p>
+                <p class="text-xs font-medium text-[#282828]" th:text="${pet.peso} + ' Kg'"></p>
               </aside>
             </div>
-            <hr
-              class="border-[#6D6155] opacity-40 border-t my-5 mx-2 sm:mx-4"
-            />
+            <hr class="mx-2 my-5 border-t border-[#6D6155] opacity-40 sm:mx-4" />
             <!-- Diagnóstico -->
-            <div
-              class="flex flex-col justify-center items-center mx-2 sm:mx-4 gap-1"
-            >
-              <svg
-                class="h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+            <div class="mx-2 flex flex-col items-center justify-center gap-1 sm:mx-4">
+              <svg class="h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <path
                     fill-rule="evenodd"
@@ -219,11 +177,8 @@
                   ></path>
                 </g>
               </svg>
-              <p class="text-xs text-[#8D8580] font-semibold">DIAGNÓSTICO</p>
-              <p
-                class="text-xs text-[#282828] font-medium"
-                th:text="${pet.enfermedad.nombre}"
-              ></p>
+              <p class="text-xs font-semibold text-[#8D8580]">DIAGNÓSTICO</p>
+              <p class="text-xs font-medium text-[#282828]" th:text="${pet.enfermedad.nombre}"></p>
             </div>
           </article>
         </aside>
@@ -231,14 +186,12 @@
         <aside class="flex flex-col items-center lg:col-span-2">
           <!-- Tratamientos -->
           <article
-            class="flex flex-col h-auto w-full mx-auto p-6 bg-[#FBFAF8] rounded-2xl shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            class="mx-auto flex h-auto w-full flex-col rounded-2xl bg-[#FBFAF8] p-6 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)]"
           >
             <!-- Titulo -->
-            <div
-              class="flex justify-start items-center w-full mx-3 mt-2 mb-6 gap-1"
-            >
+            <div class="mx-3 mt-2 mb-6 flex w-full items-center justify-start gap-1">
               <svg
-                class="h-6 sm:h-8 w-auto shrink-0"
+                class="h-6 w-auto shrink-0 sm:h-8"
                 fill="#2B5392"
                 version="1.1"
                 id="Layer_1"
@@ -249,11 +202,7 @@
                 stroke="#2B5392"
               >
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <g>
                     <g>
@@ -286,31 +235,31 @@
                 </g>
               </svg>
               <h3
-                class="text-[#4a4a4a] font-black text-lg sm:text-xl md:text-2xl leading-none tracking-wider ml-2"
+                class="ml-2 truncate text-lg leading-none font-black tracking-wider text-[#4a4a4a] sm:text-xl md:text-2xl"
                 th:text="${'Tratamientos de ' + pet.nombre}"
               ></h3>
             </div>
             <!-- Tratamientos -->
             <div
-              class="overflow-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-center custom-scroll"
+              class="custom-scroll grid grid-cols-1 justify-center overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
             >
               <a
                 th:each="t : ${pet.tratamientos}"
                 th:href="@{/client/pets/tratamiento/{id}(id=${t.id})}"
-                class="flex gap-2 mx-5 mb-5 hover:bg-blue-50 rounded-lg p-2 transition"
+                class="mx-5 mb-5 flex gap-2 rounded-lg p-2 transition hover:bg-blue-50"
               >
                 <div class="w-0.5 bg-[#2B5392]"></div>
 
                 <div class="flex flex-col gap-1">
                   <!-- Fecha del tratamiento -->
                   <p
-                    class="text-sm text-[#8D8580] font-semibold"
+                    class="text-sm font-semibold text-[#8D8580]"
                     th:text="${#temporals.format(t.fecha,'dd-MM-yyyy')}"
                   ></p>
 
                   <!-- Drogas del tratamiento -->
                   <p
-                    class="text-sm text-[#282828] font-medium"
+                    class="text-sm font-medium text-[#282828]"
                     th:each="d : ${t.drogas}"
                     th:text="${d.nombre}"
                   ></p>

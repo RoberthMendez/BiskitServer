@@ -3,6 +3,7 @@ package com.example.biskit.service.Clients;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 
 import com.example.biskit.errors.ClientNotFoundException;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ClientsImpl implements ClientsService {
@@ -52,13 +55,29 @@ public class ClientsImpl implements ClientsService {
   }
 
   @Override
+  @Transactional
   public void deleteClient(Long id) {
-    // clientsRepo.deleteById(id);
-    Client client = clientsRepo.findById(id).orElseThrow();
-    for (Pet pet : client.getPets()) {
+
+    Client client = clientsRepo.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
+
+    List<Pet> pets = client.getPets() == null ? List.of() : new ArrayList<>(client.getPets());
+    
+    for (Pet pet : pets) {
       petsService.deletePet(pet.getId());
     }
-    client.getPets().clear();
+
+    if (client.getPets() != null) {
+      client.getPets().clear();
+    }
+
+    Long credencialesId = client.getCredenciales() == null ? null : client.getCredenciales().getId();
+    client.setCredenciales(null);
+    clientsRepo.saveAndFlush(client);
+
+    if (Objects.nonNull(credencialesId)) {
+      credencialesService.deleteCredenciales(credencialesId);
+    }
+
     clientsRepo.delete(client);
 
   }

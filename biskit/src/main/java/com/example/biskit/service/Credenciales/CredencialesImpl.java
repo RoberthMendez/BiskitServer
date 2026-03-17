@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.repo.CredencialesRepo;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CredencialesImpl implements CredencialesService {
 
@@ -30,6 +32,7 @@ public class CredencialesImpl implements CredencialesService {
     }
 
     @Override
+    @Transactional
     public void deleteCredenciales(Long id) {
         credencialesRepo.deleteById(id);
     }  

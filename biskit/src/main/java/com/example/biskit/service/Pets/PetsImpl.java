@@ -1,17 +1,22 @@
 package com.example.biskit.service.Pets;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
+import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
 import com.example.biskit.service.Pets.Especie.EspecieService;
 import com.example.biskit.service.Pets.Raza.RazaService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PetsImpl implements PetsService {
@@ -27,6 +32,9 @@ public class PetsImpl implements PetsService {
 
   @Autowired
   private EnfermedadService enfermedadService;
+
+  @Autowired
+  private TratamientosRepo tratamientosRepo;
 
   @Override
   public Collection<Pet> getPets() {
@@ -44,10 +52,16 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
+  @Transactional
   public void deletePet(Long id) {
+
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
-    pet.setEstado(false);
-    petsRepo.save(pet);
+
+    List<Tratamiento> tratamientos = tratamientosRepo.findByPetId(id);
+    tratamientosRepo.deleteAll(tratamientos);
+
+    petsRepo.delete(pet);
+    
   }
 
   @Override
