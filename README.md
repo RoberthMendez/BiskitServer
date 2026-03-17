@@ -5,6 +5,7 @@
 La clínica veterinaria recibe mascotas que necesitan permanecer hospitalizadas durante algunos días mientras reciben tratamiento médico.
 
 Cuando un cliente llega por primera vez al establecimiento, el veterinario registra sus datos personales en el sistema, incluyendo:
+<img width="256" height="134" alt="image" src="https://github.com/user-attachments/assets/57b52511-a998-4b04-a3b7-f1894960c326" />
 
 - Nombre
 - Cédula
