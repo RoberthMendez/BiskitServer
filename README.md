@@ -3,9 +3,10 @@
 ## Contexto del negocio
 
 La clínica veterinaria recibe mascotas que necesitan permanecer hospitalizadas durante algunos días mientras reciben tratamiento médico.
+<img width="1283" height="505" alt="image" src="https://github.com/user-attachments/assets/0b3d9cb7-5e4a-4bd9-b62d-8c9f5c2bd599" />
+
 
 Cuando un cliente llega por primera vez al establecimiento, el veterinario registra sus datos personales en el sistema, incluyendo:
-<img width="256" height="134" alt="image" src="https://github.com/user-attachments/assets/57b52511-a998-4b04-a3b7-f1894960c326" />
 
 - Nombre
 - Cédula
@@ -87,6 +88,8 @@ El proyecto incluye un manejo de errores que permite mostrar páginas personaliz
 ## Modelo de datos
 
 Actualmente el sistema maneja dos entidades principales: **Client** y **Pet**.
+<img width="806" height="554" alt="image" src="https://github.com/user-attachments/assets/5d394324-7ece-4b31-88ac-83a5df032117" />
+
 
 ### Cliente (Client)
 
@@ -135,6 +138,7 @@ La mascota se encuentra actualmente en tratamiento dentro de la veterinaria.
 La mascota ya fue dada de alta y regresó a casa.
 
 Este enfoque permite conservar el historial de mascotas sin eliminar registros de la base de datos.
+<img width="970" height="479" alt="image" src="https://github.com/user-attachments/assets/2fd63a33-a84e-4902-b9ed-5e1578218e8d" />
 
 ---
 
@@ -143,10 +147,14 @@ Este enfoque permite conservar el historial de mascotas sin eliminar registros d
 Actualmente el sistema cuenta con varias funcionalidades principales.
 
 ### Landing Page
+<img width="1521" height="78" alt="image" src="https://github.com/user-attachments/assets/2f7acabb-8362-40ef-bcd7-151978162c8d" />
+
 
 El sistema cuenta con una página principal donde se presenta la veterinaria y desde donde se puede acceder a las diferentes secciones del sistema.
 
 ### Login de clientes
+<img width="1516" height="769" alt="image" src="https://github.com/user-attachments/assets/0763022d-e92a-415e-a291-f4c000da4612" />
+
 
 Los clientes pueden iniciar sesión utilizando su usuario y contraseña.
 
@@ -164,6 +172,9 @@ Entre las funcionalidades disponibles están:
 - Consultar clientes registrados
 - Actualizar información de clientes
 - Eliminar clientes
+
+<img width="1365" height="610" alt="image" src="https://github.com/user-attachments/assets/76d17751-1780-4603-9d8d-3137ccdb5adb" />
+
 
 También se pueden gestionar mascotas:
 
@@ -186,6 +197,7 @@ Al iniciar la aplicación se cargan automáticamente datos de prueba que incluye
 - 100 mascotas
 
 Esto permite probar el funcionamiento del sistema desde el inicio.
+<img width="257" height="381" alt="image" src="https://github.com/user-attachments/assets/a9cca965-11ca-4fad-b42e-b62559d813dd" />
 
 ---
 
