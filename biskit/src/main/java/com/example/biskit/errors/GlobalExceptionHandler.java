@@ -9,18 +9,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PetNotFoundException.class)
     public String handlePetNotFound(PetNotFoundException ex, Model model) {
-
         model.addAttribute("mensaje", ex.getMessage());
         return "error";
-
     }
 
     @ExceptionHandler(ClientNotFoundException.class)
     public String handleClientNotFound(ClientNotFoundException ex, Model model) {
-
         model.addAttribute("mensaje", ex.getMessage());
         return "error";
-
     }
 
+    @ExceptionHandler(Exception.class)
+    public String handleGeneralException(Exception ex, Model model) {
+        model.addAttribute("mensaje", "Ocurrió un error inesperado");
+        return "error";
+    }
 }
