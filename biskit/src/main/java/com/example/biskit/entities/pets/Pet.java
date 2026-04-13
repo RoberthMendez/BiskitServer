@@ -66,11 +66,4 @@ public class Pet {
   @OneToMany(mappedBy = "pet")
   private List<Tratamiento> tratamientos;
 
-  public int getEdad() {
-    Date fechaActual = new Date(System.currentTimeMillis());
-    long edadEnMilisegundos = fechaActual.getTime() - this.fechaNacimiento.getTime();
-    int edadEnAnios = (int) (edadEnMilisegundos / (1000L * 60 * 60 * 24 * 365));
-    return edadEnAnios;
-  }
-
 }

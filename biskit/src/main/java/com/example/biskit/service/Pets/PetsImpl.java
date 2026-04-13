@@ -12,7 +12,6 @@ import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
-import com.example.biskit.service.Pets.Especie.EspecieService;
 import com.example.biskit.service.Pets.Raza.RazaService;
 
 import jakarta.transaction.Transactional;
@@ -22,9 +21,6 @@ public class PetsImpl implements PetsService {
 
   @Autowired
   private PetsRepo petsRepo;
-
-  @Autowired
-  private EspecieService especieService;
 
   @Autowired
   private RazaService razaService;

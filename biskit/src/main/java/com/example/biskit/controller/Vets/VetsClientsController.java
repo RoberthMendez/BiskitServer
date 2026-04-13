@@ -1,20 +1,25 @@
 package com.example.biskit.controller.Vets;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.service.Clients.ClientsService;
 
-@Controller
+@RestController
 @RequestMapping("/vet")
+@CrossOrigin(origins = "http://localhost:4200")
 public class VetsClientsController {
 
   @Autowired
@@ -31,18 +36,22 @@ public class VetsClientsController {
 
   // ----- Mostrar Clientes (READ) -----
   @GetMapping("/clients")
-  public String mostrarClientes(Model model) {
-    model.addAttribute("clients", clientsService.getClients());
-    return clientsPath + "clients";
+  public List<Client> mostrarClientes() {
+    return clientsService.getClients();
   }
 
   // ----- Mostrar Cliente (READ) -----
   @GetMapping("/clients/{id}")
-  public String mostrarCliente(@PathVariable("id") Long id, Model model) {
-    model.addAttribute("client", clientsService.getClientById(id));
-    model.addAttribute("pets", clientsService.getPetsByClientId(id));
-    return clientsPath + "info-client";
+  public Client mostrarCliente(@PathVariable("id") Long id) {
+    return clientsService.getClientById(id);
   }
+
+  // ----- Mostrar Mascotas de un Cliente (READ) -----
+  @GetMapping("/clients/{id}/pets")
+  public List<Pet> mostrarMascotasDeCliente(@PathVariable("id") Long id) {
+    return clientsService.getPetsByClientId(id);
+  }
+  
 
   // ----- Añadir Cliente (CREATE) -----
   @GetMapping("/clients/add")

@@ -1,6 +1,5 @@
 package com.example.biskit.service.Clients;
 
-import java.util.Collection;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.pets.Pet;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 public interface ClientsService {
 
-  public Collection<Client> getClients();
+  public List<Client> getClients();
 
   public Client getClientById(Long id);
 

@@ -1,6 +1,5 @@
 package com.example.biskit.service.Clients;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class ClientsImpl implements ClientsService {
   private CredencialesService credencialesService;
 
   @Override
-  public Collection<Client> getClients() {
+  public List<Client> getClients() {
     return clientsRepo.findAll();
   }
 

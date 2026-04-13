@@ -49,6 +49,7 @@ public class Client {
   @Column(name = "celular", nullable = false, length = 20)
   private String celular;
   
+  @JsonIgnore
   @OneToOne
   @JoinColumn(name = "credenciales_id")
   private Credenciales credenciales;
