@@ -72,4 +72,9 @@ public class TratamientosImpl implements TratamientosService {
         tratamientosRepo.delete(tratamiento);
     }
 
+    @Override
+    public List<Tratamiento> getTratamientosByPetId(Long petId) {
+        return tratamientosRepo.findByPetId(petId);
+    }
+
 }

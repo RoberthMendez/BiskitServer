@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.example.biskit.entities.pets.Pet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -52,6 +53,7 @@ public class Client {
   @JoinColumn(name = "credenciales_id")
   private Credenciales credenciales;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "owner")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Pet> pets;

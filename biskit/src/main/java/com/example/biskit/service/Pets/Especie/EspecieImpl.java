@@ -23,4 +23,9 @@ public class EspecieImpl implements EspecieService {
         return especieRepo.findById(id).orElse(null);
     }
 
+    @Override
+    public Especie getEspecieByNombre(String nombre) {
+        return especieRepo.findByNombre(nombre);
+    }
+
 }

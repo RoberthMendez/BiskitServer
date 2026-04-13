@@ -1,12 +1,12 @@
 package com.example.biskit.service.Pets;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.example.biskit.entities.pets.Pet;
 
 public interface PetsService {
 
-  public Collection<Pet> getPets();
+  public List<Pet> getPets();
 
   public Pet getPetById(Long id);
 
@@ -16,6 +16,6 @@ public interface PetsService {
 
   public void deletePet(Long id);
 
-  public Pet asignarRelacionesDePetPorIds(Pet pet, Long idEspecie, Long idRaza, Long idEnfermedad);
+  public Pet asignarRelacionesDePetPorIds(Pet pet);
 
 }

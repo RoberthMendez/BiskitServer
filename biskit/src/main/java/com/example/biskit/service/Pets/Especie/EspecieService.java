@@ -8,4 +8,6 @@ public interface EspecieService {
     public Collection<Especie> getAllEspecies();
 
     public Especie getEspecieById(Long id);
+
+    public Especie getEspecieByNombre(String nombre);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Tratamiento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,16 +48,13 @@ public class Pet {
   private float peso;
   
   @Column(name = "url_foto", length = 255)
-  private String URLFoto;
+  private String urlFoto;
 
   @ManyToOne
   @JoinColumn(name = "enfermedad_id")
   private Enfermedad enfermedad;
 
-  @ManyToOne
-  @JoinColumn(name = "especie_id")
-  private Especie especie;
-
+  
   @ManyToOne
   private Client owner;
 
@@ -64,6 +62,7 @@ public class Pet {
   @JoinColumn(name = "raza_id")
   private Raza raza;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "pet")
   private List<Tratamiento> tratamientos;
 

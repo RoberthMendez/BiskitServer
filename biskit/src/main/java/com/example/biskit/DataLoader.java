@@ -364,557 +364,557 @@ public class DataLoader implements CommandLineRunner {
           Especie gato = especieRepo.findByNombre("Gato");
 
           // PERROS ----------------------------------------------------
-          petsRepo.save(Pet.builder().nombre("Princesa").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Princesa")
                            .raza(razaDesdeString("Lebrel afgano"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(27f)
-                           .URLFoto("https://images.dog.ceo/breeds/hound-afghan/n02088094_1406.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/hound-afghan/n02088094_1406.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Charlie").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Charlie")
                            .raza(razaDesdeString("Beagle"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(12f)
-                           .URLFoto("https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Buddy").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Buddy")
                            .raza(razaDesdeString("Labrador retriever"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(30f)
-                           .URLFoto("https://images.dog.ceo/breeds/labrador/n02099712_7937.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/labrador/n02099712_7937.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Toby").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Toby")
                            .raza(razaDesdeString("Carlino"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(8f)
-                           .URLFoto("https://images.dog.ceo/breeds/pug/n02110958_11239.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/pug/n02110958_11239.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Zeus").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Zeus")
                            .raza(razaDesdeString("Husky siberiano"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(22f)
-                           .URLFoto("https://images.dog.ceo/breeds/husky/n02110185_1469.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/husky/n02110185_1469.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Leo").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Leo")
                            .raza(razaDesdeString("Cocker spaniel"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(13f)
-                           .URLFoto("https://images.dog.ceo/breeds/spaniel-cocker/n02102318_1671.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/spaniel-cocker/n02102318_1671.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Duke").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Duke")
                            .raza(razaDesdeString("Terrier de Norwich"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-norwich/n02094258_2070.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-norwich/n02094258_2070.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Oliver").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Oliver")
                            .raza(razaDesdeString("Golden retriever"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(28f)
-                           .URLFoto("https://images.dog.ceo/breeds/retriever-golden/n02099601_3004.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/retriever-golden/n02099601_3004.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Bentley").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Bentley")
                            .raza(razaDesdeString("Pastor de Shetland"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(10f)
-                           .URLFoto("https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_10095.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_10095.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Louie").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Louie")
                            .raza(razaDesdeString("Terrier de Yorkshire"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(4f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3812.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3812.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Simba").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Simba")
                            .raza(razaDesdeString("Bóxer"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(26f)
-                           .URLFoto("https://images.dog.ceo/breeds/boxer/n02108089_9724.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/boxer/n02108089_9724.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Cooper").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Cooper")
                            .raza(razaDesdeString("Dálmata"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
-                           .URLFoto("https://images.dog.ceo/breeds/dalmatian/cooper2.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/dalmatian/cooper2.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Thor").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Thor")
                            .raza(razaDesdeString("Bullmastiff"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(40f)
-                           .URLFoto("https://images.dog.ceo/breeds/mastiff-bull/n02108422_5106.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/mastiff-bull/n02108422_5106.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Kira").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Kira")
                            .raza(razaDesdeString("Akita"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(32f)
-                           .URLFoto("https://images.dog.ceo/breeds/akita/512px-Ainu-Dog.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/akita/512px-Ainu-Dog.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Loki").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Loki")
                            .raza(razaDesdeString("Papillón"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(5f)
-                           .URLFoto("https://images.dog.ceo/breeds/papillon/n02086910_7949.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/papillon/n02086910_7949.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Rex").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Rex")
                            .raza(razaDesdeString("Terrier americano"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(11f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-american/n02093428_1482.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-american/n02093428_1482.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Coco").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Coco")
                            .raza(razaDesdeString("Chihuahua"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(3f)
-                           .URLFoto("https://images.dog.ceo/breeds/chihuahua/n02085620_7436.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/chihuahua/n02085620_7436.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Bobby").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Bobby")
                            .raza(razaDesdeString("Terrier australiano"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(7f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-australian/n02096294_7175.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-australian/n02096294_7175.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Nala").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Nala")
                            .raza(razaDesdeString("Dingo"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(18f)
-                           .URLFoto("https://images.dog.ceo/breeds/dingo/n02115641_1228.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/dingo/n02115641_1228.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Shadow").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Shadow")
                            .raza(razaDesdeString("Kelpie australiano"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(19f)
-                           .URLFoto("https://images.dog.ceo/breeds/kelpie/n02105412_1973.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/kelpie/n02105412_1973.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Bruno").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Bruno")
                            .raza(razaDesdeString("Malamute de Alaska"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(35f)
-                           .URLFoto("https://images.dog.ceo/breeds/malamute/n02110063_13625.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/malamute/n02110063_13625.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Apolo").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Apolo")
                            .raza(razaDesdeString("Galgo italiano"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(7f)
-                           .URLFoto("https://images.dog.ceo/breeds/greyhound-italian/n02091032_1266.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/greyhound-italian/n02091032_1266.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Hunter").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Hunter")
                            .raza(razaDesdeString("Otterhound"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(32f)
-                           .URLFoto("https://images.dog.ceo/breeds/otterhound/n02091635_1319.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/otterhound/n02091635_1319.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Sasha").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Sasha")
                            .raza(razaDesdeString("Saluki"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
-                           .URLFoto("https://images.dog.ceo/breeds/saluki/n02091831_5745.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/saluki/n02091831_5745.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Koda").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Koda")
                            .raza(razaDesdeString("Basenji"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(10f)
-                           .URLFoto("https://images.dog.ceo/breeds/basenji/n02110806_4156.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/basenji/n02110806_4156.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Balto").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Balto")
                           .raza(razaDesdeString("Boyero de Flandes"))
                           .fechaNacimiento(calcularFechaNacimiento(5)).peso(34f)
-                          .URLFoto("https://images.dog.ceo/breeds/bouvier/n02106382_9651.jpg")
+                          .urlFoto("https://images.dog.ceo/breeds/bouvier/n02106382_9651.jpg")
                           .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Ace").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Ace")
                            .raza(razaDesdeString("Border collie"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
-                           .URLFoto("https://images.dog.ceo/breeds/collie-border/n02106166_355.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/collie-border/n02106166_355.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Maverick").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Maverick")
                            .raza(razaDesdeString("Komondor"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(45f)
-                           .URLFoto("https://images.dog.ceo/breeds/komondor/n02105505_853.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/komondor/n02105505_853.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Sam").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Sam")
                            .raza(razaDesdeString("Leonberger"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(48f)
-                           .URLFoto("https://images.dog.ceo/breeds/leonberg/n02111129_4903.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/leonberg/n02111129_4903.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Oso").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Oso")
                            .raza(razaDesdeString("Terranova"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(50f)
-                           .URLFoto("https://images.dog.ceo/breeds/newfoundland/n02111277_3907.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/newfoundland/n02111277_3907.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Chop").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Chop")
                            .raza(razaDesdeString("Rottweiler"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(42f)
-                           .URLFoto("https://images.dog.ceo/breeds/rottweiler/n02106550_8776.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/rottweiler/n02106550_8776.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Buster").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Buster")
                            .raza(razaDesdeString("Chow chow"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(60f)
-                           .URLFoto("https://images.dog.ceo/breeds/chow/n02112137_7428.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/chow/n02112137_7428.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Rita").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Rita")
                            .raza(razaDesdeString("Weimaraner"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(25f)
-                           .URLFoto("https://images.dog.ceo/breeds/weimaraner/n02092339_8024.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/weimaraner/n02092339_8024.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Finn").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Finn")
                            .raza(razaDesdeString("Whippet"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(9f)
-                           .URLFoto("https://images.dog.ceo/breeds/whippet/n02091134_392.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/whippet/n02091134_392.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Oscar").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Oscar")
                            .raza(razaDesdeString("Terrier escocés"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(9f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2957.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2957.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Jack Sparrow").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Jack Sparrow")
                            .raza(razaDesdeString("West Highland white terrier"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(8f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-westhighland/n02098286_4120.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-westhighland/n02098286_4120.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Luna").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Luna")
                            .raza(razaDesdeString("Vizsla"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
-                           .URLFoto("https://images.dog.ceo/breeds/vizsla/n02100583_12660.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/vizsla/n02100583_12660.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Milo").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Milo")
                            .raza(razaDesdeString("Pekinés"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
-                           .URLFoto("https://images.dog.ceo/breeds/pekinese/n02086079_11089.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/pekinese/n02086079_11089.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Dexter").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Dexter")
                            .raza(razaDesdeString("Pinscher miniatura"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(5f)
-                           .URLFoto("https://images.dog.ceo/breeds/pinscher-miniature/n02107312_1885.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/pinscher-miniature/n02107312_1885.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Ranger").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Ranger")
                            .raza(razaDesdeString("Pointer alemán"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(23f)
-                           .URLFoto("https://images.dog.ceo/breeds/pointer-german/n02100236_689.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/pointer-german/n02100236_689.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Archie").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Archie")
                           .raza(razaDesdeString("Caniche miniatura"))
                           .fechaNacimiento(calcularFechaNacimiento(4)).peso(9f)
-                          .URLFoto("https://images.dog.ceo/breeds/poodle-miniature/n02113712_3049.jpg")
+                          .urlFoto("https://images.dog.ceo/breeds/poodle-miniature/n02113712_3049.jpg")
                           .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Musa").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Musa")
                            .raza(razaDesdeString("Caniche estándar"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(22f)
-                           .URLFoto("https://images.dog.ceo/breeds/poodle-standard/n02113799_448.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/poodle-standard/n02113799_448.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Gizo").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Gizo")
                            .raza(razaDesdeString("Caniche toy"))
                            .fechaNacimiento(calcularFechaNacimiento(2)).peso(4f)
-                           .URLFoto("https://images.dog.ceo/breeds/poodle-toy/n02113624_5459.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/poodle-toy/n02113624_5459.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Fausto").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Fausto")
                            .raza(razaDesdeString("Schnauzer miniatura"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(8f)
-                           .URLFoto("https://images.dog.ceo/breeds/schnauzer-miniature/n02097047_6884.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/schnauzer-miniature/n02097047_6884.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Manolo").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Manolo")
                            .raza(razaDesdeString("Setter inglés"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
-                           .URLFoto("https://images.dog.ceo/breeds/setter-english/n02100735_7553.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/setter-english/n02100735_7553.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Pequitas").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Pequitas")
                            .raza(razaDesdeString("Spaniel bretón"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
-                           .URLFoto("https://images.dog.ceo/breeds/spaniel-brittany/n02101388_2429.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/spaniel-brittany/n02101388_2429.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Momoa").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Momoa")
                            .raza(razaDesdeString("Spaniel irlandés"))
                            .fechaNacimiento(calcularFechaNacimiento(5)).peso(20f)
-                           .URLFoto("https://images.dog.ceo/breeds/spaniel-irish/n02102973_1377.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/spaniel-irish/n02102973_1377.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Benji").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Benji")
                            .raza(razaDesdeString("Terrier irlandés"))
                            .fechaNacimiento(calcularFechaNacimiento(4)).peso(12f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-irish/n02093991_1038.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-irish/n02093991_1038.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Rocco").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Rocco")
                            .raza(razaDesdeString("Terrier kerry blue"))
                            .fechaNacimiento(calcularFechaNacimiento(6)).peso(17f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-kerryblue/n02093859_1239.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-kerryblue/n02093859_1239.jpg")
                            .estado(true).build());
-          petsRepo.save(Pet.builder().nombre("Lucky").especie(perro)
+          petsRepo.save(Pet.builder().nombre("Lucky")
                            .raza(razaDesdeString("Terrier lakeland"))
                            .fechaNacimiento(calcularFechaNacimiento(3)).peso(9f)
-                           .URLFoto("https://images.dog.ceo/breeds/terrier-lakeland/n02095570_1270.jpg")
+                           .urlFoto("https://images.dog.ceo/breeds/terrier-lakeland/n02095570_1270.jpg")
                            .estado(true).build());
 
                 // GATOSSSS --------------------------------------------------------
 
-                petsRepo.save(Pet.builder().nombre("Luna").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Luna")
                                 .raza(razaDesdeString("Abisinio"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.1f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Milo").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Milo")
                                 .raza(razaDesdeString("Egeo"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.5f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Nala").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Nala")
                                 .raza(razaDesdeString("Bobtail americano"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5.2f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/hBXicehMA.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/hBXicehMA.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Simba").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Simba")
                                 .raza(razaDesdeString("Curl americano"))
                                 .fechaNacimiento(calcularFechaNacimiento(1)).peso(3.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/xnsqonbjW.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/xnsqonbjW.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Oliver").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Oliver")
                                 .raza(razaDesdeString("Americano de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(6.1f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/JFPROfGtQ.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/JFPROfGtQ.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Leo").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Leo")
                                 .raza(razaDesdeString("Americano de pelo duro"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(5.0f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/8D--jCd21.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/8D--jCd21.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Chloe").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Chloe")
                                 .raza(razaDesdeString("Mau árabe"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.0f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/k71ULYfRr.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/k71ULYfRr.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Loki").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Loki")
                                 .raza(razaDesdeString("Mist australiano"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/_6x-3TiCA.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/_6x-3TiCA.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Bella").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Bella")
                                 .raza(razaDesdeString("Balinés"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.4f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/13MkvUreZ.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/13MkvUreZ.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Max").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Max")
                                 .raza(razaDesdeString("Bambino"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3.5f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/5AdhMjeEu.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/5AdhMjeEu.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Kira").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Kira")
                                 .raza(razaDesdeString("Bengalí"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(5.3f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/a8.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/a8.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Tom").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Tom")
                                 .raza(razaDesdeString("Sagrado de Birmania"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.5f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/HOrX5gwLS.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/HOrX5gwLS.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Mia").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Mia")
                                 .raza(razaDesdeString("Bombay"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.7f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/5iYq9NmT1.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/5iYq9NmT1.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Zeus").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Zeus")
                                 .raza(razaDesdeString("Británico de pelo largo"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(6.2f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/7isAO4Cav.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/7isAO4Cav.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Nina").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Nina")
                                 .raza(razaDesdeString("Británico de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/9j5.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/9j5.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Felix").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Felix")
                                 .raza(razaDesdeString("Burmés"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.6f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/4lXnnfxac.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/4lXnnfxac.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Coco").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Coco")
                                 .raza(razaDesdeString("Burmilla"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5.1f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/b1.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/b1.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Sasha").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Sasha")
                                 .raza(razaDesdeString("California Spangled"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(5.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/b9.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/b9.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Toby").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Toby")
                                 .raza(razaDesdeString("Chantilly Tiffany"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.3f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/c3.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/c3.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Daisy").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Daisy")
                                 .raza(razaDesdeString("Chartreux"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/j6oFGLpRG.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/j6oFGLpRG.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Rocky").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Rocky")
                                 .raza(razaDesdeString("Chausie"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(6.0f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/c7.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/c7.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Lily").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Lily")
                                 .raza(razaDesdeString("Rex de Cornualles"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/unX21IBVB.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/unX21IBVB.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Oscar").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Oscar")
                                 .raza(razaDesdeString("Cymric"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.4f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/m2.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/m2.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Ruby").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Ruby")
                                 .raza(razaDesdeString("Rex de Devon"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.1f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/d9.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/d9.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Thor").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Thor")
                                 .raza(razaDesdeString("Don Sphynx"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(5.7f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/3KG57GfMW.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/3KG57GfMW.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Maya").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Maya")
                                 .raza(razaDesdeString("Dragón Li"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/e2.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/e2.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Sam").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Sam")
                                 .raza(razaDesdeString("Mau egipcio"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.3f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/k71ULYfRr.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/k71ULYfRr.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Zoe").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Zoe")
                                 .raza(razaDesdeString("Europeo de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.6f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Bobby").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Bobby")
                                 .raza(razaDesdeString("Exótico de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(6.3f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/e8.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/e8.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Kiara").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Kiara")
                                 .raza(razaDesdeString("Habana"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.7f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/f1.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/f1.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Shadow").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Shadow")
                                 .raza(razaDesdeString("Himalayo"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/f5.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/f5.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Tina").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Tina")
                                 .raza(razaDesdeString("Bobtail japonés"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.5f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/-tm9-znzl.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/-tm9-znzl.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Pipo").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Pipo")
                                 .raza(razaDesdeString("Khao Manee"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/g2.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/g2.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Gala").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Gala")
                                 .raza(razaDesdeString("Korat"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.4f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/g7.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/g7.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Hugo").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Hugo")
                                 .raza(razaDesdeString("Bobtail kuriliano"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(5.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/OUfeISEoi.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/OUfeISEoi.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Perla").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Perla")
                                 .raza(razaDesdeString("LaPerm"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.2f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/h3.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/h3.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Atlas").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Atlas")
                                 .raza(razaDesdeString("Maine Coon"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(7.2f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/h8.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/h8.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Katy").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Katy")
                                 .raza(razaDesdeString("Manx"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(5.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/i1.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/i1.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Mini").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Mini")
                                 .raza(razaDesdeString("Munchkin"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3.4f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/5AdhMjeEu.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/5AdhMjeEu.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Nero").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Nero")
                                 .raza(razaDesdeString("Nebelung"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/i6.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/i6.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Freya").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Freya")
                                 .raza(razaDesdeString("Bosque de Noruega"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(6.7f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/4lXnnfxac.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/4lXnnfxac.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Bolt").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Bolt")
                                 .raza(razaDesdeString("Ocicat"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(5.0f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/j2.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/j2.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Misty").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Misty")
                                 .raza(razaDesdeString("Oriental de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.3f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Fluffy").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Fluffy")
                                 .raza(razaDesdeString("Persa"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.5f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/-Zfz5z2jK.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/-Zfz5z2jK.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Pixel").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Pixel")
                                 .raza(razaDesdeString("Peterbald"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3.6f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/j9.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/j9.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Snow").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Snow")
                                 .raza(razaDesdeString("Ragdoll"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5.8f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/oGefY4YoG.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/oGefY4YoG.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Blue").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Blue")
                                 .raza(razaDesdeString("Azul ruso"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.4f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/k4.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/k4.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Hunter").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Hunter")
                                 .raza(razaDesdeString("Savannah"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(7.0f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/-tm9-znzl.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/-tm9-znzl.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Poppy").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Poppy")
                                 .raza(razaDesdeString("Scottish Fold"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.2f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/k8.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/k8.jpg")
                                 .estado(true).build());
 
-                petsRepo.save(Pet.builder().nombre("Neo").especie(gato)
+                petsRepo.save(Pet.builder().nombre("Neo")
                                 .raza(razaDesdeString("Esfinge"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(3.9f)
-                                .URLFoto("https://cdn2.thecatapi.com/images/l3.jpg")
+                                .urlFoto("https://cdn2.thecatapi.com/images/l3.jpg")
                                 .estado(true).build());
         }
 

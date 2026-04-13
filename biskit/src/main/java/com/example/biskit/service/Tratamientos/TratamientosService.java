@@ -12,4 +12,6 @@ public interface TratamientosService {
 
     public void deleteTratamiento(Long id);
 
+    public List<Tratamiento> getTratamientosByPetId(Long petId);
+
 }

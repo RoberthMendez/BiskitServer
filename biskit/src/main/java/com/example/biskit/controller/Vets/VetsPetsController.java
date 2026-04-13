@@ -10,19 +10,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Pets.PetsService;
@@ -41,8 +43,9 @@ import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.pets.Raza;
 import com.example.biskit.entities.vets.Vet;
 
-@Controller
+@RestController
 @RequestMapping("/vet")
+@CrossOrigin(origins = "http://localhost:4200")
 public class VetsPetsController {
 
   @Autowired
@@ -107,23 +110,27 @@ public class VetsPetsController {
   // ----- Mostrar Mascotas (READ) -----
 
   @GetMapping("/pets")
-  public String mostrarMascotas(Model model) {
-    model.addAttribute("pets", petsService.getPets());
-    return petsPath + "pets";
+  public List<Pet> mostrarMascotas() {
+    return petsService.getPets();
   }
 
   // ----- Mostrar Mascota (READ) -----
 
   @GetMapping("/pets/{id}")
-  public String mostrarMascota(@PathVariable("id") Long id, Model model) {
-    Pet pet = petsService.getPetById(id);
-    Client owner = pet.getOwner();
-    model.addAttribute("pet", pet);
-    model.addAttribute("dueño", owner);
-    return petsPath + "info-pet";
+  public Pet mostrarMascota(@PathVariable("id") Long id) {
+    return petsService.getPetById(id);
   }
 
   // ----- Añadir Mascota (CREATE) -----
+
+  @PostMapping("/pets/add")
+  public void agregarMascota(@RequestBody Pet pet) {
+
+    pet = petsService.asignarRelacionesDePetPorIds(pet);
+    clientsService.addPetToClient(pet.getOwner().getId(), pet);
+    petsService.addPet(pet);
+
+  }
 
   @GetMapping("/pets/add")
   public String mostrarFormularioAddPet(@RequestParam(required = false) String error, Model model) {
@@ -157,114 +164,49 @@ public class VetsPetsController {
     return petsPath + "add-pet";
   }
 
-  @PostMapping("/pets/add")
-  public String agregarMascota(@ModelAttribute("pet") Pet pet,
-      @RequestParam(name = "idCliente", required = false) Long idCliente,
-      @RequestParam(name = "idEspecie", required = false) Long idEspecie,
-      @RequestParam(name = "idRaza", required = false) Long idRaza,
-      @RequestParam(name = "idEnfermedad", required = false) Long idEnfermedad) {
-
-    if (pet.getNombre() == null || pet.getNombre().trim().isEmpty()) {
-      return "redirect:/vet/pets/add?error=1";
-    } else if (idCliente == null) {
-      return "redirect:/vet/pets/add?error=2";
-    } else if (idEspecie == null) {
-      return "redirect:/vet/pets/add?error=3";
-    } else if (idRaza == null) {
-      return "redirect:/vet/pets/add?error=4";
-    } else if (idEnfermedad == null) {
-      return "redirect:/vet/pets/add?error=5";
-    } else if (pet.getFechaNacimiento() == null) {
-      return "redirect:/vet/pets/add?error=6";
-    } else if (pet.getURLFoto() == null || pet.getURLFoto().trim().isEmpty()) {
-      return "redirect:/vet/pets/add?error=7";
-    } else if (pet.getPeso() == 0 || pet.getPeso() <= 0) {
-      return "redirect:/vet/pets/add?error=8";
-
-    }
-
-    pet = petsService.asignarRelacionesDePetPorIds(pet, idEspecie, idRaza, idEnfermedad);
-    clientsService.addPetToClient(idCliente, pet);
-    return "redirect:/vet/pets";
+  // ----- Tratamientos de Mascota -----
+  @GetMapping("pets/tratamientos/{id}")
+  public List<Tratamiento> getTratamientosByPetId(@PathVariable("id") Long id) {
+      return tratamientosService.getTratamientosByPetId(id);
   }
-
+  
   // ----- Agregar Enfermedad -----
   @PostMapping("/pets/enfermedades/add")
   @ResponseBody
-  public Map<String, Object> agregarEnfermedad(@RequestParam("nombre") String nombre) {
-    String nombreNormalizado = nombre == null ? "" : nombre.trim();
-    Map<String, Object> response = new HashMap<>();
+  public void agregarEnfermedad(@RequestBody String nombreEnfermedad) {
 
-    if (nombreNormalizado.isEmpty()) {
-      response.put("ok", false);
-      response.put("message", "El nombre de la enfermedad es obligatorio");
-      return response;
-    }
-
-    Enfermedad enfermedad = enfermedadService.getEnfermedadByNombre(nombreNormalizado);
+    Enfermedad enfermedad = enfermedadService.getEnfermedadByNombre(nombreEnfermedad.trim());
     if (enfermedad == null) {
-      enfermedad = Enfermedad.builder().nombre(nombreNormalizado).build();
+      enfermedad = Enfermedad.builder().nombre(nombreEnfermedad.trim()).build();
       enfermedadService.saveEnfermedad(enfermedad);
     }
-
-    response.put("ok", true);
-    response.put("id", enfermedad.getId());
-    response.put("nombre", enfermedad.getNombre());
-    return response;
   }
 
   // Añadir Raza
 
   @PostMapping("/pets/razas/add")
   @ResponseBody
-  public Map<String, Object> agregarRaza(@RequestParam("nombre") String nombre,
-      @RequestParam("idEspecie") Long idEspecie) {
-    String nombreNormalizado = nombre == null ? "" : nombre.trim();
-    Map<String, Object> response = new HashMap<>();
+  public void agregarRaza(@RequestBody Raza raza) {
 
-    if (nombreNormalizado.isEmpty()) {
-      response.put("ok", false);
-      response.put("message", "El nombre de la raza es obligatorio");
-      return response;
-    }
+    String nombreRaza = raza.getNombre() == null ? "" : raza.getNombre().trim();
+    String nombreEspecie = raza.getEspecie() == null ? "" : raza.getEspecie().getNombre().trim();
 
-    if (idEspecie == null) {
-      response.put("ok", false);
-      response.put("message", "Selecciona una especie antes de agregar la raza");
-      return response;
-    }
-
-    Especie especie = especieService.getEspecieById(idEspecie);
-    if (especie == null) {
-      response.put("ok", false);
-      response.put("message", "La especie seleccionada no existe");
-      return response;
-    }
-
-    Raza raza = razaService.getRazaByNombre(nombreNormalizado);
-    if (raza == null) {
-      raza = Raza.builder().nombre(nombreNormalizado).especie(especie).build();
+    Raza razaExistente = razaService.getRazaByNombre(nombreRaza);
+    Especie especie = especieService.getEspecieByNombre(nombreEspecie);
+  
+    if (razaExistente == null && especie != null) {
+      raza = Raza.builder().nombre(nombreRaza).especie(especie).build();
       razaService.saveRaza(raza);
     }
-
-    response.put("ok", true);
-    response.put("id", raza.getId());
-    response.put("nombre", raza.getNombre());
-    response.put("idEspecie", raza.getEspecie().getId());
-    return response;
-  }
+  } 
 
   // ----- Editar Mascota (UPDATE) -----
 
-  @GetMapping("/pets/update/{id}")
-  public String mostrarFormularioUpdatePet(@PathVariable("id") Long id, Model model) {
-    Pet pet = petsService.getPetById(id);
-    model.addAttribute("pet", pet);
-    model.addAttribute("clientes", clientsService.getClients());
-    model.addAttribute("especies", especieService.getAllEspecies());
-    model.addAttribute("razas", razaService.getAllRazas());
-    model.addAttribute("enfermedades", enfermedadService.getAllEnfermedades());
-    return petsPath + "add-pet";
+  @PutMapping("/pets/update/{id}")
+  public void updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
+  
+    pet = petsService.asignarRelacionesDePetPorIds(pet);
+    petsService.updatePet(pet);
   }
 
   // ----- Agregar Tratamiento a Mascota -----

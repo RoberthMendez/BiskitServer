@@ -1,6 +1,5 @@
 package com.example.biskit.service.Pets;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class PetsImpl implements PetsService {
   private TratamientosRepo tratamientosRepo;
 
   @Override
-  public Collection<Pet> getPets() {
+  public List<Pet> getPets() {
     return petsRepo.findAll();
   }
 
@@ -71,10 +70,9 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
-  public Pet asignarRelacionesDePetPorIds(Pet pet, Long idEspecie, Long idRaza, Long idEnfermedad) {
-    pet.setEspecie(especieService.getEspecieById(idEspecie));
-    pet.setRaza(razaService.getRazaById(idRaza));
-    pet.setEnfermedad(enfermedadService.getEnfermedadById(idEnfermedad));
+  public Pet asignarRelacionesDePetPorIds(Pet pet) {
+    pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
+    pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
     return pet;
   }
 }

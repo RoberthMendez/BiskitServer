@@ -107,8 +107,6 @@ public class ClientsImpl implements ClientsService {
     }
     pet.setOwner(dueñoIngresado);
 
-    petsService.addPet(pet);
-
   }
 
   @Override

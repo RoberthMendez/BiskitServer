@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToMany;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,6 +45,7 @@ public class Droga {
     @Column(name = "unidades_vendidas", nullable = false, length = 255)
     private int unidadesVendidas;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "drogas")
     private List<Tratamiento> tratamientos;
   
