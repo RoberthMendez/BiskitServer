@@ -49,8 +49,21 @@ public class ClientsImpl implements ClientsService {
   }
 
   @Override
+  @Transactional
   public void updateClient(Client client) {
-    clientsRepo.save(client);
+    Client clientExistente = clientsRepo.findById(client.getId())
+        .orElseThrow(() -> new ClientNotFoundException(client.getId()));
+
+    clientExistente.setNombre(client.getNombre());
+    clientExistente.setCedula(client.getCedula());
+    clientExistente.setCorreo(client.getCorreo());
+    clientExistente.setCelular(client.getCelular());
+
+    if (client.getCredenciales() != null && client.getCredenciales().getId() != null) {
+      clientExistente.setCredenciales(client.getCredenciales());
+    }
+
+    clientsRepo.save(clientExistente);
   }
 
   @Override

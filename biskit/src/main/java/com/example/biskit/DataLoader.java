@@ -360,9 +360,6 @@ public class DataLoader implements CommandLineRunner {
 
         public void cargarMascotas() {
 
-          Especie perro = especieRepo.findByNombre("Perro");
-          Especie gato = especieRepo.findByNombre("Gato");
-
           // PERROS ----------------------------------------------------
           petsRepo.save(Pet.builder().nombre("Princesa")
                            .raza(razaDesdeString("Lebrel afgano"))

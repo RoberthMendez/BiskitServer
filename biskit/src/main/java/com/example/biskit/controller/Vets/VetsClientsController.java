@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.service.Clients.ClientsService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/vet")
@@ -32,6 +34,12 @@ public class VetsClientsController {
   @GetMapping("")
   public String getMethodName() {
     return "vet/vet-panel";
+  }
+
+  // ----- Crear Cliente (CREATE) -----
+  @PostMapping("/clients/add")
+  public void crearCliente(@RequestBody Client client) {
+    clientsService.addClient(client);
   }
 
   // ----- Mostrar Clientes (READ) -----
@@ -51,7 +59,13 @@ public class VetsClientsController {
   public List<Pet> mostrarMascotasDeCliente(@PathVariable("id") Long id) {
     return clientsService.getPetsByClientId(id);
   }
-  
+
+  // ----- Actualizar Cliente (UPDATE) -----
+  @PutMapping("/clients/update/{id}")
+  public void actualizarCliente(@PathVariable("id") Long id, @RequestBody Client client) {
+    client.setId(id);
+    clientsService.updateClient(client);
+  }
 
   // ----- Añadir Cliente (CREATE) -----
   @GetMapping("/clients/add")
@@ -76,35 +90,6 @@ public class VetsClientsController {
     }
 
     return clientsPath + "add-client";
-  }
-
-  @PostMapping("/clients/add")
-  public String agregarCliente(@ModelAttribute("client") Client client) {
-
-    if (client.getNombre().isEmpty()) {
-      return "redirect:/vet/clients/add?error=nombre_vacio";
-    }
-    if (client.getCedula().isEmpty()) {
-      return "redirect:/vet/clients/add?error=cedula_vacia";
-    }
-    if (client.getCorreo().isEmpty()) {
-      return "redirect:/vet/clients/add?error=usuario_vacio";
-    }
-    if (client.getCelular().isEmpty()) {
-      return "redirect:/vet/clients/add?error=celular_vacio";
-    }
-
-    if (clientsService.existeCedula(client.getCedula())) {
-      return "redirect:/vet/clients/add?error=cedula_existente";
-    }
-
-    if (clientsService.existeCorreo(client.getCorreo())) {
-      return "redirect:/vet/clients/add?error=correo_existente";
-
-    }
-
-    clientsService.addClient(client);
-    return "redirect:/vet/clients";
   }
 
   // ----- Editar Cliente (UPDATE) -----
