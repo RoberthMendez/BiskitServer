@@ -89,22 +89,10 @@ public class VetsPetsController {
 
   // ----- Cambiar Estado de Mascota -----
 
-  @PatchMapping("/pets/update-estado/{id}")
+  @PatchMapping("/pets/{id}/update-estado")
   @ResponseBody
-  public Map<String, Object> cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
-
-    Map<String, Object> response = new HashMap<>();
-    try {
-      Pet pet = petsService.getPetById(id);
-      pet.setEstado(body.get("estado"));
-      petsService.updatePet(pet);
-      response.put("ok", true);
-      response.put("estado", pet.isEstado());
-    } catch (Exception e) {
-      response.put("ok", false);
-      response.put("message", "Error al actualizar el estado");
-    }
-    return response;
+  public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Pet pet) {
+    petsService.cambiarEstadoMascota(id, pet.isEstado());
   }
 
   // ----- Mostrar Mascotas (READ) -----

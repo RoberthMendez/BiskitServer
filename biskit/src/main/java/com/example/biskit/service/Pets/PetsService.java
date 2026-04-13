@@ -18,4 +18,6 @@ public interface PetsService {
 
   public Pet asignarRelacionesDePetPorIds(Pet pet);
 
+  public void cambiarEstadoMascota(Long id, boolean estado);
+
 }

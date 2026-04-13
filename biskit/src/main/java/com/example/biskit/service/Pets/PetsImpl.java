@@ -75,4 +75,10 @@ public class PetsImpl implements PetsService {
     pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
     return pet;
   }
+
+  @Override
+  public void cambiarEstadoMascota(Long id, boolean estado) {
+    Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+    pet.setEstado(estado);
+  }
 }
