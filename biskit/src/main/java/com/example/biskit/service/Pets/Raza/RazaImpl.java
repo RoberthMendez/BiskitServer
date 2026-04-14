@@ -3,7 +3,8 @@ package com.example.biskit.service.Pets.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
+
 import com.example.biskit.entities.pets.Raza;
 import com.example.biskit.repo.pets.RazaRepo;
 
@@ -14,7 +15,7 @@ public class RazaImpl implements RazaService {
     private RazaRepo razaRepo;
 
     @Override
-    public Collection<Raza> getAllRazas() {
+    public List<Raza> getAllRazas() {
         return razaRepo.findAll();
     }
 

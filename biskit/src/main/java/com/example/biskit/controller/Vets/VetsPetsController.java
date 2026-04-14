@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -72,101 +73,41 @@ public class VetsPetsController {
 
   private static final String petsPath = "vet/pets/";
 
-  /*
-   * Configura en Spring MVC cómo convertir las fechas que llegan como texto desde
-   * un formulario (formato yyyy-MM-dd) en objetos Date de Java, validando que
-   * tengan un formato correcto.
-   */
-  @InitBinder // "Ejecuta este método antes de hacer el binding de los datos del formulario a
-              // los objetos Java
-  public void initBinder(WebDataBinder binder) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    dateFormat.setLenient(false);
-    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-  }
+  // ================== MASCOTA ==================
 
-  // ----- Cambiar Estado de Mascota -----
-
-  @PatchMapping("/pets/{id}/update-estado")
-  @ResponseBody
-  public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Pet pet) {
-    petsService.cambiarEstadoMascota(id, pet.isEstado());
+  // ----- Añadir Mascota (CREATE) -----
+  @PostMapping("/pets/add")
+  public void agregarMascota(@RequestBody Pet pet) {
+    pet = petsService.asignarRelacionesDePetPorIds(pet);
+    clientsService.addPetToClient(pet.getOwner().getId(), pet);
+    petsService.addPet(pet);
   }
 
   // ----- Mostrar Mascotas (READ) -----
-
   @GetMapping("/pets")
   public List<Pet> mostrarMascotas() {
     return petsService.getPets();
   }
 
   // ----- Mostrar Mascota (READ) -----
-
   @GetMapping("/pets/{id}")
   public Pet mostrarMascota(@PathVariable("id") Long id) {
     return petsService.getPetById(id);
   }
 
-  // ----- Añadir Mascota (CREATE) -----
-
-  @PostMapping("/pets/add")
-  public void agregarMascota(@RequestBody Pet pet) {
-
+  // ----- Editar Mascota (UPDATE) -----
+  @PutMapping("/pets/update/{id}")
+  public void updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
     pet = petsService.asignarRelacionesDePetPorIds(pet);
-    clientsService.addPetToClient(pet.getOwner().getId(), pet);
-    petsService.addPet(pet);
-
+    petsService.updatePet(pet);
   }
 
-  @GetMapping("/pets/add")
-  public String mostrarFormularioAddPet(@RequestParam(required = false) String error, Model model) {
-
-    if (error != null) {
-      if (error.equals("1")) {
-        model.addAttribute("error", "Debes ingresar el nombre de la mascota");
-      } else if (error.equals("2")) {
-        model.addAttribute("error", "Debes seleccionar un cliente para la mascota");
-      } else if (error.equals("3")) {
-        model.addAttribute("error", "Debes seleccionar una especie para la mascota");
-      } else if (error.equals("4")) {
-        model.addAttribute("error", "Debes seleccionar una raza para la mascota");
-      } else if (error.equals("5")) {
-        model.addAttribute("error", "Debes seleccionar una enfermedad para la mascota");
-      } else if (error.equals("6")) {
-        model.addAttribute("error", "Debes seleccionar la fecha de nacimiento de la mascota");
-      } else if (error.equals("7")) {
-        model.addAttribute("error", "Debes ingresar la URL de la foto de la mascota");
-      } else if (error.equals("8")) {
-        model.addAttribute("error", "Debes ingresar un peso válido para la mascota");
-      }
-    }
-    Pet pet = new Pet();
-    pet.setFechaNacimiento(null);
-    model.addAttribute("pet", pet);
-    model.addAttribute("clientes", clientsService.getClients());
-    model.addAttribute("especies", especieService.getAllEspecies());
-    model.addAttribute("razas", razaService.getAllRazas());
-    model.addAttribute("enfermedades", enfermedadService.getAllEnfermedades());
-    return petsPath + "add-pet";
+  // ----- Cambiar Estado de Mascota (DELETE) -----
+  @PatchMapping("/pets/update-estado/{id}")
+  public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
+    petsService.cambiarEstadoMascota(id, body.get("estado"));
   }
 
-  // ----- Tratamientos de Mascota -----
-  @GetMapping("pets/tratamientos/{id}")
-  public List<Tratamiento> getTratamientosByPetId(@PathVariable("id") Long id) {
-      return tratamientosService.getTratamientosByPetId(id);
-  }
-  
-  // ----- Agregar Enfermedad -----
-  @PostMapping("/pets/enfermedades/add")
-  @ResponseBody
-  public void agregarEnfermedad(@RequestBody String nombreEnfermedad) {
-
-    Enfermedad enfermedad = enfermedadService.getEnfermedadByNombre(nombreEnfermedad.trim());
-    if (enfermedad == null) {
-      enfermedad = Enfermedad.builder().nombre(nombreEnfermedad.trim()).build();
-      enfermedadService.saveEnfermedad(enfermedad);
-    }
-  }
 
   // Añadir Raza
 
@@ -186,13 +127,21 @@ public class VetsPetsController {
     }
   } 
 
-  // ----- Editar Mascota (UPDATE) -----
 
-  @PutMapping("/pets/update/{id}")
-  public void updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
-  
-    pet = petsService.asignarRelacionesDePetPorIds(pet);
-    petsService.updatePet(pet);
+
+
+
+
+
+
+
+
+
+
+  // ----- Tratamientos de Mascota -----
+  @GetMapping("pets/tratamientos/{id}")
+  public List<Tratamiento> getTratamientosByPetId(@PathVariable("id") Long id) {
+      return tratamientosService.getTratamientosByPetId(id);
   }
 
   // ----- Agregar Tratamiento a Mascota -----
@@ -263,6 +212,19 @@ public class VetsPetsController {
     Long petId = tratamiento.getPet().getId();
     tratamientosService.deleteTratamiento(id);
     return "redirect:/vet/pets/" + petId;
+  }
+
+  /*
+   * Configura en Spring MVC cómo convertir las fechas que llegan como texto desde
+   * un formulario (formato yyyy-MM-dd) en objetos Date de Java, validando que
+   * tengan un formato correcto.
+   */
+  @InitBinder // "Ejecuta este método antes de hacer el binding de los datos del formulario a
+              // los objetos Java
+  public void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
 }

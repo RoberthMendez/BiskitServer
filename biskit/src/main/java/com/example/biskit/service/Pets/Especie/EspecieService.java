@@ -1,11 +1,10 @@
 package com.example.biskit.service.Pets.Especie;
-
-import java.util.Collection;
+import java.util.List;
 import com.example.biskit.entities.pets.Especie;
 
 public interface EspecieService {
 
-    public Collection<Especie> getAllEspecies();
+    public List<Especie> getAllEspecies();
 
     public Especie getEspecieById(Long id);
 

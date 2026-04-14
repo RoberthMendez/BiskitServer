@@ -1,9 +1,9 @@
 package com.example.biskit.service.Pets.Enfermedad;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import com.example.biskit.entities.pets.Enfermedad;
 import com.example.biskit.repo.pets.EnfermedadRepo;
 
@@ -14,7 +14,7 @@ public class EnfermedadImpl implements EnfermedadService {
     private EnfermedadRepo enfermedadRepo;
 
     @Override
-    public Collection<Enfermedad> getAllEnfermedades() {
+    public List<Enfermedad> getAllEnfermedades() {
         return enfermedadRepo.findAll();
     }
 
