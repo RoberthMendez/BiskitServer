@@ -76,5 +76,6 @@ public class PetsImpl implements PetsService {
   public void cambiarEstadoMascota(Long id, boolean estado) {
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
     pet.setEstado(estado);
+    petsRepo.save(pet);
   }
 }

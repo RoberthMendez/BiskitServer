@@ -26,13 +26,6 @@ public class VetsClientsController {
   @Autowired
   private ClientsService clientsService;
 
-  // ================ CLIENTES ================
-
-  @GetMapping("")
-  public String getMethodName() {
-    return "vet/vet-panel";
-  }
-
   // ----- Crear Cliente (CREATE) -----
   @PostMapping("/clients/add")
   public void crearCliente(@RequestBody Client client) {

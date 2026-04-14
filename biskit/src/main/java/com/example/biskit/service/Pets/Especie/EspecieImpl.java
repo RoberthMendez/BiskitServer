@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.biskit.repo.pets.EspecieRepo;
 import com.example.biskit.entities.pets.Especie;
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class EspecieImpl implements EspecieService {
@@ -14,7 +14,7 @@ public class EspecieImpl implements EspecieService {
     private EspecieRepo especieRepo;
 
     @Override
-    public Collection<Especie> getAllEspecies() {
+    public List<Especie> getAllEspecies() {
         return especieRepo.findAll();
     }
 

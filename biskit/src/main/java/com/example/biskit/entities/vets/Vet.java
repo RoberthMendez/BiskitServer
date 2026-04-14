@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Tratamiento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -55,6 +56,7 @@ public class Vet {
     @JoinColumn(name = "especialidad_id")
     private Especialidad especialidad;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "vet")
     private List<Tratamiento> tratamientos;
 
