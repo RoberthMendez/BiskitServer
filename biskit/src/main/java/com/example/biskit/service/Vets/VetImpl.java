@@ -55,4 +55,21 @@ public class VetImpl implements VetService {
     public void saveVet(Vet vet) {
         vetsRepo.save(vet);
     }
+
+    @Override
+    public boolean autenticarVet(String usuario, String contrasena) {
+        return vetsRepo.findAll().stream()
+                .filter(vet -> vet.getCredenciales() != null)
+                .anyMatch(vet -> usuario.equals(vet.getCredenciales().getUsuario())
+                        && contrasena.equals(vet.getCredenciales().getPassword()));
+    }
+
+    @Override
+    public Vet findByUsuario(String usuario) {
+        return vetsRepo.findAll().stream()
+                .filter(vet -> vet.getCredenciales() != null)
+                .filter(vet -> usuario.equals(vet.getCredenciales().getUsuario()))
+                .findFirst()
+                .orElse(null);
+    }
 }
