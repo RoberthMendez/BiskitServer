@@ -2,6 +2,7 @@ package com.example.biskit.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import jakarta.persistence.GenerationType;
 
 @Getter
 @Setter
+@ToString(exclude = "tratamientos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

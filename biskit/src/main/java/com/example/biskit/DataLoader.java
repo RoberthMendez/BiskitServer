@@ -1,9 +1,21 @@
 package com.example.biskit;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.h2.store.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.CellType;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
@@ -30,6 +42,7 @@ import com.example.biskit.repo.vets.VetsRepo;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -1046,48 +1059,88 @@ public class DataLoader implements CommandLineRunner {
 
         public void cargarDrogas() {
 
+                //Lista de drogas para cargar desde el excel
+                List<Droga> drogas = new ArrayList<>();
+                
+                // Cargar archivo desde resources (classpath)
+                InputStream inputStream = getClass()
+                        .getClassLoader()
+                        .getResourceAsStream("data/MEDICAMENTOS.xlsx");
+
+                if (inputStream == null) {
+                throw new RuntimeException("No se encontró el archivo MEDICAMENTOS.xlsx en resources/data");
+                }
+         
+                try (Workbook workbook = new XSSFWorkbook(inputStream)) {
+                
+                        Sheet sheet = workbook.getSheetAt(0);
+                        System.out.println("Filas: " + sheet.getLastRowNum());
+
+                        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                                System.out.println("Procesando fila: " + i);
+
+                                Row row = sheet.getRow(i);
+                                if (row == null) continue;
+
+                                // Verificar que la celda 0 exista y tenga valor
+                                System.out.println("Celda 0: " + (row.getCell(0) != null ? row.getCell(0).getStringCellValue() : "null"));
+                                Cell nombreCell = row.getCell(0);
+                                if (nombreCell == null || nombreCell.getStringCellValue().trim().isEmpty()) {
+                                        continue;
+                                }
+                                String nombre = nombreCell.getStringCellValue().trim();
+
+                                Cell cell = row.getCell(1);
+                                long precioVenta = 0;
+                                if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+                                precioVenta = (long) cell.getNumericCellValue();
+                                }
+                                System.out.println("Celda 1: " + precioVenta);
+
+
+                                cell = row.getCell(2);
+                                long precioCompra = 0;
+                                if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+                                        precioCompra = (long) cell.getNumericCellValue();
+                                }
+                                System.out.println("Celda 2: " + precioCompra);
+
+                                cell = row.getCell(3);
+                                int unidadesDisp = 0;
+                                if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+                                unidadesDisp = (int) cell.getNumericCellValue();
+                                }
+                                System.out.println("Celda 3: " + unidadesDisp);
+
+                                cell = row.getCell(4);
+                                int unidadesVend = 0;
+                                if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+                                        unidadesVend = (int) cell.getNumericCellValue();
+                                }
+                                System.out.println("Celda 4: " + unidadesVend);
+ 
+                                drogas.add(Droga.builder()
+                                        .nombre(nombre)
+                                        .precioVenta(precioVenta)
+                                        .precioCompra(precioCompra)
+                                        .unidadesDisponibles(unidadesDisp)
+                                        .unidadesVendidas(unidadesVend)
+                                        .build());
+                        }
+
+                } catch (Exception e) {
+                        System.err.println("Error al leer el archivo MEDICAMENTOS.xlsx: " + e.getMessage());
+                        e.printStackTrace();  // Para ver la traza completa de la excepción
+                }
+
+                for (Droga d : drogas) {
+                        System.out.println("Guardando droga: " + d);
+                        drogasRepo.save(d);
+                }
+
                 drogasRepo.save(Droga.builder().nombre("CaniDol Forte").precioCompra(12000).precioVenta(18000)
                                 .unidadesDisponibles(120).unidadesVendidas(35).build());
-                drogasRepo.save(Droga.builder().nombre("PerroCef 250").precioCompra(15000).precioVenta(22000)
-                                .unidadesDisponibles(90).unidadesVendidas(27).build());
-                drogasRepo.save(Droga.builder().nombre("Dermocan Spray").precioCompra(19000).precioVenta(29000)
-                                .unidadesDisponibles(70).unidadesVendidas(20).build());
-                drogasRepo.save(Droga.builder().nombre("Otocan Plus").precioCompra(14000).precioVenta(21000)
-                                .unidadesDisponibles(85).unidadesVendidas(31).build());
-                drogasRepo.save(Droga.builder().nombre("ArtroCan Tabs").precioCompra(25000).precioVenta(36000)
-                                .unidadesDisponibles(60).unidadesVendidas(18).build());
-                drogasRepo.save(Droga.builder().nombre("GastroCan Suspensión").precioCompra(11000).precioVenta(17000)
-                                .unidadesDisponibles(95).unidadesVendidas(29).build());
-                drogasRepo.save(Droga.builder().nombre("Antipulgas K9").precioCompra(22000).precioVenta(32000)
-                                .unidadesDisponibles(75).unidadesVendidas(26).build());
-                drogasRepo.save(Droga.builder().nombre("HepatoCan Jarabe").precioCompra(18000).precioVenta(27000)
-                                .unidadesDisponibles(55).unidadesVendidas(14).build());
-                drogasRepo.save(Droga.builder().nombre("NefroCan Plus").precioCompra(26000).precioVenta(39000)
-                                .unidadesDisponibles(45).unidadesVendidas(12).build());
-                drogasRepo.save(Droga.builder().nombre("CardioCan 5mg").precioCompra(30000).precioVenta(44000)
-                                .unidadesDisponibles(40).unidadesVendidas(10).build());
-
-                drogasRepo.save(Droga.builder().nombre("GatiDol Forte").precioCompra(11500).precioVenta(17500)
-                                .unidadesDisponibles(110).unidadesVendidas(33).build());
-                drogasRepo.save(Droga.builder().nombre("FelinoCef 100").precioCompra(14500).precioVenta(21500)
-                                .unidadesDisponibles(88).unidadesVendidas(24).build());
-                drogasRepo.save(Droga.builder().nombre("DermaCat Gel").precioCompra(17000).precioVenta(25500)
-                                .unidadesDisponibles(68).unidadesVendidas(19).build());
-                drogasRepo.save(Droga.builder().nombre("OtoCat Gotas").precioCompra(13500).precioVenta(20500)
-                                .unidadesDisponibles(80).unidadesVendidas(28).build());
-                drogasRepo.save(Droga.builder().nombre("ArtroCat Tabs").precioCompra(24000).precioVenta(35000)
-                                .unidadesDisponibles(58).unidadesVendidas(16).build());
-                drogasRepo.save(Droga.builder().nombre("GastroCat Pasta").precioCompra(12500).precioVenta(19000)
-                                .unidadesDisponibles(92).unidadesVendidas(30).build());
-                drogasRepo.save(Droga.builder().nombre("Antiparasitario Feline").precioCompra(21000).precioVenta(30500)
-                                .unidadesDisponibles(72).unidadesVendidas(22).build());
-                drogasRepo.save(Droga.builder().nombre("HepatoCat Jarabe").precioCompra(17500).precioVenta(26500)
-                                .unidadesDisponibles(52).unidadesVendidas(13).build());
-                drogasRepo.save(Droga.builder().nombre("NefroCat Plus").precioCompra(25500).precioVenta(38000)
-                                .unidadesDisponibles(43).unidadesVendidas(11).build());
-                drogasRepo.save(Droga.builder().nombre("CardioCat 2.5mg").precioCompra(29000).precioVenta(43000)
-                                .unidadesDisponibles(38).unidadesVendidas(9).build());
-
+               
         }
 
         public void relacionar() {
