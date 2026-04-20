@@ -6,7 +6,7 @@ import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.service.Credenciales.CredencialesService;
 
 import org.springframework.stereotype.Service;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,7 +23,7 @@ public class VetImpl implements VetService {
     private CredencialesService credencialesService;
 
     @Override
-    public Collection<Vet> getVets() {
+    public List<Vet> getVets() {
         return vetsRepo.findAll();
     }
 

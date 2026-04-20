@@ -1,12 +1,15 @@
 package com.example.biskit.service.Tratamientos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.biskit.entities.Droga;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.dtos.TratamientoDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.repo.TratamientosRepo;
@@ -35,18 +38,53 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
-    public void addTratamiento(Tratamiento tratamiento, List<Long> drogasIds) {
-
-        Vet vet = vetService.getVetById(tratamiento.getVet().getId());
-        Pet pet = petsService.getPetById(tratamiento.getPet().getId());
-        tratamiento.setPet(pet);
-        tratamiento.setVet(vet);
-
-        for (Long drogaId : drogasIds) {
-            tratamiento.getDrogas().add(drogasService.getDrogaById(drogaId));
+    public void addTratamiento(TratamientoDto tratamientoDto) {
+        if (tratamientoDto == null) {
+            throw new RuntimeException("El tratamiento no puede ser nulo");
         }
 
+        if (tratamientoDto.getPetId() == null) {
+            throw new RuntimeException("El tratamiento debe incluir una mascota válida");
+        }
+
+        if (tratamientoDto.getVetId() == null) {
+            throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
+        }
+
+        Pet pet = petsService.getPetById(tratamientoDto.getPetId());
+        Vet vet = vetService.getVetById(tratamientoDto.getVetId());
+
+        List<Droga> drogasPersistidas = new ArrayList<>();
+        if (tratamientoDto.getDrogasIds() != null) {
+            for (Long drogaId : tratamientoDto.getDrogasIds()) {
+                if (drogaId != null) {
+                    drogasPersistidas.add(drogasService.getDrogaById(drogaId));
+                }
+            }
+        }
+
+        Tratamiento tratamiento = new Tratamiento();
+        tratamiento.setId(tratamientoDto.getId());
+        tratamiento.setFecha(tratamientoDto.getFecha());
+        tratamiento.setPet(pet);
+        tratamiento.setVet(vet);
+        tratamiento.setDrogas(drogasPersistidas);
         tratamientosRepo.save(tratamiento);
+    }
+
+    @Override
+    @Transactional
+    public void updateTratamiento(Tratamiento tratamiento) {
+
+        Tratamiento existingTratamiento = tratamientosRepo.findById(tratamiento.getId())
+                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + tratamiento.getId()));
+
+        existingTratamiento.setFecha(tratamiento.getFecha());
+        existingTratamiento.setPet(tratamiento.getPet());
+        existingTratamiento.setVet(tratamiento.getVet());
+        existingTratamiento.setDrogas(tratamiento.getDrogas());
+
+        tratamientosRepo.save(existingTratamiento);
 
     }
 

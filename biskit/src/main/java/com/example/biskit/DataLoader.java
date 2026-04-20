@@ -2,13 +2,10 @@ package com.example.biskit;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.h2.store.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
@@ -42,7 +39,6 @@ import com.example.biskit.repo.vets.VetsRepo;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Random;
 
 @Component
@@ -1050,10 +1046,11 @@ public class DataLoader implements CommandLineRunner {
 
         public void cargarTratamientos() {
 
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 100; i++) { 
                         Tratamiento tratamiento = Tratamiento.builder().fecha(LocalDate.now().plusDays(i)).build();
                         tratamientosRepo.save(tratamiento);
                 }
+
 
         }
 
@@ -1068,7 +1065,7 @@ public class DataLoader implements CommandLineRunner {
                         .getResourceAsStream("data/MEDICAMENTOS.xlsx");
 
                 if (inputStream == null) {
-                throw new RuntimeException("No se encontró el archivo MEDICAMENTOS.xlsx en resources/data");
+                  throw new RuntimeException("No se encontró el archivo MEDICAMENTOS.xlsx en resources/data");
                 }
          
                 try (Workbook workbook = new XSSFWorkbook(inputStream)) {
@@ -1086,14 +1083,14 @@ public class DataLoader implements CommandLineRunner {
                                 System.out.println("Celda 0: " + (row.getCell(0) != null ? row.getCell(0).getStringCellValue() : "null"));
                                 Cell nombreCell = row.getCell(0);
                                 if (nombreCell == null || nombreCell.getStringCellValue().trim().isEmpty()) {
-                                        continue;
+                                  continue;
                                 }
                                 String nombre = nombreCell.getStringCellValue().trim();
 
                                 Cell cell = row.getCell(1);
                                 long precioVenta = 0;
                                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
-                                precioVenta = (long) cell.getNumericCellValue();
+                                  precioVenta = (long) cell.getNumericCellValue();
                                 }
                                 System.out.println("Celda 1: " + precioVenta);
 
@@ -1174,6 +1171,7 @@ public class DataLoader implements CommandLineRunner {
                 int cantidadPets = petsRepo.findAll().size();
                 int cantidadVets = vetsRepo.findAll().size();
                 for (Tratamiento tratamiento : tratamientosRepo.findAll()) {
+
                         int randomNumPet = random.nextInt(1, cantidadPets + 1);
                         Pet pet = petsRepo.findById((long) randomNumPet).orElse(null);
                         tratamiento.setPet(pet);
@@ -1184,6 +1182,7 @@ public class DataLoader implements CommandLineRunner {
 
                         tratamientosRepo.save(tratamiento);
                 }
+
 
                 int cantidadDrogasTratamiento = 3;
                 int totalDrogas = drogasRepo.findAll().size();

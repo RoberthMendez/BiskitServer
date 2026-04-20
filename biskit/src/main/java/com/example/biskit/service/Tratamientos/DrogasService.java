@@ -2,11 +2,11 @@ package com.example.biskit.service.Tratamientos;
 
 import com.example.biskit.entities.Droga;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface DrogasService {
 
-    public Collection<Droga> getDrogas();
+    public List<Droga> getDrogas();
 
     public Droga getDrogaById(Long id);
 

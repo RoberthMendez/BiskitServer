@@ -3,7 +3,7 @@ package com.example.biskit.service.Tratamientos;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import java.util.Collection;
+import java.util.List;
 
 import com.example.biskit.entities.Droga;
 import com.example.biskit.repo.DrogasRepo;
@@ -15,7 +15,7 @@ public class DrogasImpl implements DrogasService {
     private DrogasRepo drogasRepo;
 
     @Override
-    public Collection<Droga> getDrogas() {
+    public List<Droga> getDrogas() {
         return drogasRepo.findAll();
     }
 

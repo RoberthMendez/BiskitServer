@@ -1,6 +1,6 @@
 package com.example.biskit.service.Vets;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class EspecialidadesImpl implements EspecialidadesService {
     private EspecialidadRepo especialidadesRepo;
 
     @Override
-    public Collection<Especialidad> getEspecialidades() {
+    public List<Especialidad> getEspecialidades() {
         return especialidadesRepo.findAll();
     }
 

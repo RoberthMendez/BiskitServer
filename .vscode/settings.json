@@ -3,7 +3,7 @@
   "css.lint.unknownAtRules": "ignore",
   "css.lint.propertyIgnoredDueToDisplay": "ignore",
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {

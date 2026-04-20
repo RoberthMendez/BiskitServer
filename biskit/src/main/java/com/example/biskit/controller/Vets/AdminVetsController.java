@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Vets.EspecialidadesService;
 import com.example.biskit.service.Vets.VetService;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/vet")
 public class AdminVetsController {
     
     @Autowired
