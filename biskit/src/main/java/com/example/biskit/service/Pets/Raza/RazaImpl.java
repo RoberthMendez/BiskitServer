@@ -11,27 +11,29 @@ import com.example.biskit.repo.pets.RazaRepo;
 @Service
 public class RazaImpl implements RazaService {
 
-    @Autowired
-    private RazaRepo razaRepo;
+  @Autowired
+  private RazaRepo razaRepo;
 
-    @Override
-    public List<Raza> getAllRazas() {
-        return razaRepo.findAll();
-    }
+  @Override
+  public List<Raza> getAllRazas() {
+      return razaRepo.findAll();
+  }
 
-    @Override
-    public Raza getRazaById(Long id) {
-        return razaRepo.findById(id).orElse(null);
-    }
+  @Override
+  public Raza getRazaById(Long id) {
+      return razaRepo.findById(id).orElse(null);
+  }
 
-    @Override
-    public Raza getRazaByNombre(String nombre) {
-        return razaRepo.findByNombreIgnoreCase(nombre);
-    }
+  @Override
+  public Raza getRazaByNombre(String nombre) {
+      return razaRepo.findByNombreIgnoreCase(nombre);
+  }
 
-    @Override
-    public void saveRaza(Raza raza) {
-        razaRepo.save(raza);
+  @Override
+  public void saveRaza(Raza raza) {
+    if (raza != null && raza.getNombre() != null && raza.getEspecie() != null) {
+      razaRepo.save(raza);
     }
+  }
 
 }

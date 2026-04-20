@@ -28,15 +28,10 @@ public class EnfermedadesController {
 
   // ----- Crear Enfermedad (CREATE) -----
   @PostMapping("/add")
-  public void crearEnfermedad(@RequestBody String nombreEnfermedad) {
-
-    Enfermedad enfermedad = enfermedadService.getEnfermedadByNombre(nombreEnfermedad.trim());
-
-    if (enfermedad == null) {
-      enfermedad = Enfermedad.builder().nombre(nombreEnfermedad.trim()).build();
+  public void crearEnfermedad(@RequestBody Enfermedad enfermedad) {
+    if (enfermedad != null) {
       enfermedadService.saveEnfermedad(enfermedad);
     }
-
   }
   
 }
