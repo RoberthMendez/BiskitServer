@@ -1055,9 +1055,6 @@ public class DataLoader implements CommandLineRunner {
         }
 
         public void cargarDrogas() {
-
-                //Lista de drogas para cargar desde el excel
-                List<Droga> drogas = new ArrayList<>();
                 
                 // Cargar archivo desde resources (classpath)
                 InputStream inputStream = getClass()
@@ -1071,16 +1068,12 @@ public class DataLoader implements CommandLineRunner {
                 try (Workbook workbook = new XSSFWorkbook(inputStream)) {
                 
                         Sheet sheet = workbook.getSheetAt(0);
-                        System.out.println("Filas: " + sheet.getLastRowNum());
 
                         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                                System.out.println("Procesando fila: " + i);
 
                                 Row row = sheet.getRow(i);
                                 if (row == null) continue;
 
-                                // Verificar que la celda 0 exista y tenga valor
-                                System.out.println("Celda 0: " + (row.getCell(0) != null ? row.getCell(0).getStringCellValue() : "null"));
                                 Cell nombreCell = row.getCell(0);
                                 if (nombreCell == null || nombreCell.getStringCellValue().trim().isEmpty()) {
                                   continue;
@@ -1092,7 +1085,6 @@ public class DataLoader implements CommandLineRunner {
                                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
                                   precioVenta = (long) cell.getNumericCellValue();
                                 }
-                                System.out.println("Celda 1: " + precioVenta);
 
 
                                 cell = row.getCell(2);
@@ -1100,23 +1092,20 @@ public class DataLoader implements CommandLineRunner {
                                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
                                         precioCompra = (long) cell.getNumericCellValue();
                                 }
-                                System.out.println("Celda 2: " + precioCompra);
 
                                 cell = row.getCell(3);
                                 int unidadesDisp = 0;
                                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
                                 unidadesDisp = (int) cell.getNumericCellValue();
                                 }
-                                System.out.println("Celda 3: " + unidadesDisp);
 
                                 cell = row.getCell(4);
                                 int unidadesVend = 0;
                                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
                                         unidadesVend = (int) cell.getNumericCellValue();
                                 }
-                                System.out.println("Celda 4: " + unidadesVend);
  
-                                drogas.add(Droga.builder()
+                                drogasRepo.save(Droga.builder()
                                         .nombre(nombre)
                                         .precioVenta(precioVenta)
                                         .precioCompra(precioCompra)
@@ -1130,14 +1119,7 @@ public class DataLoader implements CommandLineRunner {
                         e.printStackTrace();  // Para ver la traza completa de la excepción
                 }
 
-                for (Droga d : drogas) {
-                        System.out.println("Guardando droga: " + d);
-                        drogasRepo.save(d);
-                }
-
-                drogasRepo.save(Droga.builder().nombre("CaniDol Forte").precioCompra(12000).precioVenta(18000)
-                                .unidadesDisponibles(120).unidadesVendidas(35).build());
-               
+  
         }
 
         public void relacionar() {
