@@ -12,6 +12,8 @@ import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.dtos.TratamientoDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.errors.MascotaInactivaException;
+import com.example.biskit.errors.StockInsuficienteException;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Vets.VetService;
@@ -38,7 +40,9 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
+    @Transactional
     public void addTratamiento(TratamientoDto tratamientoDto) {
+
         if (tratamientoDto == null) {
             throw new RuntimeException("El tratamiento no puede ser nulo");
         }
@@ -54,11 +58,24 @@ public class TratamientosImpl implements TratamientosService {
         Pet pet = petsService.getPetById(tratamientoDto.getPetId());
         Vet vet = vetService.getVetById(tratamientoDto.getVetId());
 
+        if (!pet.isEstado()) {
+            throw new MascotaInactivaException("La mascota está inactiva");
+        }
+
         List<Droga> drogasPersistidas = new ArrayList<>();
         if (tratamientoDto.getDrogasIds() != null) {
             for (Long drogaId : tratamientoDto.getDrogasIds()) {
                 if (drogaId != null) {
-                    drogasPersistidas.add(drogasService.getDrogaById(drogaId));
+                  
+                    Droga droga = drogasService.getDrogaById(drogaId);
+                    if (droga.getUnidadesDisponibles() <= 0) {
+                        throw new StockInsuficienteException("No hay suficientes drogas para crear el tratamiento");
+                    }
+
+                    droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
+                    droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
+                    drogasService.saveDroga(droga);
+                    drogasPersistidas.add(droga);
                 }
             }
         }

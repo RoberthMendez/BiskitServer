@@ -3,6 +3,8 @@ package com.example.biskit.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +29,9 @@ public class TratamientosController {
 
   // ----- Crear Tratamiento (CREATE) -----
   @PostMapping("/add")
-  public void crearTratamiento(@RequestBody TratamientoDto tratamientoDto) {
+  public ResponseEntity<Void> crearTratamiento(@RequestBody TratamientoDto tratamientoDto) {
       tratamientosService.addTratamiento(tratamientoDto);
+      return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   // ----- Mostrar Tratamientos de una Mascota (READ) ------
