@@ -45,9 +45,8 @@ public class TratamientosController {
 
   // ----- Actualizar Tratamiento (UPDATE) -----
   @PutMapping("/update/{id}")
-  public void actualizarTratamiento(@PathVariable Long id, @RequestBody Tratamiento tratamiento) {
-      tratamiento.setId(id);
-      tratamientosService.updateTratamiento(tratamiento);
+  public void actualizarTratamiento(@PathVariable Long id, @RequestBody TratamientoDto tratamientoDto) {
+      tratamientosService.updateTratamiento(id, tratamientoDto);
   }
 
   // ----- Eliminar Tratamiento (DELETE) -----

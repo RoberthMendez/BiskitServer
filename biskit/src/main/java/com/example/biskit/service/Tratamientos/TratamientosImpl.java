@@ -74,15 +74,39 @@ public class TratamientosImpl implements TratamientosService {
 
     @Override
     @Transactional
-    public void updateTratamiento(Tratamiento tratamiento) {
+    public void updateTratamiento(Long id, TratamientoDto tratamientoDto) {
 
-        Tratamiento existingTratamiento = tratamientosRepo.findById(tratamiento.getId())
-                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + tratamiento.getId()));
+        if (tratamientoDto == null) {
+            throw new RuntimeException("El tratamiento no puede ser nulo");
+        }
 
-        existingTratamiento.setFecha(tratamiento.getFecha());
-        existingTratamiento.setPet(tratamiento.getPet());
-        existingTratamiento.setVet(tratamiento.getVet());
-        existingTratamiento.setDrogas(tratamiento.getDrogas());
+        if (tratamientoDto.getPetId() == null) {
+            throw new RuntimeException("El tratamiento debe incluir una mascota válida");
+        }
+
+        if (tratamientoDto.getVetId() == null) {
+            throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
+        }
+
+        Pet pet = petsService.getPetById(tratamientoDto.getPetId());
+        Vet vet = vetService.getVetById(tratamientoDto.getVetId());
+
+        List<Droga> drogasPersistidas = new ArrayList<>();
+        if (tratamientoDto.getDrogasIds() != null) {
+            for (Long drogaId : tratamientoDto.getDrogasIds()) {
+                if (drogaId != null) {
+                    drogasPersistidas.add(drogasService.getDrogaById(drogaId));
+                }
+            }
+        }
+
+        Tratamiento existingTratamiento = tratamientosRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+
+        existingTratamiento.setFecha(tratamientoDto.getFecha());
+        existingTratamiento.setPet(pet);
+        existingTratamiento.setVet(vet);
+        existingTratamiento.setDrogas(drogasPersistidas);
 
         tratamientosRepo.save(existingTratamiento);
 
