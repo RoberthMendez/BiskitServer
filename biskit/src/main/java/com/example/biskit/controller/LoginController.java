@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
+import com.example.biskit.entities.dtos.RespuestaCredencialDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.service.Vets.VetService;
+import com.example.biskit.service.Admin.AdminsService;
 
 @RestController
 @RequestMapping("/login")
@@ -32,8 +35,11 @@ public class LoginController {
     @Autowired
     private VetService vetService;
 
+    @Autowired
+    private AdminsService adminService;
+
     @PostMapping
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Credenciales credenciales) {
+    public ResponseEntity<RespuestaCredencialDto> login(@RequestBody Credenciales credenciales) {
         if (credenciales == null || credenciales.getUsuario() == null || credenciales.getPassword() == null
                 || credenciales.getUsuario().isBlank() || credenciales.getPassword().isBlank()) {
             return ResponseEntity.badRequest().body(crearRespuesta(null, "CREDENCIALES_INVALIDAS"));
@@ -53,13 +59,18 @@ public class LoginController {
             return ResponseEntity.ok(crearRespuesta(vet.getId(), "VETERINARIO"));
         }
 
+        if (adminService.autenticarAdmin(credenciales.getUsuario(), credenciales.getPassword())) {
+            Admin admin = adminService.findByUsuario(credenciales.getUsuario());
+            return ResponseEntity.ok(crearRespuesta(admin.getId(), "ADMIN"));
+        }
+
         return ResponseEntity.badRequest().body(crearRespuesta(null, "CREDENCIALES_INVALIDAS"));
     }
 
-    private Map<String, Object> crearRespuesta(Long id, String tipo) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", id);
-        response.put("tipo", tipo);
-        return response;
+    private RespuestaCredencialDto crearRespuesta(Long id, String tipo) {
+        return RespuestaCredencialDto.builder()
+                .id(id)
+                .tipo(tipo)
+                .build();
     }
 }

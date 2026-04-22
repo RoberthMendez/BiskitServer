@@ -8,4 +8,6 @@ import com.example.biskit.entities.Admin;
 @Repository
 public interface AdminRepo extends JpaRepository<Admin, Long> {
 
+    
+
 }
