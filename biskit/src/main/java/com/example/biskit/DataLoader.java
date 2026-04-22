@@ -1043,13 +1043,10 @@ public class DataLoader implements CommandLineRunner {
         }
 
         public void cargarTratamientos() {
-
                 for (int i = 0; i < 100; i++) { 
-                        Tratamiento tratamiento = Tratamiento.builder().fecha(LocalDate.now().plusDays(i)).build();
+                        Tratamiento tratamiento = Tratamiento.builder().fecha(LocalDate.now().minusDays(i)).build();
                         tratamientosRepo.save(tratamiento);
                 }
-
-
         }
 
         public void cargarDrogas() {

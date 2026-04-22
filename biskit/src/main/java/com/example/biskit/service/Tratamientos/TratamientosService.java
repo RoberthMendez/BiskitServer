@@ -17,4 +17,6 @@ public interface TratamientosService {
 
     public List<Tratamiento> getTratamientosByPetId(Long petId);
 
+    public Long getUltimosTratamientosCount();
+
 }

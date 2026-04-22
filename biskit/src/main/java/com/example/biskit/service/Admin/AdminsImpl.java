@@ -11,7 +11,7 @@ public class AdminsImpl implements AdminsService {
     @Autowired
     private AdminRepo adminRepo;
 
-
+    @Override
     public Admin findByUsuario(String usuario) {
         return adminRepo.findAll().stream()
         .filter(admin -> admin.getCredenciales().getUsuario().equals(usuario))
@@ -19,6 +19,7 @@ public class AdminsImpl implements AdminsService {
         .orElse(null);
     }
 
+    @Override
     public boolean autenticarAdmin(String usuario, String contrasena) {
         return adminRepo.findAll().stream()
         .anyMatch(admin -> admin.getCredenciales().getUsuario().equals(usuario)

@@ -2,6 +2,7 @@ package com.example.biskit.service.Tratamientos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,6 +155,12 @@ public class TratamientosImpl implements TratamientosService {
     @Override
     public List<Tratamiento> getTratamientosByPetId(Long petId) {
         return tratamientosRepo.findByPetId(petId);
+    }
+
+    @Override
+    public Long getUltimosTratamientosCount() {
+        LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
+        return tratamientosRepo.getUltimosTratamientosCount(treintaDiasAtras);
     }
 
 }
