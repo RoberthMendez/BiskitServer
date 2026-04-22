@@ -19,4 +19,6 @@ public interface TratamientosService {
 
     public Long getUltimosTratamientosCount();
 
+    public Long getTratamientosMedicamentoCount(long medicamentoId);
+
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.biskit.service.Tratamientos.TratamientosService;
 
@@ -23,5 +24,10 @@ public class AdminController {
         return tratamientosService.getUltimosTratamientosCount();
     }
     
+    //http://localhost:8080/admin/drug/1/tratamientos-count
+    @GetMapping("/drug/{id}/tratamientos-count")
+    public Long getTratamientosMedicamentoCount(@PathVariable("id") Long id) {
+        return tratamientosService.getTratamientosMedicamentoCount(id);
+    }
 
 }

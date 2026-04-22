@@ -163,4 +163,9 @@ public class TratamientosImpl implements TratamientosService {
         return tratamientosRepo.getUltimosTratamientosCount(treintaDiasAtras);
     }
 
+    @Override
+    public Long getTratamientosMedicamentoCount(long medicamentoId) {
+        return tratamientosRepo.getTratamientosMedicamentoCount(medicamentoId);
+    }
+
 }

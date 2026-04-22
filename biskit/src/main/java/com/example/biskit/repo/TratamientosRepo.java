@@ -18,4 +18,7 @@ public interface TratamientosRepo extends JpaRepository<Tratamiento, Long> {
 
 	@Query("SELECT COUNT(t) FROM Tratamiento t WHERE t.fecha >= :startDate")
 	Long getUltimosTratamientosCount(@Param("startDate") LocalDate startDate);
+
+	@Query("SELECT COUNT(t) FROM Tratamiento t JOIN t.drogas d WHERE d.id = :medicamentoId")
+	Long getTratamientosMedicamentoCount(@Param("medicamentoId") long medicamentoId);
 }
