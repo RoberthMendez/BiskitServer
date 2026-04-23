@@ -91,6 +91,28 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
+    public void addTratamiento(Tratamiento tratamiento) {
+
+        List<Droga> drogasPersistidas = new ArrayList<>();
+        if (tratamiento.getDrogas() != null) {
+            for (Droga droga : tratamiento.getDrogas()) {
+                if (droga != null) {
+
+                    if (droga.getUnidadesDisponibles() <= 0) {
+                        throw new StockInsuficienteException("No hay suficientes drogas para crear el tratamiento");
+                    }
+
+                    droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
+                    droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
+                    drogasService.saveDroga(droga);
+                    drogasPersistidas.add(droga);
+                }
+            }
+        }
+        tratamientosRepo.save(tratamiento);
+    }
+
+    @Override
     @Transactional
     public void updateTratamiento(Long id, TratamientoDto tratamientoDto) {
 
@@ -159,13 +181,14 @@ public class TratamientosImpl implements TratamientosService {
 
     @Override
     public Long getUltimosTratamientosCount() {
-        LocalDate treintaDiasAtras = LocalDate.now().minusMonths(6);
-        return tratamientosRepo.getUltimosTratamientosCount(treintaDiasAtras);
+        LocalDate seisMesesAtras = LocalDate.now().minusMonths(6);
+        return tratamientosRepo.getUltimosTratamientosCount(seisMesesAtras);
     }
 
     @Override
-    public Long getTratamientosMedicamentoCount(long medicamentoId) {
-        return tratamientosRepo.getTratamientosMedicamentoCount(medicamentoId);
+    public Long getTratamientosMedicamentoMesCount(long medicamentoId) {
+        LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
+        return tratamientosRepo.getTratamientosMedicamentoMesCount(medicamentoId, treintaDiasAtras);
     }
 
 }

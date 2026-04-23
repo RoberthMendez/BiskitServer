@@ -34,6 +34,7 @@ import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.pets.RazaRepo;
 import com.example.biskit.repo.vets.EspecialidadRepo;
 import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.service.Tratamientos.TratamientosService;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -76,6 +77,9 @@ public class DataLoader implements CommandLineRunner {
         @Autowired
         private DrogasRepo drogasRepo;
 
+        @Autowired
+        private TratamientosService tratamientosService;
+
         @Override
         public void run(String... args) throws Exception {
 
@@ -88,8 +92,9 @@ public class DataLoader implements CommandLineRunner {
                 cargarVeterinarios();
                 cargarAdministradores();
                 cargarCredenciales();
-                cargarTratamientos();
                 cargarDrogas();
+                cargarTratamientos();
+
                 relacionar();
 
         }
@@ -1049,9 +1054,40 @@ public class DataLoader implements CommandLineRunner {
         }
 
         public void cargarTratamientos() {
+                Random random = new Random(42);
+
                 for (int i = 0; i < 200; i++) {
                         Tratamiento tratamiento = Tratamiento.builder().fecha(LocalDate.now().minusDays(i)).build();
+
+                        int cantidadPets = petsRepo.findAll().size();
+                        int cantidadVets = vetsRepo.findAll().size();
+                        int randomNumPet = random.nextInt(1, cantidadPets + 1);
+
+                        Pet pet = petsRepo.findById((long) randomNumPet).orElse(null);
+                        tratamiento.setPet(pet);
+
+                        int randomNumVet = random.nextInt(1, cantidadVets + 1);
+                        Vet vet = vetsRepo.findById((long) randomNumVet).orElse(null);
+                        tratamiento.setVet(vet);
+
                         tratamientosRepo.save(tratamiento);
+
+                        int cantidadDrogasTratamiento = 3;
+                        int totalDrogas = drogasRepo.findAll().size();
+
+                        for (int j = 0; j < cantidadDrogasTratamiento; j++) {
+                                int randomNumDroga = random.nextInt(1, totalDrogas + 1);
+                                Droga droga = drogasRepo.findById((long) randomNumDroga).orElse(null);
+                                if (droga.getUnidadesDisponibles() > 0) {
+                                        droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
+                                        droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
+                                        drogasRepo.save(droga);
+                                } else {
+                                        j--;
+                                }
+                        }
+
+                        tratamientosService.addTratamiento(tratamiento);
                 }
         }
 
@@ -1149,31 +1185,6 @@ public class DataLoader implements CommandLineRunner {
                         vet.setEspecialidad(especialidad);
                         vetsRepo.save(vet);
                 }
-
-                int cantidadPets = petsRepo.findAll().size();
-                int cantidadVets = vetsRepo.findAll().size();
-                for (Tratamiento tratamiento : tratamientosRepo.findAll()) {
-
-                        int randomNumPet = random.nextInt(1, cantidadPets + 1);
-                        Pet pet = petsRepo.findById((long) randomNumPet).orElse(null);
-                        tratamiento.setPet(pet);
-
-                        int randomNumVet = random.nextInt(1, cantidadVets + 1);
-                        Vet vet = vetsRepo.findById((long) randomNumVet).orElse(null);
-                        tratamiento.setVet(vet);
-
-                        tratamientosRepo.save(tratamiento);
-                }
-
-                int cantidadDrogasTratamiento = 3;
-                int totalDrogas = drogasRepo.findAll().size();
-                for (Tratamiento tratamiento : tratamientosRepo.findAll())
-                        for (int i = 0; i < cantidadDrogasTratamiento; i++) {
-                                int randomNumDroga = random.nextInt(1, totalDrogas + 1);
-                                Droga droga = drogasRepo.findById((long) randomNumDroga).orElse(null);
-                                tratamiento.getDrogas().add(droga);
-                                tratamientosRepo.save(tratamiento);
-                        }
 
         }
 

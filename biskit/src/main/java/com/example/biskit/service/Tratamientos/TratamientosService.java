@@ -11,6 +11,8 @@ public interface TratamientosService {
 
     public void addTratamiento(TratamientoDto tratamientoDto);
 
+    public void addTratamiento(Tratamiento tratamiento);
+
     public void updateTratamiento(Long id, TratamientoDto tratamientoDto);
 
     public void deleteTratamiento(Long id);
@@ -19,6 +21,6 @@ public interface TratamientosService {
 
     public Long getUltimosTratamientosCount();
 
-    public Long getTratamientosMedicamentoCount(long medicamentoId);
+    public Long getTratamientosMedicamentoMesCount(long medicamentoId);
 
 }

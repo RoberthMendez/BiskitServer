@@ -27,10 +27,10 @@ public class AdminController {
         return tratamientosService.getUltimosTratamientosCount();
     }
 
-    // http://localhost:8080/admin/droga/{id}/tratamientos-count
-    @GetMapping("/droga/{id}/tratamientos-count")
+    // http://localhost:8080/admin/droga/{id}/tratamientos-mes-count
+    @GetMapping("/droga/{id}/tratamientos-mes-count")
     public Long getTratamientosMedicamentoCount(@PathVariable("id") Long id) {
-        return tratamientosService.getTratamientosMedicamentoCount(id);
+        return tratamientosService.getTratamientosMedicamentoMesCount(id);
     }
 
     // http://localhost:8080/admin/vets-inactivos
