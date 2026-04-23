@@ -21,4 +21,7 @@ public interface TratamientosRepo extends JpaRepository<Tratamiento, Long> {
 
 	@Query("SELECT COUNT(t) FROM Tratamiento t JOIN t.drogas d WHERE d.id = :medicamentoId")
 	Long getTratamientosMedicamentoCount(@Param("medicamentoId") long medicamentoId);
+
+	@Query("SELECT COUNT(t) FROM Tratamiento t WHERE t.vet.id = :vetId")
+	Long getTratamientosVetCount(@Param("vetId") long vetId);
 }
