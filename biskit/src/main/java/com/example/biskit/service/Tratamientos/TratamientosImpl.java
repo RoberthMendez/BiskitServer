@@ -67,7 +67,7 @@ public class TratamientosImpl implements TratamientosService {
         if (tratamientoDto.getDrogasIds() != null) {
             for (Long drogaId : tratamientoDto.getDrogasIds()) {
                 if (drogaId != null) {
-                  
+
                     Droga droga = drogasService.getDrogaById(drogaId);
                     if (droga.getUnidadesDisponibles() <= 0) {
                         throw new StockInsuficienteException("No hay suficientes drogas para crear el tratamiento");
@@ -159,7 +159,7 @@ public class TratamientosImpl implements TratamientosService {
 
     @Override
     public Long getUltimosTratamientosCount() {
-        LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
+        LocalDate treintaDiasAtras = LocalDate.now().minusMonths(6);
         return tratamientosRepo.getUltimosTratamientosCount(treintaDiasAtras);
     }
 

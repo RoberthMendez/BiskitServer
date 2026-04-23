@@ -34,12 +34,12 @@ public class AdminController {
     }
 
     // http://localhost:8080/admin/vets-inactivos
-    @GetMapping("/vets-inactivos")
+    @GetMapping("/vets-inactivos-count")
     public Long getVetsInactivosCount() {
         return vetsService.getVetsInactivosCount();
     }
 
-    @GetMapping("/vets-activos")
+    @GetMapping("/vets-activos-count")
     public Long getVetsActivosCount() {
         return vetsService.getVetsActivosCount();
     }
