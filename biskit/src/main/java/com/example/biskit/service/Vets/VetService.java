@@ -19,4 +19,5 @@ public interface VetService {
 
     public Long getVetsInactivosCount();
 
+    public Long getVetsActivosCount();
 }

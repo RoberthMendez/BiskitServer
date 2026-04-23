@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
 
-
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,21 +21,26 @@ public class AdminController {
     @Autowired
     private VetService vetsService;
 
-    //http://localhost:8080/admin/ultimos-tratamientos-count
+    // http://localhost:8080/admin/ultimos-tratamientos-count
     @GetMapping("/ultimos-tratamientos-count")
     public Long getUltimosTratamientos() {
         return tratamientosService.getUltimosTratamientosCount();
     }
-    
-    //http://localhost:8080/admin/droga/{id}/tratamientos-count
+
+    // http://localhost:8080/admin/droga/{id}/tratamientos-count
     @GetMapping("/droga/{id}/tratamientos-count")
     public Long getTratamientosMedicamentoCount(@PathVariable("id") Long id) {
         return tratamientosService.getTratamientosMedicamentoCount(id);
     }
 
-    //http://localhost:8080/admin/vets-inactivos
+    // http://localhost:8080/admin/vets-inactivos
     @GetMapping("/vets-inactivos")
-    public Long getVetsInactivosCount(){
+    public Long getVetsInactivosCount() {
         return vetsService.getVetsInactivosCount();
+    }
+
+    @GetMapping("/vets-activos")
+    public Long getVetsActivosCount() {
+        return vetsService.getVetsActivosCount();
     }
 }

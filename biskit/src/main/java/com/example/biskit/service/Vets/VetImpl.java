@@ -36,16 +36,16 @@ public class VetImpl implements VetService {
     @Override
     public void addVet(Vet vet) {
 
-        if(vet.getId() == null) {
+        if (vet.getId() == null) {
             vet.setEstado(true);
         }
 
-        if(vet.getCredenciales().getId() == null) {
+        if (vet.getCredenciales().getId() == null) {
             vet.getCredenciales().setUsuario(vet.getCorreo());
             vet.getCredenciales().setPassword(vet.getCedula());
             credencialesService.addCredenciales(vet.getCredenciales());
         }
-        
+
         Especialidad especialidad = especialidadesService.getEspecialidadById(vet.getEspecialidad().getId());
         vet.setEspecialidad(especialidad);
         vetsRepo.save(vet);
@@ -76,5 +76,10 @@ public class VetImpl implements VetService {
     @Override
     public Long getVetsInactivosCount() {
         return vetsRepo.countByEstadoFalse();
+    }
+
+    @Override
+    public Long getVetsActivosCount() {
+        return vetsRepo.countByEstadoTrue();
     }
 }
