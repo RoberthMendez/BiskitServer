@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface VetsRepo extends JpaRepository<Vet, Long> {
 
+    Long countByEstadoFalse();
 }

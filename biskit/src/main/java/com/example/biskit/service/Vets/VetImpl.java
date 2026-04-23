@@ -72,4 +72,9 @@ public class VetImpl implements VetService {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public Long getVetsInactivosCount() {
+        return vetsRepo.countByEstadoFalse();
+    }
 }

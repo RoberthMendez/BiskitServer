@@ -984,6 +984,13 @@ public class DataLoader implements CommandLineRunner {
                                 .cedula("110")
                                 .urlFoto("https://eq2imhfmrcc.exactdn.com/wp-content/uploads/2012/06/perro-veterinaria.jpg?strip=all")
                                 .build());
+                vetsRepo.save(Vet.builder().nombre("Federico Gómez")
+                                .estado(false)
+                                .correo("federico.gomez@biskit.com")
+                                .cedula("111")
+                                .urlFoto("https://veterinariacavero.com/wp-content/uploads/2024/08/Dr-Omar-cavero-Medico-Veterinario-especializado-en-Neurologia-y-Traumatologia.jpg")
+                                .build());
+
 
         }
 
