@@ -11,12 +11,14 @@ import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
 import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
 import com.example.biskit.entities.dtos.TratamientosMesDto;
+import com.example.biskit.entities.pets.Enfermedad;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.biskit.entities.dtos.TopDrogaDto;
+import com.example.biskit.entities.dtos.TopEnfermedadDto;
 
 @RestController
 @RequestMapping("/admin")
@@ -87,6 +89,12 @@ public class AdminController {
     @GetMapping("/top5-drogas")
     public ResponseEntity<List<TopDrogaDto>> getTop5Drogas() {
         return ResponseEntity.ok(drogasService.getTop5Drogas());
+    }
+
+    // http://localhost:8080/admin/top5-enfermedades
+    @GetMapping("/top5-enfermedades")
+    public ResponseEntity<List<TopEnfermedadDto>> getTop5Enfermedades() {
+        return ResponseEntity.ok(petsService.getTop5Enfermedades());
     }
 
 }
