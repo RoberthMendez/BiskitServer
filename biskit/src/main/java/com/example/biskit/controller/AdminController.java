@@ -14,6 +14,9 @@ import com.example.biskit.entities.dtos.TratamientosMesDto;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.biskit.entities.dtos.TopDrogaDto;
 
 @RestController
 @RequestMapping("/admin")
@@ -78,6 +81,12 @@ public class AdminController {
     @GetMapping("/ganancias-totales")
     public Long getGananciasTotales() {
         return drogasService.getGananciasTotales();
+    }
+
+    // http://localhost:8080/admin/top5-drogas
+    @GetMapping("/top5-drogas")
+    public ResponseEntity<List<TopDrogaDto>> getTop5Drogas() {
+        return ResponseEntity.ok(drogasService.getTop5Drogas());
     }
 
 }
