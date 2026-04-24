@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DrogaTratamientoCount {
+public class DrogaTratamientoCountDto {
     private String drogaNombre;
     private Long count;
 }

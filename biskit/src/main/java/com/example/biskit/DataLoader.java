@@ -27,7 +27,6 @@ import com.example.biskit.repo.AdminRepo;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.CredencialesRepo;
 import com.example.biskit.repo.DrogasRepo;
-import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.EspecieRepo;
 import com.example.biskit.repo.pets.EnfermedadRepo;
 import com.example.biskit.repo.pets.PetsRepo;
@@ -72,9 +71,6 @@ public class DataLoader implements CommandLineRunner {
 
         @Autowired
         private AdminRepo adminRepo;
-
-        @Autowired
-        private TratamientosRepo tratamientosRepo;
 
         @Autowired
         private DrogasRepo drogasRepo;
