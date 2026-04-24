@@ -4,6 +4,9 @@ import com.example.biskit.entities.Droga;
 
 import java.util.List;
 
+import com.example.biskit.entities.dtos.TopDrogaDto;
+import com.example.biskit.entities.dtos.StockDroga;
+
 public interface DrogasService {
 
     public List<Droga> getDrogas();
@@ -11,5 +14,13 @@ public interface DrogasService {
     public Droga getDrogaById(Long id);
 
     public void saveDroga(Droga droga);
+
+    public Long getVentasTotales();
+
+    public Long getGananciasTotales();
+
+    public List<TopDrogaDto> getTop5Drogas();
+
+    public List<StockDroga> getDrogasBajasStock();
 
 }

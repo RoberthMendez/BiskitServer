@@ -1,11 +1,14 @@
 package com.example.biskit.service.Pets;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.dtos.TopEnfermedadDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
 import com.example.biskit.repo.TratamientosRepo;
@@ -56,7 +59,7 @@ public class PetsImpl implements PetsService {
     tratamientosRepo.deleteAll(tratamientos);
 
     petsRepo.delete(pet);
-    
+
   }
 
   @Override
@@ -94,4 +97,16 @@ public class PetsImpl implements PetsService {
     return petsRepo.countByEstadoTrue();
   }
 
+  @Override
+  public List<TopEnfermedadDto> getTop5Enfermedades() {
+    List<Object[]> top5Enfermedades = petsRepo.findTop5Enfermedades(PageRequest.of(0, 5));
+    List<TopEnfermedadDto> top5EnfermedadesDto = new ArrayList<>();
+    for (int i = 0; i < top5Enfermedades.size(); i++) {
+      Object[] row = top5Enfermedades.get(i);
+      String nombreEnfermedad = (String) row[0];
+      Long countPets = ((Number) row[1]).longValue();
+      top5EnfermedadesDto.add(new TopEnfermedadDto((long) (i + 1), nombreEnfermedad, countPets));
+    }
+    return top5EnfermedadesDto;
+  }
 }
