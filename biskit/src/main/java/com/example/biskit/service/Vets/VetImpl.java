@@ -3,6 +3,7 @@ package com.example.biskit.service.Vets;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.service.Credenciales.CredencialesService;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class VetImpl implements VetService {
 
     @Autowired
     private VetsRepo vetsRepo;
+
+    @Autowired
+    private TratamientosRepo tratamientosRepo;
 
     @Autowired
     private EspecialidadesService especialidadesService;
@@ -81,5 +85,10 @@ public class VetImpl implements VetService {
     @Override
     public Long getVetsActivosCount() {
         return vetsRepo.countByEstadoTrue();
+    }
+
+    @Override
+    public Long getVetTratamientosCount(Long vetId) {
+        return tratamientosRepo.getTratamientosVetCount(vetId);
     }
 }

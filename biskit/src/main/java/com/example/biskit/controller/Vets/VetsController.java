@@ -50,7 +50,10 @@ public class VetsController {
       vet.setId(id);
       vetService.saveVet(vet);
   }
-  
-  
-  
+
+  @GetMapping("/{id}/tratamientos")
+  public Long getVetTratamientosCount(@PathVariable Long id) {
+      return vetService.getVetTratamientosCount(id);
+  }
+
 }
