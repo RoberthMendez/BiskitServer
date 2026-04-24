@@ -17,4 +17,7 @@ public interface DrogasRepo extends JpaRepository<Droga, Long> {
 
     public List<Droga> findTop5ByOrderByUnidadesVendidasDescPrecioVentaDesc();
 
+    @Query("SELECT d FROM Droga d WHERE d.unidadesDisponibles <= 2")
+    public List<Droga> findByStockLessThanEqual();
+
 }

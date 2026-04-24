@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.example.biskit.entities.Droga;
 import com.example.biskit.repo.DrogasRepo;
-
+import com.example.biskit.entities.dtos.StockDroga;
 import com.example.biskit.entities.dtos.TopDrogaDto;
 
 @Service
@@ -51,5 +51,15 @@ public class DrogasImpl implements DrogasService {
                     (long) topDrogas.get(i - 1).getUnidadesVendidas()));
         }
         return topDrogaDtos;
+    }
+
+    @Override
+    public List<StockDroga> getDrogasBajasStock() {
+        List<Droga> drogasBajasStock = drogasRepo.findByStockLessThanEqual();
+        List<StockDroga> stockDrogaDtos = new ArrayList<>();
+        for (Droga droga : drogasBajasStock) {
+            stockDrogaDtos.add(new StockDroga(droga.getNombre(), (long) droga.getUnidadesDisponibles()));
+        }
+        return stockDrogaDtos;
     }
 }
