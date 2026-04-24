@@ -30,4 +30,6 @@ public interface ClientsService {
   public boolean existeCedula(String cedula);
 
   public boolean existeCorreo(String usuario);
+
+  public Long getClientsCount ();
 }

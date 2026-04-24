@@ -51,6 +51,8 @@ public class VetsController {
       vetService.saveVet(vet);
   }
 
+
+  // ----- Contar Tratamientos de un Veterinario -----
   @GetMapping("/{id}/tratamientos")
   public Long getVetTratamientosCount(@PathVariable Long id) {
       return vetService.getVetTratamientosCount(id);

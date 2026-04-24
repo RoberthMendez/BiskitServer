@@ -78,4 +78,20 @@ public class PetsImpl implements PetsService {
     pet.setEstado(estado);
     petsRepo.save(pet);
   }
+
+  @Override
+  public Long getPetsCount() {
+    return petsRepo.count();
+  }
+
+  @Override
+  public Long getPetsInactivosCount() {
+    return petsRepo.countByEstadoFalse();
+  }
+
+  @Override
+  public Long getPetsActivosCount() {
+    return petsRepo.countByEstadoTrue();
+  }
+
 }

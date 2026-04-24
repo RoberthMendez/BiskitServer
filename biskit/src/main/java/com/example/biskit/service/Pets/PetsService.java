@@ -20,4 +20,10 @@ public interface PetsService {
 
   public void cambiarEstadoMascota(Long id, boolean estado);
 
+  public Long getPetsCount ();
+
+  public Long getPetsInactivosCount();
+
+  public Long getPetsActivosCount();
+
 }
