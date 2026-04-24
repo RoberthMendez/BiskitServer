@@ -28,4 +28,14 @@ public class DrogasImpl implements DrogasService {
     public void saveDroga(Droga droga) {
         drogasRepo.save(droga);
     }
+
+    @Override
+    public Long getVentasTotales() {
+        return drogasRepo.getVentasTotales();
+    }
+
+    @Override
+    public Long getGananciasTotales() {
+        return drogasRepo.getGananciasTotales();
+    }
 }

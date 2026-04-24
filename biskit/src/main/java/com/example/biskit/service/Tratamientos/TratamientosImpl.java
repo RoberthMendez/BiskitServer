@@ -109,6 +109,7 @@ public class TratamientosImpl implements TratamientosService {
                 }
             }
         }
+        tratamiento.setDrogas(drogasPersistidas);
         tratamientosRepo.save(tratamiento);
     }
 

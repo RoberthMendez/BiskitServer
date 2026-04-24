@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
+import com.example.biskit.entities.Droga;
 import com.example.biskit.service.Pets.PetsService;
+import com.example.biskit.service.Tratamientos.DrogasService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/admin")
@@ -24,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private PetsService petsService;
+
+    @Autowired
+    private DrogasService drogasService;
 
     // http://localhost:8080/admin/ultimos-tratamientos-count
     @GetMapping("/ultimos-tratamientos-count")
@@ -60,4 +66,17 @@ public class AdminController {
     public Long getMascotasInactivasCount() {
         return petsService.getMascotasInactivasCount();
     }
+
+    // http://localhost:8080/admin/ventas-totales
+    @GetMapping("/ventas-totales")
+    public Long getVentasTotales() {
+        return drogasService.getVentasTotales();
+    }
+
+    // http://localhost:8080/admin/ganancias-totales
+    @GetMapping("/ganancias-totales")
+    public Long getGananciasTotales() {
+        return drogasService.getGananciasTotales();
+    }
+
 }

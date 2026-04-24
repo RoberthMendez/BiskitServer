@@ -12,4 +12,8 @@ public interface DrogasService {
 
     public void saveDroga(Droga droga);
 
+    public Long getVentasTotales();
+
+    public Long getGananciasTotales();
+
 }

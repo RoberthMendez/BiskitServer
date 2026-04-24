@@ -38,6 +38,8 @@ import com.example.biskit.service.Tratamientos.TratamientosService;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -1070,23 +1072,21 @@ public class DataLoader implements CommandLineRunner {
                         Vet vet = vetsRepo.findById((long) randomNumVet).orElse(null);
                         tratamiento.setVet(vet);
 
-                        tratamientosRepo.save(tratamiento);
-
                         int cantidadDrogasTratamiento = 3;
                         int totalDrogas = drogasRepo.findAll().size();
+                        List<Droga> drogasTratamiento = new ArrayList<>();
 
-                        for (int j = 0; j < cantidadDrogasTratamiento; j++) {
+                        while (drogasTratamiento.size() < cantidadDrogasTratamiento) {
                                 int randomNumDroga = random.nextInt(1, totalDrogas + 1);
                                 Droga droga = drogasRepo.findById((long) randomNumDroga).orElse(null);
-                                if (droga.getUnidadesDisponibles() > 0) {
-                                        droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
-                                        droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
-                                        drogasRepo.save(droga);
-                                } else {
-                                        j--;
+                                if (droga != null
+                                                && droga.getUnidadesDisponibles() > 0
+                                                && !drogasTratamiento.contains(droga)) {
+                                        drogasTratamiento.add(droga);
                                 }
                         }
 
+                        tratamiento.setDrogas(drogasTratamiento);
                         tratamientosService.addTratamiento(tratamiento);
                 }
         }
