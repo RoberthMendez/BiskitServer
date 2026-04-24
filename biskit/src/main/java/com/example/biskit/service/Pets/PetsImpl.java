@@ -56,7 +56,7 @@ public class PetsImpl implements PetsService {
     tratamientosRepo.deleteAll(tratamientos);
 
     petsRepo.delete(pet);
-    
+
   }
 
   @Override
@@ -77,5 +77,15 @@ public class PetsImpl implements PetsService {
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
     pet.setEstado(estado);
     petsRepo.save(pet);
+  }
+
+  @Override
+  public Long getMascotasCount() {
+    return petsRepo.count();
+  }
+
+  @Override
+  public Long getMascotasInactivasCount() {
+    return petsRepo.countByEstadoFalse();
   }
 }

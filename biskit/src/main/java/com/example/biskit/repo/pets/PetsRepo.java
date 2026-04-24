@@ -8,4 +8,6 @@ import com.example.biskit.entities.pets.Pet;
 @Repository
 public interface PetsRepo extends JpaRepository<Pet, Long> {
 
+    Long countByEstadoFalse();
+
 }
