@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.biskit.entities.Droga;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.dtos.DrogaTratamientoCount;
 import com.example.biskit.entities.dtos.TratamientoDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.entities.pets.Pet;
@@ -187,9 +188,15 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
-    public Long getTratamientosMedicamentoMesCount(long medicamentoId) {
+    public List<DrogaTratamientoCount> getDrogaTratamientosMesCount() {
         LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
-        return tratamientosRepo.getTratamientosMedicamentoMesCount(medicamentoId, treintaDiasAtras);
+        List<Droga> drogasUltimoMes = tratamientosRepo.getDrogasDesde(treintaDiasAtras);
+        List<DrogaTratamientoCount> drogaTratamientoCounts = new ArrayList<>();
+        for (Droga droga : drogasUltimoMes) {
+            Long count = tratamientosRepo.getNumTratamientosDrogaDesde(droga.getId(), treintaDiasAtras);
+            drogaTratamientoCounts.add(new DrogaTratamientoCount(droga.getNombre(), count));
+        }
+        return drogaTratamientoCounts;
     }
 
 }

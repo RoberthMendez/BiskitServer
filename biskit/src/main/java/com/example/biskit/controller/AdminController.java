@@ -1,6 +1,7 @@
 package com.example.biskit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.dtos.DrogaTratamientoCount;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -37,10 +40,10 @@ public class AdminController {
         return tratamientosService.getUltimosTratamientosCount();
     }
 
-    // http://localhost:8080/admin/droga/{id}/tratamientos-mes-count
-    @GetMapping("/droga/{id}/tratamientos-mes-count")
-    public Long getTratamientosMedicamentoCount(@PathVariable("id") Long id) {
-        return tratamientosService.getTratamientosMedicamentoMesCount(id);
+    // http://localhost:8080/admin/droga-tratamientos-mes-count
+    @GetMapping("/droga-tratamientos-mes-count")
+    public ResponseEntity<List<DrogaTratamientoCount>> getTratamientosMedicamentoCount() {
+        return ResponseEntity.ok(tratamientosService.getDrogaTratamientosMesCount());
     }
 
     // http://localhost:8080/admin/vets-inactivos-count
