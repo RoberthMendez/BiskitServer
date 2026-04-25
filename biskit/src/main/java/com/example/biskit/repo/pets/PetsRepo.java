@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface PetsRepo extends JpaRepository<Pet, Long> {
 
+    Long countByEstadoTrue();
+    
     Long countByEstadoFalse();
 
     @Query("SELECT e.nombre, COUNT(p) FROM Pet p JOIN p.enfermedad e GROUP BY e.id, e.nombre ORDER BY COUNT(p) DESC, e.nombre ASC")

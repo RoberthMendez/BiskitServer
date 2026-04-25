@@ -243,3 +243,11 @@ WHERE nombre = "advocin" [42122-240]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
 	at java.base/java.lang.Thread.run(Thread.java:1575)
+2026-04-24 23:09:46.991050-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "URL_FOTO CHARACTER VARYING(255)": "'https://cdn-3.expansion.mx/dims4/default/11d6092/2147483647/strip/true/crop/591... (266)"
+Value too long for column "URL_FOTO CHARACTER VARYING(255)": "'https://cdn-3.expansion.mx/dims4/default/11d6092/2147483647/strip/true/crop/591... (266)"; SQL statement:
+insert into vet (cedula,correo,credenciales_id,especialidad_id,estado,nombre,url_foto,id) values (?,?,?,?,?,?,?,default) [22001-240]
+2026-04-24 23:10:29.434088-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "URL_FOTO CHARACTER VARYING(255)": "'https://cdn-3.expansion.mx/dims4/default/11d6092/2147483647/strip/true/crop/591... (266)"
+Value too long for column "URL_FOTO CHARACTER VARYING(255)": "'https://cdn-3.expansion.mx/dims4/default/11d6092/2147483647/strip/true/crop/591... (266)"; SQL statement:
+insert into vet (cedula,correo,credenciales_id,especialidad_id,estado,nombre,url_foto,id) values (?,?,?,?,?,?,?,default) [22001-240]

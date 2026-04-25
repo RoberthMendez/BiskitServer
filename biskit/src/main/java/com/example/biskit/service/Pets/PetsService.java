@@ -23,6 +23,8 @@ public interface PetsService {
 
   public Long getMascotasCount();
 
+  public Long getMascotasActivasCount();
+
   public Long getMascotasInactivasCount();
 
   public List<TopEnfermedadDto> getTop5Enfermedades();

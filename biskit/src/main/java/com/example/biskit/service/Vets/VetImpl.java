@@ -78,6 +78,11 @@ public class VetImpl implements VetService {
     }
 
     @Override
+    public Long getVetsCount() {
+        return vetsRepo.count();
+    }
+
+    @Override
     public Long getVetsInactivosCount() {
         return vetsRepo.countByEstadoFalse();
     }

@@ -74,7 +74,7 @@ public class TratamientosImpl implements TratamientosService {
 
                     Droga droga = drogasService.getDrogaById(drogaId);
                     if (droga.getUnidadesDisponibles() <= 0) {
-                        throw new StockInsuficienteException("No hay suficientes drogas para crear el tratamiento");
+                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + " para crear el tratamiento");
                     }
 
                     droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
@@ -103,7 +103,7 @@ public class TratamientosImpl implements TratamientosService {
                 if (droga != null) {
 
                     if (droga.getUnidadesDisponibles() <= 0) {
-                        throw new StockInsuficienteException("No hay suficientes drogas para crear el tratamiento");
+                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + "en stock");
                     }
 
                     droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
@@ -140,7 +140,11 @@ public class TratamientosImpl implements TratamientosService {
         if (tratamientoDto.getDrogasIds() != null) {
             for (Long drogaId : tratamientoDto.getDrogasIds()) {
                 if (drogaId != null) {
-                    drogasPersistidas.add(drogasService.getDrogaById(drogaId));
+                  Droga droga = drogasService.getDrogaById(drogaId);
+                  if (droga.getUnidadesDisponibles() <= 0) {
+                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + "en stock");
+                  }
+                  drogasPersistidas.add(droga);
                 }
             }
         }

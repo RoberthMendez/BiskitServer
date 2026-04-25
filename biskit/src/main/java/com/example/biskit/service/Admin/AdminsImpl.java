@@ -12,6 +12,11 @@ public class AdminsImpl implements AdminsService {
     private AdminRepo adminRepo;
 
     @Override
+    public Admin findById(Long id) {
+        return adminRepo.findById(id).orElse(null);
+    }
+
+    @Override
     public Admin findByUsuario(String usuario) {
         return adminRepo.findAll().stream()
         .filter(admin -> admin.getCredenciales().getUsuario().equals(usuario))
