@@ -1,5 +1,6 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface VetService {
     public Long getVetsActivosCount();
 
     public Long getVetTratamientosCount(Long vetId);
+
+    public List<Pet> getPetsTratadosPorVet(Long vetId);
 }

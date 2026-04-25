@@ -1,9 +1,11 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.repo.TratamientosRepo;
+import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.service.Credenciales.CredencialesService;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class VetImpl implements VetService {
 
     @Autowired
     private VetsRepo vetsRepo;
+
+    @Autowired
+    private PetsRepo petsRepo;
 
     @Autowired
     private TratamientosRepo tratamientosRepo;
@@ -90,5 +95,10 @@ public class VetImpl implements VetService {
     @Override
     public Long getVetTratamientosCount(Long vetId) {
         return tratamientosRepo.getTratamientosVetCount(vetId);
+    }
+
+    @Override
+    public List<Pet> getPetsTratadosPorVet(Long vetId) {
+        return petsRepo.findDistinctByTratamientosVetId(vetId);
     }
 }

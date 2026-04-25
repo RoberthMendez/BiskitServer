@@ -17,4 +17,8 @@ public interface PetsRepo extends JpaRepository<Pet, Long> {
 
     @Query("SELECT e.nombre, COUNT(p) FROM Pet p JOIN p.enfermedad e GROUP BY e.id, e.nombre ORDER BY COUNT(p) DESC, e.nombre ASC")
     List<Object[]> findTop5Enfermedades(Pageable pageable);
+
+    // Lista de mascotas tratadas por un veterinario específico
+    List<Pet> findDistinctByTratamientosVetId(Long vetId);
+
 }
