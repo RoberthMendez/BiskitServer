@@ -5,13 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
+import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
 import com.example.biskit.entities.dtos.StockDroga;
 import com.example.biskit.entities.dtos.TratamientosMesDto;
+import com.example.biskit.service.Admin.AdminsService;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
 import java.util.List;
@@ -19,10 +22,14 @@ import java.util.List;
 import com.example.biskit.entities.dtos.TopDrogaDto;
 import com.example.biskit.entities.dtos.TopEnfermedadDto;
 
+
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
+
+    @Autowired
+    private AdminsService adminsService;
 
     @Autowired
     private TratamientosService tratamientosService;
@@ -36,6 +43,11 @@ public class AdminController {
     @Autowired
     private DrogasService drogasService;
 
+    @GetMapping("/{id}")
+    public Admin getAdminById(@PathVariable Long id) {
+        return adminsService.findById(id);
+    }
+
     // http://localhost:8080/admin/ultimos-tratamientos-count
     @GetMapping("/ultimos-tratamientos-count")
     public ResponseEntity<List<TratamientosMesDto>> getUltimosTratamientos() {
@@ -46,6 +58,12 @@ public class AdminController {
     @GetMapping("/droga-tratamientos-mes-count")
     public ResponseEntity<List<DrogaTratamientoCountDto>> getTratamientosMedicamentoCount() {
         return ResponseEntity.ok(tratamientosService.getDrogaTratamientosMesCount());
+    }
+
+    // http://localhost:8080/admin/vets-count
+    @GetMapping("/vets-count")
+    public Long getVetsCount() {
+        return vetsService.getVetsCount();
     }
 
     // http://localhost:8080/admin/vets-inactivos-count
@@ -64,6 +82,11 @@ public class AdminController {
     @GetMapping("/mascotas-count")
     public Long getMascotasCount() {
         return petsService.getPetsCount();
+    }
+
+    @GetMapping("/mascotas-activas-count")
+    public Long getMascotasActivasCount() {
+        return petsService.getMascotasActivasCount();
     }
 
     // http://localhost:8080/admin/mascotas-inactivas-count

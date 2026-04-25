@@ -18,6 +18,8 @@ public interface VetService {
 
     public Vet findByUsuario(String usuario);
 
+    public Long getVetsCount();
+
     public Long getVetsInactivosCount();
 
     public Long getVetsActivosCount();

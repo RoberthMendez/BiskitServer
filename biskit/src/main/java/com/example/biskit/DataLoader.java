@@ -375,17 +375,17 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Lebrel afgano"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(27f)
                                 .urlFoto("https://images.dog.ceo/breeds/hound-afghan/n02088094_1406.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Charlie")
                                 .raza(razaDesdeString("Beagle"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(12f)
                                 .urlFoto("https://images.dog.ceo/breeds/beagle/n02088364_11136.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Buddy")
                                 .raza(razaDesdeString("Labrador retriever"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(30f)
                                 .urlFoto("https://images.dog.ceo/breeds/labrador/n02099712_7937.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Toby")
                                 .raza(razaDesdeString("Carlino"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(8f)
@@ -400,7 +400,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Cocker spaniel"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(13f)
                                 .urlFoto("https://images.dog.ceo/breeds/spaniel-cocker/n02102318_1671.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Duke")
                                 .raza(razaDesdeString("Terrier de Norwich"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6f)
@@ -410,7 +410,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Golden retriever"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(28f)
                                 .urlFoto("https://images.dog.ceo/breeds/retriever-golden/n02099601_3004.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Bentley")
                                 .raza(razaDesdeString("Pastor de Shetland"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(10f)
@@ -440,7 +440,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Akita"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(32f)
                                 .urlFoto("https://images.dog.ceo/breeds/akita/512px-Ainu-Dog.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Loki")
                                 .raza(razaDesdeString("Papillón"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(5f)
@@ -450,7 +450,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Terrier americano"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(11f)
                                 .urlFoto("https://images.dog.ceo/breeds/terrier-american/n02093428_1482.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Coco")
                                 .raza(razaDesdeString("Chihuahua"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(3f)
@@ -465,17 +465,17 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Dingo"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(18f)
                                 .urlFoto("https://images.dog.ceo/breeds/dingo/n02115641_1228.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Shadow")
                                 .raza(razaDesdeString("Kelpie australiano"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(19f)
                                 .urlFoto("https://images.dog.ceo/breeds/kelpie/n02105412_1973.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Bruno")
                                 .raza(razaDesdeString("Malamute de Alaska"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(35f)
                                 .urlFoto("https://images.dog.ceo/breeds/malamute/n02110063_13625.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Apolo")
                                 .raza(razaDesdeString("Galgo italiano"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(7f)
@@ -490,17 +490,17 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Saluki"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(20f)
                                 .urlFoto("https://images.dog.ceo/breeds/saluki/n02091831_5745.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Koda")
                                 .raza(razaDesdeString("Basenji"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(10f)
                                 .urlFoto("https://images.dog.ceo/breeds/basenji/n02110806_4156.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Balto")
                                 .raza(razaDesdeString("Boyero de Flandes"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(34f)
                                 .urlFoto("https://images.dog.ceo/breeds/bouvier/n02106382_9651.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Ace")
                                 .raza(razaDesdeString("Border collie"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
@@ -565,12 +565,12 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Pinscher miniatura"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5f)
                                 .urlFoto("https://images.dog.ceo/breeds/pinscher-miniature/n02107312_1885.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Ranger")
                                 .raza(razaDesdeString("Pointer alemán"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(23f)
                                 .urlFoto("https://images.dog.ceo/breeds/pointer-german/n02100236_689.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Archie")
                                 .raza(razaDesdeString("Caniche miniatura"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(9f)
@@ -595,7 +595,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Setter inglés"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(24f)
                                 .urlFoto("https://images.dog.ceo/breeds/setter-english/n02100735_7553.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
                 petsRepo.save(Pet.builder().nombre("Pequitas")
                                 .raza(razaDesdeString("Spaniel bretón"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(18f)
@@ -694,13 +694,13 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Sagrado de Birmania"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.5f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/HOrX5gwLS.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Mia")
                                 .raza(razaDesdeString("Bombay"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.7f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/5iYq9NmT1.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Zeus")
                                 .raza(razaDesdeString("Británico de pelo largo"))
@@ -712,43 +712,43 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Británico de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.8f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/9j5.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Felix")
                                 .raza(razaDesdeString("Burmés"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.6f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/4lXnnfxac.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Coco")
                                 .raza(razaDesdeString("Burmilla"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5.1f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/b1.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Sasha")
                                 .raza(razaDesdeString("California Spangled"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(5.9f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/b9.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Toby")
                                 .raza(razaDesdeString("Chantilly Tiffany"))
                                 .fechaNacimiento(calcularFechaNacimiento(2)).peso(4.3f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/c3.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Daisy")
                                 .raza(razaDesdeString("Chartreux"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.9f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/j6oFGLpRG.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Rocky")
                                 .raza(razaDesdeString("Chausie"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(6.0f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/c7.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Lily")
                                 .raza(razaDesdeString("Rex de Cornualles"))
@@ -760,7 +760,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Cymric"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(6.4f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/m2.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Ruby")
                                 .raza(razaDesdeString("Rex de Devon"))
@@ -772,13 +772,13 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Don Sphynx"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(5.7f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/3KG57GfMW.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Maya")
                                 .raza(razaDesdeString("Dragón Li"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.8f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/e2.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Sam")
                                 .raza(razaDesdeString("Mau egipcio"))
@@ -796,13 +796,13 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Exótico de pelo corto"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(6.3f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/e8.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Kiara")
                                 .raza(razaDesdeString("Habana"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.7f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/f1.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Shadow")
                                 .raza(razaDesdeString("Himalayo"))
@@ -838,7 +838,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("LaPerm"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(4.2f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/h3.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Atlas")
                                 .raza(razaDesdeString("Maine Coon"))
@@ -850,7 +850,7 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Manx"))
                                 .fechaNacimiento(calcularFechaNacimiento(6)).peso(5.9f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/i1.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Mini")
                                 .raza(razaDesdeString("Munchkin"))
@@ -898,19 +898,19 @@ public class DataLoader implements CommandLineRunner {
                                 .raza(razaDesdeString("Ragdoll"))
                                 .fechaNacimiento(calcularFechaNacimiento(4)).peso(5.8f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/oGefY4YoG.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Blue")
                                 .raza(razaDesdeString("Azul ruso"))
                                 .fechaNacimiento(calcularFechaNacimiento(3)).peso(4.4f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/k4.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Hunter")
                                 .raza(razaDesdeString("Savannah"))
                                 .fechaNacimiento(calcularFechaNacimiento(5)).peso(7.0f)
                                 .urlFoto("https://cdn2.thecatapi.com/images/-tm9-znzl.jpg")
-                                .estado(true).build());
+                                .estado(false).build());
 
                 petsRepo.save(Pet.builder().nombre("Poppy")
                                 .raza(razaDesdeString("Scottish Fold"))
@@ -943,7 +943,7 @@ public class DataLoader implements CommandLineRunner {
                                 .estado(true)
                                 .correo("cristiano.ronaldo@biskit.com")
                                 .cedula("103")
-                                .urlFoto("https://www.shutterstock.com/image-photo/cheerful-man-veterinarian-doctor-cuddling-600nw-2684638717.jpg")
+                                .urlFoto("https://fotografias-compromiso.atresmedia.com/clipping/cmsimages02/2017/02/10/3BA9F907-971E-44D3-9141-932BD321F2BB/69.jpg")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Jude Bellingham")
                                 .estado(true)
@@ -952,7 +952,7 @@ public class DataLoader implements CommandLineRunner {
                                 .urlFoto("https://www.shutterstock.com/image-photo/cheerful-man-veterinarian-doctor-cuddling-600nw-2684638717.jpg")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Carla García")
-                                .estado(true)
+                                .estado(false)
                                 .correo("carla.garcia@biskit.com")
                                 .cedula("105")
                                 .urlFoto("https://img.freepik.com/foto-gratis/veterinario-que-controla-salud-cachorro_23-2148728396.jpg?semt=ais_rp_50_assets&w=740&q=80")
@@ -992,6 +992,12 @@ public class DataLoader implements CommandLineRunner {
                                 .correo("federico.gomez@biskit.com")
                                 .cedula("111")
                                 .urlFoto("https://veterinariacavero.com/wp-content/uploads/2024/08/Dr-Omar-cavero-Medico-Veterinario-especializado-en-Neurologia-y-Traumatologia.jpg")
+                                .build());
+                vetsRepo.save(Vet.builder().nombre("Lionel Messi")
+                                .estado(true)
+                                .correo("lionel.messi@biskit.com")
+                                .cedula("112")
+                                .urlFoto("https://img.asmedia.epimg.net/resizer/v2/WXH3ZXRSKNPFPFMDOTZRZO2WFM.jpg?auth=9256d50aad4bf08c2f7732f212ee45615b2c4f6387aa0aea6cd805fb1927e5cb&width=1200&height=1200&smart=true")
                                 .build());
 
         }

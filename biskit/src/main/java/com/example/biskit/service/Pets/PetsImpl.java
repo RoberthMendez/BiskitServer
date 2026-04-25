@@ -88,6 +88,11 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
+  public Long getMascotasActivasCount() {
+    return petsRepo.countByEstadoTrue();
+  }
+
+  @Override
   public Long getPetsInactivosCount() {
     return petsRepo.countByEstadoFalse();
   }
