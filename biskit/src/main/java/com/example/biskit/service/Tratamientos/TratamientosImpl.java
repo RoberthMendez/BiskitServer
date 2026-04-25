@@ -189,6 +189,11 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
+    public List<Tratamiento> getTratamientosByVetId(Long vetId) {
+        return tratamientosRepo.findByVetId(vetId);
+    }
+
+    @Override
     public List<TratamientosMesDto> getNumTratamientos6Meses() {
         List<TratamientosMesDto> tratamientosMesDtos = new ArrayList<>();
         LocalDate fechaActual = LocalDate.now();

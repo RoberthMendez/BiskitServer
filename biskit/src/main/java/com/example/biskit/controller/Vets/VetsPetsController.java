@@ -58,7 +58,7 @@ public class VetsPetsController {
     petsService.updatePet(pet);
   }
 
-  // ----- Cambiar Estado de Mascota (DELETE) -----
+  // ----- Cambiar Estado de Mascota (PATCH) -----
   @PatchMapping("/pets/update-estado/{id}")
   public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
     petsService.cambiarEstadoMascota(id, body.get("estado"));

@@ -1,9 +1,11 @@
 package com.example.biskit.controller.Vets;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +13,7 @@ import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Vets.VetService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,11 +46,17 @@ public class VetsController {
       return vetService.getVetById(id);
   }
 
-  // ----- Aactualizar Veterinario (UPDATE) -----
+  // ----- Actualizar Veterinario (UPDATE) -----
   @PutMapping("update/{id}")
   public void actualizarVet(@PathVariable Long id, @RequestBody Vet vet) {
       vet.setId(id);
       vetService.saveVet(vet);
+  }
+
+  // ----- Eliminar Veterinario (DELETE) -----
+  @DeleteMapping("/delete/{id}")
+  public void eliminarVet(@PathVariable Long id) {
+      vetService.deleteVet(id);
   }
 
 
@@ -61,6 +70,12 @@ public class VetsController {
   @GetMapping("/{id}/pets")
   public List<Pet> getPetsTratadosPorVet(@PathVariable Long id) {
       return vetService.getPetsTratadosPorVet(id);
+  }
+
+  // ----- Cambiar Estado de Veterinario (PATCH) -----
+  @PatchMapping("/update-estado/{id}")
+  public void cambiarEstadoVet(@PathVariable Long id, @RequestBody Map<String, Boolean> body) {
+      vetService.cambiarEstadoVet(id, body.get("estado"));
   }
 
 }

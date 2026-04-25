@@ -1,5 +1,6 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
@@ -106,4 +107,30 @@ public class VetImpl implements VetService {
     public List<Pet> getPetsTratadosPorVet(Long vetId) {
         return petsRepo.findDistinctByTratamientosVetId(vetId);
     }
+
+    @Override
+    public void deleteVet(Long id) {
+        Vet vet = vetsRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+
+        List<Pet> petsTratados = petsRepo.findDistinctByTratamientosVetId(id);
+        for (Pet pet : petsTratados) {
+            pet.getTratamientos().removeIf(tratamiento -> tratamiento.getVet().getId().equals(id));
+            petsRepo.save(pet);
+        }
+
+        List<Tratamiento> tratamientos = tratamientosRepo.findByVetId(id);
+        tratamientosRepo.deleteAll(tratamientos);
+
+        vetsRepo.delete(vet);
+    }
+
+    @Override
+    public void cambiarEstadoVet(Long id, boolean estado) {
+        Vet vet = vetsRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+        vet.setEstado(estado);
+        vetsRepo.save(vet);
+    }
+
 }

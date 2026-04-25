@@ -25,4 +25,6 @@ public interface TratamientosService {
 
     public List<DrogaTratamientoCountDto> getDrogaTratamientosMesCount();
 
+    public List<Tratamiento> getTratamientosByVetId(Long vetId);
+
 }

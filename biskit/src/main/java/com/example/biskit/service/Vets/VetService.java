@@ -27,4 +27,8 @@ public interface VetService {
     public Long getVetTratamientosCount(Long vetId);
 
     public List<Pet> getPetsTratadosPorVet(Long vetId);
+
+    public void deleteVet(Long id);
+
+    public void cambiarEstadoVet(Long id, boolean estado);
 }

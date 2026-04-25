@@ -57,6 +57,11 @@ public class TratamientosController {
   public void eliminarTratamiento(@PathVariable Long id) {
       tratamientosService.deleteTratamiento(id);
   }
-  
+
+  // ----- Mostrar Tratamientos de un Veterinario (READ) ------
+  @GetMapping("/vet/{id}")
+  public List<Tratamiento> getTratamientosPorVeterinario(@PathVariable Long id) {
+      return tratamientosService.getTratamientosByVetId(id);
+  }
 
 }
