@@ -53,7 +53,6 @@ public class Pet {
   @ManyToOne
   @JoinColumn(name = "enfermedad_id")
   private Enfermedad enfermedad;
-
   
   @ManyToOne
   private Client owner;

@@ -41,7 +41,6 @@ public class Tratamiento {
     @Column(nullable = false)
     private LocalDate fecha;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Pet pet;
 
