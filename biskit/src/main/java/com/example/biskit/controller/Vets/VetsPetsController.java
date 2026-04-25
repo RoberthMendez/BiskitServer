@@ -64,5 +64,22 @@ public class VetsPetsController {
     petsService.cambiarEstadoMascota(id, body.get("estado"));
   }
 
+  // ----- Ver total de Mascotas -----
+  @GetMapping("/pets/count")
+  public Long getTotalMascotas() {
+    return petsService.getPetsCount();
+  }
+
+  // ----- Ver total de Mascotas Inactivas -----
+  @GetMapping("/pets/count/inactivos")
+  public Long getTotalMascotasInactivas() {
+    return petsService.getPetsInactivosCount();
+  }
+
+  // ----- Ver total de Mascotas Activas -----
+  @GetMapping("/pets/count/activos")
+  public Long getTotalMascotasActivas() {
+    return petsService.getPetsActivosCount();
+  }
 
 }

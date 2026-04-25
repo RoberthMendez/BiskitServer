@@ -81,7 +81,7 @@ public class AdminController {
     // http://localhost:8080/admin/mascotas-count
     @GetMapping("/mascotas-count")
     public Long getMascotasCount() {
-        return petsService.getMascotasCount();
+        return petsService.getPetsCount();
     }
 
     @GetMapping("/mascotas-activas-count")
@@ -92,7 +92,7 @@ public class AdminController {
     // http://localhost:8080/admin/mascotas-inactivas-count
     @GetMapping("/mascotas-inactivas-count")
     public Long getMascotasInactivasCount() {
-        return petsService.getMascotasInactivasCount();
+        return petsService.getPetsInactivosCount();
     }
 
     // http://localhost:8080/admin/ventas-totales

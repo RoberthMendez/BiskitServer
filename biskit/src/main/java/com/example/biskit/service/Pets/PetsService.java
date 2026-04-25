@@ -21,11 +21,13 @@ public interface PetsService {
 
   public void cambiarEstadoMascota(Long id, boolean estado);
 
-  public Long getMascotasCount();
+  public Long getPetsCount ();
+
+  public Long getPetsInactivosCount();
 
   public Long getMascotasActivasCount();
 
-  public Long getMascotasInactivasCount();
+  public Long getPetsActivosCount();
 
   public List<TopEnfermedadDto> getTop5Enfermedades();
 

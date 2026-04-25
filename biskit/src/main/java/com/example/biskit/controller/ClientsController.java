@@ -81,4 +81,10 @@ public class ClientsController {
     return "client/info-tratamiento";
   }
 
+  // ----- Contar Total de Clientes -----
+  @GetMapping("/count")
+  public Long getTotalClients() {
+    return clientsService.getClientsCount();
+  }
+
 }

@@ -44,13 +44,15 @@ public class VetsController {
       return vetService.getVetById(id);
   }
 
-  // ----- Autenticar Veterinario (READ) -----
+  // ----- Aactualizar Veterinario (UPDATE) -----
   @PutMapping("update/{id}")
   public void actualizarVet(@PathVariable Long id, @RequestBody Vet vet) {
       vet.setId(id);
       vetService.saveVet(vet);
   }
 
+
+  // ----- Contar Tratamientos de un Veterinario -----
   @GetMapping("/{id}/tratamientos")
   public Long getVetTratamientosCount(@PathVariable Long id) {
       return vetService.getVetTratamientosCount(id);

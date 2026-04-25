@@ -158,4 +158,10 @@ public class ClientsImpl implements ClientsService {
     return clientsRepo.findAll().stream()
         .anyMatch(client -> client.getCorreo().equals(correo));
   }
+
+  @Override
+  public Long getClientsCount() {
+    return clientsRepo.count();
+  }
+
 }
