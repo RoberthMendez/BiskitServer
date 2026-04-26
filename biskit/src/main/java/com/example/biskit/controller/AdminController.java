@@ -19,9 +19,7 @@ import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
 import java.util.List;
 
-import com.example.biskit.entities.dtos.TopDrogaDto;
-import com.example.biskit.entities.dtos.TopEnfermedadDto;
-
+import com.example.biskit.entities.dtos.TopDto;
 
 @RestController
 @RequestMapping("/admin")
@@ -109,13 +107,13 @@ public class AdminController {
 
     // http://localhost:8080/admin/top5-drogas
     @GetMapping("/top5-drogas")
-    public ResponseEntity<List<TopDrogaDto>> getTop5Drogas() {
+    public ResponseEntity<List<TopDto>> getTop5Drogas() {
         return ResponseEntity.ok(drogasService.getTop5Drogas());
     }
 
     // http://localhost:8080/admin/top5-enfermedades
     @GetMapping("/top5-enfermedades")
-    public ResponseEntity<List<TopEnfermedadDto>> getTop5Enfermedades() {
+    public ResponseEntity<List<TopDto>> getTop5Enfermedades() {
         return ResponseEntity.ok(petsService.getTop5Enfermedades());
     }
 

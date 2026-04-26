@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TopEnfermedadDto {
+public class TopDto {
     private Long top;
-    private String enfermedadNombre;
-    private Long countPets;
+    private String nombre;
+    private Long count;
 
 }

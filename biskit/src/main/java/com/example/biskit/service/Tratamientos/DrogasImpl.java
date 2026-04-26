@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.repo.DrogasRepo;
 import com.example.biskit.entities.dtos.StockDroga;
-import com.example.biskit.entities.dtos.TopDrogaDto;
+import com.example.biskit.entities.dtos.TopDto;
 
 @Service
 public class DrogasImpl implements DrogasService {
@@ -43,11 +43,11 @@ public class DrogasImpl implements DrogasService {
     }
 
     @Override
-    public List<TopDrogaDto> getTop5Drogas() {
+    public List<TopDto> getTop5Drogas() {
         List<Droga> topDrogas = drogasRepo.findTop5ByOrderByUnidadesVendidasDescPrecioVentaDesc();
-        List<TopDrogaDto> topDrogaDtos = new ArrayList<>();
+        List<TopDto> topDrogaDtos = new ArrayList<>();
         for (int i = 1; i <= topDrogas.size(); i++) {
-            topDrogaDtos.add(new TopDrogaDto((long) i, topDrogas.get(i - 1).getNombre(),
+            topDrogaDtos.add(new TopDto((long) i, topDrogas.get(i - 1).getNombre(),
                     (long) topDrogas.get(i - 1).getUnidadesVendidas()));
         }
         return topDrogaDtos;
