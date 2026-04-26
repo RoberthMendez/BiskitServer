@@ -53,6 +53,9 @@ public class LoginController {
 
         if (vetService.autenticarVet(credenciales.getUsuario(), credenciales.getPassword())) {
             Vet vet = vetService.findByUsuario(credenciales.getUsuario());
+            if(vet.isEstado() == false) {
+                return ResponseEntity.badRequest().body(crearRespuesta(null, "VETERINARIO_INACTIVO"));
+            }
             return ResponseEntity.ok(crearRespuesta(vet.getId(), "VETERINARIO"));
         }
 
