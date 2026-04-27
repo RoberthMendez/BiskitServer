@@ -4,6 +4,7 @@ import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.errors.VetNotFoundException;
 import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
@@ -105,13 +106,17 @@ public class VetImpl implements VetService {
 
     @Override
     public List<Pet> getPetsTratadosPorVet(Long vetId) {
+        //Si no existe el veterinario, se lanza una excepción
+        if (!vetsRepo.existsById(vetId)) {
+            throw new VetNotFoundException(vetId);
+        }
         return petsRepo.findDistinctByTratamientosVetId(vetId);
     }
 
     @Override
     public void deleteVet(Long id) {
         Vet vet = vetsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+                .orElseThrow(() -> new VetNotFoundException(id));
 
         List<Pet> petsTratados = petsRepo.findDistinctByTratamientosVetId(id);
         for (Pet pet : petsTratados) {
