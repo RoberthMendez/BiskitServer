@@ -41,7 +41,7 @@ public class VetImpl implements VetService {
     @Override
     public Vet getVetById(Long id) {
         return vetsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+                .orElseThrow(() -> new VetNotFoundException(id));
     }
 
     @Override
@@ -133,7 +133,7 @@ public class VetImpl implements VetService {
     @Override
     public void cambiarEstadoVet(Long id, boolean estado) {
         Vet vet = vetsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró veterinario con id: " + id));
+                .orElseThrow(() -> new VetNotFoundException(id));
         vet.setEstado(estado);
         vetsRepo.save(vet);
     }

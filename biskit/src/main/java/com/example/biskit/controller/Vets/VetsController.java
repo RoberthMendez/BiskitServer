@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +77,13 @@ public class VetsController {
   @PatchMapping("/update-estado/{id}")
   public void cambiarEstadoVet(@PathVariable Long id, @RequestBody Map<String, Boolean> body) {
       vetService.cambiarEstadoVet(id, body.get("estado"));
+  }
+
+  // ----- Comprobar id de Veterinario (GET) -----
+  @GetMapping("/{id}/exists")
+  public ResponseEntity<Void> checkVetId(@PathVariable Long id) {
+      vetService.getVetById(id);
+      return ResponseEntity.ok().build();
   }
 
 }
