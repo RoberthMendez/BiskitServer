@@ -84,7 +84,7 @@ public class VetsPetsController {
   }
 
   // ----- Comprobar id de Mascota (GET) -----
-  @GetMapping("/pets/{id}/exists")
+  @GetMapping("/{id}/exists")
   public ResponseEntity<Void> checkPetId(@PathVariable Long id) {
       petsService.getPetById(id);
       return ResponseEntity.ok().build();
