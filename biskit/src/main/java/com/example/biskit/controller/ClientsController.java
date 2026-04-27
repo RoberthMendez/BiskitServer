@@ -1,6 +1,7 @@
 package com.example.biskit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,6 +90,13 @@ public class ClientsController {
   @GetMapping("/count")
   public Long getTotalClients() {
     return clientsService.getClientsCount();
+  }
+
+  // ----- Verificar si un Cliente existe -----
+  @GetMapping("/{id}/exists")
+  public ResponseEntity<Void> checkClientId(@PathVariable Long id) {
+      clientsService.getClientById(id);
+      return ResponseEntity.ok().build();
   }
 
 }
