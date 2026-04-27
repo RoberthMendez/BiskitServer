@@ -19,7 +19,7 @@ import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.entities.pets.Pet;
 
 @RestController
-@RequestMapping("/vet")
+@RequestMapping("/vet/pets")
 @CrossOrigin(origins = "http://localhost:4200")
 public class VetsPetsController {
 
@@ -32,7 +32,7 @@ public class VetsPetsController {
   // ================== MASCOTA ==================
 
   // ----- Crear Mascota (CREATE) -----
-  @PostMapping("/pets/add")
+  @PostMapping("/add")
   public void agregarMascota(@RequestBody Pet pet) {
     pet = petsService.asignarRelacionesDePetPorIds(pet);
     clientsService.addPetToClient(pet.getOwner().getId(), pet);
@@ -40,44 +40,44 @@ public class VetsPetsController {
   }
 
   // ----- Mostrar Mascotas (READ) -----
-  @GetMapping("/pets")
+  @GetMapping("")
   public List<Pet> mostrarMascotas() {
     return petsService.getPets();
   }
 
   // ----- Mostrar Mascota (READ) -----
-  @GetMapping("/pets/{id}")
+  @GetMapping("/{id}")
   public Pet mostrarMascota(@PathVariable("id") Long id) {
     return petsService.getPetById(id);
   }
 
   // ----- Editar Mascota (UPDATE) -----
-  @PutMapping("/pets/update/{id}")
+  @PutMapping("/update/{id}")
   public void updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
     pet = petsService.asignarRelacionesDePetPorIds(pet);
     petsService.updatePet(pet);
   }
 
   // ----- Cambiar Estado de Mascota (PATCH) -----
-  @PatchMapping("/pets/update-estado/{id}")
+  @PatchMapping("/update-estado/{id}")
   public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
     petsService.cambiarEstadoMascota(id, body.get("estado"));
   }
 
   // ----- Ver total de Mascotas -----
-  @GetMapping("/pets/count")
+  @GetMapping("/count")
   public Long getTotalMascotas() {
     return petsService.getPetsCount();
   }
 
   // ----- Ver total de Mascotas Inactivas -----
-  @GetMapping("/pets/count/inactivos")
+  @GetMapping("/count/inactivos")
   public Long getTotalMascotasInactivas() {
     return petsService.getPetsInactivosCount();
   }
 
   // ----- Ver total de Mascotas Activas -----
-  @GetMapping("/pets/count/activos")
+  @GetMapping("/count/activos")
   public Long getTotalMascotasActivas() {
     return petsService.getPetsActivosCount();
   }

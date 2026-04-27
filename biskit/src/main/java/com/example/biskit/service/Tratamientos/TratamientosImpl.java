@@ -1,8 +1,12 @@
 package com.example.biskit.service.Tratamientos;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 
@@ -136,21 +140,52 @@ public class TratamientosImpl implements TratamientosService {
         Pet pet = petsService.getPetById(tratamientoDto.getPetId());
         Vet vet = vetService.getVetById(tratamientoDto.getVetId());
 
-        List<Droga> drogasPersistidas = new ArrayList<>();
+        Tratamiento existingTratamiento = tratamientosRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+
+        List<Droga> drogasActuales = new ArrayList<>(existingTratamiento.getDrogas());
+        Set<Long> idsDrogasActuales = new HashSet<>();
+        for (Droga drogaActual : drogasActuales) {
+            if (drogaActual != null && drogaActual.getId() != null) {
+                idsDrogasActuales.add(drogaActual.getId());
+            }
+        }
+
+        Map<Long, Droga> nuevasDrogasPorId = new LinkedHashMap<>();
         if (tratamientoDto.getDrogasIds() != null) {
             for (Long drogaId : tratamientoDto.getDrogasIds()) {
                 if (drogaId != null) {
-                  Droga droga = drogasService.getDrogaById(drogaId);
-                  if (droga.getUnidadesDisponibles() <= 0) {
-                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + "en stock");
-                  }
-                  drogasPersistidas.add(droga);
+                    Droga droga = drogasService.getDrogaById(drogaId);
+                    nuevasDrogasPorId.putIfAbsent(droga.getId(), droga);
                 }
             }
         }
 
-        Tratamiento existingTratamiento = tratamientosRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+        List<Droga> drogasPersistidas = new ArrayList<>(nuevasDrogasPorId.values());
+        Set<Long> idsNuevasDrogas = new HashSet<>(nuevasDrogasPorId.keySet());
+
+        for (Droga nuevaDroga : drogasPersistidas) {
+            Long nuevaDrogaId = nuevaDroga.getId();
+            if (!idsDrogasActuales.contains(nuevaDrogaId)) {
+                if (nuevaDroga.getUnidadesDisponibles() <= 0) {
+                    throw new StockInsuficienteException("No hay suficientes unidades de " + nuevaDroga.getNombre() + " en stock");
+                }
+                nuevaDroga.setUnidadesDisponibles(nuevaDroga.getUnidadesDisponibles() - 1);
+                nuevaDroga.setUnidadesVendidas(nuevaDroga.getUnidadesVendidas() + 1);
+                drogasService.saveDroga(nuevaDroga);
+            }
+        }
+
+        for (Droga drogaActual : drogasActuales) {
+            Long drogaActualId = drogaActual.getId();
+            if (drogaActualId != null && !idsNuevasDrogas.contains(drogaActualId)) {
+                drogaActual.setUnidadesDisponibles(drogaActual.getUnidadesDisponibles() + 1);
+                if (drogaActual.getUnidadesVendidas() > 0) {
+                    drogaActual.setUnidadesVendidas(drogaActual.getUnidadesVendidas() - 1);
+                }
+                drogasService.saveDroga(drogaActual);
+            }
+        }
 
         existingTratamiento.setFecha(tratamientoDto.getFecha());
         existingTratamiento.setPet(pet);

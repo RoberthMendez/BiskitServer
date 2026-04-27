@@ -949,7 +949,7 @@ public class DataLoader implements CommandLineRunner {
                                 .estado(true)
                                 .correo("jude.bellingham@biskit.com")
                                 .cedula("104")
-                                .urlFoto("https://www.shutterstock.com/image-photo/cheerful-man-veterinarian-doctor-cuddling-600nw-2684638717.jpg")
+                                .urlFoto("https://media.revistagq.com/photos/690360f8591bc73019a99e6f/master/w_1600%2Cc_limit/MEN_PRECO_SS26_CAMPAIGN_VISUAL_PRESS_1920x1080_12.jpg")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Carla García")
                                 .estado(false)
@@ -961,7 +961,7 @@ public class DataLoader implements CommandLineRunner {
                                 .estado(true)
                                 .correo("isabella.garzon@biskit.com")
                                 .cedula("106")
-                                .urlFoto("https://metodoeisi.com/wp-content/uploads/2020/10/medicina-veterinaria.png")
+                                .urlFoto("https://www.polisura.edu.co/wp-content/uploads/2024/02/Auxiliar-Veterinaria-2.jpg")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("José Rodríguez")
                                 .estado(true)
@@ -973,13 +973,13 @@ public class DataLoader implements CommandLineRunner {
                                 .estado(true)
                                 .correo("emiliano.martinez@biskit.com")
                                 .cedula("108")
-                                .urlFoto("https://veterinariacavero.com/wp-content/uploads/2024/08/Dr-Omar-cavero-Medico-Veterinario-especializado-en-Neurologia-y-Traumatologia.jpg")
+                                .urlFoto("https://www.masquesaludanimal.es//posts/easset_upload_file89271_1145938_e.png")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Gustavo Lara")
                                 .estado(true)
                                 .correo("gustavo.lara@biskit.com")
                                 .cedula("109")
-                                .urlFoto("https://veterinariacavero.com/wp-content/uploads/2024/08/Dr-Omar-cavero-Medico-Veterinario-especializado-en-Neurologia-y-Traumatologia.jpg")
+                                .urlFoto("https://veterinariaevi.com/cdn/shop/files/WhatsApp_Image_2025-08-20_at_5.10.53_PM.jpg?v=1755728649&width=3840")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Nadia Jiménez")
                                 .estado(true)
@@ -991,7 +991,7 @@ public class DataLoader implements CommandLineRunner {
                                 .estado(false)
                                 .correo("federico.gomez@biskit.com")
                                 .cedula("111")
-                                .urlFoto("https://veterinariacavero.com/wp-content/uploads/2024/08/Dr-Omar-cavero-Medico-Veterinario-especializado-en-Neurologia-y-Traumatologia.jpg")
+                                .urlFoto("https://img.lalr.co/cms/2023/11/20143852/Perros.jpg?r=4_3")
                                 .build());
                 vetsRepo.save(Vet.builder().nombre("Lionel Messi")
                                 .estado(true)
