@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,6 +81,13 @@ public class VetsPetsController {
   @GetMapping("/pets/count/activos")
   public Long getTotalMascotasActivas() {
     return petsService.getPetsActivosCount();
+  }
+
+  // ----- Comprobar id de Mascota (GET) -----
+  @GetMapping("/pets/{id}/exists")
+  public ResponseEntity<Void> checkPetId(@PathVariable Long id) {
+      petsService.getPetById(id);
+      return ResponseEntity.ok().build();
   }
 
 }

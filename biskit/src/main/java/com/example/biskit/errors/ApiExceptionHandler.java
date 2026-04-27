@@ -32,6 +32,12 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePetNotFound(PetNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse("Pet id no encontrado", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
         ErrorResponse error = new ErrorResponse(
