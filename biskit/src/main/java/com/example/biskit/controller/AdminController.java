@@ -123,4 +123,11 @@ public class AdminController {
         return ResponseEntity.ok(drogasService.getDrogasBajasStock());
     }
 
+    //Comprobar id de Admin (GET)
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Void> checkAdminId(@PathVariable Long id) {
+        adminsService.findById(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

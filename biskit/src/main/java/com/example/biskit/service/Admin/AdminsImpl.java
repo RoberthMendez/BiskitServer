@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Admin;
+import com.example.biskit.errors.AdminNotFoundException;
 import com.example.biskit.repo.AdminRepo;
 
 @Service
@@ -13,7 +14,7 @@ public class AdminsImpl implements AdminsService {
 
     @Override
     public Admin findById(Long id) {
-        return adminRepo.findById(id).orElse(null);
+        return adminRepo.findById(id).orElseThrow(() -> new AdminNotFoundException(id));
     }
 
     @Override
