@@ -69,11 +69,23 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
-  public Pet asignarRelacionesDePetPorIds(Pet pet) {
-    pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
-    pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
+public Pet asignarRelacionesDePetPorIds(Pet pet) {
+    if (pet == null) return null;
+
+    if (pet.getRaza() != null && pet.getRaza().getId() != null) {
+        pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
+    } else {
+        pet.setRaza(null);
+    }
+
+    if (pet.getEnfermedad() != null && pet.getEnfermedad().getId() != null) {
+        pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
+    } else {
+        pet.setEnfermedad(null);
+    }
+
     return pet;
-  }
+}
 
   @Override
   public void cambiarEstadoMascota(Long id, boolean estado) {

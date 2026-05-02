@@ -1191,7 +1191,7 @@ public class DataLoader implements CommandLineRunner {
         }
 
         private Raza razaDesdeString(String nombreRaza) {
-                Raza raza = razaRepo.findByNombre(nombreRaza);
+                Raza raza = razaRepo.findByNombreIgnoreCase(nombreRaza);
                 return raza;
         }
 
