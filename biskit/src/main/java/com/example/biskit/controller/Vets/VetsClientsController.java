@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/vet")
+@RequestMapping("/vet/clients")
 @CrossOrigin(origins = "http://localhost:4200")
 public class VetsClientsController {
 
@@ -27,38 +27,38 @@ public class VetsClientsController {
   private ClientsService clientsService;
 
   // ----- Crear Cliente (CREATE) -----
-  @PostMapping("/clients/add")
+  @PostMapping("/add")
   public void crearCliente(@RequestBody Client client) {
     clientsService.addClient(client);
   }
 
   // ----- Mostrar Clientes (READ) -----
-  @GetMapping("/clients")
+  @GetMapping("")
   public List<Client> mostrarClientes() {
     return clientsService.getClients();
   }
 
   // ----- Mostrar Cliente (READ) -----
-  @GetMapping("/clients/{id}")
+  @GetMapping("/{id}")
   public Client mostrarCliente(@PathVariable("id") Long id) {
     return clientsService.getClientById(id);
   }
 
   // ----- Mostrar Mascotas de un Cliente (READ) -----
-  @GetMapping("/clients/{id}/pets")
+  @GetMapping("/{id}/pets")
   public List<Pet> mostrarMascotasDeCliente(@PathVariable("id") Long id) {
     return clientsService.getPetsByClientId(id);
   }
 
   // ----- Actualizar Cliente (UPDATE) -----
-  @PutMapping("/clients/update/{id}")
+  @PutMapping("/update/{id}")
   public void actualizarCliente(@PathVariable("id") Long id, @RequestBody Client client) {
     client.setId(id);
     clientsService.updateClient(client);
   }
 
   // ----- Eliminar Cliente (DELETE) -----
-  @DeleteMapping("/clients/delete/{id}")
+  @DeleteMapping("/delete/{id}")
   public void eliminarCliente(@PathVariable("id") Long id) {
     clientsService.deleteClient(id);
   }
