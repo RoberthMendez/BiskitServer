@@ -1,11 +1,14 @@
 package com.example.biskit.entities.pets;
 
+import com.example.biskit.entities.EntidadBase;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +18,8 @@ import jakarta.persistence.GenerationType;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Enfermedad {
+@EqualsAndHashCode(callSuper = false)
+public class Enfermedad extends EntidadBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

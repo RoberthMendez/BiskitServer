@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
@@ -26,7 +27,8 @@ import jakarta.persistence.GenerationType;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Droga {
+@EqualsAndHashCode(callSuper = false)
+public class Droga extends EntidadBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

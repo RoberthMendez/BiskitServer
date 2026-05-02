@@ -13,12 +13,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 import com.example.biskit.entities.Credenciales;
+import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.util.NoNormalizar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -27,7 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Vet {
+@EqualsAndHashCode(callSuper = false)
+public class Vet extends EntidadBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +44,14 @@ public class Vet {
     private boolean estado;
 
     @Column(nullable = false, length = 255, unique = true)
+    @NoNormalizar
     private String correo;
 
     @Column(nullable = false, length = 20, unique = true)
     private String cedula;
 
     @Column(length = 255)
+    @NoNormalizar
     private String urlFoto;
 
     @OneToOne

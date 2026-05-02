@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.util.NoNormalizar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ import jakarta.persistence.GeneratedValue;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Client {
+public class Client extends EntidadBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +45,7 @@ public class Client {
   private String cedula;
 
   @Column(name = "correo", nullable = false, unique = true, length = 100)
+  @NoNormalizar
   private String correo;
 
   @Column(name = "celular", nullable = false, length = 20)

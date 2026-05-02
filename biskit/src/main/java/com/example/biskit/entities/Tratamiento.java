@@ -30,7 +30,7 @@ import lombok.Builder;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Tratamiento {
+public class Tratamiento{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

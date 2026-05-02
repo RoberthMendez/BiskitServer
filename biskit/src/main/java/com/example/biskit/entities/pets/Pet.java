@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.util.List;
 
 import com.example.biskit.entities.Client;
+import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.util.NoNormalizar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -17,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +32,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Pet {
+@EqualsAndHashCode(callSuper = false)
+public class Pet extends EntidadBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +52,7 @@ public class Pet {
   private float peso;
   
   @Column(name = "url_foto", length = 255)
+  @NoNormalizar
   private String urlFoto;
 
   @ManyToOne
