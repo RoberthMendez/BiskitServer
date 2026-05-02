@@ -24,8 +24,9 @@ public class EspecialidadesController {
 
   // ----- Crear Especialidad (CREATE) -----
   @PostMapping("/add")
-  public void crearEspecialidad(@RequestBody Especialidad especialidad) {
+  public Especialidad crearEspecialidad(@RequestBody Especialidad especialidad) {
     especialidadesService.addEspecialidad(especialidad);
+    return especialidad;
   }
 
   // ----- Mostrar Especialidades (READ) -----

@@ -28,10 +28,11 @@ public class RazasController {
 
     // Añadir Raza
   @PostMapping("/add")
-  public void agregarRaza(@RequestBody Raza raza) {
+  public Raza agregarRaza(@RequestBody Raza raza) {
     if (raza != null && raza.getNombre() != null && raza.getEspecie() != null) {
       razaService.saveRaza(raza);
     }
+    return raza;
   } 
   
 }
