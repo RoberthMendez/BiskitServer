@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.dtos.PetsFiltrosDto;
 import com.example.biskit.entities.dtos.TopDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
@@ -16,6 +17,7 @@ import com.example.biskit.repo.pets.PetsRepo;
 
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
 import com.example.biskit.service.Pets.Raza.RazaService;
+import com.example.biskit.specifications.PetsSpecification;
 
 import jakarta.transaction.Transactional;
 
@@ -125,5 +127,12 @@ public Pet asignarRelacionesDePetPorIds(Pet pet) {
       top5EnfermedadesDto.add(new TopDto((long) (i + 1), nombreEnfermedad, countPets));
     }
     return top5EnfermedadesDto;
+  }
+
+  @Override
+  public List<Pet> getPetsFiltrados(PetsFiltrosDto filtros) {
+
+    return petsRepo.findAll(PetsSpecification.conFiltros(filtros));
+
   }
 }
