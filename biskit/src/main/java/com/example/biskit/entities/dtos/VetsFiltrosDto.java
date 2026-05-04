@@ -13,5 +13,7 @@ public class VetsFiltrosDto {
     private String especialidad;
     private Integer tratamientos;
     private String pet; 
+    private Boolean misMascotas;
+    private Long vetId;
     
 }

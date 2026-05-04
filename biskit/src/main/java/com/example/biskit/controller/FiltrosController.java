@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.biskit.entities.dtos.PetsFiltrosDto;
 import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Vets.VetService;
 
@@ -48,14 +47,23 @@ public class FiltrosController {
   }
 
   @GetMapping("/vets")
-  public ResponseEntity<List<Vet>> getVetsFiltrados(
+  public ResponseEntity<?> getVetsFiltrados(
       @RequestParam(required = false) Boolean estado,
       @RequestParam(required = false) String especialidad,
       @RequestParam(required = false) Integer tratamientos,
-      @RequestParam(required = false) String pet
+      @RequestParam(required = false) String pet,
+      @RequestParam(required = false) Boolean misMascotas,
+      @RequestParam(required = false) Long vetId
   ) {
-      VetsFiltrosDto filtros = new VetsFiltrosDto(estado, especialidad, tratamientos, pet);
-      return ResponseEntity.ok(vetsService.getVetsFiltrados(filtros));
+        if (misMascotas && vetId == null) {
+          throw new IllegalArgumentException("Se debe enviar el id del veterinario cuando misMascotas=true");
+        }
+        if (misMascotas) {
+            return ResponseEntity.ok(vetsService.getPetsTratadosPorVet(vetId));
+        }
+
+        VetsFiltrosDto filtros = new VetsFiltrosDto(estado, especialidad, tratamientos, pet, misMascotas, vetId);
+        return ResponseEntity.ok(vetsService.getVetsFiltrados(filtros));
   }
   
   

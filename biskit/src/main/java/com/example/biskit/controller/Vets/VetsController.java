@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Vets.VetService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,11 +65,11 @@ public class VetsController {
       return vetService.getVetTratamientosCount(id);
   }
 
-  // ----- Obtener Mascotas Tratadas por un Veterinario -----
-  @GetMapping("/{id}/pets")
-  public List<Pet> getPetsTratadosPorVet(@PathVariable Long id) {
-      return vetService.getPetsTratadosPorVet(id);
-  }
+  // // ----- Obtener Mascotas Tratadas por un Veterinario -----
+  // @GetMapping("/{id}/pets")
+  // public List<Pet> getPetsTratadosPorVet(@PathVariable Long id) {
+  //     return vetService.getPetsTratadosPorVet(id);
+  // }
 
   // ----- Cambiar Estado de Veterinario (PATCH) -----
   @PatchMapping("/update-estado/{id}")
