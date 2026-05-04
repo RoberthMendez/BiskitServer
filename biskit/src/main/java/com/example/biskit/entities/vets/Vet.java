@@ -18,11 +18,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.util.NoNormalizar;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -62,8 +63,8 @@ public class Vet extends EntidadBase {
     @JoinColumn(name = "especialidad_id")
     private Especialidad especialidad;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "vet")
+    @JsonIgnore
     private List<Tratamiento> tratamientos;
 
 }

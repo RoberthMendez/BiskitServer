@@ -417,3 +417,8 @@ WHERE EDAD >= 6 [42122-240]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
 	at java.base/java.lang.Thread.run(Thread.java:1575)
+2026-05-04 11:56:00.310000-05:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLTimeoutException: Tiempo vencido intentando trabar (lock) la tabla "ADMIN"
+Timeout trying to lock table "ADMIN"; SQL statement:
+
+    drop table if exists admin c [50200-240]
