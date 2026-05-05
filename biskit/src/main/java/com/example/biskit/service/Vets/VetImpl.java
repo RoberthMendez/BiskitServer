@@ -1,6 +1,7 @@
 package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
@@ -9,6 +10,7 @@ import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.service.Credenciales.CredencialesService;
+import com.example.biskit.specifications.VetsSpecification;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -136,6 +138,11 @@ public class VetImpl implements VetService {
                 .orElseThrow(() -> new VetNotFoundException(id));
         vet.setEstado(estado);
         vetsRepo.save(vet);
+    }
+
+    @Override
+    public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
+        return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
     }
 
 }

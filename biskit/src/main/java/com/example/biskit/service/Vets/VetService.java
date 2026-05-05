@@ -1,5 +1,6 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import java.util.List;
@@ -31,4 +32,6 @@ public interface VetService {
     public void deleteVet(Long id);
 
     public void cambiarEstadoVet(Long id, boolean estado);
+
+    public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros);
 }

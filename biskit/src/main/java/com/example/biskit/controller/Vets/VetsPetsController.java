@@ -19,6 +19,8 @@ import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.entities.pets.Pet;
 
+import org.springframework.http.HttpStatus;
+
 @RestController
 @RequestMapping("/vet/pets")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,60 +36,94 @@ public class VetsPetsController {
 
   // ----- Crear Mascota (CREATE) -----
   @PostMapping("/add")
-  public void agregarMascota(@RequestBody Pet pet) {
+  public ResponseEntity<Void> agregarMascota(@RequestBody Pet pet) {
+
     pet = petsService.asignarRelacionesDePetPorIds(pet);
     clientsService.addPetToClient(pet.getOwner().getId(), pet);
-    petsService.addPet(pet);
+    Pet addedPet = petsService.addPet(pet);
+
+    if (addedPet == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   // ----- Mostrar Mascotas (READ) -----
   @GetMapping("")
-  public List<Pet> mostrarMascotas() {
-    return petsService.getPets();
+  public ResponseEntity<List<Pet>> mostrarMascotas() {
+    return ResponseEntity.ok(petsService.getPets());
   }
 
   // ----- Mostrar Mascota (READ) -----
   @GetMapping("/{id}")
-  public Pet mostrarMascota(@PathVariable("id") Long id) {
-    return petsService.getPetById(id);
+  public ResponseEntity<Pet> mostrarMascota(@PathVariable("id") Long id) {
+    Pet pet = petsService.getPetById(id);
+    if (pet == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.ok(pet);
   }
 
   // ----- Editar Mascota (UPDATE) -----
   @PutMapping("/update/{id}")
-  public void updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
+  public ResponseEntity<Void> updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
     pet = petsService.asignarRelacionesDePetPorIds(pet);
-    petsService.updatePet(pet);
+    Pet updatedPet = petsService.updatePet(pet);
+
+    if (updatedPet == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    return ResponseEntity.ok().build();
   }
 
   // ----- Cambiar Estado de Mascota (PATCH) -----
   @PatchMapping("/update-estado/{id}")
-  public void cambiarEstadoMascota(@PathVariable("id") Long id, @RequestBody Map<String, Boolean> body) {
-    petsService.cambiarEstadoMascota(id, body.get("estado"));
+  public ResponseEntity<Void> cambiarEstadoMascota(@PathVariable("id") Long id,
+      @RequestBody Map<String, Boolean> body) {
+    Pet updatedPet = petsService.cambiarEstadoMascota(id, body.get("estado"));
+    if (updatedPet == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    return ResponseEntity.ok().build();
   }
 
   // ----- Ver total de Mascotas -----
   @GetMapping("/count")
-  public Long getTotalMascotas() {
-    return petsService.getPetsCount();
+  public ResponseEntity<Long> getTotalMascotas() {
+    Long count = petsService.getPetsCount();
+    if (count == null) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    return ResponseEntity.ok(count);
   }
 
   // ----- Ver total de Mascotas Inactivas -----
   @GetMapping("/count/inactivos")
-  public Long getTotalMascotasInactivas() {
-    return petsService.getPetsInactivosCount();
+  public ResponseEntity<Long> getTotalMascotasInactivas() {
+    Long count = petsService.getPetsInactivosCount();
+    if (count == null) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    return ResponseEntity.ok(count);
   }
 
   // ----- Ver total de Mascotas Activas -----
   @GetMapping("/count/activos")
-  public Long getTotalMascotasActivas() {
-    return petsService.getPetsActivosCount();
+  public ResponseEntity<Long> getTotalMascotasActivas() {
+    Long count = petsService.getPetsActivosCount();
+    if (count == null) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    return ResponseEntity.ok(count);
   }
 
   // ----- Comprobar id de Mascota (GET) -----
   @GetMapping("/{id}/exists")
   public ResponseEntity<Void> checkPetId(@PathVariable Long id) {
-      petsService.getPetById(id);
-      return ResponseEntity.ok().build();
+    if (petsService.getPetById(id) == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.ok().build();
   }
 
 }

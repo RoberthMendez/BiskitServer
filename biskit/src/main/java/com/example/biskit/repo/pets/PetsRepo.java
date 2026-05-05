@@ -1,6 +1,7 @@
 package com.example.biskit.repo.pets;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import com.example.biskit.entities.pets.Pet;
 import java.util.List;
 
 @Repository
-public interface PetsRepo extends JpaRepository<Pet, Long> {
+public interface PetsRepo extends JpaRepository<Pet, Long>, JpaSpecificationExecutor<Pet> {
 
     Long countByEstadoTrue();
     
