@@ -47,6 +47,7 @@ public class PetsRepoTest {
         private Raza siames;
         private Enfermedad parvovirus;
         private Enfermedad rinotraqueitis;
+        private Pet firulais;
 
         @BeforeEach
         public void setUp() {
@@ -90,7 +91,7 @@ public class PetsRepoTest {
                                 .nombre("Rinotraqueitis")
                                 .build());
 
-                petsRepo.save(Pet.builder()
+                firulais = petsRepo.save(Pet.builder()
                                 .nombre("Firulais")
                                 .fechaNacimiento(Date.valueOf("2020-01-01"))
                                 .raza(labrador)
@@ -231,7 +232,7 @@ public class PetsRepoTest {
         /* FIND BY ID (READ) */
         @Test
         public void PetsRepo_findById_ReturnsPet() {
-                Pet pet = petsRepo.findById(1L).orElse(null);
+                Pet pet = petsRepo.findById(firulais.getId()).orElse(null);
 
                 Assertions.assertThat(pet).isNotNull();
                 Assertions.assertThat(pet.getNombre()).isEqualTo("Firulais");
@@ -253,8 +254,8 @@ public class PetsRepoTest {
 
         @Test
         public void PetsRepo_deleteById_RemovesPet() {
-                petsRepo.deleteById(1L);
-                Pet pet = petsRepo.findById(1L).orElse(null);
+                petsRepo.deleteById(firulais.getId());
+                Pet pet = petsRepo.findById(firulais.getId()).orElse(null);
 
                 Assertions.assertThat(pet).isNull();
         }
@@ -263,7 +264,7 @@ public class PetsRepoTest {
         @Test
         public void PetsRepo_updateByName_Pet() {
 
-                Pet pet = petsRepo.findById(1L).orElse(null);
+                Pet pet = petsRepo.findById(firulais.getId()).orElse(null);
                 pet.setNombre("Firulais modificado");
                 Pet updatedPet = petsRepo.save(pet);
 
