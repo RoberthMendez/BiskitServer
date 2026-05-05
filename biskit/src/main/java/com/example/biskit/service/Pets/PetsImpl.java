@@ -42,13 +42,13 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
-  public void addPet(Pet pet) {
-    petsRepo.save(pet);
+  public Pet addPet(Pet pet) {
+    return petsRepo.save(pet);
   }
 
   @Override
-  public void updatePet(Pet pet) {
-    petsRepo.save(pet);
+  public Pet updatePet(Pet pet) {
+    return petsRepo.save(pet);
   }
 
   @Override
@@ -71,29 +71,30 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
-public Pet asignarRelacionesDePetPorIds(Pet pet) {
-    if (pet == null) return null;
+  public Pet asignarRelacionesDePetPorIds(Pet pet) {
+    if (pet == null)
+      return null;
 
     if (pet.getRaza() != null && pet.getRaza().getId() != null) {
-        pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
+      pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
     } else {
-        pet.setRaza(null);
+      pet.setRaza(null);
     }
 
     if (pet.getEnfermedad() != null && pet.getEnfermedad().getId() != null) {
-        pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
+      pet.setEnfermedad(enfermedadService.getEnfermedadById(pet.getEnfermedad().getId()));
     } else {
-        pet.setEnfermedad(null);
+      pet.setEnfermedad(null);
     }
 
     return pet;
-}
+  }
 
   @Override
-  public void cambiarEstadoMascota(Long id, boolean estado) {
+  public Pet cambiarEstadoMascota(Long id, boolean estado) {
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
     pet.setEstado(estado);
-    petsRepo.save(pet);
+    return petsRepo.save(pet);
   }
 
   @Override

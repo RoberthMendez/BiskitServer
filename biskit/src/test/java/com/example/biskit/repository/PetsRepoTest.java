@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,25 +22,24 @@ import com.example.biskit.repo.pets.EspecieRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.pets.RazaRepo;
 
-@SuppressWarnings("deprecation")
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class PetsRepoTest {
-    
-    @Autowired
-    private PetsRepo petsRepo;
 
-    @Autowired
-    private ClientsRepo clientsRepo;
+        @Autowired
+        private PetsRepo petsRepo;
 
-    @Autowired
-    private EspecieRepo especiesRepo;
+        @Autowired
+        private ClientsRepo clientsRepo;
 
-    @Autowired
-    private RazaRepo razaRepo;
+        @Autowired
+        private EspecieRepo especiesRepo;
 
-    @Autowired
-    private EnfermedadRepo enfermedadRepo;
+        @Autowired
+        private RazaRepo razaRepo;
+
+        @Autowired
+        private EnfermedadRepo enfermedadRepo;
 
         private Client juan;
         private Client maria;
@@ -49,174 +48,177 @@ public class PetsRepoTest {
         private Enfermedad parvovirus;
         private Enfermedad rinotraqueitis;
 
-    @BeforeEach
-    public void setUp() {
-        juan = clientsRepo.save(Client.builder()
-            .nombre("Juan")
-            .cedula("1000000001")
-            .correo("juan@test.com")
-            .celular("3000000001")
-            .build());
+        @BeforeEach
+        public void setUp() {
+                juan = clientsRepo.save(Client.builder()
+                                .nombre("Juan")
+                                .cedula("1000000001")
+                                .correo("juan@test.com")
+                                .celular("3000000001")
+                                .build());
 
-        maria = clientsRepo.save(Client.builder()
-            .nombre("Maria")
-            .cedula("1000000002")
-            .correo("maria@test.com")
-            .celular("3000000002")
-            .build());
+                maria = clientsRepo.save(Client.builder()
+                                .nombre("Maria")
+                                .cedula("1000000002")
+                                .correo("maria@test.com")
+                                .celular("3000000002")
+                                .build());
 
-        Especie perro = especiesRepo.save(Especie.builder()
-            .nombre("Perro")
-            .build());
+                Especie perro = especiesRepo.save(Especie.builder()
+                                .nombre("Perro")
+                                .build());
 
-        Especie gato = especiesRepo.save(Especie.builder()
-            .nombre("Gato")
-            .build());
+                Especie gato = especiesRepo.save(Especie.builder()
+                                .nombre("Gato")
+                                .build());
 
-        labrador = razaRepo.save(Raza.builder()
-            .nombre("Labrador")
-            .especie(perro)
-            .build());
+                labrador = razaRepo.save(Raza.builder()
+                                .nombre("Labrador")
+                                .especie(perro)
+                                .build());
 
-        siames = razaRepo.save(Raza.builder()
-            .nombre("Siames")
-            .especie(gato)
-            .build());
+                siames = razaRepo.save(Raza.builder()
+                                .nombre("Siames")
+                                .especie(gato)
+                                .build());
 
-        parvovirus = enfermedadRepo.save(Enfermedad.builder()
-            .nombre("Parvovirus")
-            .build());
+                parvovirus = enfermedadRepo.save(Enfermedad.builder()
+                                .nombre("Parvovirus")
+                                .build());
 
-        rinotraqueitis = enfermedadRepo.save(Enfermedad.builder()
-            .nombre("Rinotraqueitis")
-            .build());
+                rinotraqueitis = enfermedadRepo.save(Enfermedad.builder()
+                                .nombre("Rinotraqueitis")
+                                .build());
 
-        petsRepo.save(Pet.builder()
-            .nombre("Firulais")
-            .fechaNacimiento(Date.valueOf("2020-01-01"))
-            .raza(labrador)
-            .enfermedad(parvovirus)
-            .owner(juan)
-            .estado(true)
-            .build());
+                petsRepo.save(Pet.builder()
+                                .nombre("Firulais")
+                                .fechaNacimiento(Date.valueOf("2020-01-01"))
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build());
 
-        petsRepo.save(Pet.builder()
-            .nombre("Michi")
-            .fechaNacimiento(Date.valueOf("2019-05-10"))
-            .raza(siames)
-            .enfermedad(rinotraqueitis)
-            .owner(maria)
-            .estado(true)
-            .build());
+                petsRepo.save(Pet.builder()
+                                .nombre("Michi")
+                                .fechaNacimiento(Date.valueOf("2019-05-10"))
+                                .raza(siames)
+                                .enfermedad(rinotraqueitis)
+                                .owner(maria)
+                                .estado(true)
+                                .build());
 
-        petsRepo.save(Pet.builder()
-            .nombre("Rex")
-            .fechaNacimiento(Date.valueOf("2021-03-15"))
-            .raza(labrador)
-            .enfermedad(rinotraqueitis)
-            .owner(maria)
-            .estado(true)
-            .build());
+                petsRepo.save(Pet.builder()
+                                .nombre("Rex")
+                                .fechaNacimiento(Date.valueOf("2021-03-15"))
+                                .raza(labrador)
+                                .enfermedad(rinotraqueitis)
+                                .owner(maria)
+                                .estado(true)
+                                .build());
 
-        petsRepo.save(Pet.builder()
-            .nombre("Luna")
-            .fechaNacimiento(Date.valueOf("2018-07-20"))
-            .raza(siames)
-            .enfermedad(parvovirus)
-            .owner(juan)
-            .estado(true)
-            .build());
-    }
+                petsRepo.save(Pet.builder()
+                                .nombre("Luna")
+                                .fechaNacimiento(Date.valueOf("2018-07-20"))
+                                .raza(siames)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build());
+        }
 
-    /* PRUEBAS DEL CRUD DEL REPOSITORIO DE PET */
+        /* PRUEBAS DEL CRUD DEL REPOSITORIO DE PET */
 
-    //CREATE
-    @Test
-    public void PetsRepo_save_Pet() {
-        Pet pet = Pet.builder()
-                    .nombre("Fido")
-                    .fechaNacimiento(Date.valueOf("2020-01-01"))
-                .raza(labrador)
-                .enfermedad(parvovirus)
-                .owner(juan)
-                    .estado(true)
-                    .build();
+        // CREATE
+        @Test
+        public void PetsRepo_save_Pet() {
+                Pet pet = Pet.builder()
+                                .nombre("Fido")
+                                .fechaNacimiento(Date.valueOf("2020-01-01"))
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build();
 
-        Pet savedPet = petsRepo.save(pet);
+                Pet savedPet = petsRepo.save(pet);
 
-        Assertions.assertThat(savedPet).isNotNull();
-        Assertions.assertThat(savedPet.getNombre()).isEqualTo("Fido");
-        Assertions.assertThat(savedPet.getRaza().getNombre()).isEqualTo("Labrador");
-        Assertions.assertThat(savedPet.getEnfermedad().getNombre()).isEqualTo("Parvovirus");
-        Assertions.assertThat(savedPet.getOwner().getNombre()).isEqualTo("Juan");
-        Assertions.assertThat(savedPet.getFechaNacimiento()).isEqualTo(Date.valueOf("2020-01-01"));
-        Assertions.assertThat(savedPet.isEstado()).isTrue(); 
-    }
+                Assertions.assertThat(savedPet).isNotNull();
+                Assertions.assertThat(savedPet.getNombre()).isEqualTo("Fido");
+                Assertions.assertThat(savedPet.getRaza().getNombre()).isEqualTo("Labrador");
+                Assertions.assertThat(savedPet.getEnfermedad().getNombre()).isEqualTo("Parvovirus");
+                Assertions.assertThat(savedPet.getOwner().getNombre()).isEqualTo("Juan");
+                Assertions.assertThat(savedPet.getFechaNacimiento()).isEqualTo(Date.valueOf("2020-01-01"));
+                Assertions.assertThat(savedPet.isEstado()).isTrue();
+        }
 
-    //FIND ALL
-    @Test
-    public void PetsRepo_findAll_NotEmptyList(){
-        List<Pet> pets = petsRepo.findAll();
+        // FIND ALL (READ)
+        @Test
+        public void PetsRepo_findAll_NotEmptyList() {
+                List<Pet> pets = petsRepo.findAll();
 
-        Assertions.assertThat(pets).isNotEmpty();
-        Assertions.assertThat(pets).hasSize(4);
-        Assertions.assertThat(pets).extracting(Pet::getNombre).containsExactlyInAnyOrder("Firulais", "Michi", "Rex", "Luna");
+                Assertions.assertThat(pets).isNotEmpty();
+                Assertions.assertThat(pets).hasSize(4);
+                Assertions.assertThat(pets).extracting(Pet::getNombre).containsExactlyInAnyOrder("Firulais", "Michi",
+                                "Rex",
+                                "Luna");
 
-        petsRepo.save(Pet.builder()
-                    .nombre("Fido")
-                    .fechaNacimiento(Date.valueOf("2020-01-01"))
-                .raza(labrador)
-                .enfermedad(parvovirus)
-                .owner(juan)
-                    .estado(true)
-                    .build());
-        
-        pets = petsRepo.findAll();
-        Assertions.assertThat(pets).hasSize(5);
-        Assertions.assertThat(pets).extracting(Pet::getNombre).containsExactlyInAnyOrder("Firulais", "Michi", "Rex", "Luna", "Fido");
-    }
+                petsRepo.save(Pet.builder()
+                                .nombre("Fido")
+                                .fechaNacimiento(Date.valueOf("2020-01-01"))
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build());
 
-    /* FIND BY ID */
-    @Test
-    public void PetsRepo_findById_ReturnsPet(){
-        Pet pet = petsRepo.findById(1L).orElse(null);
+                pets = petsRepo.findAll();
+                Assertions.assertThat(pets).hasSize(5);
+                Assertions.assertThat(pets).extracting(Pet::getNombre).containsExactlyInAnyOrder("Firulais", "Michi",
+                                "Rex",
+                                "Luna", "Fido");
+        }
 
-        Assertions.assertThat(pet).isNotNull();
-        Assertions.assertThat(pet.getNombre()).isEqualTo("Firulais");
-        Assertions.assertThat(pet.getRaza().getNombre()).isEqualTo("Labrador");
-        Assertions.assertThat(pet.getEnfermedad().getNombre()).isEqualTo("Parvovirus");
-        Assertions.assertThat(pet.getOwner().getNombre()).isEqualTo("Juan");
-        Assertions.assertThat(pet.getFechaNacimiento()).isEqualTo(Date.valueOf("2020-01-01"));
-        Assertions.assertThat(pet.isEstado()).isTrue(); 
-    }
+        /* FIND BY ID (READ) */
+        @Test
+        public void PetsRepo_findById_ReturnsPet() {
+                Pet pet = petsRepo.findById(1L).orElse(null);
 
-    @Test
-    public void PetsRepo_findById_ReturnsEmpty(){
-        Pet pet = petsRepo.findById(-1L).orElse(null);
+                Assertions.assertThat(pet).isNotNull();
+                Assertions.assertThat(pet.getNombre()).isEqualTo("Firulais");
+                Assertions.assertThat(pet.getRaza().getNombre()).isEqualTo("Labrador");
+                Assertions.assertThat(pet.getEnfermedad().getNombre()).isEqualTo("Parvovirus");
+                Assertions.assertThat(pet.getOwner().getNombre()).isEqualTo("Juan");
+                Assertions.assertThat(pet.getFechaNacimiento()).isEqualTo(Date.valueOf("2020-01-01"));
+                Assertions.assertThat(pet.isEstado()).isTrue();
+        }
 
-        Assertions.assertThat(pet).isNull();
-    }
+        @Test
+        public void PetsRepo_findById_ReturnsEmpty() {
+                Pet pet = petsRepo.findById(-1L).orElse(null);
 
-    /* DELETE BY ID */
+                Assertions.assertThat(pet).isNull();
+        }
 
-    @Test
-    public void PetsRepo_deleteById_RemovesPet(){
-        petsRepo.deleteById(1L);
-        Pet pet = petsRepo.findById(1L).orElse(null);
+        /* DELETE BY ID (DELETE) */
 
-        Assertions.assertThat(pet).isNull();
-    }
+        @Test
+        public void PetsRepo_deleteById_RemovesPet() {
+                petsRepo.deleteById(1L);
+                Pet pet = petsRepo.findById(1L).orElse(null);
 
+                Assertions.assertThat(pet).isNull();
+        }
 
-    /* UPDATE BY NAME */
-    @Test
-    public void PetsRepo_updateByName_Pet(){
+        /* UPDATE BY NAME (UPDATE) */
+        @Test
+        public void PetsRepo_updateByName_Pet() {
 
-        Pet pet = petsRepo.findById(1L).orElse(null);
-        pet.setNombre("Firulais modificado");
-        Pet updatedPet = petsRepo.save(pet);
+                Pet pet = petsRepo.findById(1L).orElse(null);
+                pet.setNombre("Firulais modificado");
+                Pet updatedPet = petsRepo.save(pet);
 
-        Assertions.assertThat(updatedPet).isNotNull();
-        Assertions.assertThat(updatedPet.getNombre()).isEqualTo("Firulais modificado");
-    }
+                Assertions.assertThat(updatedPet).isNotNull();
+                Assertions.assertThat(updatedPet.getNombre()).isEqualTo("Firulais modificado");
+        }
 }

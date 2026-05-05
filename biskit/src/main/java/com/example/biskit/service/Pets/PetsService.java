@@ -12,17 +12,17 @@ public interface PetsService {
 
   public Pet getPetById(Long id);
 
-  public void addPet(Pet pet);
+  public Pet addPet(Pet pet);
 
-  public void updatePet(Pet pet);
+  public Pet updatePet(Pet pet);
 
   public void deletePet(Long id);
 
   public Pet asignarRelacionesDePetPorIds(Pet pet);
 
-  public void cambiarEstadoMascota(Long id, boolean estado);
+  public Pet cambiarEstadoMascota(Long id, boolean estado);
 
-  public Long getPetsCount ();
+  public Long getPetsCount();
 
   public Long getPetsInactivosCount();
 

@@ -16,6 +16,7 @@ import jakarta.persistence.criteria.Predicate;
 
 public class PetsSpecification {
 
+    @SuppressWarnings("null")
     public static Specification<Pet> conFiltros(PetsFiltrosDto filtros) {
         return (root, query, cb) -> {
 
@@ -44,31 +45,27 @@ public class PetsSpecification {
                 if (filtros.getEspecie() != null) {
                     Join<Object, Object> especieJoin = razaJoin.join("especie", JoinType.LEFT);
                     predicates.add(cb.like(
-                        cb.lower(especieJoin.get("nombre")),
-                        "%" + filtros.getEspecie().toLowerCase() + "%"
-                    ));
+                            cb.lower(especieJoin.get("nombre")),
+                            "%" + filtros.getEspecie().toLowerCase() + "%"));
                 }
 
                 if (filtros.getRaza() != null)
                     predicates.add(cb.like(
-                        cb.lower(razaJoin.get("nombre")),
-                        "%" + filtros.getRaza().toLowerCase() + "%"
-                    ));
+                            cb.lower(razaJoin.get("nombre")),
+                            "%" + filtros.getRaza().toLowerCase() + "%"));
             }
 
             if (filtros.getEnfermedad() != null) {
                 Join<Object, Object> enfermedadJoin = root.join("enfermedad", JoinType.LEFT);
                 predicates.add(cb.like(
-                    cb.lower(enfermedadJoin.get("nombre")),
-                    "%" + filtros.getEnfermedad().toLowerCase() + "%"
-                ));
+                        cb.lower(enfermedadJoin.get("nombre")),
+                        "%" + filtros.getEnfermedad().toLowerCase() + "%"));
             }
 
             if (filtros.getTratamientos() != null)
                 predicates.add(cb.greaterThanOrEqualTo(
-                    cb.size(root.get("tratamientos")),
-                    filtros.getTratamientos()
-                ));
+                        cb.size(root.get("tratamientos")),
+                        filtros.getTratamientos()));
 
             query.distinct(true);
             return cb.and(predicates.toArray(new Predicate[0]));
