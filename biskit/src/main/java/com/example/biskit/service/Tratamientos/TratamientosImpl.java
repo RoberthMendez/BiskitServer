@@ -197,6 +197,7 @@ public class TratamientosImpl implements TratamientosService {
     }
 
     @Override
+    @Transactional
     public void deleteTratamiento(Long id) {
         Tratamiento tratamiento = tratamientosRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
@@ -253,5 +254,6 @@ public class TratamientosImpl implements TratamientosService {
         }
         return drogaTratamientoCounts;
     }
+
 
 }
