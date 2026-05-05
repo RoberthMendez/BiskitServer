@@ -111,6 +111,22 @@ public class TratamientoServiceTestMock {
         Assertions.assertThat(resultado.getId()).isEqualTo(id);
     }
 
+    @Test
+    public void tratamientoService_getTratamientoById_lanzaExcepcionSiNoExiste() {
+        // Arrange
+        Long id = 99L;
+
+        when(tratamientosRepo.findById(id))
+                .thenReturn(Optional.empty());
+
+        // Act + Assert
+        Assertions.assertThatThrownBy(() ->
+                tratamientoService.getTratamientoById(id)
+        )
+        .isInstanceOf(RuntimeException.class)
+        .hasMessageContaining("No se encontró tratamiento con id: " + id);
+    }
+
     // ─────────────────────────────────────────────────────────────
     // 2. addTratamiento(TratamientoDto)
     // ─────────────────────────────────────────────────────────────
@@ -435,6 +451,42 @@ public class TratamientoServiceTestMock {
         )
         .isInstanceOf(MascotaInactivaException.class)
         .hasMessageContaining("La mascota está inactiva");
+    }
+
+    @Test
+    public void tratamientoService_updateTratamiento_lanzaExcepcionSiNuevasDrogaSinStock() {
+        // Arrange
+        Long id = 1L;
+
+        // El tratamiento original tiene Droga B con stock
+        Tratamiento existente = Tratamiento.builder()
+                .id(id)
+                .fecha(LocalDate.now())
+                .pet(petActiva())
+                .vet(vet1())
+                .drogas(new ArrayList<>(List.of(drogaConStock())))
+                .build();
+
+        // DTO que intenta cambiar a Droga A 
+        TratamientoDto updateDto = new TratamientoDto(
+                id,
+                LocalDate.now(),
+                1L,
+                1L,
+                List.of(2L) // Droga A sin stock
+        );
+
+        when(petsService.getPetById(1L)).thenReturn(petActiva());
+        when(vetService.getVetById(1L)).thenReturn(vet1());
+        when(tratamientosRepo.findById(id)).thenReturn(Optional.of(existente));
+        when(drogasService.getDrogaById(2L)).thenReturn(drogaSinStock());
+
+        // Act + Assert
+        Assertions.assertThatThrownBy(() ->
+                tratamientoService.updateTratamiento(id, updateDto)
+        )
+        .isInstanceOf(StockInsuficienteException.class)
+        .hasMessageContaining("No hay suficientes unidades de Droga A");
     }
 
     
