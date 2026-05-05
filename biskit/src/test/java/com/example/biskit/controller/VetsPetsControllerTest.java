@@ -59,6 +59,8 @@ public class VetsPetsControllerTest {
                 .build();
 
         when(petsService.asignarRelacionesDePetPorIds(Mockito.any(Pet.class))).thenReturn(pet);
+
+        
         doNothing().when(clientsService).addPetToClient(Mockito.anyLong(), Mockito.any(Pet.class));
         when(petsService.addPet(Mockito.any(Pet.class))).thenReturn(pet);
 
@@ -68,6 +70,23 @@ public class VetsPetsControllerTest {
 
         response
                 .andExpect(status().isCreated());
+    }
+
+    /* Prueba que resulta incorrecta para agregar una mascota cuando se ingresa un nombre nulo */
+    @Test
+    public void VetsPetsController_addPet_InvalidPet_ThrowsException() throws Exception {
+        Pet pet = Pet.builder()
+                .nombre(null) //nombre no puede ser nulo
+                .estado(true)
+                .fechaNacimiento(Date.valueOf("2020-01-01"))
+                .build();
+
+        ResultActions response = mockMvc.perform(post("/vet/pets/add")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(pet)));
+
+        response
+                .andExpect(status().isInternalServerError());
     }
 
     /* Prueba para mostrar todas las mascotas */
@@ -118,6 +137,18 @@ public class VetsPetsControllerTest {
                 .andExpect(jsonPath("$.nombre").value("Firulais"));
     }
 
+    /* Prueba para mostrar una mascota específica pero no existe el ID */
+    @Test
+    public void VetsPetsController_getPetById_NotFound() throws Exception {
+        when(petsService.getPetById(1L)).thenReturn(null);
+
+        ResultActions response = mockMvc.perform(get("/vet/pets/1")
+                .contentType("application/json"));
+
+        response
+                .andExpect(status().isNotFound());
+    }
+
     /* Prueba para cambiar el estado de una mascota */
     @Test
     public void VetsPetsController_changePetEstado_Pet() throws Exception {
@@ -135,6 +166,19 @@ public class VetsPetsControllerTest {
 
         response
                 .andExpect(status().isOk());
+    }
+
+    /* Prueba para cambiar el estado de una mascota cuando el ID no existe */
+    @Test
+    public void VetsPetsController_changePetEstado_NotFound() throws Exception {
+        when(petsService.cambiarEstadoMascota(1L, false)).thenReturn(null);
+
+        ResultActions response = mockMvc.perform(patch("/vet/pets/update-estado/1")
+                .contentType("application/json")
+                .content("{\"estado\": false}"));
+
+        response
+                .andExpect(status().isBadRequest());
     }
 
     /* Prueba para actualizar una mascota */

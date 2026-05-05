@@ -152,6 +152,55 @@ public class PetsRepoTest {
                 Assertions.assertThat(savedPet.isEstado()).isTrue();
         }
 
+        //CREATE que es incorrecto por fecha
+        @Test
+        public void PetsRepo_save_PetWithoutFechaNacimiento_ThrowsException() {
+                Pet pet = Pet.builder()
+                                .nombre("Fido")
+                                .fechaNacimiento(null) //fecha de nacimiento no puede ser nula
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build();
+
+                Assertions.assertThatThrownBy(() -> petsRepo.save(pet))
+                                .isInstanceOf(Exception.class);
+        }
+
+
+        //CREATE que es incorrecto por nombre muy largo
+        @Test
+        public void PetsRepo_save_PetWithNombreTooLong_ThrowsException() {
+                Pet pet = Pet.builder()
+                                .nombre("F".repeat(101)) //nombre no puede tener más de 100 caracteres
+                                .fechaNacimiento(Date.valueOf("2020-01-01"))
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build();
+
+                Assertions.assertThatThrownBy(() -> petsRepo.save(pet))
+                                .isInstanceOf(Exception.class);
+        }
+
+        //CREATE que es incorrecto por nombre nulo
+        @Test
+        public void PetsRepo_save_PetWithoutNombre_ThrowsException() {
+                Pet pet = Pet.builder()
+                                .nombre(null) //nombre no puede ser nulo
+                                .fechaNacimiento(null) 
+                                .raza(labrador)
+                                .enfermedad(parvovirus)
+                                .owner(juan)
+                                .estado(true)
+                                .build();
+
+                Assertions.assertThatThrownBy(() -> petsRepo.save(pet))
+                                .isInstanceOf(Exception.class);
+        }
+
         // FIND ALL (READ)
         @Test
         public void PetsRepo_findAll_NotEmptyList() {
