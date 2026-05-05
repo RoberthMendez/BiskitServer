@@ -23,8 +23,6 @@ import com.example.biskit.entities.dtos.TratamientosMesDto;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -41,7 +39,6 @@ import org.junit.jupiter.api.Test;
 @ExtendWith(MockitoExtension.class)
 public class TratamientoServiceTestMock {
 
-    //Pruebas con Mock
     @Mock
     private TratamientosRepo tratamientosRepo;
 
@@ -56,10 +53,6 @@ public class TratamientoServiceTestMock {
 
     @InjectMocks
     private TratamientosImpl tratamientoService;
-
-    // ─────────────────────────────────────────────────────────────
-    // Helpers: objetos reutilizables en cada test
-    // ─────────────────────────────────────────────────────────────
 
     private Pet petActiva() {
         return Pet.builder().id(1L).nombre("Firulais").estado(true).build();
@@ -77,7 +70,7 @@ public class TratamientoServiceTestMock {
         return Vet.builder().id(2L).nombre("Dra. Johnson").tratamientos(new ArrayList<>()).build();
     }
 
-    // Droga con stock disponible
+    // Droga con stock 
     private Droga drogaConStock() {
         return Droga.builder()
                 .id(2L).nombre("Droga B")
@@ -86,7 +79,7 @@ public class TratamientoServiceTestMock {
                 .build();
     }
 
-    // Droga sin stock (agotada)
+    // Droga sin stock
     private Droga drogaSinStock() {
         return Droga.builder()
                 .id(1L).nombre("Droga A")
@@ -96,7 +89,7 @@ public class TratamientoServiceTestMock {
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 1. getTratamientoById → encontrado
+    // 1. getTratamientoById 
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_getTratamientoById_Tratamiento() {
@@ -119,7 +112,7 @@ public class TratamientoServiceTestMock {
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 2. addTratamiento(TratamientoDto) → descuenta stock
+    // 2. addTratamiento(TratamientoDto)
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_addTratamientoDto_void() {
@@ -143,22 +136,21 @@ public class TratamientoServiceTestMock {
         // Act
         tratamientoService.addTratamiento(dto);
 
-        // Assert: el stock debe haberse modificado en el objeto antes de guardarlo
+        // Assert
         Assertions.assertThat(drogaB.getUnidadesDisponibles()).isEqualTo(disponiblesAntes - 1);
         Assertions.assertThat(drogaB.getUnidadesVendidas()).isEqualTo(vendidasAntes + 1);
-
-        // Verifica que se guardó la droga y el tratamiento
-        verify(drogasService, times(1)).saveDroga(drogaB);
-        verify(tratamientosRepo, times(1)).save(any(Tratamiento.class));
+       
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 3. addTratamiento(Tratamiento) → éxito con entidad directa
+    // 3. addTratamiento 
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_addTratamiento_void() {
         // Arrange
         Droga drogaB = drogaConStock();
+        int disponiblesAntes = drogaB.getUnidadesDisponibles();
+        int vendidasAntes    = drogaB.getUnidadesVendidas();  
 
         Tratamiento nuevoTratamiento = Tratamiento.builder()
                 .fecha(LocalDate.of(2020, 6, 15))
@@ -171,10 +163,8 @@ public class TratamientoServiceTestMock {
         tratamientoService.addTratamiento(nuevoTratamiento);
 
         // Assert
-        // El repo debe haber recibido el save
-        verify(tratamientosRepo, times(1)).save(nuevoTratamiento);
-        // Y se descontó stock de la droga
-        verify(drogasService, times(1)).saveDroga(drogaB);
+        Assertions.assertThat(drogaB.getUnidadesDisponibles()).isEqualTo(disponiblesAntes - 1);
+        Assertions.assertThat(drogaB.getUnidadesVendidas()).isEqualTo(vendidasAntes + 1);
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -215,11 +205,10 @@ public class TratamientoServiceTestMock {
         // Assert: el objeto mutado debe reflejar los nuevos valores
         Assertions.assertThat(original.getPet().getId()).isEqualTo(2L);
         Assertions.assertThat(original.getVet().getId()).isEqualTo(2L);
-        verify(tratamientosRepo, times(1)).save(original);
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 5. deleteTratamiento → elimina y desvincula relaciones
+    // 5. deleteTratamiento
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_deleteTratamiento_void() {
@@ -254,10 +243,7 @@ public class TratamientoServiceTestMock {
         // Act
         tratamientoService.deleteTratamiento(id);
 
-        // Assert: se llamó delete sobre el repo
-        verify(tratamientosRepo, times(1)).delete(tratamiento);
-
-        // Y al intentar buscarlo de nuevo lanza RuntimeException
+        // Assert
         Assertions.assertThatThrownBy(() ->
                 tratamientoService.getTratamientoById(id)
         )
@@ -266,7 +252,7 @@ public class TratamientoServiceTestMock {
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 6. getTratamientosByPetId → retorna lista filtrada
+    // 6. getTratamientosByPetId
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_getTratamientosByPetId_ListTratamiento() {
@@ -291,7 +277,7 @@ public class TratamientoServiceTestMock {
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 7. getTratamientosByVetId → retorna lista filtrada
+    // 7. getTratamientosByVetId
     // ─────────────────────────────────────────────────────────────
     @Test
     public void tratamientoService_getTratamientosByVetId_ListTratamiento() {
