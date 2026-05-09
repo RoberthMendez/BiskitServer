@@ -17,4 +17,6 @@ public interface CredencialesService {
 
     public boolean existeUsuario(String usuario);
 
+    public void enviarCorreoResetPassword(String correo);
+
 }

@@ -50,7 +50,7 @@ public class ClientsImpl implements ClientsService {
     credencialesService.addCredenciales(credenciales);
     client.setCredenciales(credenciales);
     clientsRepo.save(client);
-    correosService.enviarBienvenida(client.getCorreo(), client.getNombre(), credenciales.getUsuario(), credenciales.getPassword());
+    correosService.enviarBienvenida(client);
   }
 
   @Override

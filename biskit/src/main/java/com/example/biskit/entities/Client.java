@@ -32,7 +32,7 @@ import jakarta.persistence.GeneratedValue;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Client extends EntidadBase {
+public class Client extends EntidadBase implements Contactable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

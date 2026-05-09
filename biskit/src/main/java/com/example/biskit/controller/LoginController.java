@@ -79,8 +79,14 @@ public class LoginController {
 
     // ----- Restablecimiento de Contraseña -----
     @PutMapping("/{idUsuario}/reset-password")
-    public void putMethodName(@PathVariable Long idUsuario, @RequestBody Credenciales credenciales) {
+    public void cambiarPassword(@PathVariable Long idUsuario, @RequestBody Credenciales credenciales) {
      credencialesService.updatePassword(idUsuario, credenciales);
+    }
+
+    // ----- Enviar Correo para Cambiar Contraseña -----
+    @PostMapping("/forgot-password")
+    public void correoResetPassword(@RequestBody String correo) {
+     credencialesService.enviarCorreoResetPassword(correo);
     }
 
 }

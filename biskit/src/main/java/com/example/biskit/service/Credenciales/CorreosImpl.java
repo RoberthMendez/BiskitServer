@@ -7,6 +7,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.example.biskit.entities.Client;
+import com.example.biskit.entities.Contactable;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -19,16 +22,22 @@ public class CorreosImpl implements CorreosService {
     @Value("${biskit.mail.from}")
     private String fromEmail;
 
-    public void enviarBienvenida(String destinatario, String nombre, String usuario, String password) {
+    public void enviarBienvenida(Client cliente) {
         try {
             MimeMessage mensaje = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
 
             helper.setFrom(fromEmail);
-            helper.setTo(destinatario);
+            helper.setTo(cliente.getCorreo());
             helper.setSubject("¡Bienvenido/a a la Veterinaria Biskit!");
 
-            helper.setText(construirCuerpo(nombre, usuario, password), true); // true = HTML
+            String linkResetPassword =
+                "http://localhost:4200/login/reset-password/"
+                + cliente.getId()
+                + "?correo="
+                + cliente.getCorreo();
+
+            helper.setText(construirCuerpo(cliente.getNombre(), cliente.getCredenciales().getUsuario(), cliente.getCredenciales().getPassword(), linkResetPassword), true); // true = HTML
 
             ClassPathResource img = new ClassPathResource("images/correo.png");
             helper.addInline("headerCorreo", img, "image/png");
@@ -40,7 +49,7 @@ public class CorreosImpl implements CorreosService {
         }
     }
 
-    public String construirCuerpo(String nombre, String usuario, String password) {
+    public String construirCuerpo(String nombre, String usuario, String password, String linkResetPassword) {
         return """
             <html>
             <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f9f9f9;">
@@ -91,7 +100,7 @@ public class CorreosImpl implements CorreosService {
 
                             <li>
                                 Te recomendamos cambiar tu contraseña.
-                                <a href="http://localhost:4200/"
+                                <a href="%s"
                                 style="color:#2b5392; font-weight:bold; text-decoration:none;">
                                 Haz clic aquí para cambiarla.
                                 </a>
@@ -113,7 +122,96 @@ public class CorreosImpl implements CorreosService {
 
             </body>
             </html>
-            """.formatted(nombre, usuario, password);
-        }
+            """.formatted(nombre, usuario, password, linkResetPassword);
+    }
     
+    public void enviarCorreoResetPassword(Contactable contactable) {
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+
+            helper.setFrom(fromEmail);
+            helper.setTo(contactable.getCorreo());
+            helper.setSubject("Restablece tu contraseña - Veterinaria Biskit");
+
+            String linkResetPassword =
+                "http://localhost:4200/login/reset-password/"
+                + contactable.getId()
+                + "?correo="
+                + contactable.getCorreo();
+
+            helper.setText(construirCuerpoResetPassword(
+                contactable.getNombre(),
+                linkResetPassword
+            ), true);
+
+            ClassPathResource img = new ClassPathResource("images/correo.png");
+            helper.addInline("headerCorreo", img, "image/png");
+
+            mailSender.send(mensaje);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("Error al enviar el correo de reset", e);
+        }
+    }
+
+    public String construirCuerpoResetPassword(String nombre, String linkResetPassword) {
+        return """
+            <html>
+            <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f9f9f9;">
+
+                <div style="max-width:600px; margin:0 auto; background-color:#ffffff;">
+
+                    <!-- Header imagen -->
+                    <img src="cid:headerCorreo"
+                        alt="Biskit Header"
+                        border="0"
+                        style="width:100%%; height:auto; display:block; margin:0; padding:0;" />
+
+                    <!-- Contenido -->
+                    <div style="padding:30px 40px;">
+
+                        <h2 style="text-align:center; color:#333333; font-size:22px; margin-top:0; margin-bottom:20px; line-height:1.4;">
+                            <strong>Hola, %s</strong>
+                        </h2>
+
+                        <p style="text-align:center; color:#2b5392; font-size:16px; margin:0 0 10px 0;">
+                            ✦ Recibimos una solicitud para restablecer tu contraseña ✦
+                        </p>
+
+                        <p style="text-align:center; color:#555555; font-size:15px; margin:0 0 20px 0; line-height:1.6;">
+                            Si no fuiste tú, puedes ignorar este correo con total tranquilidad.
+                        </p>
+
+                        <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;" />
+
+                        <p style="color:#333333; font-size:15px; margin:0 0 20px 0; line-height:1.6;">
+                            Para crear una nueva contraseña haz clic en el botón a continuación.
+                        </p>
+
+                        <!-- Botón -->
+                        <div style="text-align:center; margin:30px 0;">
+                            <a href="%s"
+                            style="background-color:#2b5392; color:#ffffff; text-decoration:none;
+                                    font-size:15px; font-weight:bold; padding:14px 32px;
+                                    border-radius:50px; display:inline-block;
+                                    box-shadow:0 6px 18px rgba(43,83,146,0.35);">
+                                Restablecer contraseña
+                            </a>
+                        </div>
+
+                        <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;" />
+
+                        <p style="text-align:center; color:#555555; font-size:14px; line-height:1.8; margin:0;">
+                            Con cariño,<br/>
+                            <strong style="color:#2b5392;">El equipo de Biskit</strong>
+                        </p>
+
+                    </div>
+                </div>
+
+            </body>
+            </html>
+            """.formatted(nombre, linkResetPassword, linkResetPassword, linkResetPassword);
+    }
 }

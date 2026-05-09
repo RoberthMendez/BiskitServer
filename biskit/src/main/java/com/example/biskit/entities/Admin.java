@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class Admin extends EntidadBase {
+public class Admin extends EntidadBase implements Contactable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

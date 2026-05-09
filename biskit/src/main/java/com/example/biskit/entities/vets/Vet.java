@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.example.biskit.entities.Contactable;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
@@ -32,7 +32,7 @@ import com.example.biskit.util.NoNormalizar;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class Vet extends EntidadBase {
+public class Vet extends EntidadBase implements Contactable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
