@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.repo.CredencialesRepo;
+import com.example.biskit.service.Clients.ClientsService;
+import com.example.biskit.service.Vets.VetService;
+import com.example.biskit.service.Admin.AdminsService;
 
 import jakarta.transaction.Transactional;
 
@@ -41,6 +44,15 @@ public class CredencialesImpl implements CredencialesService {
     public boolean existeUsuario(String usuario) {
 
         return credencialesRepo.existsByUsuario(usuario);
+    }
+
+    @Override
+    public void updatePassword(Long idUsuario, Credenciales credenciales) {
+        Credenciales credencialesExistente = credencialesRepo.findByUsuario(credenciales.getUsuario())
+                .orElseThrow(() -> new RuntimeException("No se encontraron credenciales con usuario: " + credenciales.getUsuario()));
+
+        credencialesExistente.setPassword(credenciales.getPassword());
+        credencialesRepo.save(credencialesExistente);
     }
     
 }

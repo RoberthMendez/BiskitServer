@@ -13,6 +13,8 @@ public interface CredencialesService {
 
     public void deleteCredenciales(Long id);
 
+    public void updatePassword(Long idUsuario, Credenciales credenciales);
+
     public boolean existeUsuario(String usuario);
 
 }

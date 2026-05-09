@@ -17,6 +17,9 @@ import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.service.Vets.VetService;
 import com.example.biskit.service.Admin.AdminsService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/login")
@@ -73,4 +76,11 @@ public class LoginController {
                 .tipo(tipo)
                 .build();
     }
+
+    // ----- Restablecimiento de Contraseña -----
+    @PutMapping("/{idUsuario}/reset-password")
+    public void putMethodName(@PathVariable Long idUsuario, @RequestBody Credenciales credenciales) {
+     credencialesService.updatePassword(idUsuario, credenciales);
+    }
+
 }
