@@ -12,6 +12,7 @@ import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.service.Pets.PetsService;
+import com.example.biskit.service.Credenciales.CorreosService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 
 import com.example.biskit.errors.ClientNotFoundException;
@@ -30,6 +31,9 @@ public class ClientsImpl implements ClientsService {
   @Autowired
   private CredencialesService credencialesService;
 
+  @Autowired
+  private CorreosService correosService;
+
   @Override
   public List<Client> getClients() {
     return clientsRepo.findAll();
@@ -46,6 +50,7 @@ public class ClientsImpl implements ClientsService {
     credencialesService.addCredenciales(credenciales);
     client.setCredenciales(credenciales);
     clientsRepo.save(client);
+    correosService.enviarBienvenida(client.getCorreo(), client.getNombre(), credenciales.getUsuario(), credenciales.getPassword());
   }
 
   @Override
