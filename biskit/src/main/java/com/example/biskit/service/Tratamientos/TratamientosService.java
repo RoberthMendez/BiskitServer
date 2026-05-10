@@ -3,6 +3,7 @@ package com.example.biskit.service.Tratamientos;
 import java.util.List;
 
 import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
+import com.example.biskit.entities.dtos.TopDto;
 import com.example.biskit.entities.dtos.TratamientoDto;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.dtos.TratamientosMesDto;
@@ -26,5 +27,13 @@ public interface TratamientosService {
     public List<DrogaTratamientoCountDto> getDrogaTratamientosMesCount();
 
     public List<Tratamiento> getTratamientosByVetId(Long vetId);
+
+    public Long getVentasTotalesMes();
+
+    public Long getGananciasTotalesMes();
+
+    public Long countTratamientosUltimoMes();
+
+    public List<TopDto> getTop5DrogasUltimoMes();
 
 }

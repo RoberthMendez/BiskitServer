@@ -1,6 +1,8 @@
 package com.example.biskit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,9 +17,15 @@ import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
 import com.example.biskit.entities.dtos.StockDroga;
 import com.example.biskit.entities.dtos.TratamientosMesDto;
 import com.example.biskit.service.Admin.AdminsService;
+import com.example.biskit.service.Admin.ReporteExcelService;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.DrogasService;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 
 import com.example.biskit.entities.dtos.TopDto;
 
@@ -40,6 +48,9 @@ public class AdminController {
 
     @Autowired
     private DrogasService drogasService;
+
+    @Autowired
+    private ReporteExcelService reporteExcelService;
 
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
@@ -130,4 +141,24 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/reporte-ultimo-mes-excel")
+    public ResponseEntity<byte[]> reporteUltimoMesExcel() throws IOException {
+
+        byte[] archivo = reporteExcelService.generarReporteUltimoMes();
+
+        String nombreArchivo = "reporte-biskit-"
+            + LocalDate.now().minusMonths(1).getMonth()
+                .getDisplayName(TextStyle.FULL, new Locale("es","CO"))
+                .toLowerCase()
+            + "-" + LocalDate.now().minusMonths(1).getYear()
+            + ".xlsx";
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + nombreArchivo + "\"")
+            .contentType(MediaType.parseMediaType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+            .body(archivo);
+    }
+    
 }

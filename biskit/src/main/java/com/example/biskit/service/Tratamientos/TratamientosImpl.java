@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
+import com.example.biskit.entities.dtos.TopDto;
 import com.example.biskit.entities.dtos.TratamientoDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.entities.pets.Pet;
@@ -255,5 +256,46 @@ public class TratamientosImpl implements TratamientosService {
         return drogaTratamientoCounts;
     }
 
+    @Override
+    public Long getVentasTotalesMes(){
+        return tratamientosRepo.countDrogasUltimoMes();
+    }
+
+    @Override
+    public Long getGananciasTotalesMes(){
+        return tratamientosRepo.sumGananciasUltimoMes();
+    }
+
+    @Override
+    public Long countTratamientosUltimoMes(){
+        return tratamientosRepo.countTratamientosUltimoMes();
+    }
+
+    @Override
+    public List<TopDto> getTop5DrogasUltimoMes(){
+        
+    LocalDate ultimoMes = LocalDate.now().minusMonths(1);
+
+        List<Droga> topDrogas = tratamientosRepo.getTop5DrogasMasVendidasUltimoMes(
+            ultimoMes.getYear(),
+            ultimoMes.getMonthValue()
+        );
+
+        List<TopDto> topDrogaDtos = new ArrayList<>();
+        for (int i = 1; i <= topDrogas.size(); i++) {
+            Droga droga = topDrogas.get(i - 1);
+
+            // Contar cuántas veces aparece la droga en los tratamientos del último mes
+            long cantidad = tratamientosRepo.countDrogaEnUltimoMes(
+                droga.getId(),
+                ultimoMes.getYear(),
+                ultimoMes.getMonthValue()
+            );
+
+            topDrogaDtos.add(new TopDto((long) i, droga.getNombre(), cantidad));
+        }
+
+        return topDrogaDtos;
+    }
 
 }

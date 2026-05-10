@@ -36,4 +36,60 @@ public interface TratamientosRepo extends JpaRepository<Tratamiento, Long> {
 	@Query("SELECT COUNT(t) FROM Tratamiento t WHERE t.vet.id = :vetId")
 	Long getTratamientosVetCount(@Param("vetId") long vetId);
 
+	//  Ventas Totales Mes: total de drogas usadas en el último mes finalizado
+	@Query("""
+        SELECT COUNT(d)
+        FROM Tratamiento t
+        JOIN t.drogas d
+        WHERE YEAR(t.fecha) = YEAR(CURRENT_DATE - 1 MONTH)
+          AND MONTH(t.fecha) = MONTH(CURRENT_DATE - 1 MONTH)
+    """)
+    Long countDrogasUltimoMes();
+
+	// Ganancias Totales Mes: suma de precioVenta de cada droga en el último mes finalizado
+    @Query("""
+        SELECT COALESCE(SUM(d.precioVenta), 0)
+        FROM Tratamiento t
+        JOIN t.drogas d
+        WHERE YEAR(t.fecha) = YEAR(CURRENT_DATE - 1 MONTH)
+          AND MONTH(t.fecha) = MONTH(CURRENT_DATE - 1 MONTH)
+    """)
+    Long sumGananciasUltimoMes();
+
+	//  Total de Tratamientos realizados en el ultimo mes
+	@Query("""
+        SELECT COUNT(t)
+        FROM Tratamiento t
+        WHERE YEAR(t.fecha) = YEAR(CURRENT_DATE - 1 MONTH)
+          AND MONTH(t.fecha) = MONTH(CURRENT_DATE - 1 MONTH)
+    """)
+    Long countTratamientosUltimoMes();
+
+	// Top 5 drogas más vendidas del último mes finalizado
+	@Query("""
+		SELECT d
+		FROM Tratamiento t
+		JOIN t.drogas d
+		WHERE YEAR(t.fecha) = :anio
+		AND MONTH(t.fecha) = :mes
+		GROUP BY d
+		ORDER BY COUNT(d) DESC
+		LIMIT 5
+	""")
+	List<Droga> getTop5DrogasMasVendidasUltimoMes(@Param("anio") int anio, @Param("mes") int mes);
+
+	@Query("""
+		SELECT COUNT(t)
+		FROM Tratamiento t
+		JOIN t.drogas d
+		WHERE d.id = :drogaId
+		AND YEAR(t.fecha) = :anio
+		AND MONTH(t.fecha) = :mes
+	""")
+	Long countDrogaEnUltimoMes(
+		@Param("drogaId") Long drogaId,
+		@Param("anio") int anio,
+		@Param("mes") int mes
+	);
+
 }
