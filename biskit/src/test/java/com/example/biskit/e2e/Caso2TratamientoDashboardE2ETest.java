@@ -1,5 +1,6 @@
 package com.example.biskit.e2e;
 
+import java.text.Normalizer;
 import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,9 +22,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.example.biskit.service.Tratamientos.DrogasService;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -46,6 +50,9 @@ public class Caso2TratamientoDashboardE2ETest {
     private final String BUSQUEDA_DROGA = "Cepri";
     private final String NOMBRE_DROGA = "Cepritect";
 
+    @Autowired
+    private DrogasService drogasService;
+
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -67,7 +74,7 @@ public class Caso2TratamientoDashboardE2ETest {
     @Test
     public void SystemTest_caso2_tratamientoDashboard() {
 
-        // 1. Entrar como administrador y revisar ganancias iniciales
+        // 1. Entrar como administrador y revisar ventas y ganancias iniciales
         driver.get(BASE_URL + "/");
 
         esperarTexto("Iniciar Sesión");
@@ -80,8 +87,10 @@ public class Caso2TratamientoDashboardE2ETest {
         wait.until(ExpectedConditions.urlContains("/admin/"));
         esperarTexto("GANANCIAS TOTALES");
 
+        long ventasIniciales = obtenerVentasTotales();
         long gananciasIniciales = obtenerGananciasTotales();
 
+        Assertions.assertThat(ventasIniciales).isGreaterThanOrEqualTo(0);
         Assertions.assertThat(gananciasIniciales).isGreaterThanOrEqualTo(0);
 
         clickCerrarSesion();
@@ -113,9 +122,9 @@ public class Caso2TratamientoDashboardE2ETest {
 
         esperarTexto(NOMBRE_MASCOTA);
 
-        // 5. Entrar al detalle de la mascota dando click en la foto
-        WebElement cardMascota = driver.findElement(By.xpath(
-                "//article[.//h3[contains(normalize-space(.), '" + NOMBRE_MASCOTA + "')]]"
+        // 5. Entrar al detalle de la mascota
+        WebElement cardMascota = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//article[.//h3[contains(normalize-space(.), '" + NOMBRE_MASCOTA + "')]]")
         ));
 
         scrollAlElemento(cardMascota);
@@ -123,16 +132,10 @@ public class Caso2TratamientoDashboardE2ETest {
         List<WebElement> imagenes = cardMascota.findElements(By.tagName("img"));
 
         if (!imagenes.isEmpty()) {
-            try {
-                imagenes.get(0).click();
-            } catch (Exception e) {
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", imagenes.get(0));
-            }
+            clickElemento(imagenes.get(0));
         } else {
-            cardMascota.click();
+            clickElemento(cardMascota);
         }
-
-        pausaVisual();
 
         esperarTexto("Tratamientos de " + NOMBRE_MASCOTA);
         esperarTexto("Agregar Tratamiento");
@@ -143,8 +146,16 @@ public class Caso2TratamientoDashboardE2ETest {
         esperarTexto("Nuevo Tratamiento");
         esperarTexto("Registrar Tratamiento");
 
-        // 7. Buscar parte del nombre y seleccionar Cepritect
+        // 7. Buscar la droga y obtener su precio de venta desde los datos del backend
         seleccionarDrogaDisponible(BUSQUEDA_DROGA, NOMBRE_DROGA);
+
+        /*
+         * El dropdown solo muestra el nombre de la droga y las unidades disponibles.
+         * Por eso el precio de venta se toma desde los datos de prueba del backend.
+         */
+        long precioVentaDroga = obtenerPrecioVentaDrogaDesdeBackend(NOMBRE_DROGA);
+
+        Assertions.assertThat(precioVentaDroga).isGreaterThan(0);
 
         // 8. Registrar tratamiento
         clickBotonPorTexto("Registrar Tratamiento");
@@ -175,9 +186,15 @@ public class Caso2TratamientoDashboardE2ETest {
         wait.until(ExpectedConditions.urlContains("/admin/"));
         esperarTexto("GANANCIAS TOTALES");
 
+        long ventasFinales = obtenerVentasTotales();
         long gananciasFinales = obtenerGananciasTotales();
 
-        Assertions.assertThat(gananciasFinales).isGreaterThan(gananciasIniciales);
+        long ventasEsperadas = ventasIniciales + 1;
+        long gananciasEsperadas = gananciasIniciales + precioVentaDroga;
+
+        // 11. Validar que ventas y ganancias sean exactamente las esperadas
+        Assertions.assertThat(ventasFinales).isEqualTo(ventasEsperadas);
+        Assertions.assertThat(gananciasFinales).isEqualTo(gananciasEsperadas);
     }
 
     private void login(String usuario, String contrasena) {
@@ -206,57 +223,24 @@ public class Caso2TratamientoDashboardE2ETest {
         ));
 
         scrollAlElemento(inputDroga);
+
         inputDroga.click();
-        inputDroga.clear();
+        inputDroga.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        inputDroga.sendKeys(Keys.DELETE);
         inputDroga.sendKeys(textoBusqueda);
 
-        pausaVisual();
-
-        // Esperar a que aparezca la droga en el desplegable
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), nombreDroga));
+        esperarTexto(nombreDroga);
 
         WebElement opcionDroga = buscarOpcionDroga(nombreDroga);
 
-        scrollAlElemento(opcionDroga);
-        pausaVisual();
+        clickElemento(opcionDroga);
 
-        try {
-            opcionDroga.click();
-        } catch (Exception e1) {
-            try {
-                new Actions(driver)
-                        .moveToElement(opcionDroga)
-                        .pause(Duration.ofMillis(300))
-                        .click()
-                        .perform();
-            } catch (Exception e2) {
-                try {
-                    ((JavascriptExecutor) driver).executeScript(
-                            "const el = arguments[0];" +
-                                    "const rect = el.getBoundingClientRect();" +
-                                    "const x = rect.left + rect.width / 2;" +
-                                    "const y = rect.top + rect.height / 2;" +
-                                    "document.elementFromPoint(x, y).click();",
-                            opcionDroga
-                    );
-                } catch (Exception e3) {
-                    inputDroga.sendKeys(Keys.ARROW_DOWN);
-                    inputDroga.sendKeys(Keys.ENTER);
-                }
-            }
-        }
-
-        pausaVisual();
-
-        // Validar que realmente quedó seleccionada
         wait.until(driver -> {
             String valor = inputDroga.getAttribute("value");
 
             return valor != null
-                    && valor.toLowerCase().contains(nombreDroga.toLowerCase());
+                    && normalizarTexto(valor).contains(normalizarTexto(nombreDroga));
         });
-
-        pausaVisual();
     }
 
     private WebElement buscarOpcionDroga(String nombreDroga) {
@@ -288,7 +272,7 @@ public class Caso2TratamientoDashboardE2ETest {
             Rectangle rect = opcion.getRect();
             int area = rect.getWidth() * rect.getHeight();
 
-            // Evita escoger contenedores gigantes como toda la página o todo el formulario
+            // Evita seleccionar contenedores grandes como toda la página
             if (rect.getHeight() > 15 && rect.getHeight() < 180 && area < menorArea) {
                 menorArea = area;
                 mejorOpcion = opcion;
@@ -302,17 +286,81 @@ public class Caso2TratamientoDashboardE2ETest {
         return opciones.get(opciones.size() - 1);
     }
 
+    private long obtenerPrecioVentaDrogaDesdeBackend(String nombreDroga) {
+        return drogasService.getDrogas()
+                .stream()
+                .filter(droga -> droga.getNombre().equalsIgnoreCase(nombreDroga))
+                .findFirst()
+                .map(droga -> Math.round(droga.getPrecioVenta()))
+                .orElseThrow(() -> new RuntimeException("No se encontró la droga: " + nombreDroga));
+    }
+
+    private long obtenerVentasTotales() {
+        return obtenerNumeroDashboard(
+                "VENTAS TOTALES",
+                "MEDICAMENTOS SUMINISTRADOS",
+                "MEDICAMENTOS VENDIDOS",
+                "DROGAS SUMINISTRADAS",
+                "TRATAMIENTOS TOTALES"
+        );
+    }
+
+    private long obtenerGananciasTotales() {
+        return obtenerNumeroDashboard(
+                "GANANCIAS TOTALES"
+        );
+    }
+
+    private long obtenerNumeroDashboard(String... posiblesTitulos) {
+        String textoDashboard = normalizarTexto(driver.findElement(By.tagName("body")).getText());
+
+        for (String titulo : posiblesTitulos) {
+            String tituloNormalizado = normalizarTexto(titulo);
+
+            Pattern patron = Pattern.compile(
+                    Pattern.quote(tituloNormalizado) +
+                            "[^0-9$]{0,80}" +
+                            "(COP\\s*)?" +
+                            "\\$?\\s*" +
+                            "([0-9][0-9.,]*)",
+                    Pattern.CASE_INSENSITIVE
+            );
+
+            Matcher matcher = patron.matcher(textoDashboard);
+
+            if (matcher.find()) {
+                return convertirNumero(matcher.group(2));
+            }
+        }
+
+        throw new RuntimeException(
+                "No se encontró en el dashboard ninguno de estos valores: " + String.join(", ", posiblesTitulos)
+        );
+    }
+
     private void click(By locator) {
         WebElement elemento = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        clickElemento(elemento);
+    }
+
+    private void clickElemento(WebElement elemento) {
         scrollAlElemento(elemento);
 
         try {
             elemento.click();
         } catch (ElementClickInterceptedException e) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+        } catch (Exception e) {
+            try {
+                new Actions(driver)
+                        .moveToElement(elemento)
+                        .pause(Duration.ofMillis(200))
+                        .click()
+                        .perform();
+            } catch (Exception e2) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", elemento);
+            }
         }
-
-        pausaVisual();
     }
 
     private void escribir(By locator, String texto) {
@@ -321,7 +369,8 @@ public class Caso2TratamientoDashboardE2ETest {
 
         try {
             elemento.click();
-            elemento.clear();
+            elemento.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            elemento.sendKeys(Keys.DELETE);
             elemento.sendKeys(texto);
         } catch (Exception e) {
             ((JavascriptExecutor) driver).executeScript(
@@ -334,13 +383,10 @@ public class Caso2TratamientoDashboardE2ETest {
                     texto
             );
         }
-
-        pausaVisual();
     }
 
     private void esperarTexto(String texto) {
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), texto));
-        pausaVisual();
     }
 
     private void clickPorTexto(String texto) {
@@ -366,36 +412,11 @@ public class Caso2TratamientoDashboardE2ETest {
             List<WebElement> botones = driver.findElements(By.xpath("//button[.//*[name()='svg'] and ancestor::header]"));
             WebElement ultimoBoton = botones.get(botones.size() - 1);
 
-            scrollAlElemento(ultimoBoton);
-
-            try {
-                ultimoBoton.click();
-            } catch (Exception e) {
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", ultimoBoton);
-            }
-
-            pausaVisual();
+            clickElemento(ultimoBoton);
             return;
         }
 
         clickPorTexto("Cerrar sesión");
-    }
-
-    private long obtenerGananciasTotales() {
-        String texto = driver.findElement(By.tagName("body")).getText();
-
-        Pattern patron = Pattern.compile(
-                "GANANCIAS\\s+TOTALES\\s*\\$\\s*([0-9.,]+)",
-                Pattern.CASE_INSENSITIVE
-        );
-
-        Matcher matcher = patron.matcher(texto);
-
-        if (matcher.find()) {
-            return convertirNumero(matcher.group(1));
-        }
-
-        throw new RuntimeException("No se encontró el valor de GANANCIAS TOTALES");
     }
 
     private long convertirNumero(String texto) {
@@ -414,7 +435,7 @@ public class Caso2TratamientoDashboardE2ETest {
                 escribir(locator, texto);
                 return;
             } catch (Exception e) {
-                // intenta el siguiente selector
+                // intenta con el siguiente selector
             }
         }
 
@@ -427,7 +448,7 @@ public class Caso2TratamientoDashboardE2ETest {
                 click(locator);
                 return;
             } catch (Exception e) {
-                // intenta el siguiente selector
+                // intenta con el siguiente selector
             }
         }
 
@@ -442,19 +463,26 @@ public class Caso2TratamientoDashboardE2ETest {
         return driver.findElement(By.tagName("body")).getText().toLowerCase();
     }
 
-    private void scrollAlElemento(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block: 'center'});",
-                element
-        );
+    private String normalizarTexto(String texto) {
+        if (texto == null) {
+            return "";
+        }
+
+        String textoSinTildes = Normalizer
+                .normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
+
+        return textoSinTildes
+                .toLowerCase()
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 
-    private void pausaVisual() {
-        try {
-            Thread.sleep(1200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+    private void scrollAlElemento(WebElement elemento) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});",
+                elemento
+        );
     }
 
     @AfterEach
