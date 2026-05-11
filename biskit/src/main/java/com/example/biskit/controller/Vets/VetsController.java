@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.biskit.entities.citas.HorarioDia;
+import com.example.biskit.entities.dtos.CitaDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Vets.VetService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,12 +68,6 @@ public class VetsController {
       return vetService.getVetTratamientosCount(id);
   }
 
-  // // ----- Obtener Mascotas Tratadas por un Veterinario -----
-  // @GetMapping("/{id}/pets")
-  // public List<Pet> getPetsTratadosPorVet(@PathVariable Long id) {
-  //     return vetService.getPetsTratadosPorVet(id);
-  // }
-
   // ----- Cambiar Estado de Veterinario (PATCH) -----
   @PatchMapping("/update-estado/{id}")
   public void cambiarEstadoVet(@PathVariable Long id, @RequestBody Map<String, Boolean> body) {
@@ -82,6 +79,19 @@ public class VetsController {
   public ResponseEntity<Void> checkVetId(@PathVariable Long id) {
       vetService.getVetById(id);
       return ResponseEntity.ok().build();
+  }
+
+  // ----- AGENDA Y CITAS -----
+  @GetMapping("/{id}/horario-semanal")
+  public ResponseEntity<List<HorarioDia>> getHorarioSemanalByVetId(@PathVariable Long id) {
+      List<HorarioDia> horarios = vetService.getHorarioSemanalByVetId(id);
+      return ResponseEntity.ok(horarios);
+  }
+
+  @GetMapping("/{id}/citas-semana")
+  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetId(@PathVariable Long id) {
+      List<CitaDto> citas = vetService.getCitasSemanaByVetId(id);
+      return ResponseEntity.ok(citas);
   }
 
 }

@@ -23,6 +23,7 @@ import com.example.biskit.entities.Contactable;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.citas.HorarioDia;
 import com.example.biskit.util.NoNormalizar;
 
 @Entity
@@ -66,5 +67,9 @@ public class Vet extends EntidadBase implements Contactable {
     @OneToMany(mappedBy = "vet")
     @JsonIgnore
     private List<Tratamiento> tratamientos;
+
+    @OneToMany(mappedBy = "vet")
+    @JsonIgnore
+    private List<HorarioDia> horariosDia;
 
 }

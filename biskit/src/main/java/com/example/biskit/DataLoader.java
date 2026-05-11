@@ -18,6 +18,9 @@ import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.citas.HorarioDia;
+import com.example.biskit.entities.citas.TipoCita;
+import com.example.biskit.entities.citas.Turno;
 import com.example.biskit.entities.pets.Especie;
 import com.example.biskit.entities.pets.Enfermedad;
 import com.example.biskit.entities.pets.Pet;
@@ -28,6 +31,10 @@ import com.example.biskit.repo.AdminRepo;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.CredencialesRepo;
 import com.example.biskit.repo.DrogasRepo;
+import com.example.biskit.repo.citas.CitasRepo;
+import com.example.biskit.repo.citas.HorariosDiaRepo;
+import com.example.biskit.repo.citas.TurnosRepo;
+import com.example.biskit.repo.citas.TiposCitaRepo;
 import com.example.biskit.repo.pets.EspecieRepo;
 import com.example.biskit.repo.pets.EnfermedadRepo;
 import com.example.biskit.repo.pets.PetsRepo;
@@ -37,9 +44,16 @@ import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Component
@@ -80,6 +94,18 @@ public class DataLoader implements CommandLineRunner {
         @Autowired
         private TratamientosService tratamientosService;
 
+        @Autowired
+        private TurnosRepo turnosRepo;
+
+        @Autowired
+        private HorariosDiaRepo horariosDiaRepo;
+
+        @Autowired
+        private TiposCitaRepo tiposCitaRepo;
+
+        @Autowired
+        private CitasRepo citaRepo;
+
         @Override
         public void run(String... args) throws Exception {
 
@@ -94,6 +120,11 @@ public class DataLoader implements CommandLineRunner {
                 cargarCredenciales();
                 cargarDrogas();
                 cargarTratamientos();
+
+                cargarTurnos();
+                cargarHorariosDia();
+                cargarTiposCita();
+                cargarCitas();
 
                 relacionar();
 
@@ -1161,6 +1192,191 @@ public class DataLoader implements CommandLineRunner {
                 }
 
         }
+
+        public void cargarTurnos() {
+
+          turnosRepo.save(Turno.builder()
+                               .nombre("Mañana")
+                               .horaInicio(LocalTime.of(7, 0))
+                               .horaFin(LocalTime.of(15, 0))
+                               .build());
+
+          turnosRepo.save(Turno.builder()
+                               .nombre("Tarde")
+                               .horaInicio(LocalTime.of(10, 0))
+                               .horaFin(LocalTime.of(18, 0))
+                               .build());
+
+          turnosRepo.save(Turno.builder()
+                               .nombre("Noche")
+                               .horaInicio(LocalTime.of(14, 0))
+                               .horaFin(LocalTime.of(22, 0))
+                               .build());
+
+        }
+
+        private void cargarHorariosDia() {
+
+          Random random = new Random(42);
+          List<Vet> veterinarios = vetsRepo.findAll();
+          List<Turno> turnos = turnosRepo.findAll();
+          String[] diasSemana = {
+            "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
+          };
+
+          Map<Long, Integer> diasAsignadosPorVet = new HashMap<>();
+          Map<Long, List<String>> diasPorVet = new HashMap<>();
+
+          for (Vet vet : veterinarios) {
+            diasAsignadosPorVet.put(vet.getId(), 0);
+            diasPorVet.put(vet.getId(), new ArrayList<>());
+          }
+
+          for (String diaSemana : diasSemana) {
+            List<Turno> turnosDia = new ArrayList<>(turnos);
+            Collections.shuffle(turnosDia, random);
+
+            for (Turno turno : turnosDia) {
+              Vet vetSeleccionado = null;
+              List<Vet> vetsDisponibles = new ArrayList<>(veterinarios);
+              Collections.shuffle(vetsDisponibles, random);
+
+              for (Vet vet : vetsDisponibles) {
+                Long vetId = vet.getId();
+                boolean vetDisponible = diasAsignadosPorVet.get(vetId) < 5
+                                && !diasPorVet.get(vetId).contains(diaSemana);
+                boolean mejorOpcion = vetSeleccionado == null
+                                || diasAsignadosPorVet.get(vetId) < diasAsignadosPorVet
+                                                .get(vetSeleccionado.getId());
+
+                if (vetDisponible && mejorOpcion) {
+                  vetSeleccionado = vet;
+                }
+              }
+
+              horariosDiaRepo.save(HorarioDia.builder()
+                              .diaSemana(diaSemana)
+                              .turno(turno)
+                              .vet(vetSeleccionado)
+                              .build());
+
+              diasAsignadosPorVet.put(vetSeleccionado.getId(),
+                              diasAsignadosPorVet.get(vetSeleccionado.getId()) + 1);
+              diasPorVet.get(vetSeleccionado.getId()).add(diaSemana);
+
+            }
+          }
+
+          for (Vet vet : veterinarios) {
+
+            Long vetId = vet.getId();
+
+            while (diasAsignadosPorVet.get(vetId) < 5) {
+              String diaSemana = diasSemana[random.nextInt(diasSemana.length)];
+
+              if (diasPorVet.get(vetId).contains(diaSemana)) 
+                continue;
+              
+
+              Turno turno = turnos.get(random.nextInt(turnos.size()));
+
+              horariosDiaRepo.save(HorarioDia.builder()
+                                             .diaSemana(diaSemana)
+                                             .turno(turno)
+                                             .vet(vet)
+                                             .build());
+
+              diasAsignadosPorVet.put(vetId, diasAsignadosPorVet.get(vetId) + 1);
+              diasPorVet.get(vetId).add(diaSemana);
+
+            }
+          }
+        }
+
+        public void cargarTiposCita() {
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Consulta general")
+                                     .duracionMinutos(45)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Consulta de Control")
+                                     .duracionMinutos(30)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Vacunación")
+                                     .duracionMinutos(30)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Desparasitación")
+                                     .duracionMinutos(30)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Consulta especializada")
+                                     .duracionMinutos(60)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Certificado para viaje")
+                                     .duracionMinutos(60)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Exámenes diagnósticos")
+                                     .duracionMinutos(45)
+                                     .build());
+
+          tiposCitaRepo.save(TipoCita.builder()
+                                     .nombre("Consulta domiciliaria")
+                                     .duracionMinutos(60)
+                                     .build());
+        }
+
+        public void cargarCitas() {
+
+          Random random = new Random(42);
+
+          LocalDate hoy = LocalDate.now();
+          LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+          int cantidadTipos = tiposCitaRepo.findAll().size();
+          int cantidadVets = vetsRepo.findAll().size();
+          int cantidadPets = petsRepo.findAll().size();
+
+          for (int i = 0; i < 50; i++) {
+            int diaOffset = random.nextInt(0, 7); // 0..6 (lunes..domingo)
+            int hora = random.nextInt(8, 18); // entre 8 y 17
+            int minuto = random.nextBoolean() ? 0 : 30;
+
+            LocalDateTime fechaHora = inicioSemana.plusDays(diaOffset).atTime(hora, minuto);
+
+            int randomTipo = random.nextInt(1, cantidadTipos + 1);
+            TipoCita tipo = tiposCitaRepo.findById((long) randomTipo).orElse(null);
+
+            int randomVet = random.nextInt(1, cantidadVets + 1);
+            Vet vet = vetsRepo.findById((long) randomVet).orElse(null);
+
+            int randomPet = random.nextInt(1, cantidadPets + 1);
+            Pet pet = petsRepo.findById((long) randomPet).orElse(null);
+
+            if (tipo == null || vet == null || pet == null) {
+                    continue;
+            }
+
+            citaRepo.save(com.example.biskit.entities.citas.Cita.builder()
+                            .fechaHora(fechaHora)
+                            .tipoCita(tipo)
+                            .vet(vet)
+                            .pet(pet)
+                            .build());
+          }
+
+        }
+        
 
         public void relacionar() {
 

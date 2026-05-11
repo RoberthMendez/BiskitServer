@@ -16,7 +16,6 @@ import jakarta.persistence.criteria.Predicate;
 
 public class PetsSpecification {
 
-    @SuppressWarnings("null")
     public static Specification<Pet> conFiltros(PetsFiltrosDto filtros) {
         return (root, query, cb) -> {
 

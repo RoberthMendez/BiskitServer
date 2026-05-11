@@ -1,6 +1,9 @@
 package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.citas.Cita;
+import com.example.biskit.entities.citas.HorarioDia;
+import com.example.biskit.entities.dtos.CitaDto;
 import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
@@ -9,16 +12,34 @@ import com.example.biskit.errors.VetNotFoundException;
 import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
+import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.specifications.VetsSpecification;
 
-import org.springframework.stereotype.Service;
+import java.text.Normalizer;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+
+import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class VetImpl implements VetService {
+
+    private static final List<String> ORDEN_DIAS_SEMANA = List.of(
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes",
+            "sabado",
+            "domingo");
 
     @Autowired
     private VetsRepo vetsRepo;
@@ -34,6 +55,9 @@ public class VetImpl implements VetService {
 
     @Autowired
     private CredencialesService credencialesService;
+
+    @Autowired
+    private CitasService citasService;
 
     @Override
     public List<Vet> getVets() {
@@ -143,6 +167,91 @@ public class VetImpl implements VetService {
     @Override
     public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
         return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
+    }
+
+    // ------ AGENDA Y CITAS -------
+    @Override
+    public List<HorarioDia> getHorarioSemanalByVetId(Long vetId) {
+
+        Vet vet = vetsRepo.findById(vetId)
+                .orElseThrow(() -> new VetNotFoundException(vetId));
+
+        if (vet.getHorariosDia() == null || vet.getHorariosDia().isEmpty()) {
+            return List.of();
+        }
+
+        return vet.getHorariosDia().stream()
+                                   .sorted(Comparator
+                                   .comparingInt((HorarioDia horario) -> getOrdenDiaSemana(horario.getDiaSemana()))
+                                   .thenComparing(horario -> horario.getTurno() != null && horario.getTurno().getHoraInicio() != null
+                                                  ? horario.getTurno().getHoraInicio()
+                                                  : LocalTime.MAX))
+                                   .toList();
+
+    }
+
+    private int getOrdenDiaSemana(String diaSemana) {
+
+        if (diaSemana == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        String diaNormalizado = Normalizer.normalize(diaSemana, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase(Locale.ROOT);
+
+        int indice = ORDEN_DIAS_SEMANA.indexOf(diaNormalizado);
+        return indice >= 0 ? indice : Integer.MAX_VALUE;
+
+    }
+
+    // ------ AGENDA Y CITAS -------
+    public List<CitaDto> getCitasSemanaByVetId(Long vetId){
+
+      if(!vetsRepo.existsById(vetId)) {
+        throw new VetNotFoundException(vetId);
+      }
+
+      List<CitaDto> citasDto = new ArrayList<>();
+      List<Cita> citas = citasService.getCitasSemanaByVetId(vetId);
+
+      for (Cita cita : citas) {
+
+        String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
+        LocalTime hora = cita.getFechaHora().toLocalTime();
+
+        CitaDto citaDto = CitaDto.builder()
+                                 .id(cita.getId())
+                                 .diaSemana(diaSemana)
+                                 .hora(hora)
+                                 .tipoCita(cita.getTipoCita())
+                                 .pet(cita.getPet())
+                                 .build();
+
+        citasDto.add(citaDto);
+
+      }
+
+      return citasDto;
+
+    }
+
+    private String formatearDiaSemana(DayOfWeek diaSemana) {
+
+        if (diaSemana == null) {
+            return null;
+        }
+
+        Locale localeEspanol = new Locale("es", "ES");
+        String diaFormateado = diaSemana.getDisplayName(TextStyle.FULL, localeEspanol);
+
+        if (diaFormateado.isEmpty()) {
+            return diaFormateado;
+        }
+
+        return diaFormateado.substring(0, 1).toUpperCase(localeEspanol)
+                + diaFormateado.substring(1).toLowerCase(localeEspanol);
+
     }
 
 }
