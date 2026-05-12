@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.biskit.entities.citas.HorarioDia;
@@ -89,8 +90,8 @@ public class VetsController {
   }
 
   @GetMapping("/{id}/citas-semana")
-  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetId(@PathVariable Long id) {
-      List<CitaDto> citas = vetService.getCitasSemanaByVetId(id);
+  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetId(@PathVariable Long id, @RequestParam(required = true) int numSemana) {
+      List<CitaDto> citas = vetService.getCitasSemanaByVetId(id, numSemana);
       return ResponseEntity.ok(citas);
   }
 

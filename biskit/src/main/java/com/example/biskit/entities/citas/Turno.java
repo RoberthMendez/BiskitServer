@@ -1,19 +1,18 @@
 package com.example.biskit.entities.citas;
 
-import java.time.LocalTime;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Getter
@@ -30,13 +29,13 @@ public class Turno {
   @Column(nullable = false, length = 50)
   private String nombre;
 
-  @DateTimeFormat(pattern = "HH:mm")
+  @DateTimeFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a")
   @Column(nullable = false)
   private LocalTime horaInicio;
 
-  @DateTimeFormat(pattern = "HH:mm")
+  @DateTimeFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a")
   @Column(nullable = false)
   private LocalTime horaFin;
-
-  
 }

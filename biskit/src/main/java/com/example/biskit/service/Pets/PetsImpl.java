@@ -1,12 +1,5 @@
 package com.example.biskit.service.Pets;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.dtos.PetsFiltrosDto;
 import com.example.biskit.entities.dtos.TopDto;
@@ -14,14 +7,18 @@ import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.errors.PetNotFoundException;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
-
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
 import com.example.biskit.service.Pets.Raza.RazaService;
 import com.example.biskit.specifications.PetsSpecification;
-
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class PetsImpl implements PetsService {
 
   @Autowired
@@ -54,26 +51,22 @@ public class PetsImpl implements PetsService {
   @Override
   @Transactional
   public void deletePet(Long id) {
-
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
 
     List<Tratamiento> tratamientos = tratamientosRepo.findByPetId(id);
     tratamientosRepo.deleteAll(tratamientos);
 
     petsRepo.delete(pet);
-
   }
 
   @Override
   public Pet getPetById(Long id) {
-    return petsRepo.findById(id)
-        .orElseThrow(() -> new PetNotFoundException(id));
+    return petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
   }
 
   @Override
   public Pet asignarRelacionesDePetPorIds(Pet pet) {
-    if (pet == null)
-      return null;
+    if (pet == null) return null;
 
     if (pet.getRaza() != null && pet.getRaza().getId() != null) {
       pet.setRaza(razaService.getRazaById(pet.getRaza().getId()));
@@ -132,8 +125,6 @@ public class PetsImpl implements PetsService {
 
   @Override
   public List<Pet> getPetsFiltrados(PetsFiltrosDto filtros) {
-
     return petsRepo.findAll(PetsSpecification.conFiltros(filtros));
-
   }
 }

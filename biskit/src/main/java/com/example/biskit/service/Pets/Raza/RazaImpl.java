@@ -1,14 +1,14 @@
 package com.example.biskit.service.Pets.Raza;
 
+import com.example.biskit.entities.pets.Raza;
+import com.example.biskit.repo.pets.RazaRepo;
+import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import com.example.biskit.entities.pets.Raza;
-import com.example.biskit.repo.pets.RazaRepo;
-
 @Service
+@Transactional
 public class RazaImpl implements RazaService {
 
   @Autowired
@@ -16,17 +16,17 @@ public class RazaImpl implements RazaService {
 
   @Override
   public List<Raza> getAllRazas() {
-      return razaRepo.findAll();
+    return razaRepo.findAll();
   }
 
   @Override
   public Raza getRazaById(Long id) {
-      return razaRepo.findById(id).orElse(null);
+    return razaRepo.findById(id).orElse(null);
   }
 
   @Override
   public Raza getRazaByNombre(String nombre) {
-      return razaRepo.findByNombreIgnoreCase(nombre);
+    return razaRepo.findByNombreIgnoreCase(nombre);
   }
 
   @Override
@@ -35,5 +35,4 @@ public class RazaImpl implements RazaService {
       razaRepo.save(raza);
     }
   }
-
 }

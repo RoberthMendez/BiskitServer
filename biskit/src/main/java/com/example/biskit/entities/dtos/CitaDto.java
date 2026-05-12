@@ -1,15 +1,12 @@
 package com.example.biskit.entities.dtos;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalTime;
-
-import com.example.biskit.entities.citas.TipoCita;
-import com.example.biskit.entities.pets.Pet;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @NoArgsConstructor
@@ -21,10 +18,13 @@ public class CitaDto {
 
   private String diaSemana;
 
+  @DateTimeFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a")
   private LocalTime hora;
 
-  private TipoCita tipoCita;
+  private Long tipoCitaId;
 
-  private Pet pet;
-  
+  private Long petId;
+
+  private Long vetId;
 }

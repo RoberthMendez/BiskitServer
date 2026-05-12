@@ -8,38 +8,36 @@ import com.example.biskit.entities.vets.Vet;
 import java.util.List;
 
 public interface VetService {
+  public List<Vet> getVets();
 
-    public List<Vet> getVets();
+  public Vet getVetById(Long id);
 
-    public Vet getVetById(Long id);
+  public void addVet(Vet vet);
 
-    public void addVet(Vet vet);
+  public void saveVet(Vet vet);
 
-    public void saveVet(Vet vet);
+  public boolean autenticarVet(String usuario, String contrasena);
 
-    public boolean autenticarVet(String usuario, String contrasena);
+  public Vet findByUsuario(String usuario);
 
-    public Vet findByUsuario(String usuario);
+  public Long getVetsCount();
 
-    public Long getVetsCount();
+  public Long getVetsInactivosCount();
 
-    public Long getVetsInactivosCount();
+  public Long getVetsActivosCount();
 
-    public Long getVetsActivosCount();
+  public Long getVetTratamientosCount(Long vetId);
 
-    public Long getVetTratamientosCount(Long vetId);
+  public List<Pet> getPetsTratadosPorVet(Long vetId);
 
-    public List<Pet> getPetsTratadosPorVet(Long vetId);
+  public void deleteVet(Long id);
 
-    public void deleteVet(Long id);
+  public void cambiarEstadoVet(Long id, boolean estado);
 
-    public void cambiarEstadoVet(Long id, boolean estado);
+  public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros);
 
-    public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros);
+  // ------ AGENDA Y CITAS -------
+  public List<HorarioDia> getHorarioSemanalByVetId(Long vetId);
 
-    // ------ AGENDA Y CITAS -------
-    public List<HorarioDia> getHorarioSemanalByVetId(Long vetId);
-
-    public List<CitaDto> getCitasSemanaByVetId(Long vetId);
-    
+  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana);
 }

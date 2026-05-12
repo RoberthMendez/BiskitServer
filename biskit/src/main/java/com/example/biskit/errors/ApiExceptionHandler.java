@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
+    @ExceptionHandler(VetNotAvailableException.class)
+    public ResponseEntity<ErrorResponse> handleVetNotAvailable(VetNotAvailableException ex) {
+        ErrorResponse error = new ErrorResponse("Veterinario no disponible", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MascotaInactivaException.class)
     public ResponseEntity<ErrorResponse> handleMascotaInactiva(MascotaInactivaException ex) {
         ErrorResponse error = new ErrorResponse("Regla de negocio", ex.getMessage(), HttpStatus.BAD_REQUEST.value());

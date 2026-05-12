@@ -1,25 +1,22 @@
 package com.example.biskit.service.Clients;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.errors.ClientNotFoundException;
 import com.example.biskit.repo.ClientsRepo;
-import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Credenciales.CorreosService;
 import com.example.biskit.service.Credenciales.CredencialesService;
-
-import com.example.biskit.errors.ClientNotFoundException;
-
+import com.example.biskit.service.Pets.PetsService;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class ClientsImpl implements ClientsService {
 
   @Autowired
@@ -41,11 +38,10 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public void addClient(Client client) {
-
     Credenciales credenciales = Credenciales.builder()
-        .usuario(client.getCorreo())
-        .password(client.getCedula())
-        .build();
+      .usuario(client.getCorreo())
+      .password(client.getCedula())
+      .build();
 
     credencialesService.addCredenciales(credenciales);
     client.setCredenciales(credenciales);
@@ -56,8 +52,9 @@ public class ClientsImpl implements ClientsService {
   @Override
   @Transactional
   public void updateClient(Client client) {
-    Client clientExistente = clientsRepo.findById(client.getId())
-        .orElseThrow(() -> new ClientNotFoundException(client.getId()));
+    Client clientExistente = clientsRepo
+      .findById(client.getId())
+      .orElseThrow(() -> new ClientNotFoundException(client.getId()));
 
     clientExistente.setNombre(client.getNombre());
     clientExistente.setCedula(client.getCedula());
@@ -74,11 +71,10 @@ public class ClientsImpl implements ClientsService {
   @Override
   @Transactional
   public void deleteClient(Long id) {
-
     Client client = clientsRepo.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
 
     List<Pet> pets = client.getPets() == null ? List.of() : new ArrayList<>(client.getPets());
-    
+
     for (Pet pet : pets) {
       petsService.deletePet(pet.getId());
     }
@@ -87,7 +83,8 @@ public class ClientsImpl implements ClientsService {
       client.getPets().clear();
     }
 
-    Long credencialesId = client.getCredenciales() == null ? null : client.getCredenciales().getId();
+    Long credencialesId =
+      client.getCredenciales() == null ? null : client.getCredenciales().getId();
     client.setCredenciales(null);
     clientsRepo.saveAndFlush(client);
 
@@ -96,7 +93,6 @@ public class ClientsImpl implements ClientsService {
     }
 
     clientsRepo.delete(client);
-
   }
 
   @Override
@@ -115,7 +111,6 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public void addPetToClient(Long clientId, Pet pet) {
-
     Client dueñoIngresado = clientsRepo.findById(clientId).orElse(null);
 
     if (pet.getId() == null) {
@@ -123,7 +118,6 @@ public class ClientsImpl implements ClientsService {
       pet.setEstado(true);
     }
     pet.setOwner(dueñoIngresado);
-
   }
 
   @Override
@@ -133,40 +127,49 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public boolean autenticarClient(String usuario, String contrasena) {
-    return clientsRepo.findAll().stream()
-        .anyMatch(client -> client.getCredenciales().getUsuario().equals(usuario)
-            && client.getCredenciales().getPassword().equals(contrasena));
+    return clientsRepo
+      .findAll()
+      .stream()
+      .anyMatch(
+        client ->
+          client.getCredenciales().getUsuario().equals(usuario) &&
+          client.getCredenciales().getPassword().equals(contrasena)
+      );
   }
 
   @Override
   public Client findByUsuario(String usuario) {
-    return clientsRepo.findAll().stream()
-        .filter(client -> client.getCredenciales().getUsuario().equals(usuario))
-        .findFirst()
-        .orElse(null);
+    return clientsRepo
+      .findAll()
+      .stream()
+      .filter(client -> client.getCredenciales().getUsuario().equals(usuario))
+      .findFirst()
+      .orElse(null);
   }
 
   @Override
   public Client getClientById(Long id) {
-    return clientsRepo.findById(id)
-        .orElseThrow(() -> new ClientNotFoundException(id));
+    return clientsRepo.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
   }
 
   @Override
   public boolean existeCedula(String cedula) {
-    return clientsRepo.findAll().stream()
-        .anyMatch(client -> client.getCedula().equals(cedula));
+    return clientsRepo
+      .findAll()
+      .stream()
+      .anyMatch(client -> client.getCedula().equals(cedula));
   }
 
   @Override
   public boolean existeCorreo(String correo) {
-    return clientsRepo.findAll().stream()
-        .anyMatch(client -> client.getCorreo().equals(correo));
+    return clientsRepo
+      .findAll()
+      .stream()
+      .anyMatch(client -> client.getCorreo().equals(correo));
   }
 
   @Override
   public Long getClientsCount() {
     return clientsRepo.count();
   }
-
 }
