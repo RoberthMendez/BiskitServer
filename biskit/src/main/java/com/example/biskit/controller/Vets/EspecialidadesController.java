@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/vet/especialidades")
+@RequestMapping("/especialidades")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EspecialidadesController {
 
