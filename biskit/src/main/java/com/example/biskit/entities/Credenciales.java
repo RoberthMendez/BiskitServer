@@ -4,7 +4,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.util.NoNormalizar;
 
 import jakarta.persistence.Column;
