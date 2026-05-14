@@ -1,4 +1,4 @@
-package com.example.biskit.controller.Vets;
+package com.example.biskit.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +22,9 @@ import com.example.biskit.entities.pets.Pet;
 import org.springframework.http.HttpStatus;
 
 @RestController
-@RequestMapping("/vet/pets")
+@RequestMapping("/pets")
 @CrossOrigin(origins = "http://localhost:4200")
-public class VetsPetsController {
+public class PetsController {
 
   @Autowired
   private PetsService petsService;
