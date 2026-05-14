@@ -1,8 +1,6 @@
 package com.example.biskit.entities;
 
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import com.example.biskit.util.NoNormalizar;
 
@@ -26,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @Entity
 @EqualsAndHashCode(callSuper = false)
-public class Credenciales extends EntidadBase {
+public class Rol extends EntidadBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +32,6 @@ public class Credenciales extends EntidadBase {
 
   @Column(nullable = false, length = 255, unique = true)
   @NoNormalizar
-  private String usuario;
-
-  @Column(nullable = false, length = 255)
-  private String password;
-
-  @ManyToOne
-  @JoinColumn(name = "rol_id")
-  private Rol rol;
+  private String nombre;
   
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
-import com.example.biskit.controller.Vets.VetsPetsController;
+
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.service.Pets.PetsService;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.sql.Date;
 import java.util.List;
 
-@WebMvcTest(controllers = VetsPetsController.class)
+@WebMvcTest(controllers = PetsController.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 public class VetsPetsControllerTest {

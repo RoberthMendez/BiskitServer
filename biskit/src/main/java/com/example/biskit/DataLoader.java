@@ -4,6 +4,7 @@ import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Rol;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.citas.Cita;
 import com.example.biskit.entities.citas.HorarioDia;
@@ -20,6 +21,7 @@ import com.example.biskit.repo.AdminRepo;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.CredencialesRepo;
 import com.example.biskit.repo.DrogasRepo;
+import com.example.biskit.repo.RolRepo;
 import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.citas.TiposCitaRepo;
 import com.example.biskit.repo.citas.TurnosRepo;
@@ -106,8 +108,12 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   private TiposCitaRepo tiposCitaRepo;
 
+  @Autowired
+  private RolRepo rolRepo;
+
   @Override
   public void run(String... args) throws Exception {
+    cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
     cargarRazas();
@@ -126,6 +132,16 @@ public class DataLoader implements CommandLineRunner {
     cargarCitas();
 
     relacionar();
+  }
+
+  public void cargarRoles() {
+    Rol admin = Rol.builder().nombre("ADMIN").build();
+    Rol vet = Rol.builder().nombre("VET").build();
+    Rol client = Rol.builder().nombre("CLIENT").build();
+
+    rolRepo.save(admin);
+    rolRepo.save(vet);
+    rolRepo.save(client);
   }
 
   public void cargarEnfermedades() {
@@ -1890,10 +1906,15 @@ public class DataLoader implements CommandLineRunner {
   }
 
   public void cargarCredenciales() {
+    Rol adminRol = rolRepo.findByNombre("ADMIN");
+    Rol vetRol = rolRepo.findByNombre("VET");
+    Rol clientRol = rolRepo.findByNombre("CLIENT");
+
     for (Client client : clientsRepo.findAll()) {
       Credenciales credenciales = Credenciales.builder()
         .usuario(client.getCorreo())
         .password(client.getCedula())
+        .rol(clientRol)
         .build();
       credencialesRepo.save(credenciales);
       client.setCredenciales(credenciales);
@@ -1903,6 +1924,7 @@ public class DataLoader implements CommandLineRunner {
       Credenciales credenciales = Credenciales.builder()
         .usuario(vet.getCorreo())
         .password(vet.getCedula())
+        .rol(vetRol)
         .build();
       credencialesRepo.save(credenciales);
       vet.setCredenciales(credenciales);
@@ -1912,6 +1934,7 @@ public class DataLoader implements CommandLineRunner {
       Credenciales credenciales = Credenciales.builder()
         .usuario(admin.getCorreo())
         .password(admin.getCedula())
+        .rol(adminRol)
         .build();
       credencialesRepo.save(credenciales);
       admin.setCredenciales(credenciales);
