@@ -1,7 +1,8 @@
 package com.example.biskit.controller;
 
+import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.citas.Cita;
 import com.example.biskit.entities.citas.TipoCita;
-import com.example.biskit.entities.dtos.CitaDto;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Citas.TiposCitaService;
 import java.util.List;
@@ -30,30 +31,31 @@ public class CitasController {
   private TiposCitaService tiposCitaService;
 
   // ----- Crear Cita (CREATE) -----
+  // http://localhost:8080/citas/add
   @PostMapping("/add")
-  public ResponseEntity<Void> crearCita(@RequestBody CitaDto citaDto) {
-    citasService.addCita(citaDto);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+  public ResponseEntity<Cita> crearCita(@RequestBody CitaDTO citaDto) {
+    return new ResponseEntity<>(citasService.addCita(citaDto), HttpStatus.CREATED);
   }
 
   // ----- Obtener Tipos de Citas (READ) -----
+  // http://localhost:8080/citas/tipos
   @GetMapping("/tipos")
   public ResponseEntity<List<TipoCita>> getTiposCitas() {
-    List<TipoCita> tipos = tiposCitaService.getTiposCitas();
-    return ResponseEntity.ok(tipos);
+    return new ResponseEntity<>(tiposCitaService.getTiposCitas(), HttpStatus.OK);
   }
 
   // ----- Editar Cita (UPDATE) -----
+  // http://localhost:8080/citas/update/{id}
   @PutMapping("/update/{id}")
-  public ResponseEntity<Void> editarCita(@PathVariable Long id, @RequestBody CitaDto citaDto) {
-    citasService.updateCita(id, citaDto);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<Cita> editarCita(@PathVariable Long id, @RequestBody CitaDTO citaDto) {
+    return new ResponseEntity<>(citasService.updateCita(id, citaDto), HttpStatus.OK);
   }
 
   // ----- Cancelar Cita (DELETE) -----
+  // http://localhost:8080/citas/delete/{id}
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<Void> cancelarCita(@PathVariable Long id) {
     citasService.deleteCita(id);
-    return ResponseEntity.ok().build();
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

@@ -1,12 +1,14 @@
 package com.example.biskit.service.Tratamientos;
 
+import com.example.biskit.entities.DTOs.StockDroga;
+import com.example.biskit.entities.DTOs.TopDto;
 import com.example.biskit.entities.Droga;
-import com.example.biskit.entities.dtos.StockDroga;
-import com.example.biskit.entities.dtos.TopDto;
+import com.example.biskit.errors.DrogaYaExisteException;
 import com.example.biskit.repo.DrogasRepo;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,15 @@ public class DrogasImpl implements DrogasService {
   }
 
   @Override
-  public void saveDroga(Droga droga) {
-    drogasRepo.save(droga);
+  public Droga saveDroga(Droga droga) {
+    Optional<Droga> drogaExistente = drogasRepo.findByNombreIgnoreCase(droga.getNombre());
+    if (
+      drogaExistente.isPresent() &&
+      (droga.getId() == null || !drogaExistente.get().getId().equals(droga.getId()))
+    ) {
+      throw new DrogaYaExisteException("La droga " + droga.getNombre() + " ya existe.");
+    }
+    return drogasRepo.save(droga);
   }
 
   @Override

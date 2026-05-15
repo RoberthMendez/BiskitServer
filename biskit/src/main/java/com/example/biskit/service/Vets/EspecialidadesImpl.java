@@ -1,9 +1,11 @@
 package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.vets.Especialidad;
+import com.example.biskit.errors.DrogaYaExisteException;
 import com.example.biskit.repo.vets.EspecialidadRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +29,25 @@ public class EspecialidadesImpl implements EspecialidadesService {
   }
 
   @Override
-  public Especialidad getEspecialidadByNombre(String nombre) {
-    return especialidadesRepo.findByNombreIgnoreCase(nombre).orElse(null);
+  public Optional<Especialidad> getEspecialidadByNombre(String nombre) {
+    return especialidadesRepo.findByNombreIgnoreCase(nombre);
   }
 
   @Override
-  public void addEspecialidad(Especialidad especialidad) {
-    especialidadesRepo.save(especialidad);
+  public Especialidad addEspecialidad(Especialidad especialidad) {
+    Optional<Especialidad> especialidadExistente = getEspecialidadByNombre(
+      especialidad.getNombre()
+    );
+    if (
+      especialidadExistente.isPresent() &&
+      (especialidad.getId() == null ||
+        !especialidadExistente.get().getId().equals(especialidad.getId()))
+    ) {
+      throw new DrogaYaExisteException(
+        "La especialidad " + especialidad.getNombre() + " ya existe."
+      );
+    }
+
+    return especialidadesRepo.save(especialidad);
   }
 }

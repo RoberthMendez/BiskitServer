@@ -1,7 +1,8 @@
 package com.example.biskit.controller;
 
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.DTOs.Pets.PetDTO;
+import com.example.biskit.entities.DTOs.Pets.PetMapper;
 import com.example.biskit.service.Clients.ClientsService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,51 +27,67 @@ public class ClientsController {
   private ClientsService clientsService;
 
   // ----- Crear Cliente (CREATE) -----
+  // http://localhost:8080/clients/add
   @PostMapping("/add")
   public ResponseEntity<Client> crearCliente(@RequestBody Client client) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(clientsService.addClient(client));
+    return new ResponseEntity<>(clientsService.addClient(client), HttpStatus.CREATED);
   }
 
   // ----- Mostrar Clientes (READ) -----
+  // http://localhost:8080/clients
   @GetMapping("")
-  public List<Client> mostrarClientes() {
-    return clientsService.getClients();
+  public ResponseEntity<List<Client>> mostrarClientes() {
+    return new ResponseEntity<>(clientsService.getClients(), HttpStatus.OK);
   }
 
   // ----- Mostrar Cliente (READ) -----
+  // http://localhost:8080/clients/{id}
   @GetMapping("/{id}")
-  public Client mostrarCliente(@PathVariable("id") Long id) {
-    return clientsService.getClientById(id);
+  public ResponseEntity<Client> mostrarCliente(@PathVariable("id") Long id) {
+    return new ResponseEntity<>(clientsService.getClientById(id), HttpStatus.OK);
   }
 
   // ----- Mostrar Mascotas de un Cliente (READ) -----
+  // http://localhost:8080/clients/{id}/pets
   @GetMapping("/{id}/pets")
-  public List<Pet> mostrarMascotasDeCliente(@PathVariable("id") Long id) {
-    return clientsService.getPetsByClientId(id);
+  public ResponseEntity<List<PetDTO>> mostrarMascotasDeCliente(@PathVariable("id") Long id) {
+    return new ResponseEntity<>(
+      PetMapper.INSTANCE.toDTOList(clientsService.getPetsByClientId(id)),
+      HttpStatus.OK
+    );
   }
 
   // ----- Actualizar Cliente (UPDATE) -----
+  // http://localhost:8080/clients/update/{id}
   @PutMapping("/update/{id}")
-  public void actualizarCliente(@PathVariable("id") Long id, @RequestBody Client client) {
+  public ResponseEntity<Client> actualizarCliente(
+    @PathVariable("id") Long id,
+    @RequestBody Client client
+  ) {
     client.setId(id);
-    clientsService.updateClient(client);
+    Client actualizado = clientsService.updateClient(client);
+    return new ResponseEntity<>(actualizado, HttpStatus.OK);
   }
 
   // ----- Eliminar Cliente (DELETE) -----
+  // http://localhost:8080/clients/delete/{id}
   @DeleteMapping("/delete/{id}")
-  public void eliminarCliente(@PathVariable("id") Long id) {
+  public ResponseEntity<Void> eliminarCliente(@PathVariable("id") Long id) {
     clientsService.deleteClient(id);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  // http://localhost:8080/clients/count
   @GetMapping("/count")
-  public Long getTotalClients() {
-    return clientsService.getClientsCount();
+  public ResponseEntity<Long> getTotalClients() {
+    return new ResponseEntity<>(clientsService.getClientsCount(), HttpStatus.OK);
   }
 
   // ----- Verificar si un Cliente existe -----
+  // http://localhost:8080/clients/{id}/exists
   @GetMapping("/{id}/exists")
   public ResponseEntity<Void> checkClientId(@PathVariable Long id) {
     clientsService.getClientById(id);
-    return ResponseEntity.ok().build();
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

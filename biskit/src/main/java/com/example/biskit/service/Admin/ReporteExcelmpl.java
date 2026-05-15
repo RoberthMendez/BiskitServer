@@ -1,7 +1,7 @@
 package com.example.biskit.service.Admin;
 
-import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
-import com.example.biskit.entities.dtos.TopDto;
+import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
+import com.example.biskit.entities.DTOs.TopDto;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;

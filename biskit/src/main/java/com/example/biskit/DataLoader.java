@@ -2387,8 +2387,7 @@ public class DataLoader implements CommandLineRunner {
   }
 
   private Raza razaDesdeString(String nombreRaza) {
-    Raza raza = razaRepo.findByNombreIgnoreCase(nombreRaza);
-    return raza;
+    return razaRepo.findByNombreIgnoreCase(nombreRaza).orElse(null);
   }
 
   private Date calcularFechaNacimiento(int edadEnAnios) {

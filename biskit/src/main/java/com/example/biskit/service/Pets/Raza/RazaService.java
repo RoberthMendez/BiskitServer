@@ -1,16 +1,15 @@
 package com.example.biskit.service.Pets.Raza;
 
-import java.util.List;
-
 import com.example.biskit.entities.pets.Raza;
+import java.util.List;
+import java.util.Optional;
 
 public interface RazaService {
+  public List<Raza> getAllRazas();
 
-    public List<Raza> getAllRazas();
+  public Raza getRazaById(Long id);
 
-    public Raza getRazaById(Long id);
+  public Optional<Raza> getRazaByNombre(String nombre);
 
-    public Raza getRazaByNombre(String nombre);
-
-    public void saveRaza(Raza raza);
+  public Raza saveRaza(Raza raza);
 }

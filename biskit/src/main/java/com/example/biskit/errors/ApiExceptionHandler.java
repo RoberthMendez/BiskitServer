@@ -117,4 +117,46 @@ public class ApiExceptionHandler {
     );
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
+
+  @ExceptionHandler(EnfermedadYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleEnfermedadYaExiste(EnfermedadYaExisteException ex) {
+    ErrorResponse error = new ErrorResponse(
+      "Enfermedad ya existe",
+      ex.getMessage(),
+      HttpStatus.BAD_REQUEST.value()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
+  @ExceptionHandler(RazaYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleRazaYaExiste(RazaYaExisteException ex) {
+    ErrorResponse error = new ErrorResponse(
+      "Raza ya existe",
+      ex.getMessage(),
+      HttpStatus.BAD_REQUEST.value()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
+  @ExceptionHandler(DrogaYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleDrogaYaExiste(DrogaYaExisteException ex) {
+    ErrorResponse error = new ErrorResponse(
+      "Droga ya existe",
+      ex.getMessage(),
+      HttpStatus.BAD_REQUEST.value()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
+  @ExceptionHandler(EspecialidadYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleEspecialidadYaExiste(
+    EspecialidadYaExisteException ex
+  ) {
+    ErrorResponse error = new ErrorResponse(
+      "Especialidad ya existe",
+      ex.getMessage(),
+      HttpStatus.BAD_REQUEST.value()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
 }

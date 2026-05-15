@@ -56,6 +56,7 @@ public class Vet extends EntidadBase implements Contactable {
 
   @OneToOne
   @JoinColumn(name = "credenciales_id")
+  @JsonIgnore
   private Credenciales credenciales;
 
   @ManyToOne

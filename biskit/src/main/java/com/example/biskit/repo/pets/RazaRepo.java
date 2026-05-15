@@ -1,14 +1,13 @@
 package com.example.biskit.repo.pets;
 
+import com.example.biskit.entities.pets.Raza;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.biskit.entities.pets.Raza;
-
 @Repository
 public interface RazaRepo extends JpaRepository<Raza, Long> {
+  Raza findByNombre(String nombre);
 
-    Raza findByNombre(String nombre);
-
-    Raza findByNombreIgnoreCase(String nombre);
+  Optional<Raza> findByNombreIgnoreCase(String nombre);
 }

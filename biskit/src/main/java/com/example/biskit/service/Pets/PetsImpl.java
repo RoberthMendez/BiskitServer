@@ -1,10 +1,13 @@
 package com.example.biskit.service.Pets;
 
+import com.example.biskit.entities.Client;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
+import com.example.biskit.entities.DTOs.TopDto;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.dtos.PetsFiltrosDto;
-import com.example.biskit.entities.dtos.TopDto;
 import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.errors.ClientNotFoundException;
 import com.example.biskit.errors.PetNotFoundException;
+import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
@@ -25,6 +28,9 @@ public class PetsImpl implements PetsService {
   private PetsRepo petsRepo;
 
   @Autowired
+  private ClientsRepo clientsRepo;
+
+  @Autowired
   private RazaService razaService;
 
   @Autowired
@@ -40,12 +46,29 @@ public class PetsImpl implements PetsService {
 
   @Override
   public Pet addPet(Pet pet) {
-    return petsRepo.save(pet);
+    Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
+    petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+    return petsRepo.save(petConRelaciones);
   }
 
   @Override
-  public Pet updatePet(Pet pet) {
-    return petsRepo.save(pet);
+  public Pet updatePet(Long id, Pet pet) {
+    Pet petExistente = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+    Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
+    petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+
+    petExistente.setNombre(petConRelaciones.getNombre());
+    petExistente.setEstado(petConRelaciones.isEstado());
+    petExistente.setFechaNacimiento(petConRelaciones.getFechaNacimiento());
+    petExistente.setPeso(petConRelaciones.getPeso());
+    petExistente.setUrlFoto(petConRelaciones.getUrlFoto());
+    petExistente.setEnfermedad(petConRelaciones.getEnfermedad());
+    petExistente.setRaza(petConRelaciones.getRaza());
+    petExistente.setOwner(
+      petConRelaciones.getOwner() != null ? petConRelaciones.getOwner() : petExistente.getOwner()
+    );
+
+    return petsRepo.save(petExistente);
   }
 
   @Override
@@ -83,11 +106,27 @@ public class PetsImpl implements PetsService {
     return pet;
   }
 
+  private Pet asignarOwnerDePetPorId(Pet pet) {
+    if (pet == null) return null;
+
+    if (pet.getOwner() != null && pet.getOwner().getId() != null) {
+      Client owner = clientsRepo
+        .findById(pet.getOwner().getId())
+        .orElseThrow(() -> new ClientNotFoundException(pet.getOwner().getId()));
+      pet.setOwner(owner);
+    } else {
+      pet.setOwner(null);
+    }
+
+    return pet;
+  }
+
   @Override
-  public Pet cambiarEstadoMascota(Long id, boolean estado) {
+  public Boolean cambiarEstadoMascota(Long id) {
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
-    pet.setEstado(estado);
-    return petsRepo.save(pet);
+    pet.setEstado(!pet.isEstado());
+    petsRepo.save(pet);
+    return pet.isEstado();
   }
 
   @Override
@@ -126,5 +165,19 @@ public class PetsImpl implements PetsService {
   @Override
   public List<Pet> getPetsFiltrados(PetsFiltrosDto filtros) {
     return petsRepo.findAll(PetsSpecification.conFiltros(filtros));
+  }
+
+  @Override
+  public Client getPetOwner(Long id) {
+    return petsRepo
+      .findById(id)
+      .orElseThrow(() -> new PetNotFoundException(id))
+      .getOwner();
+  }
+
+  @Override
+  public List<Tratamiento> getPetTratamientos(Long id) {
+    Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+    return tratamientosRepo.findByPetId(pet.getId());
   }
 }

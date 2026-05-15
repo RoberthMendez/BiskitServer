@@ -1,11 +1,11 @@
 package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.Credenciales;
+import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.citas.Cita;
 import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.dtos.CitaDto;
-import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
@@ -220,19 +220,19 @@ public class VetImpl implements VetService {
   }
 
   // ------ AGENDA Y CITAS -------
-  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana) {
+  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana) {
     if (!vetsRepo.existsById(vetId)) {
       throw new VetNotFoundException(vetId);
     }
 
-    List<CitaDto> citasDto = new ArrayList<>();
+    List<CitaDTO> citasDto = new ArrayList<>();
     List<Cita> citas = citasService.getCitasSemanaByVetId(vetId, numSemana);
 
     for (Cita cita : citas) {
       String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
       LocalTime hora = cita.getFechaHora().toLocalTime();
 
-      CitaDto citaDto = CitaDto.builder()
+      CitaDTO citaDto = CitaDTO.builder()
         .id(cita.getId())
         .diaSemana(diaSemana)
         .hora(hora)

@@ -1,10 +1,10 @@
 package com.example.biskit.service.Tratamientos;
 
+import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
+import com.example.biskit.entities.DTOs.TopDto;
+import com.example.biskit.entities.DTOs.TratamientoDto;
+import com.example.biskit.entities.DTOs.TratamientosMesDto;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
-import com.example.biskit.entities.dtos.TopDto;
-import com.example.biskit.entities.dtos.TratamientoDto;
-import com.example.biskit.entities.dtos.TratamientosMesDto;
 import java.util.List;
 
 public interface TratamientosService {

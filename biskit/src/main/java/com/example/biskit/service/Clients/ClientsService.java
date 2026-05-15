@@ -11,7 +11,7 @@ public interface ClientsService {
 
   public Client addClient(Client client);
 
-  public void updateClient(Client client);
+  public Client updateClient(Client client);
 
   public void deleteClient(Long id);
 

@@ -1,18 +1,17 @@
 package com.example.biskit.controller.Vets;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.biskit.service.Vets.EspecialidadesService;
 import com.example.biskit.entities.vets.Especialidad;
+import com.example.biskit.service.Vets.EspecialidadesService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/especialidades")
@@ -23,16 +22,19 @@ public class EspecialidadesController {
   private EspecialidadesService especialidadesService;
 
   // ----- Crear Especialidad (CREATE) -----
+  // http://localhost:8080/especialidades/add
   @PostMapping("/add")
-  public Especialidad crearEspecialidad(@RequestBody Especialidad especialidad) {
-    especialidadesService.addEspecialidad(especialidad);
-    return especialidad;
+  public ResponseEntity<Especialidad> crearEspecialidad(@RequestBody Especialidad especialidad) {
+    return new ResponseEntity<>(
+      especialidadesService.addEspecialidad(especialidad),
+      HttpStatus.CREATED
+    );
   }
 
   // ----- Mostrar Especialidades (READ) -----
+  // http://localhost:8080/especialidades
   @GetMapping("")
-  public List<Especialidad> mostrarEspecialidades() {
-    return especialidadesService.getEspecialidades();
+  public ResponseEntity<List<Especialidad>> mostrarEspecialidades() {
+    return new ResponseEntity<>(especialidadesService.getEspecialidades(), HttpStatus.OK);
   }
-  
 }

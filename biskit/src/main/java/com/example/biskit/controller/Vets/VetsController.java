@@ -1,7 +1,7 @@
 package com.example.biskit.controller.Vets;
 
+import com.example.biskit.entities.DTOs.CitaDTO;
 import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.dtos.CitaDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.service.Vets.VetService;
 import java.util.List;
@@ -87,11 +87,11 @@ public class VetsController {
   }
 
   @GetMapping("/{id}/citas-semanales")
-  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetId(
+  public ResponseEntity<List<CitaDTO>> getCitasSemanaByVetId(
     @PathVariable Long id,
     @RequestParam(required = true) int numSemana
   ) {
-    List<CitaDto> citas = vetService.getCitasSemanaByVetId(id, numSemana);
+    List<CitaDTO> citas = vetService.getCitasSemanaByVetId(id, numSemana);
     return ResponseEntity.ok(citas);
   }
 }

@@ -1,9 +1,9 @@
 package com.example.biskit.service.Citas;
 
+import com.example.biskit.entities.DTOs.CitaDTO;
 import com.example.biskit.entities.citas.Cita;
 import com.example.biskit.entities.citas.HorarioDia;
 import com.example.biskit.entities.citas.TipoCita;
-import com.example.biskit.entities.dtos.CitaDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.errors.VetNotAvailableException;
@@ -47,7 +47,7 @@ public class CitasImpl implements CitasService {
     citasRepo.save(cita);
   }
 
-  public void addCita(CitaDto citaDto) {
+  public Cita addCita(CitaDTO citaDto) {
     TipoCita tipoCita = tiposCitaRepo.findById(citaDto.getTipoCitaId()).orElseThrow();
     Pet pet = petsRepo.findById(citaDto.getPetId()).orElseThrow();
     Vet vet = vetsRepo.findById(citaDto.getVetId()).orElseThrow();
@@ -65,7 +65,7 @@ public class CitasImpl implements CitasService {
     cita.setFechaHora(fechaHora);
 
     validarDisponibilidadVet(cita, null);
-    citasRepo.save(cita);
+    return citasRepo.save(cita);
   }
 
   /**
@@ -192,7 +192,7 @@ public class CitasImpl implements CitasService {
     return citasRepo.findByVetIdAndFechaHoraBetweenDates(vetId, inicioSemana, finSemana);
   }
 
-  public void updateCita(Long id, CitaDto citaDto) {
+  public Cita updateCita(Long id, CitaDTO citaDto) {
     if (citaDto == null) {
       throw new RuntimeException("La cita no puede ser null");
     }
@@ -234,7 +234,7 @@ public class CitasImpl implements CitasService {
     citaExistente.setFechaHora(fechaHora);
 
     validarDisponibilidadVet(citaExistente, citaExistente.getId());
-    citasRepo.save(citaExistente);
+    return citasRepo.save(citaExistente);
   }
 
   public void deleteCita(Long id) {

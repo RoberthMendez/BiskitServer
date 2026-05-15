@@ -1,4 +1,4 @@
-package com.example.biskit.entities.dtos;
+package com.example.biskit.entities.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalTime;
@@ -12,14 +12,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CitaDto {
+public class CitaDTO {
 
   private Long id;
 
   private String diaSemana;
 
   @DateTimeFormat(pattern = "hh:mm a")
-  @JsonFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a", locale = "en_US")
   private LocalTime hora;
 
   private Long tipoCitaId;

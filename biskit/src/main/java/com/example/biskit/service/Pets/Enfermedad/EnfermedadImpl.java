@@ -1,9 +1,11 @@
 package com.example.biskit.service.Pets.Enfermedad;
 
 import com.example.biskit.entities.pets.Enfermedad;
+import com.example.biskit.errors.EnfermedadYaExisteException;
 import com.example.biskit.repo.pets.EnfermedadRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +27,21 @@ public class EnfermedadImpl implements EnfermedadService {
   }
 
   @Override
-  public Enfermedad getEnfermedadByNombre(String nombre) {
+  public Optional<Enfermedad> getEnfermedadByNombre(String nombre) {
     return enfermedadRepo.findByNombreIgnoreCase(nombre);
   }
 
   @Override
-  public void saveEnfermedad(Enfermedad enfermedad) {
-    enfermedadRepo.save(enfermedad);
+  public Enfermedad saveEnfermedad(Enfermedad enfermedad) {
+    Optional<Enfermedad> enfermedadExistente = getEnfermedadByNombre(enfermedad.getNombre());
+    if (
+      enfermedadExistente.isPresent() &&
+      (enfermedad.getId() == null || !enfermedadExistente.get().getId().equals(enfermedad.getId()))
+    ) {
+      throw new EnfermedadYaExisteException(
+        "La enfermedad '" + enfermedad.getNombre() + "' ya existe."
+      );
+    }
+    return enfermedadRepo.save(enfermedad);
   }
 }

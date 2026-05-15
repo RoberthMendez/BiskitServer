@@ -1,8 +1,8 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.dtos.CitaDto;
-import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import java.util.List;
@@ -39,5 +39,5 @@ public interface VetService {
   // ------ AGENDA Y CITAS -------
   public List<HorarioDia> getHorarioSemanalByVetId(Long vetId);
 
-  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana);
+  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana);
 }

@@ -1,11 +1,11 @@
 package com.example.biskit.service.Tratamientos;
 
+import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
+import com.example.biskit.entities.DTOs.TopDto;
+import com.example.biskit.entities.DTOs.TratamientoDto;
+import com.example.biskit.entities.DTOs.TratamientosMesDto;
 import com.example.biskit.entities.Droga;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
-import com.example.biskit.entities.dtos.TopDto;
-import com.example.biskit.entities.dtos.TratamientoDto;
-import com.example.biskit.entities.dtos.TratamientosMesDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.errors.MascotaInactivaException;
@@ -212,7 +212,7 @@ public class TratamientosImpl implements TratamientosService {
     vet.getTratamientos().remove(tratamiento);
     vetService.saveVet(vet);
     pet.getTratamientos().remove(tratamiento);
-    petsService.updatePet(pet);
+    petsService.updatePet(pet.getId(), pet);
 
     for (Droga droga : drogas) {
       droga.getTratamientos().remove(tratamiento);

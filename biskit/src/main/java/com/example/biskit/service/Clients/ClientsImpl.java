@@ -58,7 +58,7 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   @Transactional
-  public void updateClient(Client client) {
+  public Client updateClient(Client client) {
     Client clientExistente = clientsRepo
       .findById(client.getId())
       .orElseThrow(() -> new ClientNotFoundException(client.getId()));
@@ -72,7 +72,8 @@ public class ClientsImpl implements ClientsService {
       clientExistente.setCredenciales(client.getCredenciales());
     }
 
-    clientsRepo.save(clientExistente);
+    Client guardado = clientsRepo.save(clientExistente);
+    return guardado;
   }
 
   @Override
@@ -104,9 +105,14 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public List<Pet> getPetsByClientId(Long clientId) {
-    Client client = clientsRepo.findById(clientId).orElse(null);
+    Client client = clientsRepo
+      .findById(clientId)
+      .orElseThrow(() -> new ClientNotFoundException(clientId));
     // Obtener las versiones actualizadas de las mascotas desde PetsRepo
     List<Pet> updatedPets = new ArrayList<>();
+    if (client.getPets() == null) {
+      return updatedPets;
+    }
     for (Pet pet : client.getPets()) {
       Pet updatedPet = petsService.getPetById(pet.getId());
       if (updatedPet != null) {
@@ -118,10 +124,14 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public void addPetToClient(Long clientId, Pet pet) {
-    Client dueñoIngresado = clientsRepo.findById(clientId).orElse(null);
+    Client dueñoIngresado = clientsRepo
+      .findById(clientId)
+      .orElseThrow(() -> new ClientNotFoundException(clientId));
 
     if (pet.getId() == null) {
-      dueñoIngresado.getPets().add(pet);
+      if (dueñoIngresado.getPets() != null) {
+        dueñoIngresado.getPets().add(pet);
+      }
       pet.setEstado(true);
     }
     pet.setOwner(dueñoIngresado);
