@@ -12,9 +12,9 @@ public interface VetService {
 
   public Vet getVetById(Long id);
 
-  public void addVet(Vet vet);
+  public Vet addVet(Vet vet);
 
-  public void saveVet(Vet vet);
+  public Vet saveVet(Vet vet);
 
   public boolean autenticarVet(String usuario, String contrasena);
 

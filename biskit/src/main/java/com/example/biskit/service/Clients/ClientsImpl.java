@@ -3,8 +3,10 @@ package com.example.biskit.service.Clients;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.errors.ClientAlreadyExistsException;
 import com.example.biskit.errors.ClientNotFoundException;
 import com.example.biskit.repo.ClientsRepo;
+import com.example.biskit.security.CustomUserDetailService;
 import com.example.biskit.service.Credenciales.CorreosService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.service.Pets.PetsService;
@@ -31,22 +33,27 @@ public class ClientsImpl implements ClientsService {
   @Autowired
   private CorreosService correosService;
 
+  @Autowired
+  private CustomUserDetailService userDetailsService;
+
   @Override
   public List<Client> getClients() {
     return clientsRepo.findAll();
   }
 
   @Override
-  public void addClient(Client client) {
-    Credenciales credenciales = Credenciales.builder()
-      .usuario(client.getCorreo())
-      .password(client.getCedula())
-      .build();
+  public Client addClient(Client client) {
+    if (client.getCorreo() != null && credencialesService.existeUsuario(client.getCorreo())) {
+      throw new ClientAlreadyExistsException(client.getCorreo());
+    }
 
+    Credenciales credenciales = userDetailsService.clientToCredenciales(client);
     credencialesService.addCredenciales(credenciales);
     client.setCredenciales(credenciales);
-    clientsRepo.save(client);
+
+    Client clientGuardado = clientsRepo.save(client);
     correosService.enviarBienvenida(client);
+    return clientGuardado;
   }
 
   @Override
@@ -132,7 +139,7 @@ public class ClientsImpl implements ClientsService {
       .stream()
       .anyMatch(
         client ->
-          client.getCredenciales().getUsuario().equals(usuario) &&
+          client.getCredenciales().getUsername().equals(usuario) &&
           client.getCredenciales().getPassword().equals(contrasena)
       );
   }
@@ -142,7 +149,7 @@ public class ClientsImpl implements ClientsService {
     return clientsRepo
       .findAll()
       .stream()
-      .filter(client -> client.getCredenciales().getUsuario().equals(usuario))
+      .filter(client -> client.getCredenciales().getUsername().equals(usuario))
       .findFirst()
       .orElse(null);
   }

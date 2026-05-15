@@ -24,7 +24,7 @@ public class AdminsImpl implements AdminsService {
     return adminRepo
       .findAll()
       .stream()
-      .filter(admin -> admin.getCredenciales().getUsuario().equals(usuario))
+      .filter(admin -> admin.getCredenciales().getUsername().equals(usuario))
       .findFirst()
       .orElse(null);
   }
@@ -36,7 +36,7 @@ public class AdminsImpl implements AdminsService {
       .stream()
       .anyMatch(
         admin ->
-          admin.getCredenciales().getUsuario().equals(usuario) &&
+          admin.getCredenciales().getUsername().equals(usuario) &&
           admin.getCredenciales().getPassword().equals(contrasena)
       );
   }

@@ -31,6 +31,7 @@ import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.pets.RazaRepo;
 import com.example.biskit.repo.vets.EspecialidadRepo;
 import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.security.CustomUserDetailService;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import java.io.InputStream;
@@ -110,6 +111,9 @@ public class DataLoader implements CommandLineRunner {
 
   @Autowired
   private RolRepo rolRepo;
+
+  @Autowired
+  private CustomUserDetailService userDetailsService;
 
   @Override
   public void run(String... args) throws Exception {
@@ -1906,36 +1910,20 @@ public class DataLoader implements CommandLineRunner {
   }
 
   public void cargarCredenciales() {
-    Rol adminRol = rolRepo.findByNombre("ADMIN");
-    Rol vetRol = rolRepo.findByNombre("VET");
-    Rol clientRol = rolRepo.findByNombre("CLIENT");
-
     for (Client client : clientsRepo.findAll()) {
-      Credenciales credenciales = Credenciales.builder()
-        .usuario(client.getCorreo())
-        .password(client.getCedula())
-        .rol(clientRol)
-        .build();
+      Credenciales credenciales = userDetailsService.clientToCredenciales(client);
       credencialesRepo.save(credenciales);
       client.setCredenciales(credenciales);
     }
 
     for (Vet vet : vetsRepo.findAll()) {
-      Credenciales credenciales = Credenciales.builder()
-        .usuario(vet.getCorreo())
-        .password(vet.getCedula())
-        .rol(vetRol)
-        .build();
+      Credenciales credenciales = userDetailsService.vetToCredenciales(vet);
       credencialesRepo.save(credenciales);
       vet.setCredenciales(credenciales);
     }
 
     for (Admin admin : adminRepo.findAll()) {
-      Credenciales credenciales = Credenciales.builder()
-        .usuario(admin.getCorreo())
-        .password(admin.getCedula())
-        .rol(adminRol)
-        .build();
+      Credenciales credenciales = userDetailsService.adminToCredenciales(admin);
       credencialesRepo.save(credenciales);
       admin.setCredenciales(credenciales);
     }

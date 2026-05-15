@@ -40,7 +40,7 @@ public class CorreosImpl implements CorreosService {
       helper.setText(
         construirCuerpo(
           cliente.getNombre(),
-          cliente.getCredenciales().getUsuario(),
+          cliente.getCredenciales().getUsername(),
           cliente.getCredenciales().getPassword(),
           linkResetPassword
         ),
@@ -58,7 +58,7 @@ public class CorreosImpl implements CorreosService {
 
   public String construirCuerpo(
     String nombre,
-    String usuario,
+    String username,
     String password,
     String linkResetPassword
   ) {
@@ -134,7 +134,7 @@ public class CorreosImpl implements CorreosService {
 
     </body>
     </html>
-    """.formatted(nombre, usuario, password, linkResetPassword);
+    """.formatted(nombre, username, password, linkResetPassword);
   }
 
   public void enviarCorreoResetPassword(Contactable contactable) {

@@ -59,16 +59,16 @@ public class CredencialesImpl implements CredencialesService {
 
   @Override
   public boolean existeUsuario(String usuario) {
-    return credencialesRepo.existsByUsuario(usuario);
+    return credencialesRepo.existsByUsername(usuario);
   }
 
   @Override
   public void updatePassword(Long idUsuario, Credenciales credenciales) {
     Credenciales credencialesExistente = credencialesRepo
-      .findByUsuario(credenciales.getUsuario())
+      .findByUsername(credenciales.getUsername())
       .orElseThrow(() ->
         new RuntimeException(
-          "No se encontraron credenciales con usuario: " + credenciales.getUsuario()
+          "No se encontraron credenciales con usuario: " + credenciales.getUsername()
         )
       );
 

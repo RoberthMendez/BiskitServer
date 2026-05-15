@@ -2,16 +2,14 @@ package com.example.biskit.service.Clients;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.pets.Pet;
-
 import java.util.List;
 
 public interface ClientsService {
-
   public List<Client> getClients();
 
   public Client getClientById(Long id);
 
-  public void addClient(Client client);
+  public Client addClient(Client client);
 
   public void updateClient(Client client);
 
@@ -31,5 +29,5 @@ public interface ClientsService {
 
   public boolean existeCorreo(String usuario);
 
-  public Long getClientsCount ();
+  public Long getClientsCount();
 }

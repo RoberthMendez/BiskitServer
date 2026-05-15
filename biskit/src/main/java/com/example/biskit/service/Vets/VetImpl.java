@@ -1,5 +1,6 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.citas.Cita;
 import com.example.biskit.entities.citas.HorarioDia;
@@ -8,10 +9,12 @@ import com.example.biskit.entities.dtos.VetsFiltrosDto;
 import com.example.biskit.entities.pets.Pet;
 import com.example.biskit.entities.vets.Especialidad;
 import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.errors.VetAlreadyExistsException;
 import com.example.biskit.errors.VetNotFoundException;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.security.CustomUserDetailService;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.specifications.VetsSpecification;
@@ -57,6 +60,9 @@ public class VetImpl implements VetService {
   private CredencialesService credencialesService;
 
   @Autowired
+  private CustomUserDetailService userDetailsService;
+
+  @Autowired
   private CitasService citasService;
 
   @Override
@@ -70,27 +76,29 @@ public class VetImpl implements VetService {
   }
 
   @Override
-  public void addVet(Vet vet) {
+  public Vet addVet(Vet vet) {
+    if (vet.getCorreo() != null && credencialesService.existeUsuario(vet.getCorreo())) {
+      throw new VetAlreadyExistsException(vet.getCorreo());
+    }
+
     if (vet.getId() == null) {
       vet.setEstado(true);
     }
 
-    if (vet.getCredenciales().getId() == null) {
-      vet.getCredenciales().setUsuario(vet.getCorreo());
-      vet.getCredenciales().setPassword(vet.getCedula());
-      credencialesService.addCredenciales(vet.getCredenciales());
-    }
+    Credenciales credenciales = userDetailsService.vetToCredenciales(vet);
+    credencialesService.addCredenciales(credenciales);
+    vet.setCredenciales(credenciales);
 
     Especialidad especialidad = especialidadesService.getEspecialidadById(
       vet.getEspecialidad().getId()
     );
     vet.setEspecialidad(especialidad);
-    vetsRepo.save(vet);
+    return vetsRepo.save(vet);
   }
 
   @Override
-  public void saveVet(Vet vet) {
-    vetsRepo.save(vet);
+  public Vet saveVet(Vet vet) {
+    return vetsRepo.save(vet);
   }
 
   @Override
@@ -101,7 +109,7 @@ public class VetImpl implements VetService {
       .filter(vet -> vet.getCredenciales() != null)
       .anyMatch(
         vet ->
-          usuario.equals(vet.getCredenciales().getUsuario()) &&
+          usuario.equals(vet.getCredenciales().getUsername()) &&
           contrasena.equals(vet.getCredenciales().getPassword())
       );
   }
@@ -112,7 +120,7 @@ public class VetImpl implements VetService {
       .findAll()
       .stream()
       .filter(vet -> vet.getCredenciales() != null)
-      .filter(vet -> usuario.equals(vet.getCredenciales().getUsuario()))
+      .filter(vet -> usuario.equals(vet.getCredenciales().getUsername()))
       .findFirst()
       .orElse(null);
   }

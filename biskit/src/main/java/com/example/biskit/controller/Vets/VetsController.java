@@ -7,6 +7,7 @@ import com.example.biskit.service.Vets.VetService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +31,8 @@ public class VetsController {
 
   // ----- Crear Veterinario (CREATE) -----
   @PostMapping("/add")
-  public void crearVeterinario(@RequestBody Vet vet) {
-    vetService.addVet(vet);
+  public ResponseEntity<Vet> crearVeterinario(@RequestBody Vet vet) {
+    return new ResponseEntity<Vet>(vetService.addVet(vet), HttpStatus.CREATED);
   }
 
   // ----- Mostrar Veterinarios (READ) -----
