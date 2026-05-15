@@ -9,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,4 +96,13 @@ public class VetsController {
     List<CitaDto> citas = vetService.getCitasSemanaByVetId(id, numSemana);
     return ResponseEntity.ok(citas);
   }
+
+  @GetMapping("/details")
+  public Vet buscarVet() {
+      Vet vet = vetService.findByUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+      return vet;
+  }
+  
+
+
 }
