@@ -3,6 +3,7 @@ package com.example.biskit.controller;
 import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
+import com.example.biskit.entities.dtos.LoginDto;
 import com.example.biskit.entities.dtos.RespuestaCredencialDto;
 import com.example.biskit.entities.vets.Vet;
 import com.example.biskit.security.JWTGenerator;
@@ -88,16 +89,18 @@ public class LoginController {
 
   // ----- Login -----
   @PostMapping("/nuevo")
-  public ResponseEntity<?> loginEstudiante(@RequestBody Credenciales credenciales) {
+  public ResponseEntity<?> loginJwt(@RequestBody Credenciales credenciales) {
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(credenciales.getUsername(), credenciales.getPassword())
     );
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
+    String rol = authentication.getAuthorities().iterator().next().getAuthority();
+
     String token = jwtGenerator.generateToken(authentication);
 
-    return new ResponseEntity<String>(token, HttpStatus.OK);
+    return ResponseEntity.ok(new LoginDto(token, rol));
   }
 
   private RespuestaCredencialDto crearRespuesta(Long id, String tipo) {
