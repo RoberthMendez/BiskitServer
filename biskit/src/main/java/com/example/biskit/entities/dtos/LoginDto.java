@@ -1,4 +1,4 @@
-package com.example.biskit.entities.dtos;
+package com.example.biskit.entities.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class LoginDto {
-    private String token;
-    private String rol;
+
+  private String token;
+  private String rol;
 }
