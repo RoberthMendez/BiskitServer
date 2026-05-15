@@ -1,6 +1,12 @@
 package com.example.biskit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +19,7 @@ import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.dtos.RespuestaCredencialDto;
 import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.security.JWTGenerator;
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.service.Vets.VetService;
@@ -37,6 +44,12 @@ public class LoginController {
 
     @Autowired
     private AdminsService adminService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JWTGenerator jwtGenerator;
 
     @PostMapping
     public ResponseEntity<RespuestaCredencialDto> login(@RequestBody Credenciales credenciales) {
@@ -68,6 +81,20 @@ public class LoginController {
         }
 
         return ResponseEntity.badRequest().body(crearRespuesta(null, "CREDENCIALES_INVALIDAS"));
+    }
+
+    // ----- Login -----
+    @PostMapping("/nuevo")
+    public ResponseEntity loginEstudiante(@RequestBody Credenciales credenciales) {
+
+        Authentication authentication = authenticationManager.authenticate( 
+            new UsernamePasswordAuthenticationToken(credenciales.getUsuario(), credenciales.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtGenerator.generateToken(authentication);
+
+        return new ResponseEntity<String>(token, HttpStatus.OK);
     }
 
     private RespuestaCredencialDto crearRespuesta(Long id, String tipo) {
