@@ -9,6 +9,7 @@ import com.example.biskit.errors.NoExiste.ClientNoExisteException;
 import com.example.biskit.errors.NoExiste.PetNoExisteException;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.TratamientosRepo;
+import com.example.biskit.repo.citas.CitasRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.service.Pets.Enfermedad.EnfermedadService;
 import com.example.biskit.service.Pets.Raza.RazaService;
@@ -38,6 +39,9 @@ public class PetsImpl implements PetsService {
 
   @Autowired
   private TratamientosRepo tratamientosRepo;
+
+  @Autowired
+  private CitasRepo citasRepo;
 
   @Override
   public List<Pet> getPets() {
@@ -76,6 +80,7 @@ public class PetsImpl implements PetsService {
   public void deletePet(Long id) {
     Pet pet = petsRepo.findById(id).orElseThrow(() -> new PetNoExisteException(id));
 
+    citasRepo.deleteByPetId(id);
     List<Tratamiento> tratamientos = tratamientosRepo.findByPetId(id);
     tratamientosRepo.deleteAll(tratamientos);
 

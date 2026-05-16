@@ -4,6 +4,7 @@ import com.example.biskit.entities.Citas.Cita;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,8 @@ public interface CitasRepo extends JpaRepository<Cita, Long> {
     @Param("vetId") Long vetId,
     @Param("fecha") LocalDate fecha
   );
+
+  @Modifying
+  @Query("DELETE FROM Cita c WHERE c.pet.id = :petId")
+  void deleteByPetId(@Param("petId") Long petId);
 }
