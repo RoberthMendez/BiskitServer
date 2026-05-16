@@ -1,6 +1,6 @@
 package com.example.biskit.controller.Vets;
 
-import com.example.biskit.entities.vets.Especialidad;
+import com.example.biskit.entities.Vets.Especialidad;
 import com.example.biskit.service.Vets.EspecialidadesService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

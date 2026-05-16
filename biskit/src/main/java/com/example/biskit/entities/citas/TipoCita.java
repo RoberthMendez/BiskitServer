@@ -1,4 +1,4 @@
-package com.example.biskit.entities.citas;
+package com.example.biskit.entities.Citas;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Getter
@@ -29,5 +28,4 @@ public class TipoCita {
 
   @Column(nullable = false)
   private Integer duracionMinutos;
-  
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetsFiltrosDto {
+public class PetsFiltrosDTO {
 
   private Boolean estado;
   private String especie;
@@ -16,4 +16,6 @@ public class PetsFiltrosDto {
   private Float peso;
   private String enfermedad;
   private Integer tratamientos;
+  private Long vetId;
+  private Boolean misMascotas;
 }

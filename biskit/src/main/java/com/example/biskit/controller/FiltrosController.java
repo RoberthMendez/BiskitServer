@@ -1,12 +1,15 @@
 package com.example.biskit.controller;
 
-import com.example.biskit.entities.DTOs.PetsFiltrosDto;
-import com.example.biskit.entities.DTOs.VetsFiltrosDto;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.DTOs.Pets.PetDTO;
+import com.example.biskit.entities.DTOs.Pets.PetMapper;
+import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Vets.VetService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,53 +29,40 @@ public class FiltrosController {
   VetService vetsService;
 
   @GetMapping("/pets")
-  public ResponseEntity<List<Pet>> getPetsFiltrados(
+  public ResponseEntity<List<PetDTO>> getPetsFiltrados(
     @RequestParam(required = false) Boolean estado,
     @RequestParam(required = false) String especie,
     @RequestParam(required = false) String raza,
     @RequestParam(required = false) Integer edad,
     @RequestParam(required = false) Float peso,
     @RequestParam(required = false) String enfermedad,
-    @RequestParam(required = false) Integer tratamientos
+    @RequestParam(required = false) Integer tratamientos,
+    @RequestParam(required = false) Long vetId,
+    @RequestParam(required = false) Boolean misMascotas
   ) {
-    PetsFiltrosDto filtros = new PetsFiltrosDto(
+    PetsFiltrosDTO filtros = new PetsFiltrosDTO(
       estado,
       especie,
       raza,
       edad,
       peso,
       enfermedad,
-      tratamientos
+      tratamientos,
+      vetId,
+      misMascotas
     );
-    return ResponseEntity.ok(petsService.getPetsFiltrados(filtros));
+    return ResponseEntity.ok(PetMapper.INSTANCE.toDTOList(petsService.getPetsFiltrados(filtros)));
   }
 
   @GetMapping("/vets")
-  public ResponseEntity<?> getVetsFiltrados(
+  public ResponseEntity<List<Vet>> getVetsFiltrados(
     @RequestParam(required = false) Boolean estado,
     @RequestParam(required = false) String especialidad,
     @RequestParam(required = false) Integer tratamientos,
     @RequestParam(required = false) String pet,
-    @RequestParam(required = false) Boolean misMascotas,
     @RequestParam(required = false) Long vetId
   ) {
-    if (misMascotas && vetId == null) {
-      throw new IllegalArgumentException(
-        "Se debe enviar el id del veterinario cuando misMascotas=true"
-      );
-    }
-    if (misMascotas) {
-      return ResponseEntity.ok(vetsService.getPetsTratadosPorVet(vetId));
-    }
-
-    VetsFiltrosDto filtros = new VetsFiltrosDto(
-      estado,
-      especialidad,
-      tratamientos,
-      pet,
-      misMascotas,
-      vetId
-    );
-    return ResponseEntity.ok(vetsService.getVetsFiltrados(filtros));
+    VetsFiltrosDTO filtros = new VetsFiltrosDTO(estado, especialidad, tratamientos, pet, vetId);
+    return new ResponseEntity<>(vetsService.getVetsFiltrados(filtros), HttpStatus.OK);
   }
 }

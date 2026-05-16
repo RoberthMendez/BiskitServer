@@ -3,8 +3,9 @@ package com.example.biskit.controller.Pets;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.DTOs.Pets.PetDTO;
 import com.example.biskit.entities.DTOs.Pets.PetMapper;
-import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.DTOs.Tratamientos.ItemTratamiento.ItemTratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.ItemTratamiento.ItemTratamientoMapper;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.service.Pets.PetsService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,15 +63,19 @@ public class PetsController {
   // ----- Mostrar Tratamientos de una Mascota (READ) ------
   // http://localhost:8080/pets/{id}/tratamientos
   @GetMapping("/{id}/tratamientos")
-  public ResponseEntity<List<Tratamiento>> getTratamientosMascota(@PathVariable Long id) {
-    return new ResponseEntity<>(petsService.getPetTratamientos(id), HttpStatus.OK);
+  public ResponseEntity<List<ItemTratamientoDTO>> getTratamientosMascota(@PathVariable Long id) {
+    return new ResponseEntity<>(
+      ItemTratamientoMapper.INSTANCE.toDTOList(petsService.getPetTratamientos(id)),
+      HttpStatus.OK
+    );
   }
 
   // ----- Editar Mascota (UPDATE) -----
   // http://localhost:8080/pets/update/{id}
   @PutMapping("/update/{id}")
-  public ResponseEntity<Pet> updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
-    return new ResponseEntity<>(petsService.updatePet(id, pet), HttpStatus.OK);
+  public ResponseEntity<Void> updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
+    petsService.updatePet(id, pet);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   // ----- Cambiar Estado de Mascota (PATCH) -----
@@ -98,7 +103,6 @@ public class PetsController {
     return new ResponseEntity<>(petsService.getPetsActivosCount(), HttpStatus.OK);
   }
 
-  // ----- Comprobar id de Mascota (GET) -----
   // http://localhost:8080/pets/{id}/exists
   @GetMapping("/{id}/exists")
   public ResponseEntity<Void> checkPetId(@PathVariable Long id) {

@@ -1,6 +1,6 @@
 package com.example.biskit.service.Citas;
 
-import com.example.biskit.entities.citas.TipoCita;
+import com.example.biskit.entities.Citas.TipoCita;
 import com.example.biskit.repo.citas.TiposCitaRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;

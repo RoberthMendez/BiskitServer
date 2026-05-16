@@ -1,7 +1,7 @@
 package com.example.biskit.specifications;
 
-import com.example.biskit.entities.DTOs.VetsFiltrosDto;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.Vets.Vet;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class VetsSpecification {
 
-  public static Specification<Vet> conFiltros(VetsFiltrosDto filtros) {
+  public static Specification<Vet> conFiltros(VetsFiltrosDTO filtros) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 
@@ -51,16 +51,6 @@ public class VetsSpecification {
         );
         // SQL: JOIN tratamiento t ON t.vet_id = v.id
         // WHERE LOWER(t.pet_nombre) LIKE '%zeus%'
-      }
-
-      if (filtros.getMisMascotas() != null && filtros.getMisMascotas()) {
-        if (filtros.getVetId() != null) {
-          predicates.add(cb.equal(root.get("id"), filtros.getVetId()));
-          predicates.add(cb.greaterThan(cb.size(root.get("tratamientos")), 0));
-        } else {
-          // sin vetId, devolver sólo veterinarios que tengan al menos un tratamiento
-          predicates.add(cb.greaterThan(cb.size(root.get("tratamientos")), 0));
-        }
       }
 
       query.distinct(true);

@@ -1,9 +1,10 @@
 package com.example.biskit.controller.Tratamientos;
 
-import com.example.biskit.entities.DTOs.TratamientoDto;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDetalle.TratamientoDetalleDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDetalle.TratamientoDetalleMapper;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.service.Tratamientos.TratamientosService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,36 +27,41 @@ public class TratamientosController {
   private TratamientosService tratamientosService;
 
   // ----- Crear Tratamiento (CREATE) -----
+  // http://localhost:8080/tratamientos/add
   @PostMapping("/add")
-  public ResponseEntity<Void> crearTratamiento(@RequestBody TratamientoDto tratamientoDto) {
-    tratamientosService.addTratamiento(tratamientoDto);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+  public ResponseEntity<Tratamiento> crearTratamiento(@RequestBody TratamientoDTO tratamientoDto) {
+    return new ResponseEntity<>(
+      tratamientosService.addTratamiento(tratamientoDto),
+      HttpStatus.CREATED
+    );
   }
 
   // ----- Mostrar Tratamiento por ID (READ) -----
+  // http://localhost:8080/tratamientos/{id}
   @GetMapping("/{id}")
-  public Tratamiento getTratamientoPorId(@PathVariable Long id) {
-    return tratamientosService.getTratamientoById(id);
+  public ResponseEntity<TratamientoDetalleDTO> getTratamientoPorId(@PathVariable Long id) {
+    return new ResponseEntity<>(
+      TratamientoDetalleMapper.INSTANCE.toDto(tratamientosService.getTratamientoById(id)),
+      HttpStatus.OK
+    );
   }
 
   // ----- Actualizar Tratamiento (UPDATE) -----
+  // http://localhost:8080/tratamientos/update/{id}
   @PutMapping("/update/{id}")
-  public void actualizarTratamiento(
+  public ResponseEntity<Void> actualizarTratamiento(
     @PathVariable Long id,
-    @RequestBody TratamientoDto tratamientoDto
+    @RequestBody TratamientoDTO tratamientoDto
   ) {
     tratamientosService.updateTratamiento(id, tratamientoDto);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   // ----- Eliminar Tratamiento (DELETE) -----
+  // http://localhost:8080/tratamientos/delete/{id}
   @DeleteMapping("/delete/{id}")
-  public void eliminarTratamiento(@PathVariable Long id) {
+  public ResponseEntity<Void> eliminarTratamiento(@PathVariable Long id) {
     tratamientosService.deleteTratamiento(id);
-  }
-
-  // ----- Mostrar Tratamientos de un Veterinario (READ) ------
-  @GetMapping("/vet/{id}")
-  public List<Tratamiento> getTratamientosPorVeterinario(@PathVariable Long id) {
-    return tratamientosService.getTratamientosByVetId(id);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

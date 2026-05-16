@@ -1,6 +1,6 @@
 package com.example.biskit.service.Pets.Raza;
 
-import com.example.biskit.entities.pets.Raza;
+import com.example.biskit.entities.Pets.Raza;
 import java.util.List;
 import java.util.Optional;
 

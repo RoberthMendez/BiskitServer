@@ -1,6 +1,6 @@
 package com.example.biskit.service.Vets;
 
-import com.example.biskit.entities.vets.Especialidad;
+import com.example.biskit.entities.Vets.Especialidad;
 import java.util.List;
 import java.util.Optional;
 

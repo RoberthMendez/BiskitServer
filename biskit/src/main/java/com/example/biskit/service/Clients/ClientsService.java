@@ -1,7 +1,7 @@
 package com.example.biskit.service.Clients;
 
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.Pets.Pet;
 import java.util.List;
 
 public interface ClientsService {

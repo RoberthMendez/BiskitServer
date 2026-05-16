@@ -1,7 +1,7 @@
 package com.example.biskit.service.Vets;
 
-import com.example.biskit.entities.vets.Especialidad;
-import com.example.biskit.errors.DrogaYaExisteException;
+import com.example.biskit.entities.Vets.Especialidad;
+import com.example.biskit.errors.YaExiste.DrogaYaExisteException;
 import com.example.biskit.repo.vets.EspecialidadRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;

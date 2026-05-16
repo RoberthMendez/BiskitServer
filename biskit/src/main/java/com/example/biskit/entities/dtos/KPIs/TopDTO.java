@@ -1,4 +1,4 @@
-package com.example.biskit.entities.DTOs;
+package com.example.biskit.entities.DTOs.KPIs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StockDroga {
+public class TopDTO {
 
-  private String drogaNombre;
-  private Long stockActual;
+  private Long top;
+  private String nombre;
+  private Long count;
 }

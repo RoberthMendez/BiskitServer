@@ -1,11 +1,8 @@
 package com.example.biskit.repo.citas;
 
-import org.springframework.stereotype.Repository;
+import com.example.biskit.entities.Citas.Turno;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.biskit.entities.citas.Turno;
+import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TurnosRepo extends JpaRepository<Turno, Long> {
-
-}
+public interface TurnosRepo extends JpaRepository<Turno, Long> {}

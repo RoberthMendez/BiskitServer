@@ -1,7 +1,7 @@
 package com.example.biskit.service.Pets.Enfermedad;
 
-import com.example.biskit.entities.pets.Enfermedad;
-import com.example.biskit.errors.EnfermedadYaExisteException;
+import com.example.biskit.entities.Pets.Enfermedad;
+import com.example.biskit.errors.YaExiste.EnfermedadYaExisteException;
 import com.example.biskit.repo.pets.EnfermedadRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;

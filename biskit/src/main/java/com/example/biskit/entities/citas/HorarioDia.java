@@ -1,8 +1,7 @@
-package com.example.biskit.entities.citas;
+package com.example.biskit.entities.Citas;
 
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Vets.Vet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,5 +38,4 @@ public class HorarioDia {
 
   @Column(nullable = false)
   private String diaSemana;
-  
 }

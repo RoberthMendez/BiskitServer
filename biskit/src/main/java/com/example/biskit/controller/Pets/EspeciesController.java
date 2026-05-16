@@ -1,6 +1,6 @@
 package com.example.biskit.controller.Pets;
 
-import com.example.biskit.entities.pets.Especie;
+import com.example.biskit.entities.Pets.Especie;
 import com.example.biskit.service.Pets.Especie.EspecieService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ public class EspeciesController {
   @Autowired
   private EspecieService especieService;
 
+  // ----- Mostrar Especies (READ) -----
   // http://localhost:8080/especies
   @GetMapping("")
   public ResponseEntity<List<Especie>> getEspecies() {

@@ -1,16 +1,16 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.Citas.Cita;
+import com.example.biskit.entities.Citas.HorarioDia;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.citas.Cita;
-import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Especialidad;
-import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.errors.VetAlreadyExistsException;
-import com.example.biskit.errors.VetNotFoundException;
+import com.example.biskit.entities.Vets.Especialidad;
+import com.example.biskit.entities.Vets.Vet;
+import com.example.biskit.errors.NoExiste.VetNoExisteException;
+import com.example.biskit.errors.YaExiste.VeterinarioYaExisteException;
 import com.example.biskit.repo.TratamientosRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.vets.VetsRepo;
@@ -72,13 +72,13 @@ public class VetImpl implements VetService {
 
   @Override
   public Vet getVetById(Long id) {
-    return vetsRepo.findById(id).orElseThrow(() -> new VetNotFoundException(id));
+    return vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
   }
 
   @Override
   public Vet addVet(Vet vet) {
     if (vet.getCorreo() != null && credencialesService.existeUsuario(vet.getCorreo())) {
-      throw new VetAlreadyExistsException(vet.getCorreo());
+      throw new VeterinarioYaExisteException(vet.getCorreo());
     }
 
     if (vet.getId() == null) {
@@ -142,6 +142,10 @@ public class VetImpl implements VetService {
 
   @Override
   public Long getVetTratamientosCount(Long vetId) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
+    }
+
     return tratamientosRepo.getTratamientosVetCount(vetId);
   }
 
@@ -149,14 +153,14 @@ public class VetImpl implements VetService {
   public List<Pet> getPetsTratadosPorVet(Long vetId) {
     //Si no existe el veterinario, se lanza una excepción
     if (!vetsRepo.existsById(vetId)) {
-      throw new VetNotFoundException(vetId);
+      throw new VetNoExisteException(vetId);
     }
     return petsRepo.findDistinctByTratamientosVetId(vetId);
   }
 
   @Override
   public void deleteVet(Long id) {
-    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNotFoundException(id));
+    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
 
     List<Pet> petsTratados = petsRepo.findDistinctByTratamientosVetId(id);
     for (Pet pet : petsTratados) {
@@ -172,20 +176,20 @@ public class VetImpl implements VetService {
 
   @Override
   public void cambiarEstadoVet(Long id, boolean estado) {
-    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNotFoundException(id));
+    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
     vet.setEstado(estado);
     vetsRepo.save(vet);
   }
 
   @Override
-  public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
+  public List<Vet> getVetsFiltrados(VetsFiltrosDTO filtros) {
     return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
   }
 
   // ------ AGENDA Y CITAS -------
   @Override
   public List<HorarioDia> getHorarioSemanalByVetId(Long vetId) {
-    Vet vet = vetsRepo.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
+    Vet vet = vetsRepo.findById(vetId).orElseThrow(() -> new VetNoExisteException(vetId));
 
     if (vet.getHorariosDia() == null || vet.getHorariosDia().isEmpty()) {
       return List.of();
@@ -219,10 +223,18 @@ public class VetImpl implements VetService {
     return indice >= 0 ? indice : Integer.MAX_VALUE;
   }
 
+  public List<Tratamiento> getTratamientosVet(Long vetId) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
+    }
+
+    return tratamientosRepo.findByVetId(vetId);
+  }
+
   // ------ AGENDA Y CITAS -------
   public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana) {
     if (!vetsRepo.existsById(vetId)) {
-      throw new VetNotFoundException(vetId);
+      throw new VetNoExisteException(vetId);
     }
 
     List<CitaDTO> citasDto = new ArrayList<>();
@@ -236,7 +248,8 @@ public class VetImpl implements VetService {
         .id(cita.getId())
         .diaSemana(diaSemana)
         .hora(hora)
-        .tipoCitaId(cita.getTipoCita().getId())
+        .tipoCitaNombre(cita.getTipoCita().getNombre())
+        .duracionMinutos(cita.getTipoCita().getDuracionMinutos())
         .petId(cita.getPet().getId())
         .vetId(cita.getVet().getId())
         .build();

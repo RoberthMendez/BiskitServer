@@ -1,8 +1,8 @@
 package com.example.biskit.controller;
 
+import com.example.biskit.entities.Citas.Cita;
+import com.example.biskit.entities.Citas.TipoCita;
 import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.citas.Cita;
-import com.example.biskit.entities.citas.TipoCita;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Citas.TiposCitaService;
 import java.util.List;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,8 +34,8 @@ public class CitasController {
   // ----- Crear Cita (CREATE) -----
   // http://localhost:8080/citas/add
   @PostMapping("/add")
-  public ResponseEntity<Cita> crearCita(@RequestBody CitaDTO citaDto) {
-    return new ResponseEntity<>(citasService.addCita(citaDto), HttpStatus.CREATED);
+  public ResponseEntity<Cita> crearCita(@RequestBody CitaDTO citaDto, @RequestParam int numSemana) {
+    return new ResponseEntity<>(citasService.addCita(citaDto, numSemana), HttpStatus.CREATED);
   }
 
   // ----- Obtener Tipos de Citas (READ) -----
@@ -47,8 +48,12 @@ public class CitasController {
   // ----- Editar Cita (UPDATE) -----
   // http://localhost:8080/citas/update/{id}
   @PutMapping("/update/{id}")
-  public ResponseEntity<Cita> editarCita(@PathVariable Long id, @RequestBody CitaDTO citaDto) {
-    return new ResponseEntity<>(citasService.updateCita(id, citaDto), HttpStatus.OK);
+  public ResponseEntity<Cita> editarCita(
+    @PathVariable Long id,
+    @RequestBody CitaDTO citaDto,
+    @RequestParam int numSemana
+  ) {
+    return new ResponseEntity<>(citasService.updateCita(id, citaDto, numSemana), HttpStatus.OK);
   }
 
   // ----- Cancelar Cita (DELETE) -----

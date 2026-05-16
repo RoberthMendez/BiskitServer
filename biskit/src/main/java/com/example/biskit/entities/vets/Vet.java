@@ -1,10 +1,10 @@
-package com.example.biskit.entities.vets;
+package com.example.biskit.entities.Vets;
 
+import com.example.biskit.entities.Citas.HorarioDia;
 import com.example.biskit.entities.Contactable;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.citas.HorarioDia;
 import com.example.biskit.util.NoNormalizar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
