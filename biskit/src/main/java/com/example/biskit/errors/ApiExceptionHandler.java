@@ -12,11 +12,26 @@ import com.example.biskit.errors.YaExiste.RazaYaExisteException;
 import com.example.biskit.errors.YaExiste.VeterinarioYaExisteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+
+  @ExceptionHandler(BadCredentialsException.class)
+  public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex) {
+
+      ErrorResponse error = new ErrorResponse(
+          "Usuario o contraseña incorrecta",
+          ex.getMessage(),
+          HttpStatus.UNAUTHORIZED.value()
+      );
+
+      return ResponseEntity
+          .status(HttpStatus.UNAUTHORIZED)
+          .body(error);
+  }
 
   @ExceptionHandler(VeterinarioNoDisponibleException.class)
   public ResponseEntity<ErrorResponse> handleVetNotAvailable(VeterinarioNoDisponibleException ex) {

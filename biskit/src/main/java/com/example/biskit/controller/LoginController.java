@@ -100,6 +100,13 @@ public class LoginController {
 
     String rol = authentication.getAuthorities().iterator().next().getAuthority();
 
+    if(rol.equals("VET")){
+      Vet vet = vetService.findByUsuario(authentication.getName());
+      if (vet.isEstado() == false) {
+        return ResponseEntity.badRequest().body(crearRespuesta(null, "VETERINARIO_INACTIVO"));
+      }
+    }
+
     String token = jwtGenerator.generateToken(authentication);
 
     return ResponseEntity.ok(new LoginDTO(token, rol));
