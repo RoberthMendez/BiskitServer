@@ -39,7 +39,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(requests ->
         requests
           .requestMatchers("/h2/**").permitAll()
-          /* .requestMatchers("/login/**").permitAll()
+          .requestMatchers("/login/**").permitAll()
           .requestMatchers("/enfermedades/**").hasAnyAuthority("ADMIN", "VET")
           .requestMatchers("/razas/**").hasAnyAuthority("ADMIN", "VET")
           .requestMatchers("/especies/**").hasAnyAuthority("ADMIN", "VET")
@@ -53,7 +53,7 @@ public class SecurityConfig {
           .requestMatchers("/drogas/**").hasAnyAuthority("ADMIN", "VET")
           .requestMatchers("/filtros/**").hasAnyAuthority("ADMIN", "VET")
           .requestMatchers("/pets/{id}").hasAnyAuthority("ADMIN", "VET", "CLIENT")
-          .requestMatchers("/pets/**").hasAnyAuthority("ADMIN", "VET") */
+          .requestMatchers("/pets/**").hasAnyAuthority("ADMIN", "VET")
           .anyRequest()
           .permitAll()
       )
