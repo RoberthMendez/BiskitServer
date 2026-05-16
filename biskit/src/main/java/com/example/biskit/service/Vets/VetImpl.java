@@ -97,6 +97,28 @@ public class VetImpl implements VetService {
   }
 
   @Override
+  public Vet updateVet(Vet vet) {
+    Vet vetExistente = vetsRepo
+      .findById(vet.getId())
+      .orElseThrow(() -> new VetNoExisteException(vet.getId()));
+
+    vetExistente.setNombre(vet.getNombre());
+    vetExistente.setCorreo(vet.getCorreo());
+    vetExistente.setCedula(vet.getCedula());
+    vetExistente.setEstado(vet.isEstado());
+    vetExistente.getCredenciales().setUsername(vet.getCorreo());
+
+    if (vet.getEspecialidad() != null && vet.getEspecialidad().getId() != null) {
+      Especialidad especialidad = especialidadesService.getEspecialidadById(
+        vet.getEspecialidad().getId()
+      );
+      vetExistente.setEspecialidad(especialidad);
+    }
+
+    return vetsRepo.save(vetExistente);
+  }
+
+  @Override
   public Vet saveVet(Vet vet) {
     return vetsRepo.save(vet);
   }
