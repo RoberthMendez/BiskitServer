@@ -1,10 +1,10 @@
 package com.example.biskit.controller;
 
 import com.example.biskit.entities.Admin;
-import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
-import com.example.biskit.entities.DTOs.StockDroga;
-import com.example.biskit.entities.DTOs.TopDto;
-import com.example.biskit.entities.DTOs.TratamientosMesDto;
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.KPIs.StockDrogaDTO;
+import com.example.biskit.entities.DTOs.KPIs.TopDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientosMesDTO;
 import com.example.biskit.service.Admin.AdminsService;
 import com.example.biskit.service.Admin.ReporteExcelService;
 import com.example.biskit.service.Pets.PetsService;
@@ -67,13 +67,13 @@ public class AdminController {
 
   // http://localhost:8080/admin/ultimos-tratamientos-count
   @GetMapping("/ultimos-tratamientos-count")
-  public ResponseEntity<List<TratamientosMesDto>> getUltimosTratamientos() {
+  public ResponseEntity<List<TratamientosMesDTO>> getUltimosTratamientos() {
     return new ResponseEntity<>(tratamientosService.getNumTratamientos6Meses(), HttpStatus.OK);
   }
 
   // http://localhost:8080/admin/droga-tratamientos-mes-count
   @GetMapping("/droga-tratamientos-mes-count")
-  public ResponseEntity<List<DrogaTratamientoCountDto>> getTratamientosMedicamentoCount() {
+  public ResponseEntity<List<DrogaTratamientoCountDTO>> getTratamientosMedicamentoCount() {
     return new ResponseEntity<>(tratamientosService.getDrogaTratamientosMesCount(), HttpStatus.OK);
   }
 
@@ -109,19 +109,19 @@ public class AdminController {
 
   // http://localhost:8080/admin/top5-drogas
   @GetMapping("/top5-drogas")
-  public ResponseEntity<List<TopDto>> getTop5Drogas() {
+  public ResponseEntity<List<TopDTO>> getTop5Drogas() {
     return new ResponseEntity<>(drogasService.getTop5Drogas(), HttpStatus.OK);
   }
 
   // http://localhost:8080/admin/top5-enfermedades
   @GetMapping("/top5-enfermedades")
-  public ResponseEntity<List<TopDto>> getTop5Enfermedades() {
+  public ResponseEntity<List<TopDTO>> getTop5Enfermedades() {
     return new ResponseEntity<>(petsService.getTop5Enfermedades(), HttpStatus.OK);
   }
 
   // http://localhost:8080/admin/drogas-bajas-stock
   @GetMapping("/drogas-bajas-stock")
-  public ResponseEntity<List<StockDroga>> getDrogasBajasStock() {
+  public ResponseEntity<List<StockDrogaDTO>> getDrogasBajasStock() {
     return new ResponseEntity<>(drogasService.getDrogasBajasStock(), HttpStatus.OK);
   }
 

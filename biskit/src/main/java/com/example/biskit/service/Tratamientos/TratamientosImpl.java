@@ -1,13 +1,13 @@
 package com.example.biskit.service.Tratamientos;
 
-import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
-import com.example.biskit.entities.DTOs.TopDto;
-import com.example.biskit.entities.DTOs.TratamientoDto;
-import com.example.biskit.entities.DTOs.TratamientosMesDto;
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.KPIs.TopDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientosMesDTO;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.errors.MascotaInactivaException;
 import com.example.biskit.errors.StockInsuficienteException;
 import com.example.biskit.repo.TratamientosRepo;
@@ -51,7 +51,7 @@ public class TratamientosImpl implements TratamientosService {
 
   @Override
   @Transactional
-  public void addTratamiento(TratamientoDto tratamientoDto) {
+  public Tratamiento addTratamiento(TratamientoDTO tratamientoDto) {
     if (tratamientoDto == null) {
       throw new RuntimeException("El tratamiento no puede ser nulo");
     }
@@ -77,9 +77,7 @@ public class TratamientosImpl implements TratamientosService {
         if (drogaId != null) {
           Droga droga = drogasService.getDrogaById(drogaId);
           if (droga.getUnidadesDisponibles() <= 0) {
-            throw new StockInsuficienteException(
-              "No hay suficientes unidades de " + droga.getNombre() + " para crear el tratamiento"
-            );
+            throw new StockInsuficienteException(droga.getNombre());
           }
 
           droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
@@ -96,7 +94,7 @@ public class TratamientosImpl implements TratamientosService {
     tratamiento.setPet(pet);
     tratamiento.setVet(vet);
     tratamiento.setDrogas(drogasPersistidas);
-    tratamientosRepo.save(tratamiento);
+    return tratamientosRepo.save(tratamiento);
   }
 
   @Override
@@ -106,9 +104,7 @@ public class TratamientosImpl implements TratamientosService {
       for (Droga droga : tratamiento.getDrogas()) {
         if (droga != null) {
           if (droga.getUnidadesDisponibles() <= 0) {
-            throw new StockInsuficienteException(
-              "No hay suficientes unidades de " + droga.getNombre() + "en stock"
-            );
+            throw new StockInsuficienteException(droga.getNombre());
           }
 
           droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
@@ -124,7 +120,7 @@ public class TratamientosImpl implements TratamientosService {
 
   @Override
   @Transactional
-  public void updateTratamiento(Long id, TratamientoDto tratamientoDto) {
+  public void updateTratamiento(Long id, TratamientoDTO tratamientoDto) {
     if (tratamientoDto == null) {
       throw new RuntimeException("El tratamiento no puede ser nulo");
     }
@@ -169,9 +165,7 @@ public class TratamientosImpl implements TratamientosService {
       Long nuevaDrogaId = nuevaDroga.getId();
       if (!idsDrogasActuales.contains(nuevaDrogaId)) {
         if (nuevaDroga.getUnidadesDisponibles() <= 0) {
-          throw new StockInsuficienteException(
-            "No hay suficientes unidades de " + nuevaDroga.getNombre() + " en stock"
-          );
+          throw new StockInsuficienteException(nuevaDroga.getNombre());
         }
         nuevaDroga.setUnidadesDisponibles(nuevaDroga.getUnidadesDisponibles() - 1);
         nuevaDroga.setUnidadesVendidas(nuevaDroga.getUnidadesVendidas() + 1);
@@ -233,8 +227,8 @@ public class TratamientosImpl implements TratamientosService {
   }
 
   @Override
-  public List<TratamientosMesDto> getNumTratamientos6Meses() {
-    List<TratamientosMesDto> tratamientosMesDtos = new ArrayList<>();
+  public List<TratamientosMesDTO> getNumTratamientos6Meses() {
+    List<TratamientosMesDTO> tratamientosMesDtos = new ArrayList<>();
     LocalDate fechaActual = LocalDate.now();
     for (int i = 5; i >= 0; i--) {
       LocalDate mes = fechaActual.minusMonths(i);
@@ -245,19 +239,19 @@ public class TratamientosImpl implements TratamientosService {
       nombreMes =
         nombreMes.substring(0, 1).toUpperCase(Locale.forLanguageTag("es-ES")) +
         nombreMes.substring(1);
-      tratamientosMesDtos.add(new TratamientosMesDto(nombreMes, count));
+      tratamientosMesDtos.add(new TratamientosMesDTO(nombreMes, count));
     }
     return tratamientosMesDtos;
   }
 
   @Override
-  public List<DrogaTratamientoCountDto> getDrogaTratamientosMesCount() {
+  public List<DrogaTratamientoCountDTO> getDrogaTratamientosMesCount() {
     LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
     List<Droga> drogasUltimoMes = tratamientosRepo.getDrogasDesde(treintaDiasAtras);
-    List<DrogaTratamientoCountDto> drogaTratamientoCounts = new ArrayList<>();
+    List<DrogaTratamientoCountDTO> drogaTratamientoCounts = new ArrayList<>();
     for (Droga droga : drogasUltimoMes) {
       Long count = tratamientosRepo.getNumTratamientosDrogaDesde(droga.getId(), treintaDiasAtras);
-      drogaTratamientoCounts.add(new DrogaTratamientoCountDto(droga.getNombre(), count));
+      drogaTratamientoCounts.add(new DrogaTratamientoCountDTO(droga.getNombre(), count));
     }
     return drogaTratamientoCounts;
   }
@@ -278,7 +272,7 @@ public class TratamientosImpl implements TratamientosService {
   }
 
   @Override
-  public List<TopDto> getTop5DrogasUltimoMes() {
+  public List<TopDTO> getTop5DrogasUltimoMes() {
     LocalDate ultimoMes = LocalDate.now().minusMonths(1);
 
     List<Droga> topDrogas = tratamientosRepo.getTop5DrogasMasVendidasUltimoMes(
@@ -286,7 +280,7 @@ public class TratamientosImpl implements TratamientosService {
       ultimoMes.getMonthValue()
     );
 
-    List<TopDto> topDrogaDtos = new ArrayList<>();
+    List<TopDTO> topDrogaDtos = new ArrayList<>();
     for (int i = 1; i <= topDrogas.size(); i++) {
       Droga droga = topDrogas.get(i - 1);
 
@@ -297,7 +291,7 @@ public class TratamientosImpl implements TratamientosService {
         ultimoMes.getMonthValue()
       );
 
-      topDrogaDtos.add(new TopDto((long) i, droga.getNombre(), cantidad));
+      topDrogaDtos.add(new TopDTO((long) i, droga.getNombre(), cantidad));
     }
 
     return topDrogaDtos;

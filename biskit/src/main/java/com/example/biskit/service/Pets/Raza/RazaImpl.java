@@ -1,7 +1,7 @@
 package com.example.biskit.service.Pets.Raza;
 
-import com.example.biskit.entities.pets.Raza;
-import com.example.biskit.errors.RazaYaExisteException;
+import com.example.biskit.entities.Pets.Raza;
+import com.example.biskit.errors.YaExiste.RazaYaExisteException;
 import com.example.biskit.repo.pets.RazaRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;

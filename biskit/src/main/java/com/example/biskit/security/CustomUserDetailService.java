@@ -4,7 +4,7 @@ import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Rol;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.repo.CredencialesRepo;
 import com.example.biskit.repo.RolRepo;
 import java.util.Collection;

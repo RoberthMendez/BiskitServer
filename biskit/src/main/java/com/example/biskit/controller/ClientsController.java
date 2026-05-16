@@ -66,8 +66,7 @@ public class ClientsController {
     @RequestBody Client client
   ) {
     client.setId(id);
-    Client actualizado = clientsService.updateClient(client);
-    return new ResponseEntity<>(actualizado, HttpStatus.OK);
+    return new ResponseEntity<>(clientsService.updateClient(client), HttpStatus.OK);
   }
 
   // ----- Eliminar Cliente (DELETE) -----
@@ -94,7 +93,9 @@ public class ClientsController {
 
   @GetMapping("/details")
   public Client buscarClient() {
-      Client client = clientsService.findByUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
-      return client;
+    Client client = clientsService.findByUsuario(
+      SecurityContextHolder.getContext().getAuthentication().getName()
+    );
+    return client;
   }
 }

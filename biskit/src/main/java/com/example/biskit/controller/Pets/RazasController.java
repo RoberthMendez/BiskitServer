@@ -1,6 +1,6 @@
 package com.example.biskit.controller.Pets;
 
-import com.example.biskit.entities.pets.Raza;
+import com.example.biskit.entities.Pets.Raza;
 import com.example.biskit.service.Pets.Raza.RazaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

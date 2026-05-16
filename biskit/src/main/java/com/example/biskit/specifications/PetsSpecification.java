@@ -1,7 +1,7 @@
 package com.example.biskit.specifications;
 
-import com.example.biskit.entities.DTOs.PetsFiltrosDto;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
+import com.example.biskit.entities.Pets.Pet;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class PetsSpecification {
 
-  public static Specification<Pet> conFiltros(PetsFiltrosDto filtros) {
+  public static Specification<Pet> conFiltros(PetsFiltrosDTO filtros) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 
@@ -66,6 +66,16 @@ public class PetsSpecification {
       if (filtros.getTratamientos() != null) predicates.add(
         cb.greaterThanOrEqualTo(cb.size(root.get("tratamientos")), filtros.getTratamientos())
       );
+
+      if (Boolean.TRUE.equals(filtros.getMisMascotas())) {
+        if (filtros.getVetId() == null) {
+          throw new IllegalArgumentException("vetId es obligatorio cuando misMascotas es true");
+        }
+
+        Join<Object, Object> tratamientosJoin = root.join("tratamientos", JoinType.INNER);
+        Join<Object, Object> vetJoin = tratamientosJoin.join("vet", JoinType.INNER);
+        predicates.add(cb.equal(vetJoin.get("id"), filtros.getVetId()));
+      }
 
       query.distinct(true);
       return cb.and(predicates.toArray(new Predicate[0]));

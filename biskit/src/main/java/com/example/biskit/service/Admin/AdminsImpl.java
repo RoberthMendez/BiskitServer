@@ -1,7 +1,7 @@
 package com.example.biskit.service.Admin;
 
 import com.example.biskit.entities.Admin;
-import com.example.biskit.errors.AdminNotFoundException;
+import com.example.biskit.errors.NoExiste.AdminNoExisteException;
 import com.example.biskit.repo.AdminRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class AdminsImpl implements AdminsService {
 
   @Override
   public Admin findById(Long id) {
-    return adminRepo.findById(id).orElseThrow(() -> new AdminNotFoundException(id));
+    return adminRepo.findById(id).orElseThrow(() -> new AdminNoExisteException(id));
   }
 
   @Override

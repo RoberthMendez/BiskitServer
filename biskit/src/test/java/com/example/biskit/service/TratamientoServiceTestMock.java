@@ -4,13 +4,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
-import com.example.biskit.entities.DTOs.TratamientoDto;
-import com.example.biskit.entities.DTOs.TratamientosMesDto;
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientosMesDTO;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.errors.MascotaInactivaException;
 import com.example.biskit.errors.StockInsuficienteException;
 import com.example.biskit.repo.TratamientosRepo;
@@ -131,7 +131,7 @@ public class TratamientoServiceTestMock {
     int disponiblesAntes = drogaB.getUnidadesDisponibles(); // 2
     int vendidasAntes = drogaB.getUnidadesVendidas(); // 3
 
-    TratamientoDto dto = new TratamientoDto(
+    TratamientoDTO dto = new TratamientoDTO(
       null,
       LocalDate.of(2026, 5, 4),
       1L, // petId
@@ -194,7 +194,7 @@ public class TratamientoServiceTestMock {
       .build();
 
     // DTO de actualización: cambia a pet2 y vet2, sin drogas
-    TratamientoDto updateDto = new TratamientoDto(
+    TratamientoDTO updateDto = new TratamientoDTO(
       id,
       original.getFecha(),
       2L, // nuevo petId
@@ -352,7 +352,7 @@ public class TratamientoServiceTestMock {
     when(tratamientosRepo.getNumTratamientosMes(hoy.getYear(), hoy.getMonthValue())).thenReturn(1L);
 
     // Act
-    List<TratamientosMesDto> resultado = tratamientoService.getNumTratamientos6Meses();
+    List<TratamientosMesDTO> resultado = tratamientoService.getNumTratamientos6Meses();
 
     // Nombres de mes en español capitalizados (igual que el servicio)
     String[] nombresMes = new String[6];
@@ -403,7 +403,7 @@ public class TratamientoServiceTestMock {
     ).thenReturn(1L);
 
     // Act
-    List<DrogaTratamientoCountDto> resultado = tratamientoService.getDrogaTratamientosMesCount();
+    List<DrogaTratamientoCountDTO> resultado = tratamientoService.getDrogaTratamientosMesCount();
 
     // Assert
     Assertions.assertThat(resultado).isNotNull();
@@ -418,7 +418,7 @@ public class TratamientoServiceTestMock {
   @Test
   public void tratamientoService_addTratamientoDto_noSePuedeAsignarDrogaSinStock() {
     // Arrange
-    TratamientoDto dto = new TratamientoDto(
+    TratamientoDTO dto = new TratamientoDTO(
       null,
       LocalDate.of(2026, 5, 4),
       1L,
@@ -442,7 +442,7 @@ public class TratamientoServiceTestMock {
   @Test
   public void tratamientoService_addTratamientoDto_mascotaInactivaNoPuedeRecibirTratamiento() {
     // Arrange
-    TratamientoDto dto = new TratamientoDto(
+    TratamientoDTO dto = new TratamientoDTO(
       null,
       LocalDate.of(2026, 5, 4),
       1L, // mascota inactiva
@@ -474,7 +474,7 @@ public class TratamientoServiceTestMock {
       .build();
 
     // DTO que intenta cambiar a Droga A
-    TratamientoDto updateDto = new TratamientoDto(
+    TratamientoDTO updateDto = new TratamientoDTO(
       id,
       LocalDate.now(),
       1L,

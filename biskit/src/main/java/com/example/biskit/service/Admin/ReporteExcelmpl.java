@@ -1,7 +1,7 @@
 package com.example.biskit.service.Admin;
 
-import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
-import com.example.biskit.entities.DTOs.TopDto;
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.KPIs.TopDTO;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Tratamientos.TratamientosService;
 import com.example.biskit.service.Vets.VetService;
@@ -185,9 +185,9 @@ public class ReporteExcelmpl implements ReporteExcelService {
       crearCeldaEstilo(encTop, 1, "MEDICAMENTO", estiloEncabezado);
       crearCeldaEstilo(encTop, 2, "VECES USADO", estiloEncabezado);
 
-      List<TopDto> top5Drogas = tratamientosService.getTop5DrogasUltimoMes();
+      List<TopDTO> top5Drogas = tratamientosService.getTop5DrogasUltimoMes();
       for (int i = 0; i < top5Drogas.size(); i++) {
-        TopDto dto = top5Drogas.get(i);
+        TopDTO dto = top5Drogas.get(i);
         XSSFCellStyle estilo = (i % 2 == 0) ? estiloDato : estiloDatoAlt;
         Row row = hoja2.createRow(fila2++);
         crearCeldaEstilo(row, 0, "#" + dto.getTop(), estilo);
@@ -219,9 +219,9 @@ public class ReporteExcelmpl implements ReporteExcelService {
       crearCeldaEstilo(encEnf, 1, "ENFERMEDAD", estiloEncabezado);
       crearCeldaEstilo(encEnf, 2, "CASOS", estiloEncabezado);
 
-      List<TopDto> top5Enf = petsService.getTop5Enfermedades();
+      List<TopDTO> top5Enf = petsService.getTop5Enfermedades();
       for (int i = 0; i < top5Enf.size(); i++) {
-        TopDto dto = top5Enf.get(i);
+        TopDTO dto = top5Enf.get(i);
         XSSFCellStyle estilo = (i % 2 == 0) ? estiloDato : estiloDatoAlt;
         Row row = hoja3.createRow(fila3++);
         crearCeldaEstilo(row, 0, "#" + dto.getTop(), estilo);
@@ -245,10 +245,10 @@ public class ReporteExcelmpl implements ReporteExcelService {
       crearCeldaEstilo(encDroga, 0, "MEDICAMENTO", estiloEncabezado);
       crearCeldaEstilo(encDroga, 1, "N° TRATAMIENTOS", estiloEncabezado);
 
-      List<DrogaTratamientoCountDto> drogaCounts =
+      List<DrogaTratamientoCountDTO> drogaCounts =
         tratamientosService.getDrogaTratamientosMesCount();
       for (int i = 0; i < drogaCounts.size(); i++) {
-        DrogaTratamientoCountDto dto = drogaCounts.get(i);
+        DrogaTratamientoCountDTO dto = drogaCounts.get(i);
         XSSFCellStyle estilo = (i % 2 == 0) ? estiloDato : estiloDatoAlt;
         Row row = hoja4.createRow(fila4++);
         crearCeldaEstilo(row, 0, dto.getDrogaNombre(), estilo);

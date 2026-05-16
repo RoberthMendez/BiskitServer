@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.biskit.controller.Pets.PetsController;
 import com.example.biskit.entities.Client;
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.service.Clients.ClientsService;
 import com.example.biskit.service.Pets.PetsService;
 import com.fasterxml.jackson.databind.ObjectMapper;

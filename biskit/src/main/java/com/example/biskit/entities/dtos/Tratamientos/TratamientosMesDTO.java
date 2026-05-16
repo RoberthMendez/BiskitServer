@@ -1,4 +1,4 @@
-package com.example.biskit.entities.DTOs;
+package com.example.biskit.entities.DTOs.Tratamientos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TratamientosMesDto {
+public class TratamientosMesDTO {
 
   private String mes;
   private Long numTratamientos;

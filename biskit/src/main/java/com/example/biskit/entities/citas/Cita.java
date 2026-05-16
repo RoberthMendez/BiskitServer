@@ -1,7 +1,7 @@
-package com.example.biskit.entities.citas;
+package com.example.biskit.entities.Citas;
 
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.entities.Vets.Vet;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +31,7 @@ public class Cita {
   private Long id;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm a")
-  @JsonFormat(pattern = "yyyy-MM-dd hh:mm a")
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm a", locale = "en_US")
   @Column(nullable = false)
   private LocalDateTime fechaHora;
 

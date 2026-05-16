@@ -1,9 +1,9 @@
 package com.example.biskit.service.Tratamientos;
 
-import com.example.biskit.entities.DTOs.StockDroga;
-import com.example.biskit.entities.DTOs.TopDto;
+import com.example.biskit.entities.DTOs.KPIs.StockDrogaDTO;
+import com.example.biskit.entities.DTOs.KPIs.TopDTO;
 import com.example.biskit.entities.Droga;
-import com.example.biskit.errors.DrogaYaExisteException;
+import com.example.biskit.errors.YaExiste.DrogaYaExisteException;
 import com.example.biskit.repo.DrogasRepo;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
@@ -54,12 +54,12 @@ public class DrogasImpl implements DrogasService {
   }
 
   @Override
-  public List<TopDto> getTop5Drogas() {
+  public List<TopDTO> getTop5Drogas() {
     List<Droga> topDrogas = drogasRepo.findTop5ByOrderByUnidadesVendidasDescPrecioVentaDesc();
-    List<TopDto> topDrogaDtos = new ArrayList<>();
+    List<TopDTO> topDrogaDtos = new ArrayList<>();
     for (int i = 1; i <= topDrogas.size(); i++) {
       topDrogaDtos.add(
-        new TopDto(
+        new TopDTO(
           (long) i,
           topDrogas.get(i - 1).getNombre(),
           (long) topDrogas.get(i - 1).getUnidadesVendidas()
@@ -70,11 +70,13 @@ public class DrogasImpl implements DrogasService {
   }
 
   @Override
-  public List<StockDroga> getDrogasBajasStock() {
+  public List<StockDrogaDTO> getDrogasBajasStock() {
     List<Droga> drogasBajasStock = drogasRepo.findByStockLessThanEqual();
-    List<StockDroga> stockDrogaDtos = new ArrayList<>();
+    List<StockDrogaDTO> stockDrogaDtos = new ArrayList<>();
     for (Droga droga : drogasBajasStock) {
-      stockDrogaDtos.add(new StockDroga(droga.getNombre(), (long) droga.getUnidadesDisponibles()));
+      stockDrogaDtos.add(
+        new StockDrogaDTO(droga.getNombre(), (long) droga.getUnidadesDisponibles())
+      );
     }
     return stockDrogaDtos;
   }

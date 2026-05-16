@@ -1,4 +1,4 @@
-package com.example.biskit.entities.citas;
+package com.example.biskit.entities.Citas;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
@@ -30,12 +30,12 @@ public class Turno {
   private String nombre;
 
   @DateTimeFormat(pattern = "hh:mm a")
-  @JsonFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a", locale = "en_US")
   @Column(nullable = false)
   private LocalTime horaInicio;
 
   @DateTimeFormat(pattern = "hh:mm a")
-  @JsonFormat(pattern = "hh:mm a")
+  @JsonFormat(pattern = "hh:mm a", locale = "en_US")
   @Column(nullable = false)
   private LocalTime horaFin;
 }

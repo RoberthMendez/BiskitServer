@@ -1,6 +1,6 @@
 package com.example.biskit.service.Pets.Especie;
 
-import com.example.biskit.entities.pets.Especie;
+import com.example.biskit.entities.Pets.Especie;
 import com.example.biskit.repo.pets.EspecieRepo;
 import jakarta.transaction.Transactional;
 import java.util.List;

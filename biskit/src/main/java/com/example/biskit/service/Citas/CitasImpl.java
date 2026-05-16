@@ -1,12 +1,12 @@
 package com.example.biskit.service.Citas;
 
+import com.example.biskit.entities.Citas.Cita;
+import com.example.biskit.entities.Citas.HorarioDia;
+import com.example.biskit.entities.Citas.TipoCita;
 import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.citas.Cita;
-import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.citas.TipoCita;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.errors.VetNotAvailableException;
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.entities.Vets.Vet;
+import com.example.biskit.errors.VeterinarioNoDisponibleException;
 import com.example.biskit.repo.citas.CitasRepo;
 import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.citas.TiposCitaRepo;
@@ -17,7 +17,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
@@ -47,14 +46,16 @@ public class CitasImpl implements CitasService {
     citasRepo.save(cita);
   }
 
-  public Cita addCita(CitaDTO citaDto) {
-    TipoCita tipoCita = tiposCitaRepo.findById(citaDto.getTipoCitaId()).orElseThrow();
+  public Cita addCita(CitaDTO citaDto, int numSemana) {
+    TipoCita tipoCita = tiposCitaRepo.findByNombre(citaDto.getTipoCitaNombre()).orElseThrow();
     Pet pet = petsRepo.findById(citaDto.getPetId()).orElseThrow();
     Vet vet = vetsRepo.findById(citaDto.getVetId()).orElseThrow();
 
     LocalDate hoy = LocalDate.now();
     DayOfWeek diaObjetivo = parseDiaSemanaDesdeEspanol(citaDto.getDiaSemana());
-    LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate inicioSemana = hoy
+      .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+      .plusWeeks(numSemana);
     LocalDate fechaCita = inicioSemana.plusDays(diaObjetivo.getValue() - 1);
     LocalDateTime fechaHora = LocalDateTime.of(fechaCita, citaDto.getHora());
 
@@ -68,10 +69,6 @@ public class CitasImpl implements CitasService {
     return citasRepo.save(cita);
   }
 
-  /**
-   * Parsea el nombre del dia de la semana en español (acepta mayúsculas/minúsculas
-   * y con/sin acentos) y lo convierte a DayOfWeek.
-   */
   private DayOfWeek parseDiaSemanaDesdeEspanol(String dia) {
     if (dia == null) {
       throw new IllegalArgumentException("diaSemana es null");
@@ -114,7 +111,7 @@ public class CitasImpl implements CitasService {
     // 2. Buscar si el veterinario tiene horario para ese día
     Optional<HorarioDia> horarioDiaOpt = horariosDiaRepo.findByVetIdAndDiaSemana(vetId, diaSemana);
     if (!horarioDiaOpt.isPresent()) {
-      throw new VetNotAvailableException("El veterinario no trabaja el dia " + diaSemana);
+      throw new VeterinarioNoDisponibleException(diaSemana, true);
     }
 
     HorarioDia horarioDia = horarioDiaOpt.get();
@@ -125,14 +122,7 @@ public class CitasImpl implements CitasService {
 
     // 3. Verificar que la cita esté dentro del horario del turno
     if (horaCita.isBefore(horaInicio) || horaFinCita.isAfter(horaFin)) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-      throw new VetNotAvailableException(
-        "El veterinario trabaja de " +
-          horaInicio.format(formatter) +
-          " a " +
-          horaFin.format(formatter) +
-          "."
-      );
+      throw new VeterinarioNoDisponibleException(horaInicio, horaFin);
     }
 
     // 4. Buscar citas existentes del veterinario en ese día
@@ -152,7 +142,7 @@ public class CitasImpl implements CitasService {
       // Verificar si hay sobreposición
       // Conflicto si: horaCita < horaFinExistente AND horaFinCita > horaExistente
       if (horaCita.isBefore(horaFinExistente) && horaFinCita.isAfter(horaExistente)) {
-        throw new VetNotAvailableException(
+        throw new VeterinarioNoDisponibleException(
           "El veterinario se encuentra ocupado en el horario solicitado"
         );
       }
@@ -192,28 +182,12 @@ public class CitasImpl implements CitasService {
     return citasRepo.findByVetIdAndFechaHoraBetweenDates(vetId, inicioSemana, finSemana);
   }
 
-  public Cita updateCita(Long id, CitaDTO citaDto) {
-    if (citaDto == null) {
-      throw new RuntimeException("La cita no puede ser null");
-    }
-
-    if (citaDto.getTipoCitaId() == null) {
-      throw new RuntimeException("El tipo de cita no puede ser null");
-    }
-
-    if (citaDto.getPetId() == null) {
-      throw new RuntimeException("La mascota no puede ser null");
-    }
-
-    if (citaDto.getVetId() == null) {
-      throw new RuntimeException("El veterinario no puede ser null");
-    }
-
+  public Cita updateCita(Long id, CitaDTO citaDto, int numSemana) {
     Cita citaExistente = citasRepo
       .findById(id)
       .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
     TipoCita tipoCita = tiposCitaRepo
-      .findById(citaDto.getTipoCitaId())
+      .findByNombre(citaDto.getTipoCitaNombre())
       .orElseThrow(() -> new RuntimeException("Tipo de cita no encontrado"));
     Pet pet = petsRepo
       .findById(citaDto.getPetId())
@@ -224,7 +198,9 @@ public class CitasImpl implements CitasService {
 
     LocalDate hoy = LocalDate.now();
     DayOfWeek diaObjetivo = parseDiaSemanaDesdeEspanol(citaDto.getDiaSemana());
-    LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate inicioSemana = hoy
+      .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+      .plusWeeks(numSemana);
     LocalDate fechaCita = inicioSemana.plusDays(diaObjetivo.getValue() - 1);
     LocalDateTime fechaHora = LocalDateTime.of(fechaCita, citaDto.getHora());
 

@@ -1,5 +1,15 @@
 package com.example.biskit.errors;
 
+import com.example.biskit.errors.NoExiste.AdminNoExisteException;
+import com.example.biskit.errors.NoExiste.ClientNoExisteException;
+import com.example.biskit.errors.NoExiste.PetNoExisteException;
+import com.example.biskit.errors.NoExiste.VetNoExisteException;
+import com.example.biskit.errors.YaExiste.ClienteYaExisteException;
+import com.example.biskit.errors.YaExiste.DrogaYaExisteException;
+import com.example.biskit.errors.YaExiste.EnfermedadYaExisteException;
+import com.example.biskit.errors.YaExiste.EspecialidadYaExisteException;
+import com.example.biskit.errors.YaExiste.RazaYaExisteException;
+import com.example.biskit.errors.YaExiste.VeterinarioYaExisteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,8 +18,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-  @ExceptionHandler(VetNotAvailableException.class)
-  public ResponseEntity<ErrorResponse> handleVetNotAvailable(VetNotAvailableException ex) {
+  @ExceptionHandler(VeterinarioNoDisponibleException.class)
+  public ResponseEntity<ErrorResponse> handleVetNotAvailable(VeterinarioNoDisponibleException ex) {
     ErrorResponse error = new ErrorResponse(
       "Veterinario no disponible",
       ex.getMessage(),
@@ -38,8 +48,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(VetNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleVetNotFound(VetNotFoundException ex) {
+  @ExceptionHandler(VetNoExisteException.class)
+  public ResponseEntity<ErrorResponse> handleVetNotFound(VetNoExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Vet id no encontrado",
       ex.getMessage(),
@@ -48,8 +58,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(VetAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleVetAlreadyExists(VetAlreadyExistsException ex) {
+  @ExceptionHandler(VeterinarioYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleVetAlreadyExists(VeterinarioYaExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Veterinario ya existe",
       ex.getMessage(),
@@ -58,8 +68,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(ClientAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleClientAlreadyExists(ClientAlreadyExistsException ex) {
+  @ExceptionHandler(ClienteYaExisteException.class)
+  public ResponseEntity<ErrorResponse> handleClientAlreadyExists(ClienteYaExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Cliente ya existe",
       ex.getMessage(),
@@ -68,8 +78,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(ClientNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleClientNotFound(ClientNotFoundException ex) {
+  @ExceptionHandler(ClientNoExisteException.class)
+  public ResponseEntity<ErrorResponse> handleClientNotFound(ClientNoExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Client id no encontrado",
       ex.getMessage(),
@@ -78,8 +88,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(PetNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handlePetNotFound(PetNotFoundException ex) {
+  @ExceptionHandler(PetNoExisteException.class)
+  public ResponseEntity<ErrorResponse> handlePetNotFound(PetNoExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Pet id no encontrado",
       ex.getMessage(),
@@ -88,8 +98,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(AdminNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleAdminNotFound(AdminNotFoundException ex) {
+  @ExceptionHandler(AdminNoExisteException.class)
+  public ResponseEntity<ErrorResponse> handleAdminNotFound(AdminNoExisteException ex) {
     ErrorResponse error = new ErrorResponse(
       "Admin id no encontrado",
       ex.getMessage(),

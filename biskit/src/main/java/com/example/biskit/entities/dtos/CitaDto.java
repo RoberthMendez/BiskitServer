@@ -22,7 +22,9 @@ public class CitaDTO {
   @JsonFormat(pattern = "hh:mm a", locale = "en_US")
   private LocalTime hora;
 
-  private Long tipoCitaId;
+  private String tipoCitaNombre;
+
+  private Integer duracionMinutos;
 
   private Long petId;
 

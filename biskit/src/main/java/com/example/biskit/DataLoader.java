@@ -1,22 +1,22 @@
 package com.example.biskit;
 
 import com.example.biskit.entities.Admin;
+import com.example.biskit.entities.Citas.Cita;
+import com.example.biskit.entities.Citas.HorarioDia;
+import com.example.biskit.entities.Citas.TipoCita;
+import com.example.biskit.entities.Citas.Turno;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Pets.Enfermedad;
+import com.example.biskit.entities.Pets.Especie;
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.entities.Pets.Raza;
 import com.example.biskit.entities.Rol;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.citas.Cita;
-import com.example.biskit.entities.citas.HorarioDia;
-import com.example.biskit.entities.citas.TipoCita;
-import com.example.biskit.entities.citas.Turno;
-import com.example.biskit.entities.pets.Enfermedad;
-import com.example.biskit.entities.pets.Especie;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.pets.Raza;
-import com.example.biskit.entities.vets.Especialidad;
-import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.errors.VetNotAvailableException;
+import com.example.biskit.entities.Vets.Especialidad;
+import com.example.biskit.entities.Vets.Vet;
+import com.example.biskit.errors.VeterinarioNoDisponibleException;
 import com.example.biskit.repo.AdminRepo;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.repo.CredencialesRepo;
@@ -2311,7 +2311,7 @@ public class DataLoader implements CommandLineRunner {
 
         citasService.addCitaDataLoader(cita);
         return true;
-      } catch (VetNotAvailableException e) {
+      } catch (VeterinarioNoDisponibleException e) {
         horaActual = horaActual.plusMinutes(15);
       }
     }

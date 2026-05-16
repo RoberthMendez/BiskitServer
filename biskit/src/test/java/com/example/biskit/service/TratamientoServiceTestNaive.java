@@ -1,14 +1,14 @@
 package com.example.biskit.service;
 
 import com.example.biskit.entities.Credenciales;
-import com.example.biskit.entities.DTOs.DrogaTratamientoCountDto;
-import com.example.biskit.entities.DTOs.TratamientoDto;
-import com.example.biskit.entities.DTOs.TratamientosMesDto;
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientosMesDTO;
 import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Especialidad;
-import com.example.biskit.entities.vets.Vet;
+import com.example.biskit.entities.Vets.Especialidad;
+import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.errors.MascotaInactivaException;
 import com.example.biskit.errors.StockInsuficienteException;
 import com.example.biskit.service.Pets.PetsService;
@@ -171,7 +171,7 @@ public class TratamientoServiceTestNaive {
     int disponiblesAntes = antes.getUnidadesDisponibles();
     int vendidasAntes = antes.getUnidadesVendidas();
 
-    TratamientoDto newTratamientoDto = new TratamientoDto(
+    TratamientoDTO newTratamientoDto = new TratamientoDTO(
       null,
       new java.sql.Date(cal.getTimeInMillis()).toLocalDate(),
       1L, // petId
@@ -219,7 +219,7 @@ public class TratamientoServiceTestNaive {
   public void tratamientoService_updateTratamiento_void() {
     // Arrange
     Tratamiento original = tratamientoService.getTratamientoById(1L);
-    TratamientoDto updateDto = new TratamientoDto(1L, original.getFecha(), 2L, 2L, List.of());
+    TratamientoDTO updateDto = new TratamientoDTO(1L, original.getFecha(), 2L, 2L, List.of());
 
     // Act
     tratamientoService.updateTratamiento(1L, updateDto);
@@ -264,7 +264,7 @@ public class TratamientoServiceTestNaive {
   @Test
   public void tratamientoService_getNumTratamientos6Meses_ListTratamientosMesDto() {
     // Act
-    List<TratamientosMesDto> tratamientos6Meses = tratamientoService.getNumTratamientos6Meses();
+    List<TratamientosMesDTO> tratamientos6Meses = tratamientoService.getNumTratamientos6Meses();
 
     // Assert
     Assertions.assertThat(tratamientos6Meses).isNotNull();
@@ -337,7 +337,7 @@ public class TratamientoServiceTestNaive {
   @Test
   public void tratamientoService_getDrogaTratamientosMesCount() {
     // Act
-    List<DrogaTratamientoCountDto> resultado = tratamientoService.getDrogaTratamientosMesCount();
+    List<DrogaTratamientoCountDTO> resultado = tratamientoService.getDrogaTratamientosMesCount();
 
     // Assert
     Assertions.assertThat(resultado).isNotNull();
@@ -347,7 +347,7 @@ public class TratamientoServiceTestNaive {
 
     Assertions.assertThat(resultado).hasSize(1);
 
-    DrogaTratamientoCountDto dto = resultado.get(0);
+    DrogaTratamientoCountDTO dto = resultado.get(0);
 
     Assertions.assertThat(dto.getDrogaNombre()).isEqualTo("Droga A");
 
@@ -374,7 +374,7 @@ public class TratamientoServiceTestNaive {
     Calendar cal = Calendar.getInstance();
     cal.set(2026, Calendar.MAY, 4);
 
-    TratamientoDto dto = new TratamientoDto(
+    TratamientoDTO dto = new TratamientoDTO(
       null,
       new java.sql.Date(cal.getTimeInMillis()).toLocalDate(),
       1L,
@@ -398,7 +398,7 @@ public class TratamientoServiceTestNaive {
     Calendar cal = Calendar.getInstance();
     cal.set(2026, Calendar.MAY, 4);
 
-    TratamientoDto dto = new TratamientoDto(
+    TratamientoDTO dto = new TratamientoDTO(
       null,
       new java.sql.Date(cal.getTimeInMillis()).toLocalDate(),
       1L, // mascota ahora inactiva

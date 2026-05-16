@@ -1,6 +1,6 @@
 package com.example.biskit.entities.DTOs.Pets;
 
-import com.example.biskit.entities.pets.Pet;
+import com.example.biskit.entities.Pets.Pet;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;

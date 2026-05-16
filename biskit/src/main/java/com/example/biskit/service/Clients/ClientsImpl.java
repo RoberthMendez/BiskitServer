@@ -2,9 +2,9 @@ package com.example.biskit.service.Clients;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.errors.ClientAlreadyExistsException;
-import com.example.biskit.errors.ClientNotFoundException;
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.errors.NoExiste.ClientNoExisteException;
+import com.example.biskit.errors.YaExiste.ClienteYaExisteException;
 import com.example.biskit.repo.ClientsRepo;
 import com.example.biskit.security.CustomUserDetailService;
 import com.example.biskit.service.Credenciales.CorreosService;
@@ -44,7 +44,7 @@ public class ClientsImpl implements ClientsService {
   @Override
   public Client addClient(Client client) {
     if (client.getCorreo() != null && credencialesService.existeUsuario(client.getCorreo())) {
-      throw new ClientAlreadyExistsException(client.getCorreo());
+      throw new ClienteYaExisteException(client.getCorreo());
     }
 
     Credenciales credenciales = userDetailsService.clientToCredenciales(client);
@@ -61,7 +61,7 @@ public class ClientsImpl implements ClientsService {
   public Client updateClient(Client client) {
     Client clientExistente = clientsRepo
       .findById(client.getId())
-      .orElseThrow(() -> new ClientNotFoundException(client.getId()));
+      .orElseThrow(() -> new ClientNoExisteException(client.getId()));
 
     clientExistente.setNombre(client.getNombre());
     clientExistente.setCedula(client.getCedula());
@@ -79,7 +79,7 @@ public class ClientsImpl implements ClientsService {
   @Override
   @Transactional
   public void deleteClient(Long id) {
-    Client client = clientsRepo.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
+    Client client = clientsRepo.findById(id).orElseThrow(() -> new ClientNoExisteException(id));
 
     List<Pet> pets = client.getPets() == null ? List.of() : new ArrayList<>(client.getPets());
 
@@ -107,7 +107,7 @@ public class ClientsImpl implements ClientsService {
   public List<Pet> getPetsByClientId(Long clientId) {
     Client client = clientsRepo
       .findById(clientId)
-      .orElseThrow(() -> new ClientNotFoundException(clientId));
+      .orElseThrow(() -> new ClientNoExisteException(clientId));
     // Obtener las versiones actualizadas de las mascotas desde PetsRepo
     List<Pet> updatedPets = new ArrayList<>();
     if (client.getPets() == null) {
@@ -126,7 +126,7 @@ public class ClientsImpl implements ClientsService {
   public void addPetToClient(Long clientId, Pet pet) {
     Client dueñoIngresado = clientsRepo
       .findById(clientId)
-      .orElseThrow(() -> new ClientNotFoundException(clientId));
+      .orElseThrow(() -> new ClientNoExisteException(clientId));
 
     if (pet.getId() == null) {
       if (dueñoIngresado.getPets() != null) {
@@ -166,7 +166,7 @@ public class ClientsImpl implements ClientsService {
 
   @Override
   public Client getClientById(Long id) {
-    return clientsRepo.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
+    return clientsRepo.findById(id).orElseThrow(() -> new ClientNoExisteException(id));
   }
 
   @Override

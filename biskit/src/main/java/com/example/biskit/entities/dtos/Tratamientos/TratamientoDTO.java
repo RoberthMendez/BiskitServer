@@ -1,4 +1,4 @@
-package com.example.biskit.entities.DTOs;
+package com.example.biskit.entities.DTOs.Tratamientos;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TratamientoDto {
+public class TratamientoDTO {
 
   private Long id;
   private LocalDate fecha;
