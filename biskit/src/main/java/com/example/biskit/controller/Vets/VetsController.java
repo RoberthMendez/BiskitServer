@@ -66,8 +66,7 @@ public class VetsController {
   // http://localhost:8080/vets/update/{id}
   @PutMapping("update/{id}")
   public ResponseEntity<Vet> actualizarVet(@PathVariable Long id, @RequestBody Vet vet) {
-    vet.setId(id);
-    return new ResponseEntity<>(vetService.saveVet(vet), HttpStatus.OK);
+    return new ResponseEntity<>(vetService.updateVet(vet), HttpStatus.OK);
   }
 
   // ----- Eliminar Veterinario (DELETE) -----

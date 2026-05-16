@@ -67,10 +67,7 @@ public class ClientsImpl implements ClientsService {
     clientExistente.setCedula(client.getCedula());
     clientExistente.setCorreo(client.getCorreo());
     clientExistente.setCelular(client.getCelular());
-
-    if (client.getCredenciales() != null && client.getCredenciales().getId() != null) {
-      clientExistente.setCredenciales(client.getCredenciales());
-    }
+    clientExistente.getCredenciales().setUsername(client.getCorreo());
 
     Client guardado = clientsRepo.save(clientExistente);
     return guardado;

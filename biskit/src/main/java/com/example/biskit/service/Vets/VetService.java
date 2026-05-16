@@ -17,6 +17,8 @@ public interface VetService {
 
   public Vet saveVet(Vet vet);
 
+  public Vet updateVet(Vet vet);
+
   public boolean autenticarVet(String usuario, String contrasena);
 
   public Vet findByUsuario(String usuario);
