@@ -151,7 +151,7 @@ public class DataLoader implements CommandLineRunner {
   public void cargarEnfermedades() {
     enfermedadRepo.save(Enfermedad.builder().nombre("Ninguna").build());
     enfermedadRepo.save(Enfermedad.builder().nombre("Parásitos").build());
-    enfermedadRepo.save(Enfermedad.builder().nombre("Alergía").build());
+    enfermedadRepo.save(Enfermedad.builder().nombre("Alergia").build());
     enfermedadRepo.save(Enfermedad.builder().nombre("Infección").build());
     enfermedadRepo.save(Enfermedad.builder().nombre("Artritis").build());
     enfermedadRepo.save(Enfermedad.builder().nombre("Diabetes").build());

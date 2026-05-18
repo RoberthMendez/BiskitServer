@@ -1,7 +1,6 @@
 package com.example.biskit.controller;
 
 import com.example.biskit.entities.Citas.Cita;
-import com.example.biskit.entities.Citas.TipoCita;
 import com.example.biskit.entities.DTOs.CitaDTO;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Citas.TiposCitaService;
@@ -41,7 +40,7 @@ public class CitasController {
   // ----- Obtener Tipos de Citas (READ) -----
   // http://localhost:8080/citas/tipos
   @GetMapping("/tipos")
-  public ResponseEntity<List<TipoCita>> getTiposCitas() {
+  public ResponseEntity<List<String>> getTiposCitas() {
     return new ResponseEntity<>(tiposCitaService.getTiposCitas(), HttpStatus.OK);
   }
 

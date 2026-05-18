@@ -28,5 +28,9 @@ public class CitaDTO {
 
   private Long petId;
 
+  private String petNombre;
+
+  private String ownerNombre;
+
   private Long vetId;
 }

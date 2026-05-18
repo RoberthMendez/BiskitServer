@@ -272,8 +272,8 @@ public class VetImpl implements VetService {
         .hora(hora)
         .tipoCitaNombre(cita.getTipoCita().getNombre())
         .duracionMinutos(cita.getTipoCita().getDuracionMinutos())
-        .petId(cita.getPet().getId())
-        .vetId(cita.getVet().getId())
+        .petNombre(cita.getPet().getNombre())
+        .ownerNombre(cita.getPet().getOwner().getNombre())
         .build();
 
       citasDto.add(citaDto);
