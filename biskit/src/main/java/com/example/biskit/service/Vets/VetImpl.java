@@ -12,6 +12,8 @@ import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.errors.NoExiste.VetNoExisteException;
 import com.example.biskit.errors.YaExiste.VeterinarioYaExisteException;
 import com.example.biskit.repo.TratamientosRepo;
+import com.example.biskit.repo.citas.CitasRepo;
+import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.vets.VetsRepo;
 import com.example.biskit.security.CustomUserDetailService;
@@ -49,6 +51,12 @@ public class VetImpl implements VetService {
 
   @Autowired
   private PetsRepo petsRepo;
+
+  @Autowired
+  private CitasRepo citasRepo;
+
+  @Autowired
+  private HorariosDiaRepo horariosDiaRepo;
 
   @Autowired
   private TratamientosRepo tratamientosRepo;
@@ -192,6 +200,8 @@ public class VetImpl implements VetService {
 
     List<Tratamiento> tratamientos = tratamientosRepo.findByVetId(id);
     tratamientosRepo.deleteAll(tratamientos);
+    citasRepo.deleteByVetId(id);
+    horariosDiaRepo.deleteByVetId(id);
 
     vetsRepo.delete(vet);
   }

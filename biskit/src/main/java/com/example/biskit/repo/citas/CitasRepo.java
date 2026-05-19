@@ -31,4 +31,8 @@ public interface CitasRepo extends JpaRepository<Cita, Long> {
   @Modifying
   @Query("DELETE FROM Cita c WHERE c.pet.id = :petId")
   void deleteByPetId(@Param("petId") Long petId);
+
+  @Modifying
+  @Query("DELETE FROM Cita c WHERE c.vet.id = :vetId")
+  void deleteByVetId(@Param("vetId") Long vetId);
 }
