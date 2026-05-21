@@ -64,7 +64,7 @@ public class VetsController {
 
   // ----- Actualizar Veterinario (UPDATE) -----
   // http://localhost:8080/vets/update/{id}
-  @PutMapping("update/{id}")
+  @PutMapping("/update/{id}")
   public ResponseEntity<Vet> actualizarVet(@PathVariable Long id, @RequestBody Vet vet) {
     return new ResponseEntity<>(vetService.updateVet(vet), HttpStatus.OK);
   }

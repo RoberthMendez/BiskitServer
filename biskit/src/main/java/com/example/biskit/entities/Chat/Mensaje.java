@@ -1,5 +1,7 @@
 package com.example.biskit.entities.Chat;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -32,5 +34,8 @@ public class Mensaje {
 
         @Column(name = "contenido", nullable = false, length = 1000)
         private String contenido;
+
+        @Column(name = "timestamp", nullable = false)
+        private Timestamp timestamp;
     
 }

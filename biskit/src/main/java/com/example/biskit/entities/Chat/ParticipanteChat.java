@@ -33,6 +33,5 @@ public class ParticipanteChat {
     @OneToOne
     @JoinColumn(name = "credenciales_id")
     private Credenciales credenciales;
-
     
 }
