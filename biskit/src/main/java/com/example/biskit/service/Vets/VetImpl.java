@@ -1,148 +1,312 @@
 package com.example.biskit.service.Vets;
 
+import com.example.biskit.entities.Citas.Cita;
+import com.example.biskit.entities.Citas.HorarioDia;
+import com.example.biskit.entities.Credenciales;
+import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.dtos.VetsFiltrosDto;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.entities.vets.Especialidad;
-import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.errors.VetNotFoundException;
-import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.entities.Vets.Especialidad;
+import com.example.biskit.entities.Vets.Vet;
+import com.example.biskit.errors.NoExiste.VetNoExisteException;
+import com.example.biskit.errors.YaExiste.VeterinarioYaExisteException;
 import com.example.biskit.repo.TratamientosRepo;
+import com.example.biskit.repo.citas.CitasRepo;
+import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.pets.PetsRepo;
+import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.security.CustomUserDetailService;
+import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Credenciales.CredencialesService;
 import com.example.biskit.specifications.VetsSpecification;
-
-import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import java.text.Normalizer;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class VetImpl implements VetService {
 
-    @Autowired
-    private VetsRepo vetsRepo;
+  private static final List<String> ORDEN_DIAS_SEMANA = List.of(
+    "lunes",
+    "martes",
+    "miercoles",
+    "jueves",
+    "viernes",
+    "sabado",
+    "domingo"
+  );
 
-    @Autowired
-    private PetsRepo petsRepo;
+  @Autowired
+  private VetsRepo vetsRepo;
 
-    @Autowired
-    private TratamientosRepo tratamientosRepo;
+  @Autowired
+  private PetsRepo petsRepo;
 
-    @Autowired
-    private EspecialidadesService especialidadesService;
+  @Autowired
+  private CitasRepo citasRepo;
 
-    @Autowired
-    private CredencialesService credencialesService;
+  @Autowired
+  private HorariosDiaRepo horariosDiaRepo;
 
-    @Override
-    public List<Vet> getVets() {
-        return vetsRepo.findAll();
+  @Autowired
+  private TratamientosRepo tratamientosRepo;
+
+  @Autowired
+  private EspecialidadesService especialidadesService;
+
+  @Autowired
+  private CredencialesService credencialesService;
+
+  @Autowired
+  private CustomUserDetailService userDetailsService;
+
+  @Autowired
+  private CitasService citasService;
+
+  @Override
+  public List<Vet> getVets() {
+    return vetsRepo.findAll();
+  }
+
+  @Override
+  public Vet getVetById(Long id) {
+    return vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
+  }
+
+  @Override
+  public Vet addVet(Vet vet) {
+    if (vet.getCorreo() != null && credencialesService.existeUsuario(vet.getCorreo())) {
+      throw new VeterinarioYaExisteException(vet.getCorreo());
     }
 
-    @Override
-    public Vet getVetById(Long id) {
-        return vetsRepo.findById(id)
-                .orElseThrow(() -> new VetNotFoundException(id));
+    if (vet.getId() == null) {
+      vet.setEstado(true);
     }
 
-    @Override
-    public void addVet(Vet vet) {
+    Credenciales credenciales = userDetailsService.vetToCredenciales(vet);
+    credencialesService.addCredenciales(credenciales);
+    vet.setCredenciales(credenciales);
 
-        if (vet.getId() == null) {
-            vet.setEstado(true);
-        }
+    Especialidad especialidad = especialidadesService.getEspecialidadById(
+      vet.getEspecialidad().getId()
+    );
+    vet.setEspecialidad(especialidad);
+    return vetsRepo.save(vet);
+  }
 
-        if (vet.getCredenciales().getId() == null) {
-            vet.getCredenciales().setUsuario(vet.getCorreo());
-            vet.getCredenciales().setPassword(vet.getCedula());
-            credencialesService.addCredenciales(vet.getCredenciales());
-        }
+  @Override
+  public Vet updateVet(Vet vet) {
+    Vet vetExistente = vetsRepo
+      .findById(vet.getId())
+      .orElseThrow(() -> new VetNoExisteException(vet.getId()));
 
-        Especialidad especialidad = especialidadesService.getEspecialidadById(vet.getEspecialidad().getId());
-        vet.setEspecialidad(especialidad);
-        vetsRepo.save(vet);
+    vetExistente.setNombre(vet.getNombre());
+    vetExistente.setCorreo(vet.getCorreo());
+    vetExistente.setCedula(vet.getCedula());
+    vetExistente.setEstado(vet.isEstado());
+    vetExistente.getCredenciales().setUsername(vet.getCorreo());
+
+    if (vet.getEspecialidad() != null && vet.getEspecialidad().getId() != null) {
+      Especialidad especialidad = especialidadesService.getEspecialidadById(
+        vet.getEspecialidad().getId()
+      );
+      vetExistente.setEspecialidad(especialidad);
     }
 
-    @Override
-    public void saveVet(Vet vet) {
-        vetsRepo.save(vet);
+    return vetsRepo.save(vetExistente);
+  }
+
+  @Override
+  public Vet saveVet(Vet vet) {
+    return vetsRepo.save(vet);
+  }
+
+  @Override
+  public boolean autenticarVet(String usuario, String contrasena) {
+    return vetsRepo
+      .findAll()
+      .stream()
+      .filter(vet -> vet.getCredenciales() != null)
+      .anyMatch(
+        vet ->
+          usuario.equals(vet.getCredenciales().getUsername()) &&
+          contrasena.equals(vet.getCredenciales().getPassword())
+      );
+  }
+
+  @Override
+  public Vet findByUsuario(String usuario) {
+    return vetsRepo
+      .findAll()
+      .stream()
+      .filter(vet -> vet.getCredenciales() != null)
+      .filter(vet -> usuario.equals(vet.getCredenciales().getUsername()))
+      .findFirst()
+      .orElse(null);
+  }
+
+  @Override
+  public Long getVetsCount() {
+    return vetsRepo.count();
+  }
+
+  @Override
+  public Long getVetsInactivosCount() {
+    return vetsRepo.countByEstadoFalse();
+  }
+
+  @Override
+  public Long getVetsActivosCount() {
+    return vetsRepo.countByEstadoTrue();
+  }
+
+  @Override
+  public Long getVetTratamientosCount(Long vetId) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
     }
 
-    @Override
-    public boolean autenticarVet(String usuario, String contrasena) {
-        return vetsRepo.findAll().stream()
-                .filter(vet -> vet.getCredenciales() != null)
-                .anyMatch(vet -> usuario.equals(vet.getCredenciales().getUsuario())
-                        && contrasena.equals(vet.getCredenciales().getPassword()));
+    return tratamientosRepo.getTratamientosVetCount(vetId);
+  }
+
+  @Override
+  public List<Pet> getPetsTratadosPorVet(Long vetId) {
+    //Si no existe el veterinario, se lanza una excepción
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
+    }
+    return petsRepo.findDistinctByTratamientosVetId(vetId);
+  }
+
+  @Override
+  public void deleteVet(Long id) {
+    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
+
+    List<Pet> petsTratados = petsRepo.findDistinctByTratamientosVetId(id);
+    for (Pet pet : petsTratados) {
+      pet.getTratamientos().removeIf(tratamiento -> tratamiento.getVet().getId().equals(id));
+      petsRepo.save(pet);
     }
 
-    @Override
-    public Vet findByUsuario(String usuario) {
-        return vetsRepo.findAll().stream()
-                .filter(vet -> vet.getCredenciales() != null)
-                .filter(vet -> usuario.equals(vet.getCredenciales().getUsuario()))
-                .findFirst()
-                .orElse(null);
+    List<Tratamiento> tratamientos = tratamientosRepo.findByVetId(id);
+    tratamientosRepo.deleteAll(tratamientos);
+    citasRepo.deleteByVetId(id);
+    horariosDiaRepo.deleteByVetId(id);
+
+    vetsRepo.delete(vet);
+  }
+
+  @Override
+  public void cambiarEstadoVet(Long id, boolean estado) {
+    Vet vet = vetsRepo.findById(id).orElseThrow(() -> new VetNoExisteException(id));
+    vet.setEstado(estado);
+    vetsRepo.save(vet);
+  }
+
+  @Override
+  public List<Vet> getVetsFiltrados(VetsFiltrosDTO filtros) {
+    return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
+  }
+
+  // ------ AGENDA Y CITAS -------
+  @Override
+  public List<HorarioDia> getHorarioSemanalByVetId(Long vetId) {
+    Vet vet = vetsRepo.findById(vetId).orElseThrow(() -> new VetNoExisteException(vetId));
+
+    if (vet.getHorariosDia() == null || vet.getHorariosDia().isEmpty()) {
+      return List.of();
     }
 
-    @Override
-    public Long getVetsCount() {
-        return vetsRepo.count();
+    return vet
+      .getHorariosDia()
+      .stream()
+      .sorted(
+        Comparator.comparingInt((HorarioDia horario) ->
+          getOrdenDiaSemana(horario.getDiaSemana())
+        ).thenComparing(horario ->
+          horario.getTurno() != null && horario.getTurno().getHoraInicio() != null
+            ? horario.getTurno().getHoraInicio()
+            : LocalTime.MAX
+        )
+      )
+      .toList();
+  }
+
+  private int getOrdenDiaSemana(String diaSemana) {
+    if (diaSemana == null) {
+      return Integer.MAX_VALUE;
     }
 
-    @Override
-    public Long getVetsInactivosCount() {
-        return vetsRepo.countByEstadoFalse();
+    String diaNormalizado = Normalizer.normalize(diaSemana, Normalizer.Form.NFD)
+      .replaceAll("\\p{M}", "")
+      .toLowerCase(Locale.ROOT);
+
+    int indice = ORDEN_DIAS_SEMANA.indexOf(diaNormalizado);
+    return indice >= 0 ? indice : Integer.MAX_VALUE;
+  }
+
+  public List<Tratamiento> getTratamientosVet(Long vetId) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
     }
 
-    @Override
-    public Long getVetsActivosCount() {
-        return vetsRepo.countByEstadoTrue();
+    return tratamientosRepo.findByVetId(vetId);
+  }
+
+  // ------ AGENDA Y CITAS -------
+  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
     }
 
-    @Override
-    public Long getVetTratamientosCount(Long vetId) {
-        return tratamientosRepo.getTratamientosVetCount(vetId);
+    List<CitaDTO> citasDto = new ArrayList<>();
+    List<Cita> citas = citasService.getCitasSemanaByVetId(vetId, numSemana);
+
+    for (Cita cita : citas) {
+      String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
+      LocalTime hora = cita.getFechaHora().toLocalTime();
+
+      CitaDTO citaDto = CitaDTO.builder()
+        .id(cita.getId())
+        .diaSemana(diaSemana)
+        .hora(hora)
+        .tipoCitaNombre(cita.getTipoCita().getNombre())
+        .duracionMinutos(cita.getTipoCita().getDuracionMinutos())
+        .petNombre(cita.getPet().getNombre())
+        .ownerNombre(cita.getPet().getOwner().getNombre())
+        .build();
+
+      citasDto.add(citaDto);
     }
 
-    @Override
-    public List<Pet> getPetsTratadosPorVet(Long vetId) {
-        //Si no existe el veterinario, se lanza una excepción
-        if (!vetsRepo.existsById(vetId)) {
-            throw new VetNotFoundException(vetId);
-        }
-        return petsRepo.findDistinctByTratamientosVetId(vetId);
+    return citasDto;
+  }
+
+  private String formatearDiaSemana(DayOfWeek diaSemana) {
+    if (diaSemana == null) {
+      return null;
     }
 
-    @Override
-    public void deleteVet(Long id) {
-        Vet vet = vetsRepo.findById(id)
-                .orElseThrow(() -> new VetNotFoundException(id));
+    Locale localeEspanol = new Locale("es", "ES");
+    String diaFormateado = diaSemana.getDisplayName(TextStyle.FULL, localeEspanol);
 
-        List<Pet> petsTratados = petsRepo.findDistinctByTratamientosVetId(id);
-        for (Pet pet : petsTratados) {
-            pet.getTratamientos().removeIf(tratamiento -> tratamiento.getVet().getId().equals(id));
-            petsRepo.save(pet);
-        }
-
-        List<Tratamiento> tratamientos = tratamientosRepo.findByVetId(id);
-        tratamientosRepo.deleteAll(tratamientos);
-
-        vetsRepo.delete(vet);
+    if (diaFormateado.isEmpty()) {
+      return diaFormateado;
     }
 
-    @Override
-    public void cambiarEstadoVet(Long id, boolean estado) {
-        Vet vet = vetsRepo.findById(id)
-                .orElseThrow(() -> new VetNotFoundException(id));
-        vet.setEstado(estado);
-        vetsRepo.save(vet);
-    }
-
-    @Override
-    public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
-        return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
-    }
-
+    return (
+      diaFormateado.substring(0, 1).toUpperCase(localeEspanol) +
+      diaFormateado.substring(1).toLowerCase(localeEspanol)
+    );
+  }
 }

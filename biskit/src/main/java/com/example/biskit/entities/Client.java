@@ -1,29 +1,25 @@
 package com.example.biskit.entities;
 
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.util.NoNormalizar;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.util.NoNormalizar;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
 
 @Getter
 @Setter
@@ -32,7 +28,7 @@ import jakarta.persistence.GeneratedValue;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Client extends EntidadBase {
+public class Client extends EntidadBase implements Contactable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +46,7 @@ public class Client extends EntidadBase {
 
   @Column(name = "celular", nullable = false, length = 20)
   private String celular;
-  
+
   @JsonIgnore
   @OneToOne
   @JoinColumn(name = "credenciales_id")
@@ -60,5 +56,4 @@ public class Client extends EntidadBase {
   @OneToMany(mappedBy = "owner")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Pet> pets;
-  
 }

@@ -1,7 +1,7 @@
 package com.example.biskit.entities;
 
 import com.example.biskit.util.NoNormalizar;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,13 +23,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class Admin extends EntidadBase {
+public class Admin extends EntidadBase implements Contactable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length = 100) 
+  @Column(nullable = false, length = 100)
   private String nombre;
 
   @Column(nullable = false, length = 20, unique = true)
@@ -41,6 +41,6 @@ public class Admin extends EntidadBase {
 
   @OneToOne
   @JoinColumn(name = "credenciales_id")
+  @JsonIgnore
   private Credenciales credenciales;
-  
 }

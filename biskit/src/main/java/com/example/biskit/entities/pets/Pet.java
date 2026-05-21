@@ -1,22 +1,20 @@
-package com.example.biskit.entities.pets;
-
-import java.sql.Date;
-import java.util.List;
+package com.example.biskit.entities.Pets;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.EntidadBase;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.util.NoNormalizar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import java.sql.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -50,7 +48,7 @@ public class Pet extends EntidadBase {
 
   @Column(name = "peso")
   private float peso;
-  
+
   @Column(name = "url_foto", length = 255)
   @NoNormalizar
   private String urlFoto;
@@ -58,7 +56,7 @@ public class Pet extends EntidadBase {
   @ManyToOne
   @JoinColumn(name = "enfermedad_id")
   private Enfermedad enfermedad;
-  
+
   @ManyToOne
   private Client owner;
 
@@ -69,5 +67,4 @@ public class Pet extends EntidadBase {
   @JsonIgnore
   @OneToMany(mappedBy = "pet")
   private List<Tratamiento> tratamientos;
-
 }

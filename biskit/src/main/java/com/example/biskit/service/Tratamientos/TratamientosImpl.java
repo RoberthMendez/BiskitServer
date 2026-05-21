@@ -1,5 +1,21 @@
 package com.example.biskit.service.Tratamientos;
 
+import com.example.biskit.entities.DTOs.KPIs.DrogaTratamientoCountDTO;
+import com.example.biskit.entities.DTOs.KPIs.TopDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientoDTO;
+import com.example.biskit.entities.DTOs.Tratamientos.TratamientosMesDTO;
+import com.example.biskit.entities.Droga;
+import com.example.biskit.entities.Pets.Pet;
+import com.example.biskit.entities.Tratamiento;
+import com.example.biskit.entities.Vets.Vet;
+import com.example.biskit.errors.MascotaInactivaException;
+import com.example.biskit.errors.StockInsuficienteException;
+import com.example.biskit.repo.TratamientosRepo;
+import com.example.biskit.service.Pets.PetsService;
+import com.example.biskit.service.Vets.VetService;
+import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -7,251 +23,277 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.example.biskit.entities.Droga;
-import com.example.biskit.entities.Tratamiento;
-import com.example.biskit.entities.dtos.DrogaTratamientoCountDto;
-import com.example.biskit.entities.dtos.TratamientoDto;
-import com.example.biskit.entities.vets.Vet;
-import com.example.biskit.entities.pets.Pet;
-import com.example.biskit.errors.MascotaInactivaException;
-import com.example.biskit.errors.StockInsuficienteException;
-import com.example.biskit.repo.TratamientosRepo;
-import com.example.biskit.service.Pets.PetsService;
-import com.example.biskit.service.Vets.VetService;
-import com.example.biskit.entities.dtos.TratamientosMesDto;
 
 @Service
+@Transactional
 public class TratamientosImpl implements TratamientosService {
 
-    @Autowired
-    private TratamientosRepo tratamientosRepo;
+  @Autowired
+  private TratamientosRepo tratamientosRepo;
 
-    @Autowired
-    private VetService vetService;
+  @Autowired
+  private VetService vetService;
 
-    @Autowired
-    private PetsService petsService;
+  @Autowired
+  private PetsService petsService;
 
-    @Autowired
-    private DrogasService drogasService;
+  @Autowired
+  private DrogasService drogasService;
 
-    @Override
-    public Tratamiento getTratamientoById(Long id) {
-        return tratamientosRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+  @Override
+  public Tratamiento getTratamientoById(Long id) {
+    return tratamientosRepo
+      .findById(id)
+      .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+  }
+
+  @Override
+  @Transactional
+  public Tratamiento addTratamiento(TratamientoDTO tratamientoDto) {
+    if (tratamientoDto == null) {
+      throw new RuntimeException("El tratamiento no puede ser nulo");
     }
 
-    @Override
-    @Transactional
-    public void addTratamiento(TratamientoDto tratamientoDto) {
-
-        if (tratamientoDto == null) {
-            throw new RuntimeException("El tratamiento no puede ser nulo");
-        }
-
-        if (tratamientoDto.getPetId() == null) {
-            throw new RuntimeException("El tratamiento debe incluir una mascota válida");
-        }
-
-        if (tratamientoDto.getVetId() == null) {
-            throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
-        }
-
-        Pet pet = petsService.getPetById(tratamientoDto.getPetId());
-        Vet vet = vetService.getVetById(tratamientoDto.getVetId());
-
-        if (!pet.isEstado()) {
-            throw new MascotaInactivaException("La mascota está inactiva");
-        }
-
-        List<Droga> drogasPersistidas = new ArrayList<>();
-        if (tratamientoDto.getDrogasIds() != null) {
-            for (Long drogaId : tratamientoDto.getDrogasIds()) {
-                if (drogaId != null) {
-
-                    Droga droga = drogasService.getDrogaById(drogaId);
-                    if (droga.getUnidadesDisponibles() <= 0) {
-                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + " para crear el tratamiento");
-                    }
-
-                    droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
-                    droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
-                    drogasService.saveDroga(droga);
-                    drogasPersistidas.add(droga);
-                }
-            }
-        }
-
-        Tratamiento tratamiento = new Tratamiento();
-        tratamiento.setId(tratamientoDto.getId());
-        tratamiento.setFecha(tratamientoDto.getFecha());
-        tratamiento.setPet(pet);
-        tratamiento.setVet(vet);
-        tratamiento.setDrogas(drogasPersistidas);
-        tratamientosRepo.save(tratamiento);
+    if (tratamientoDto.getPetId() == null) {
+      throw new RuntimeException("El tratamiento debe incluir una mascota válida");
     }
 
-    @Override
-    public void addTratamiento(Tratamiento tratamiento) {
-
-        List<Droga> drogasPersistidas = new ArrayList<>();
-        if (tratamiento.getDrogas() != null) {
-            for (Droga droga : tratamiento.getDrogas()) {
-                if (droga != null) {
-
-                    if (droga.getUnidadesDisponibles() <= 0) {
-                        throw new StockInsuficienteException("No hay suficientes unidades de " + droga.getNombre() + "en stock");
-                    }
-
-                    droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
-                    droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
-                    drogasService.saveDroga(droga);
-                    drogasPersistidas.add(droga);
-                }
-            }
-        }
-        tratamiento.setDrogas(drogasPersistidas);
-        tratamientosRepo.save(tratamiento);
+    if (tratamientoDto.getVetId() == null) {
+      throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
     }
 
-    @Override
-    @Transactional
-    public void updateTratamiento(Long id, TratamientoDto tratamientoDto) {
+    Pet pet = petsService.getPetById(tratamientoDto.getPetId());
+    Vet vet = vetService.getVetById(tratamientoDto.getVetId());
 
-        if (tratamientoDto == null) {
-            throw new RuntimeException("El tratamiento no puede ser nulo");
-        }
-
-        if (tratamientoDto.getPetId() == null) {
-            throw new RuntimeException("El tratamiento debe incluir una mascota válida");
-        }
-
-        if (tratamientoDto.getVetId() == null) {
-            throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
-        }
-
-        Pet pet = petsService.getPetById(tratamientoDto.getPetId());
-        Vet vet = vetService.getVetById(tratamientoDto.getVetId());
-
-        Tratamiento existingTratamiento = tratamientosRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
-
-        List<Droga> drogasActuales = new ArrayList<>(existingTratamiento.getDrogas());
-        Set<Long> idsDrogasActuales = new HashSet<>();
-        for (Droga drogaActual : drogasActuales) {
-            if (drogaActual != null && drogaActual.getId() != null) {
-                idsDrogasActuales.add(drogaActual.getId());
-            }
-        }
-
-        Map<Long, Droga> nuevasDrogasPorId = new LinkedHashMap<>();
-        if (tratamientoDto.getDrogasIds() != null) {
-            for (Long drogaId : tratamientoDto.getDrogasIds()) {
-                if (drogaId != null) {
-                    Droga droga = drogasService.getDrogaById(drogaId);
-                    nuevasDrogasPorId.putIfAbsent(droga.getId(), droga);
-                }
-            }
-        }
-
-        List<Droga> drogasPersistidas = new ArrayList<>(nuevasDrogasPorId.values());
-        Set<Long> idsNuevasDrogas = new HashSet<>(nuevasDrogasPorId.keySet());
-
-        for (Droga nuevaDroga : drogasPersistidas) {
-            Long nuevaDrogaId = nuevaDroga.getId();
-            if (!idsDrogasActuales.contains(nuevaDrogaId)) {
-                if (nuevaDroga.getUnidadesDisponibles() <= 0) {
-                    throw new StockInsuficienteException("No hay suficientes unidades de " + nuevaDroga.getNombre() + " en stock");
-                }
-                nuevaDroga.setUnidadesDisponibles(nuevaDroga.getUnidadesDisponibles() - 1);
-                nuevaDroga.setUnidadesVendidas(nuevaDroga.getUnidadesVendidas() + 1);
-                drogasService.saveDroga(nuevaDroga);
-            }
-        }
-
-        for (Droga drogaActual : drogasActuales) {
-            Long drogaActualId = drogaActual.getId();
-            if (drogaActualId != null && !idsNuevasDrogas.contains(drogaActualId)) {
-                drogaActual.setUnidadesDisponibles(drogaActual.getUnidadesDisponibles() + 1);
-                if (drogaActual.getUnidadesVendidas() > 0) {
-                    drogaActual.setUnidadesVendidas(drogaActual.getUnidadesVendidas() - 1);
-                }
-                drogasService.saveDroga(drogaActual);
-            }
-        }
-
-        existingTratamiento.setFecha(tratamientoDto.getFecha());
-        existingTratamiento.setPet(pet);
-        existingTratamiento.setVet(vet);
-        existingTratamiento.setDrogas(drogasPersistidas);
-
-        tratamientosRepo.save(existingTratamiento);
-
+    if (!pet.isEstado()) {
+      throw new MascotaInactivaException("La mascota está inactiva");
     }
 
-    @Override
-    public void deleteTratamiento(Long id) {
-        Tratamiento tratamiento = tratamientosRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+    List<Droga> drogasPersistidas = new ArrayList<>();
+    if (tratamientoDto.getDrogasIds() != null) {
+      for (Long drogaId : tratamientoDto.getDrogasIds()) {
+        if (drogaId != null) {
+          Droga droga = drogasService.getDrogaById(drogaId);
+          if (droga.getUnidadesDisponibles() <= 0) {
+            throw new StockInsuficienteException(droga.getNombre());
+          }
 
-        Vet vet = tratamiento.getVet();
-        Pet pet = tratamiento.getPet();
-        List<Droga> drogas = tratamiento.getDrogas();
-
-        vet.getTratamientos().remove(tratamiento);
-        vetService.saveVet(vet);
-        pet.getTratamientos().remove(tratamiento);
-        petsService.updatePet(pet);
-
-        for (Droga droga : drogas) {
-            droga.getTratamientos().remove(tratamiento);
-            drogasService.saveDroga(droga);
+          droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
+          droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
+          drogasService.saveDroga(droga);
+          drogasPersistidas.add(droga);
         }
-
-        tratamientosRepo.delete(tratamiento);
+      }
     }
 
-    @Override
-    public List<Tratamiento> getTratamientosByPetId(Long petId) {
-        return tratamientosRepo.findByPetId(petId);
-    }
+    Tratamiento tratamiento = new Tratamiento();
+    tratamiento.setId(tratamientoDto.getId());
+    tratamiento.setFecha(tratamientoDto.getFecha());
+    tratamiento.setPet(pet);
+    tratamiento.setVet(vet);
+    tratamiento.setDrogas(drogasPersistidas);
+    return tratamientosRepo.save(tratamiento);
+  }
 
-    @Override
-    public List<Tratamiento> getTratamientosByVetId(Long vetId) {
-        return tratamientosRepo.findByVetId(vetId);
-    }
+  @Override
+  public void addTratamiento(Tratamiento tratamiento) {
+    List<Droga> drogasPersistidas = new ArrayList<>();
+    if (tratamiento.getDrogas() != null) {
+      for (Droga droga : tratamiento.getDrogas()) {
+        if (droga != null) {
+          if (droga.getUnidadesDisponibles() <= 0) {
+            throw new StockInsuficienteException(droga.getNombre());
+          }
 
-    @Override
-    public List<TratamientosMesDto> getNumTratamientos6Meses() {
-        List<TratamientosMesDto> tratamientosMesDtos = new ArrayList<>();
-        LocalDate fechaActual = LocalDate.now();
-        for (int i = 5; i >= 0; i--) {
-            LocalDate mes = fechaActual.minusMonths(i);
-            Long count = tratamientosRepo.getNumTratamientosMes(mes.getYear(), mes.getMonthValue());
-            String nombreMes = mes.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es-ES"));
-            nombreMes = nombreMes.substring(0, 1).toUpperCase(Locale.forLanguageTag("es-ES")) + nombreMes.substring(1);
-            tratamientosMesDtos.add(new TratamientosMesDto(nombreMes, count));
+          droga.setUnidadesDisponibles(droga.getUnidadesDisponibles() - 1);
+          droga.setUnidadesVendidas(droga.getUnidadesVendidas() + 1);
+          drogasService.saveDroga(droga);
+          drogasPersistidas.add(droga);
         }
-        return tratamientosMesDtos;
+      }
+    }
+    tratamiento.setDrogas(drogasPersistidas);
+    tratamientosRepo.save(tratamiento);
+  }
+
+  @Override
+  @Transactional
+  public void updateTratamiento(Long id, TratamientoDTO tratamientoDto) {
+    if (tratamientoDto == null) {
+      throw new RuntimeException("El tratamiento no puede ser nulo");
     }
 
-    @Override
-    public List<DrogaTratamientoCountDto> getDrogaTratamientosMesCount() {
-        LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
-        List<Droga> drogasUltimoMes = tratamientosRepo.getDrogasDesde(treintaDiasAtras);
-        List<DrogaTratamientoCountDto> drogaTratamientoCounts = new ArrayList<>();
-        for (Droga droga : drogasUltimoMes) {
-            Long count = tratamientosRepo.getNumTratamientosDrogaDesde(droga.getId(), treintaDiasAtras);
-            drogaTratamientoCounts.add(new DrogaTratamientoCountDto(droga.getNombre(), count));
+    if (tratamientoDto.getPetId() == null) {
+      throw new RuntimeException("El tratamiento debe incluir una mascota válida");
+    }
+
+    if (tratamientoDto.getVetId() == null) {
+      throw new RuntimeException("El tratamiento debe incluir un veterinario válido");
+    }
+
+    Pet pet = petsService.getPetById(tratamientoDto.getPetId());
+    Vet vet = vetService.getVetById(tratamientoDto.getVetId());
+
+    Tratamiento existingTratamiento = tratamientosRepo
+      .findById(id)
+      .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+
+    List<Droga> drogasActuales = new ArrayList<>(existingTratamiento.getDrogas());
+    Set<Long> idsDrogasActuales = new HashSet<>();
+    for (Droga drogaActual : drogasActuales) {
+      if (drogaActual != null && drogaActual.getId() != null) {
+        idsDrogasActuales.add(drogaActual.getId());
+      }
+    }
+
+    Map<Long, Droga> nuevasDrogasPorId = new LinkedHashMap<>();
+    if (tratamientoDto.getDrogasIds() != null) {
+      for (Long drogaId : tratamientoDto.getDrogasIds()) {
+        if (drogaId != null) {
+          Droga droga = drogasService.getDrogaById(drogaId);
+          nuevasDrogasPorId.putIfAbsent(droga.getId(), droga);
         }
-        return drogaTratamientoCounts;
+      }
     }
 
+    List<Droga> drogasPersistidas = new ArrayList<>(nuevasDrogasPorId.values());
+    Set<Long> idsNuevasDrogas = new HashSet<>(nuevasDrogasPorId.keySet());
+
+    for (Droga nuevaDroga : drogasPersistidas) {
+      Long nuevaDrogaId = nuevaDroga.getId();
+      if (!idsDrogasActuales.contains(nuevaDrogaId)) {
+        if (nuevaDroga.getUnidadesDisponibles() <= 0) {
+          throw new StockInsuficienteException(nuevaDroga.getNombre());
+        }
+        nuevaDroga.setUnidadesDisponibles(nuevaDroga.getUnidadesDisponibles() - 1);
+        nuevaDroga.setUnidadesVendidas(nuevaDroga.getUnidadesVendidas() + 1);
+        drogasService.saveDroga(nuevaDroga);
+      }
+    }
+
+    for (Droga drogaActual : drogasActuales) {
+      Long drogaActualId = drogaActual.getId();
+      if (drogaActualId != null && !idsNuevasDrogas.contains(drogaActualId)) {
+        drogaActual.setUnidadesDisponibles(drogaActual.getUnidadesDisponibles() + 1);
+        if (drogaActual.getUnidadesVendidas() > 0) {
+          drogaActual.setUnidadesVendidas(drogaActual.getUnidadesVendidas() - 1);
+        }
+        drogasService.saveDroga(drogaActual);
+      }
+    }
+
+    existingTratamiento.setFecha(tratamientoDto.getFecha());
+    existingTratamiento.setPet(pet);
+    existingTratamiento.setVet(vet);
+    existingTratamiento.setDrogas(drogasPersistidas);
+
+    tratamientosRepo.save(existingTratamiento);
+  }
+
+  @Override
+  @Transactional
+  public void deleteTratamiento(Long id) {
+    Tratamiento tratamiento = tratamientosRepo
+      .findById(id)
+      .orElseThrow(() -> new RuntimeException("No se encontró tratamiento con id: " + id));
+
+    Vet vet = tratamiento.getVet();
+    Pet pet = tratamiento.getPet();
+    List<Droga> drogas = tratamiento.getDrogas();
+
+    vet.getTratamientos().remove(tratamiento);
+    vetService.saveVet(vet);
+    pet.getTratamientos().remove(tratamiento);
+    petsService.updatePet(pet.getId(), pet);
+
+    for (Droga droga : drogas) {
+      droga.getTratamientos().remove(tratamiento);
+      drogasService.saveDroga(droga);
+    }
+
+    tratamientosRepo.delete(tratamiento);
+  }
+
+  @Override
+  public List<Tratamiento> getTratamientosByPetId(Long petId) {
+    return tratamientosRepo.findByPetId(petId);
+  }
+
+  @Override
+  public List<Tratamiento> getTratamientosByVetId(Long vetId) {
+    return tratamientosRepo.findByVetId(vetId);
+  }
+
+  @Override
+  public List<TratamientosMesDTO> getNumTratamientos6Meses() {
+    List<TratamientosMesDTO> tratamientosMesDtos = new ArrayList<>();
+    LocalDate fechaActual = LocalDate.now();
+    for (int i = 5; i >= 0; i--) {
+      LocalDate mes = fechaActual.minusMonths(i);
+      Long count = tratamientosRepo.getNumTratamientosMes(mes.getYear(), mes.getMonthValue());
+      String nombreMes = mes
+        .getMonth()
+        .getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es-ES"));
+      nombreMes =
+        nombreMes.substring(0, 1).toUpperCase(Locale.forLanguageTag("es-ES")) +
+        nombreMes.substring(1);
+      tratamientosMesDtos.add(new TratamientosMesDTO(nombreMes, count));
+    }
+    return tratamientosMesDtos;
+  }
+
+  @Override
+  public List<DrogaTratamientoCountDTO> getDrogaTratamientosMesCount() {
+    LocalDate treintaDiasAtras = LocalDate.now().minusDays(30);
+    List<Droga> drogasUltimoMes = tratamientosRepo.getDrogasDesde(treintaDiasAtras);
+    List<DrogaTratamientoCountDTO> drogaTratamientoCounts = new ArrayList<>();
+    for (Droga droga : drogasUltimoMes) {
+      Long count = tratamientosRepo.getNumTratamientosDrogaDesde(droga.getId(), treintaDiasAtras);
+      drogaTratamientoCounts.add(new DrogaTratamientoCountDTO(droga.getNombre(), count));
+    }
+    return drogaTratamientoCounts;
+  }
+
+  @Override
+  public Long getVentasTotalesMes() {
+    return tratamientosRepo.countDrogasUltimoMes();
+  }
+
+  @Override
+  public Long getGananciasTotalesMes() {
+    return tratamientosRepo.sumGananciasUltimoMes();
+  }
+
+  @Override
+  public Long countTratamientosUltimoMes() {
+    return tratamientosRepo.countTratamientosUltimoMes();
+  }
+
+  @Override
+  public List<TopDTO> getTop5DrogasUltimoMes() {
+    LocalDate ultimoMes = LocalDate.now().minusMonths(1);
+
+    List<Droga> topDrogas = tratamientosRepo.getTop5DrogasMasVendidasUltimoMes(
+      ultimoMes.getYear(),
+      ultimoMes.getMonthValue()
+    );
+
+    List<TopDTO> topDrogaDtos = new ArrayList<>();
+    for (int i = 1; i <= topDrogas.size(); i++) {
+      Droga droga = topDrogas.get(i - 1);
+
+      // Contar cuántas veces aparece la droga en los tratamientos del último mes
+      long cantidad = tratamientosRepo.countDrogaEnUltimoMes(
+        droga.getId(),
+        ultimoMes.getYear(),
+        ultimoMes.getMonthValue()
+      );
+
+      topDrogaDtos.add(new TopDTO((long) i, droga.getNombre(), cantidad));
+    }
+
+    return topDrogaDtos;
+  }
 }

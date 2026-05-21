@@ -1,13 +1,10 @@
 package com.example.biskit.repo.pets;
 
-import org.springframework.stereotype.Repository;
-
-import com.example.biskit.entities.pets.Especie;
-
+import com.example.biskit.entities.Pets.Especie;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EspecieRepo extends JpaRepository<Especie, Long> {
-
-    Especie findByNombre(String nombre);
+  Especie findByNombre(String nombre);
 }
