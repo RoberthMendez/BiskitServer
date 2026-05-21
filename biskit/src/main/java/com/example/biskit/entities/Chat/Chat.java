@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +29,9 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "chat")
+    @Size(max = 2)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<ParticipanteChat> participanteChats;  
+    private List<ParticipanteChat> participantesChats;  
 
 }
