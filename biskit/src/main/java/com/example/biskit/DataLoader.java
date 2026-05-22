@@ -2175,9 +2175,9 @@ public class DataLoader implements CommandLineRunner {
     LocalDate hoy = LocalDate.now();
     LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-    cargarCitasParaSemana(inicioSemana, 50, random, citasPorVet, citasPorDia);
-    cargarCitasParaSemana(inicioSemana.plusWeeks(1), 20, random, citasPorVet, citasPorDia);
-    cargarCitasParaSemana(inicioSemana.plusWeeks(2), 10, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana, 100, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.plusWeeks(1), 50, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.plusWeeks(2), 40, random, citasPorVet, citasPorDia);
   }
 
   private void cargarCitasParaSemana(
