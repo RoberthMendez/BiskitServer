@@ -57,10 +57,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
 @Profile("default")
 public class DataLoader implements CommandLineRunner {
 
@@ -1914,18 +1912,21 @@ public class DataLoader implements CommandLineRunner {
       Credenciales credenciales = userDetailsService.clientToCredenciales(client);
       credencialesRepo.save(credenciales);
       client.setCredenciales(credenciales);
+      clientsRepo.save(client);
     }
 
     for (Vet vet : vetsRepo.findAll()) {
       Credenciales credenciales = userDetailsService.vetToCredenciales(vet);
       credencialesRepo.save(credenciales);
       vet.setCredenciales(credenciales);
+      vetsRepo.save(vet);
     }
 
     for (Admin admin : adminRepo.findAll()) {
       Credenciales credenciales = userDetailsService.adminToCredenciales(admin);
       credencialesRepo.save(credenciales);
       admin.setCredenciales(credenciales);
+      adminRepo.save(admin);
     }
   }
 

@@ -12,6 +12,7 @@ import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.citas.TiposCitaRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.vets.VetsRepo;
+import jakarta.transaction.Transactional;
 import java.text.Normalizer;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,9 +22,11 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class CitasImpl implements CitasService {
 
   @Autowired
@@ -132,7 +135,13 @@ public class CitasImpl implements CitasService {
 
     // 4. Buscar citas existentes del veterinario en ese día
     LocalDate fecha = fechaHora.toLocalDate();
-    List<Cita> citasDelDia = citasRepo.findByVetIdAndFecha(vetId, fecha);
+    LocalDateTime inicioDia = fecha.atStartOfDay();
+    LocalDateTime finDia = fecha.atTime(LocalTime.MAX);
+    List<Cita> citasDelDia = citasRepo.findByVetIdAndFechaHoraBetweenOrderByFechaHoraAsc(
+      vetId,
+      inicioDia,
+      finDia
+    );
 
     // 5. Verificar conflictos con otras citas
     for (Cita citaExistente : citasDelDia) {
@@ -183,8 +192,14 @@ public class CitasImpl implements CitasService {
     LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
     inicioSemana = inicioSemana.plusWeeks(numSemana);
     LocalDate finSemana = inicioSemana.plusDays(6);
+    LocalDateTime inicioSemanaDateTime = inicioSemana.atStartOfDay();
+    LocalDateTime finSemanaDateTime = finSemana.atTime(LocalTime.MAX);
 
-    return citasRepo.findByVetIdAndFechaHoraBetweenDates(vetId, inicioSemana, finSemana);
+    return citasRepo.findByVetIdAndFechaHoraBetweenOrderByFechaHoraAsc(
+      vetId,
+      inicioSemanaDateTime,
+      finSemanaDateTime
+    );
   }
 
   public List<Cita> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
@@ -192,8 +207,14 @@ public class CitasImpl implements CitasService {
     LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
     inicioSemana = inicioSemana.plusWeeks(numSemana);
     LocalDate finSemana = inicioSemana.plusDays(6);
+    LocalDateTime inicioSemanaDateTime = inicioSemana.atStartOfDay();
+    LocalDateTime finSemanaDateTime = finSemana.atTime(LocalTime.MAX);
 
-    return citasRepo.findByVetIdAndFechaHoraBetweenDatesSinMascota(vetId, inicioSemana, finSemana);
+    return citasRepo.findByVetIdAndFechaHoraBetweenAndPetIsNullOrderByFechaHoraAsc(
+      vetId,
+      inicioSemanaDateTime,
+      finSemanaDateTime
+    );
   }
 
   public Cita updateCita(Long id, CitaDTO citaDto, int numSemana) {
@@ -232,5 +253,11 @@ public class CitasImpl implements CitasService {
       .findById(id)
       .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
     citasRepo.delete(cita);
+  }
+
+  @Scheduled(cron = "0 */5 * * * *")
+  public void eliminarCitasPendientes() {
+    citasRepo.deleteByPetIdIsNull();
+    System.out.println("Citas sin mascota eliminadas: " + LocalDateTime.now());
   }
 }
