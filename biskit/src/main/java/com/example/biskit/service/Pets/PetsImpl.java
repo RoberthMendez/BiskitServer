@@ -1,5 +1,6 @@
 package com.example.biskit.service.Pets;
 
+import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.DTOs.KPIs.TopDTO;
 import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
@@ -52,6 +53,19 @@ public class PetsImpl implements PetsService {
   public Pet addPet(Pet pet) {
     Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
     petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+    return petsRepo.save(petConRelaciones);
+  }
+
+  @Override
+  public Pet addPet(Pet pet, Long citaId) {
+    Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
+    petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+
+    Cita cita = citasRepo
+      .findById(citaId)
+      .orElseThrow(() -> new RuntimeException("No se encontró la cita con id: " + citaId));
+    cita.setPet(petConRelaciones);
+    citasRepo.save(cita);
     return petsRepo.save(petConRelaciones);
   }
 

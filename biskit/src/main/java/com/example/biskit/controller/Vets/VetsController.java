@@ -112,6 +112,17 @@ public class VetsController {
     return new ResponseEntity<>(vetService.getCitasSemanaByVetId(id, numSemana), HttpStatus.OK);
   }
 
+  @GetMapping("/{id}/citas-semanales-sin-mascota")
+  public ResponseEntity<List<CitaDTO>> getCitasSemanaByVetIdSinMascota(
+    @PathVariable Long id,
+    @RequestParam(required = true) int numSemana
+  ) {
+    return new ResponseEntity<>(
+      vetService.getCitasSemanaByVetIdSinMascota(id, numSemana),
+      HttpStatus.OK
+    );
+  }
+
   // http://localhost:8080/vets/details
   @GetMapping("/details")
   public ResponseEntity<Vet> buscarVet() {

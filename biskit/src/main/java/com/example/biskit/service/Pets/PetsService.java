@@ -14,6 +14,8 @@ public interface PetsService {
 
   public Pet addPet(Pet pet);
 
+  public Pet addPet(Pet pet, Long citaId);
+
   public Pet updatePet(Long id, Pet pet);
 
   public void deletePet(Long id);

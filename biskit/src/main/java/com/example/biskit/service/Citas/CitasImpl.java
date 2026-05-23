@@ -48,7 +48,6 @@ public class CitasImpl implements CitasService {
 
   public Cita addCita(CitaDTO citaDto, int numSemana) {
     TipoCita tipoCita = tiposCitaRepo.findByNombre(citaDto.getTipoCitaNombre()).orElseThrow();
-    Pet pet = petsRepo.findById(citaDto.getPetId()).orElseThrow();
     Vet vet = vetsRepo.findById(citaDto.getVetId()).orElseThrow();
 
     LocalDate hoy = LocalDate.now();
@@ -61,7 +60,13 @@ public class CitasImpl implements CitasService {
 
     Cita cita = new Cita();
     cita.setTipoCita(tipoCita);
-    cita.setPet(pet);
+
+    if (citaDto.getPetId() != null) {
+      cita.setPet(petsRepo.findById(citaDto.getPetId()).orElseThrow());
+    } else {
+      cita.setPet(null);
+    }
+
     cita.setVet(vet);
     cita.setFechaHora(fechaHora);
 
@@ -180,6 +185,15 @@ public class CitasImpl implements CitasService {
     LocalDate finSemana = inicioSemana.plusDays(6);
 
     return citasRepo.findByVetIdAndFechaHoraBetweenDates(vetId, inicioSemana, finSemana);
+  }
+
+  public List<Cita> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
+    LocalDate hoy = LocalDate.now();
+    LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    inicioSemana = inicioSemana.plusWeeks(numSemana);
+    LocalDate finSemana = inicioSemana.plusDays(6);
+
+    return citasRepo.findByVetIdAndFechaHoraBetweenDatesSinMascota(vetId, inicioSemana, finSemana);
   }
 
   public Cita updateCita(Long id, CitaDTO citaDto, int numSemana) {

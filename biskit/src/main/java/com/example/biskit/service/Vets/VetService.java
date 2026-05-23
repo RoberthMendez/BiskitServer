@@ -45,4 +45,6 @@ public interface VetService {
   public List<HorarioDia> getHorarioSemanalByVetId(Long vetId);
 
   public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana);
+
+  public List<CitaDTO> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana);
 }

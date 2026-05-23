@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,8 +33,14 @@ public class PetsController {
   // ----- Crear Mascota (CREATE) -----
   // http://localhost:8080/pets/add
   @PostMapping("/add")
-  public ResponseEntity<Pet> agregarMascota(@RequestBody Pet pet) {
-    return new ResponseEntity<>(petsService.addPet(pet), HttpStatus.CREATED);
+  public ResponseEntity<Pet> agregarMascota(
+    @RequestBody Pet pet,
+    @RequestParam(required = false) Long citaId
+  ) {
+    return new ResponseEntity<>(
+      (citaId != null) ? petsService.addPet(pet, citaId) : petsService.addPet(pet),
+      HttpStatus.CREATED
+    );
   }
 
   // ----- Mostrar Mascotas (READ) -----

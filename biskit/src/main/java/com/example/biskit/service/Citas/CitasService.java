@@ -11,6 +11,8 @@ public interface CitasService {
 
   public List<Cita> getCitasSemanaByVetId(Long vetId, int numSemana);
 
+  public List<Cita> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana);
+
   public Cita updateCita(Long id, CitaDTO citaDto, int numSemana);
 
   public void deleteCita(Long id);

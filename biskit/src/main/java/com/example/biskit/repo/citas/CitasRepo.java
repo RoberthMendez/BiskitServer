@@ -20,6 +20,16 @@ public interface CitasRepo extends JpaRepository<Cita, Long> {
     @Param("fechaFin") LocalDate fechaFin
   );
 
+  // Nueva consulta para obtener citas con mascota null
+  @Query(
+    "SELECT c FROM Cita c WHERE c.vet.id = :vetId AND CAST(c.fechaHora AS date) BETWEEN :fechaInicio AND :fechaFin AND c.pet IS NULL ORDER BY c.fechaHora ASC"
+  )
+  public List<Cita> findByVetIdAndFechaHoraBetweenDatesSinMascota(
+    @Param("vetId") Long vetId,
+    @Param("fechaInicio") LocalDate fechaInicio,
+    @Param("fechaFin") LocalDate fechaFin
+  );
+
   @Query(
     "SELECT c FROM Cita c WHERE c.vet.id = :vetId AND CAST(c.fechaHora AS date) = :fecha ORDER BY c.fechaHora ASC"
   )
