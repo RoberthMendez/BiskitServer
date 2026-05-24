@@ -22,6 +22,9 @@ public class CorreosImpl implements CorreosService {
   @Value("${biskit.mail.from}")
   private String fromEmail;
 
+  @Value("${biskit.frontend.base-url:http://localhost:4200}")
+  private String frontendBaseUrl;
+
   public void enviarBienvenida(Client cliente) {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
@@ -32,7 +35,8 @@ public class CorreosImpl implements CorreosService {
       helper.setSubject("¡Bienvenido/a a la Veterinaria Biskit!");
 
       String linkResetPassword =
-        "http://localhost:4200/login/reset-password/" +
+        frontendBaseUrl +
+        "/login/reset-password/" +
         cliente.getId() +
         "?correo=" +
         cliente.getCorreo();
@@ -147,7 +151,8 @@ public class CorreosImpl implements CorreosService {
       helper.setSubject("Restablece tu contraseña - Veterinaria Biskit");
 
       String linkResetPassword =
-        "http://localhost:4200/login/reset-password/" +
+        frontendBaseUrl +
+        "/login/reset-password/" +
         contactable.getId() +
         "?correo=" +
         contactable.getCorreo();

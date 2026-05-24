@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: biskit
+    env: docker
+    rootDir: .
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
