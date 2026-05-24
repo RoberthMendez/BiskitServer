@@ -26,6 +26,7 @@ public class CorsConfig {
     config.setAllowCredentials(true);
     config.addAllowedOrigin("http://localhost:4200");
     config.addAllowedOrigin("https://biskit-gold.vercel.app");
+    config.addAllowedOrigin("https://biskit.website");
     config.setAllowedHeaders(
       Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT)
     );
