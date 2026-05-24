@@ -25,6 +25,7 @@ public class CorsConfig {
     /*A quien se deja permitir tener acceso a la API */
     config.setAllowCredentials(true);
     config.addAllowedOrigin("http://localhost:4200");
+    config.addAllowedOrigin("https://biskit-gold.vercel.app");
     config.setAllowedHeaders(
       Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT)
     );
