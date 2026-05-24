@@ -2,7 +2,7 @@ package com.example.biskit.service.Pets;
 
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.DTOs.KPIs.TopDTO;
-import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
 import java.util.List;
@@ -34,7 +34,7 @@ public interface PetsService {
 
   public List<TopDTO> getTop5Enfermedades();
 
-  public List<Pet> getPetsFiltrados(PetsFiltrosDTO filtros);
+  public List<Pet> getPetsFiltrados(PetsFiltrosDto filtros);
 
   public Client getPetOwner(Long id);
 

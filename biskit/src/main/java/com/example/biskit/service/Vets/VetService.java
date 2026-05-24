@@ -1,8 +1,8 @@
 package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.Citas.HorarioDia;
-import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.Vets.Vet;
@@ -37,14 +37,14 @@ public interface VetService {
 
   public void cambiarEstadoVet(Long id, boolean estado);
 
-  public List<Vet> getVetsFiltrados(VetsFiltrosDTO filtros);
+  public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros);
 
   public List<Tratamiento> getTratamientosVet(Long vetId);
 
   // ------ AGENDA Y CITAS -------
   public List<HorarioDia> getHorarioSemanalByVetId(Long vetId);
 
-  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana);
+  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana);
 
-  public List<CitaDTO> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana);
+  public List<CitaDto> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana);
 }

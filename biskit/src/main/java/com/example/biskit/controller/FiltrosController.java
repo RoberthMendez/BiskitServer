@@ -2,8 +2,8 @@ package com.example.biskit.controller;
 
 import com.example.biskit.entities.DTOs.Pets.PetDTO;
 import com.example.biskit.entities.DTOs.Pets.PetMapper;
-import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Vets.VetService;
@@ -40,7 +40,7 @@ public class FiltrosController {
     @RequestParam(required = false) Long vetId,
     @RequestParam(required = false) Boolean misMascotas
   ) {
-    PetsFiltrosDTO filtros = new PetsFiltrosDTO(
+    PetsFiltrosDto filtros = new PetsFiltrosDto(
       estado,
       especie,
       raza,
@@ -62,7 +62,7 @@ public class FiltrosController {
     @RequestParam(required = false) String pet,
     @RequestParam(required = false) Long vetId
   ) {
-    VetsFiltrosDTO filtros = new VetsFiltrosDTO(estado, especialidad, tratamientos, pet, vetId);
+    VetsFiltrosDto filtros = new VetsFiltrosDto(estado, especialidad, tratamientos, pet, vetId);
     return new ResponseEntity<>(vetsService.getVetsFiltrados(filtros), HttpStatus.OK);
   }
 }

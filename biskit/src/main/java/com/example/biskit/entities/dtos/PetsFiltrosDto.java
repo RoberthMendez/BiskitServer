@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetsFiltrosDTO {
+public class PetsFiltrosDto {
 
   private Boolean estado;
   private String especie;

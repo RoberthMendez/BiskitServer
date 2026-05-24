@@ -4,8 +4,8 @@ import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Citas.HorarioDia;
 import com.example.biskit.entities.Citas.Turno;
 import com.example.biskit.entities.Credenciales;
-import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.Vets.Especialidad;
@@ -234,7 +234,7 @@ public class VetImpl implements VetService {
   }
 
   @Override
-  public List<Vet> getVetsFiltrados(VetsFiltrosDTO filtros) {
+  public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
     return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
   }
 
@@ -311,12 +311,12 @@ public class VetImpl implements VetService {
   }
 
   // ------ AGENDA Y CITAS -------
-  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana) {
+  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana) {
     if (!vetsRepo.existsById(vetId)) {
       throw new VetNoExisteException(vetId);
     }
 
-    List<CitaDTO> citasDto = new ArrayList<>();
+    List<CitaDto> citasDto = new ArrayList<>();
     List<Cita> citas = citasService.getCitasSemanaByVetId(vetId, numSemana);
 
     for (Cita cita : citas) {
@@ -328,7 +328,7 @@ public class VetImpl implements VetService {
           ? cita.getPet().getOwner().getNombre()
           : "-";
 
-      CitaDTO citaDto = CitaDTO.builder()
+      CitaDto citaDto = CitaDto.builder()
         .id(cita.getId())
         .diaSemana(diaSemana)
         .hora(hora)
@@ -344,19 +344,19 @@ public class VetImpl implements VetService {
     return citasDto;
   }
 
-  public List<CitaDTO> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
+  public List<CitaDto> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
     if (!vetsRepo.existsById(vetId)) {
       throw new VetNoExisteException(vetId);
     }
 
-    List<CitaDTO> citasDto = new ArrayList<>();
+    List<CitaDto> citasDto = new ArrayList<>();
     List<Cita> citas = citasService.getCitasSemanaByVetIdSinMascota(vetId, numSemana);
 
     for (Cita cita : citas) {
       String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
       LocalTime hora = cita.getFechaHora().toLocalTime();
 
-      CitaDTO citaDto = CitaDTO.builder()
+      CitaDto citaDto = CitaDto.builder()
         .id(cita.getId())
         .diaSemana(diaSemana)
         .hora(hora)

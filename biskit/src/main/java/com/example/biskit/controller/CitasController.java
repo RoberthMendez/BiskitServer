@@ -2,7 +2,7 @@ package com.example.biskit.controller;
 
 import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Citas.TipoCita;
-import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
 import com.example.biskit.service.Citas.CitasService;
 import com.example.biskit.service.Citas.TiposCitaService;
 import java.util.List;
@@ -34,7 +34,7 @@ public class CitasController {
   // ----- Crear Cita (CREATE) -----
   // http://localhost:8080/citas/add
   @PostMapping("/add")
-  public ResponseEntity<Cita> crearCita(@RequestBody CitaDTO citaDto, @RequestParam int numSemana) {
+  public ResponseEntity<Cita> crearCita(@RequestBody CitaDto citaDto, @RequestParam int numSemana) {
     return new ResponseEntity<>(citasService.addCita(citaDto, numSemana), HttpStatus.CREATED);
   }
 
@@ -50,7 +50,7 @@ public class CitasController {
   @PutMapping("/update/{id}")
   public ResponseEntity<Cita> editarCita(
     @PathVariable Long id,
-    @RequestBody CitaDTO citaDto,
+    @RequestBody CitaDto citaDto,
     @RequestParam int numSemana
   ) {
     return new ResponseEntity<>(citasService.updateCita(id, citaDto, numSemana), HttpStatus.OK);

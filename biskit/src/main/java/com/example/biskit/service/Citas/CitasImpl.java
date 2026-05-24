@@ -3,7 +3,7 @@ package com.example.biskit.service.Citas;
 import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Citas.HorarioDia;
 import com.example.biskit.entities.Citas.TipoCita;
-import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.errors.VeterinarioNoDisponibleException;
@@ -49,7 +49,7 @@ public class CitasImpl implements CitasService {
     citasRepo.save(cita);
   }
 
-  public Cita addCita(CitaDTO citaDto, int numSemana) {
+  public Cita addCita(CitaDto citaDto, int numSemana) {
     TipoCita tipoCita = tiposCitaRepo.findByNombre(citaDto.getTipoCitaNombre()).orElseThrow();
     Vet vet = vetsRepo.findById(citaDto.getVetId()).orElseThrow();
 
@@ -217,7 +217,7 @@ public class CitasImpl implements CitasService {
     );
   }
 
-  public Cita updateCita(Long id, CitaDTO citaDto, int numSemana) {
+  public Cita updateCita(Long id, CitaDto citaDto, int numSemana) {
     Cita citaExistente = citasRepo
       .findById(id)
       .orElseThrow(() -> new RuntimeException("Cita no encontrada"));

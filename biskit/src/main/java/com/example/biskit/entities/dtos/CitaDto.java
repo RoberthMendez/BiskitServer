@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CitaDTO {
+public class CitaDto {
 
   private Long id;
 

@@ -3,7 +3,7 @@ package com.example.biskit.controller;
 import com.example.biskit.entities.Admin;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Credenciales;
-import com.example.biskit.entities.DTOs.LoginDTO;
+import com.example.biskit.entities.DTOs.LoginDto;
 import com.example.biskit.entities.DTOs.RespuestaCredencialDto;
 import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.security.JWTGenerator;
@@ -100,7 +100,7 @@ public class LoginController {
 
     String rol = authentication.getAuthorities().iterator().next().getAuthority();
 
-    if(rol.equals("VET")){
+    if (rol.equals("VET")) {
       Vet vet = vetService.findByUsuario(authentication.getName());
       if (vet.isEstado() == false) {
         return ResponseEntity.badRequest().body(crearRespuesta(null, "VETERINARIO_INACTIVO"));
@@ -109,7 +109,7 @@ public class LoginController {
 
     String token = jwtGenerator.generateToken(authentication);
 
-    return ResponseEntity.ok(new LoginDTO(token, rol));
+    return ResponseEntity.ok(new LoginDto(token, rol));
   }
 
   private RespuestaCredencialDto crearRespuesta(Long id, String tipo) {
