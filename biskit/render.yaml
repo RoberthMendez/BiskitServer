@@ -7,3 +7,6 @@ services:
     plan: free
     autoDeploy: true
     healthCheckPath: /
+    envVars:
+      - key: BISKIT_FRONTEND_BASE_URL
+        value: https://biskit.website

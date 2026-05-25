@@ -5,12 +5,16 @@ import com.example.biskit.entities.Contactable;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 @Transactional
@@ -22,24 +26,27 @@ public class CorreosImpl implements CorreosService {
   @Value("${biskit.mail.from}")
   private String fromEmail;
 
-  @Value("${biskit.frontend.base-url:http://localhost:4200}")
+  @Value("${biskit.frontend.base-url:https://biskit.website}")
   private String frontendBaseUrl;
+
+  private static final Set<String> ALLOWED_FRONTEND_ORIGINS = Set.of(
+    "http://localhost:4200",
+    "https://biskit.website",
+    "https://biskit-gold.vercel.app"
+  );
 
   public void enviarBienvenida(Client cliente) {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+      String baseUrl = resolverFrontendBaseUrl();
 
       helper.setFrom(fromEmail);
       helper.setTo(cliente.getCorreo());
       helper.setSubject("¡Bienvenido/a a la Veterinaria Biskit!");
 
       String linkResetPassword =
-        frontendBaseUrl +
-        "/login/reset-password/" +
-        cliente.getId() +
-        "?correo=" +
-        cliente.getCorreo();
+        baseUrl + "/login/reset-password/" + cliente.getId() + "?correo=" + cliente.getCorreo();
 
       helper.setText(
         construirCuerpo(
@@ -145,13 +152,14 @@ public class CorreosImpl implements CorreosService {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+      String baseUrl = resolverFrontendBaseUrl();
 
       helper.setFrom(fromEmail);
       helper.setTo(contactable.getCorreo());
       helper.setSubject("Restablece tu contraseña - Veterinaria Biskit");
 
       String linkResetPassword =
-        frontendBaseUrl +
+        baseUrl +
         "/login/reset-password/" +
         contactable.getId() +
         "?correo=" +
@@ -229,5 +237,27 @@ public class CorreosImpl implements CorreosService {
     </body>
     </html>
     """.formatted(nombre, linkResetPassword, linkResetPassword, linkResetPassword);
+  }
+
+  private String resolverFrontendBaseUrl() {
+    String requestOrigin = obtenerOriginDeLaPeticion();
+
+    if (requestOrigin != null && ALLOWED_FRONTEND_ORIGINS.contains(requestOrigin)) {
+      return requestOrigin;
+    }
+
+    return frontendBaseUrl;
+  }
+
+  private String obtenerOriginDeLaPeticion() {
+    RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+    if (!(requestAttributes instanceof ServletRequestAttributes)) {
+      return null;
+    }
+
+    ServletRequestAttributes servletRequestAttributes =
+      (ServletRequestAttributes) requestAttributes;
+    return servletRequestAttributes.getRequest().getHeader("Origin");
   }
 }
