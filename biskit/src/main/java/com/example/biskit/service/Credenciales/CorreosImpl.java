@@ -48,11 +48,14 @@ public class CorreosImpl implements CorreosService {
       String linkResetPassword =
         baseUrl + "/login/reset-password/" + cliente.getId() + "?correo=" + cliente.getCorreo();
 
+      // Reconstruir la contraseña desencriptada
+      String passwordDesencriptada = reconstruirContraseña(cliente.getNombre(), cliente.getCedula());
+
       helper.setText(
         construirCuerpo(
           cliente.getNombre(),
           cliente.getCredenciales().getUsername(),
-          cliente.getCredenciales().getPassword(),
+          passwordDesencriptada,
           linkResetPassword
         ),
         true
@@ -65,6 +68,12 @@ public class CorreosImpl implements CorreosService {
     } catch (MessagingException e) {
       throw new RuntimeException("Error al enviar el correo de bienvenida", e);
     }
+  }
+
+  private String reconstruirContraseña(String nombre, String cedula) {
+    String parteNombre = nombre.length() >= 3 ? nombre.substring(0, 3).toLowerCase() : nombre.toLowerCase();
+    String parteCedula = cedula.length() >= 3 ? cedula.substring(0, 3) : cedula;
+    return parteNombre + parteCedula;
   }
 
   public String construirCuerpo(

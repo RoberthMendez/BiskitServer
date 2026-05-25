@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,9 @@ public class CredencialesImpl implements CredencialesService {
 
   @Autowired
   private CorreosService correosService;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @Autowired
   @Lazy
@@ -72,7 +76,7 @@ public class CredencialesImpl implements CredencialesService {
         )
       );
 
-    credencialesExistente.setPassword(credenciales.getPassword());
+    credencialesExistente.setPassword(passwordEncoder.encode(credenciales.getPassword()));
     credencialesRepo.save(credencialesExistente);
   }
 
