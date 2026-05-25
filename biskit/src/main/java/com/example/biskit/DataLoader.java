@@ -55,10 +55,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -124,28 +121,19 @@ public class DataLoader implements CommandLineRunner {
       return;
     }
 
+    cargarDatosCompletosSiEsNecesario();
+  }
+
+  public boolean cargarDatosCompletosSiEsNecesario() {
     if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
-      return;
+      return false;
     }
 
     cargarDatosCompletos();
+    return true;
   }
 
-  @Async
-  @EventListener(ApplicationReadyEvent.class)
-  public void cargarDatosProdDespuesDeArrancar() {
-    if (!isProdProfileActive()) {
-      return;
-    }
-
-    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
-      return;
-    }
-
-    cargarDatosCompletos();
-  }
-
-  private void cargarDatosCompletos() {
+  public void cargarDatosCompletos() {
     cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
@@ -170,16 +158,6 @@ public class DataLoader implements CommandLineRunner {
   private boolean isDefaultProfileActive() {
     for (String profile : environment.getActiveProfiles()) {
       if ("default".equals(profile)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private boolean isProdProfileActive() {
-    for (String profile : environment.getActiveProfiles()) {
-      if ("prod".equals(profile)) {
         return true;
       }
     }
