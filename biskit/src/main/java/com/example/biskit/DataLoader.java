@@ -55,11 +55,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile({ "default", "prod" })
 public class DataLoader implements CommandLineRunner {
 
   @Autowired
@@ -113,12 +115,37 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   private CustomUserDetailService userDetailsService;
 
+  @Autowired
+  private Environment environment;
+
   @Override
   public void run(String... args) throws Exception {
+    if (!isDefaultProfileActive()) {
+      return;
+    }
+
     if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
       return;
     }
 
+    cargarDatosCompletos();
+  }
+
+  @Async
+  @EventListener(ApplicationReadyEvent.class)
+  public void cargarDatosProdDespuesDeArrancar() {
+    if (!isProdProfileActive()) {
+      return;
+    }
+
+    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
+      return;
+    }
+
+    cargarDatosCompletos();
+  }
+
+  private void cargarDatosCompletos() {
     cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
@@ -138,6 +165,26 @@ public class DataLoader implements CommandLineRunner {
     cargarCitas();
 
     relacionar();
+  }
+
+  private boolean isDefaultProfileActive() {
+    for (String profile : environment.getActiveProfiles()) {
+      if ("default".equals(profile)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private boolean isProdProfileActive() {
+    for (String profile : environment.getActiveProfiles()) {
+      if ("prod".equals(profile)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public void cargarRoles() {
