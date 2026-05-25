@@ -55,11 +55,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile({ "default", "prod" })
 public class DataLoader implements CommandLineRunner {
 
   @Autowired
@@ -113,12 +112,28 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   private CustomUserDetailService userDetailsService;
 
+  @Autowired
+  private Environment environment;
+
   @Override
   public void run(String... args) throws Exception {
-    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
+    if (!isDefaultProfileActive()) {
       return;
     }
 
+    cargarDatosCompletosSiEsNecesario();
+  }
+
+  public boolean cargarDatosCompletosSiEsNecesario() {
+    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
+      return false;
+    }
+
+    cargarDatosCompletos();
+    return true;
+  }
+
+  public void cargarDatosCompletos() {
     cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
@@ -138,6 +153,16 @@ public class DataLoader implements CommandLineRunner {
     cargarCitas();
 
     relacionar();
+  }
+
+  private boolean isDefaultProfileActive() {
+    for (String profile : environment.getActiveProfiles()) {
+      if ("default".equals(profile)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public void cargarRoles() {
