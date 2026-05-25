@@ -21,4 +21,6 @@ public interface PetsRepo extends JpaRepository<Pet, Long>, JpaSpecificationExec
 
   // Lista de mascotas tratadas por un veterinario específico
   List<Pet> findDistinctByTratamientosVetId(Long vetId);
+
+  List<Pet> findByOwnerIdIn(List<Long> ownerIds);
 }

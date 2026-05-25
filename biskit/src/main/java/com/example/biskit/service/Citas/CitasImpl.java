@@ -255,7 +255,7 @@ public class CitasImpl implements CitasService {
     citasRepo.delete(cita);
   }
 
-  @Scheduled(cron = "0 */5 * * * *")
+  @Scheduled(cron = "0 */10 * * * *")
   public void eliminarCitasPendientes() {
     citasRepo.deleteByPetIdIsNull();
     System.out.println("Citas sin mascota eliminadas: " + LocalDateTime.now());

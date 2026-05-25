@@ -1,10 +1,11 @@
 package com.example.biskit.controller;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import com.example.biskit.service.ServicioWhatsAppBot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +17,14 @@ public class WhatsAppWebhookController {
   @Value("${whatsapp.verify-token}")
   private String verifyToken;
 
-  // Meta llama este GET para verificar que el servidor es tuyo
+  private final ServicioWhatsAppBot servicioWhatsAppBot;
+
+  public WhatsAppWebhookController(ServicioWhatsAppBot servicioWhatsAppBot) {
+    this.servicioWhatsAppBot = servicioWhatsAppBot;
+  }
+
   @GetMapping
-  public ResponseEntity<String> verify(
+  public ResponseEntity<String> verificarWebhook(
     @RequestParam("hub.mode") String mode,
     @RequestParam("hub.verify_token") String token,
     @RequestParam("hub.challenge") String challenge
@@ -29,10 +35,9 @@ public class WhatsAppWebhookController {
     return ResponseEntity.status(403).build();
   }
 
-  // Meta llamará este POST cada vez que el cliente mande un mensaje
   @PostMapping
-  public ResponseEntity<String> receive(@RequestBody String payload) {
-    System.out.println("Mensaje recibido: " + payload);
+  public ResponseEntity<String> recibirEvento(@RequestBody String payload) {
+    servicioWhatsAppBot.procesarPayloadAsync(payload);
     return ResponseEntity.ok("EVENT_RECEIVED");
   }
 }
