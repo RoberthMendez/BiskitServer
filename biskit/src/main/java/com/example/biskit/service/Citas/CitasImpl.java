@@ -12,6 +12,7 @@ import com.example.biskit.repo.citas.HorariosDiaRepo;
 import com.example.biskit.repo.citas.TiposCitaRepo;
 import com.example.biskit.repo.pets.PetsRepo;
 import com.example.biskit.repo.vets.VetsRepo;
+import com.example.biskit.service.Credenciales.CorreosService;
 import jakarta.transaction.Transactional;
 import java.text.Normalizer;
 import java.time.DayOfWeek;
@@ -44,6 +45,9 @@ public class CitasImpl implements CitasService {
   @Autowired
   private HorariosDiaRepo horariosDiaRepo;
 
+  @Autowired
+  private CorreosService correosService;
+
   public void addCitaDataLoader(Cita cita) {
     validarDisponibilidadVet(cita, null);
     citasRepo.save(cita);
@@ -64,8 +68,10 @@ public class CitasImpl implements CitasService {
     Cita cita = new Cita();
     cita.setTipoCita(tipoCita);
 
+    Pet pet = null;
     if (citaDto.getPetId() != null) {
-      cita.setPet(petsRepo.findById(citaDto.getPetId()).orElseThrow());
+      pet = petsRepo.findById(citaDto.getPetId()).orElseThrow();
+      cita.setPet(pet);
     } else {
       cita.setPet(null);
     }
@@ -74,7 +80,14 @@ public class CitasImpl implements CitasService {
     cita.setFechaHora(fechaHora);
 
     validarDisponibilidadVet(cita, null);
-    return citasRepo.save(cita);
+    Cita citaGuardada = citasRepo.save(cita);
+
+    // Enviar correo de confirmación si la cita tiene mascota
+    if (pet != null && pet.getOwner() != null) {
+      correosService.enviarConfirmacionCita(citaGuardada, pet.getOwner());
+    }
+
+    return citaGuardada;
   }
 
   private DayOfWeek parseDiaSemanaDesdeEspanol(String dia) {

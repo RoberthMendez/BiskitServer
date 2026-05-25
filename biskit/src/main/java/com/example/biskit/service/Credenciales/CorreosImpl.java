@@ -1,10 +1,12 @@
 package com.example.biskit.service.Credenciales;
 
+import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Contactable;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -268,5 +270,124 @@ public class CorreosImpl implements CorreosService {
     ServletRequestAttributes servletRequestAttributes =
       (ServletRequestAttributes) requestAttributes;
     return servletRequestAttributes.getRequest().getHeader("Origin");
+  }
+
+  @Override
+  public void enviarConfirmacionCita(Cita cita, Client owner) {
+    try {
+      MimeMessage mensaje = mailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+
+      helper.setFrom(fromEmail);
+      helper.setTo(owner.getCorreo());
+      helper.setSubject("Confirmación de cita agendada - Veterinaria Biskit");
+
+      helper.setText(construirCuerpoConfirmacionCita(cita, owner), true);
+
+      ClassPathResource img = new ClassPathResource("images/correo.png");
+      helper.addInline("headerCorreo", img, "image/png");
+
+      mailSender.send(mensaje);
+    } catch (MessagingException e) {
+      throw new RuntimeException("Error al enviar el correo de confirmación de cita", e);
+    }
+  }
+
+  private String construirCuerpoConfirmacionCita(Cita cita, Client owner) {
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    
+    String fecha = cita.getFechaHora().format(dateFormatter);
+    String hora = cita.getFechaHora().format(timeFormatter);
+    String tipoCita = cita.getTipoCita().getNombre();
+    String veterinario = cita.getVet().getNombre();
+    String mascota = cita.getPet().getNombre();
+    String duracion = cita.getTipoCita().getDuracionMinutos() + " minutos";
+
+    return """
+    <html>
+    <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f9f9f9;">
+
+        <!-- Contenedor general -->
+        <div style="max-width:600px; margin:0 auto; background-color:#ffffff;">
+
+            <!-- Header imagen -->
+            <img src="cid:headerCorreo"
+                alt="Biskit Header"
+                border="0"
+                style="width:100%%; height:auto; display:block; margin:0; padding:0;" />
+
+            <!-- Contenido principal -->
+            <div style="padding:30px 40px;">
+
+                <!-- Saludo -->
+                <h2 style="text-align:center; color:#333333; font-size:22px; margin-top:0; margin-bottom:20px; line-height:1.4;">
+                    <strong>¡Cita agendada exitosamente!</strong>
+                </h2>
+
+                <p style="text-align:center; color:#2b5392; font-size:16px; margin:0 0 10px 0;">
+                    ✦ Tu cita ha sido confirmada ✦
+                </p>
+
+                <p style="text-align:center; color:#555555; font-size:15px; margin:0 0 20px 0; line-height:1.6;">
+                    Te confirmamos que tu cita ha sido agendada exitosamente con todos los detalles.
+                </p>
+
+                <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;" />
+
+                <!-- Detalles de la cita -->
+                <p style="color:#333333; font-size:15px; margin:0 0 15px 0; line-height:1.6; font-weight:bold;">
+                    Detalles de tu cita:
+                </p>
+
+                <table style="width:100%%; color:#333333; font-size:15px; line-height:2; border-collapse:collapse;">
+                    <tr style="background-color:#f5f5f5;">
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Mascota:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Tipo de cita:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                    <tr style="background-color:#f5f5f5;">
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Veterinario:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Fecha:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                    <tr style="background-color:#f5f5f5;">
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Hora:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #dddddd; font-weight:bold;">Duración:</td>
+                        <td style="padding:10px; border:1px solid #dddddd;">%s</td>
+                    </tr>
+                </table>
+
+                <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;" />
+
+                <p style="color:#555555; font-size:14px; line-height:1.8; margin:0;">
+                    Si necesitas reprogramar o cancelar tu cita, contáctanos con anticipación.
+                </p>
+
+                <hr style="border:none; border-top:1px solid #dddddd; margin:25px 0;" />
+
+                <!-- Cierre -->
+                <p style="text-align:center; color:#555555; font-size:14px; line-height:1.8; margin:0;">
+                    Con cariño,<br/>
+                    <strong style="color:#2b5392;">
+                        El equipo de Biskit
+                    </strong>
+                </p>
+
+            </div>
+        </div>
+
+    </body>
+    </html>
+    """.formatted(mascota, tipoCita, veterinario, fecha, hora, duracion);
   }
 }
