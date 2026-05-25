@@ -19,6 +19,10 @@ public class ProductionDataLoader {
   @Async
   @EventListener(ApplicationReadyEvent.class)
   public void cargarDatosDespuesDeArrancar() {
-    dataLoader.cargarDatosCompletosSiEsNecesario();
+    if (dataLoader.hayDatosBasicosCargados()) {
+      return;
+    }
+
+    dataLoader.cargarDatosCompletos();
   }
 }

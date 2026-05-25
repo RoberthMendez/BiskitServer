@@ -56,6 +56,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -117,20 +118,15 @@ public class DataLoader implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    if (!isDefaultProfileActive()) {
+    if (!environment.acceptsProfiles(Profiles.of("default"))) {
       return;
     }
 
-    cargarDatosCompletosSiEsNecesario();
+    cargarDatosCompletos();
   }
 
-  public boolean cargarDatosCompletosSiEsNecesario() {
-    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
-      return false;
-    }
-
-    cargarDatosCompletos();
-    return true;
+  public boolean hayDatosBasicosCargados() {
+    return rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0;
   }
 
   public void cargarDatosCompletos() {
@@ -153,16 +149,6 @@ public class DataLoader implements CommandLineRunner {
     cargarCitas();
 
     relacionar();
-  }
-
-  private boolean isDefaultProfileActive() {
-    for (String profile : environment.getActiveProfiles()) {
-      if ("default".equals(profile)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   public void cargarRoles() {
