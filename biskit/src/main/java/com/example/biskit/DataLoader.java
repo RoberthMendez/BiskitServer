@@ -59,7 +59,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("default")
+@Profile({ "default", "prod" })
 public class DataLoader implements CommandLineRunner {
 
   @Autowired
@@ -115,6 +115,10 @@ public class DataLoader implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
+    if (rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0) {
+      return;
+    }
+
     cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
