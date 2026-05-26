@@ -2,9 +2,10 @@ package com.example.biskit.service.Vets;
 
 import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Citas.HorarioDia;
+import com.example.biskit.entities.Citas.Turno;
 import com.example.biskit.entities.Credenciales;
-import com.example.biskit.entities.DTOs.CitaDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.entities.Vets.Especialidad;
@@ -26,9 +27,12 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +50,16 @@ public class VetImpl implements VetService {
     "domingo"
   );
 
+  private static final List<String> DIAS_SEMANA = List.of(
+    "Lunes",
+    "Martes",
+    "Miercoles",
+    "Jueves",
+    "Viernes",
+    "Sabado",
+    "Domingo"
+  );
+
   @Autowired
   private VetsRepo vetsRepo;
 
@@ -57,6 +71,9 @@ public class VetImpl implements VetService {
 
   @Autowired
   private HorariosDiaRepo horariosDiaRepo;
+
+  @Autowired
+  private com.example.biskit.repo.citas.TurnosRepo turnosRepo;
 
   @Autowired
   private TratamientosRepo tratamientosRepo;
@@ -101,7 +118,10 @@ public class VetImpl implements VetService {
       vet.getEspecialidad().getId()
     );
     vet.setEspecialidad(especialidad);
-    return vetsRepo.save(vet);
+
+    Vet vetGuardado = vetsRepo.save(vet);
+    asignarHorarioAleatorio(vetGuardado);
+    return vetGuardado;
   }
 
   @Override
@@ -214,7 +234,7 @@ public class VetImpl implements VetService {
   }
 
   @Override
-  public List<Vet> getVetsFiltrados(VetsFiltrosDTO filtros) {
+  public List<Vet> getVetsFiltrados(VetsFiltrosDto filtros) {
     return vetsRepo.findAll(VetsSpecification.conFiltros(filtros));
   }
 
@@ -263,27 +283,84 @@ public class VetImpl implements VetService {
     return tratamientosRepo.findByVetId(vetId);
   }
 
+  private void asignarHorarioAleatorio(Vet vet) {
+    List<Turno> turnos = turnosRepo.findAll();
+    if (turnos.isEmpty()) {
+      return;
+    }
+
+    Random random = new Random();
+    List<String> diasDisponibles = new ArrayList<>(DIAS_SEMANA);
+    Collections.shuffle(diasDisponibles, random);
+    List<String> diasSeleccionados = diasDisponibles.subList(
+      0,
+      Math.min(5, diasDisponibles.size())
+    );
+
+    HashSet<String> diasAsignados = new HashSet<>();
+    for (String diaSemana : diasSeleccionados) {
+      if (!diasAsignados.add(diaSemana)) {
+        continue;
+      }
+
+      Turno turnoAleatorio = turnos.get(random.nextInt(turnos.size()));
+      horariosDiaRepo.save(
+        HorarioDia.builder().vet(vet).diaSemana(diaSemana).turno(turnoAleatorio).build()
+      );
+    }
+  }
+
   // ------ AGENDA Y CITAS -------
-  public List<CitaDTO> getCitasSemanaByVetId(Long vetId, int numSemana) {
+  public List<CitaDto> getCitasSemanaByVetId(Long vetId, int numSemana) {
     if (!vetsRepo.existsById(vetId)) {
       throw new VetNoExisteException(vetId);
     }
 
-    List<CitaDTO> citasDto = new ArrayList<>();
+    List<CitaDto> citasDto = new ArrayList<>();
     List<Cita> citas = citasService.getCitasSemanaByVetId(vetId, numSemana);
 
     for (Cita cita : citas) {
       String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
       LocalTime hora = cita.getFechaHora().toLocalTime();
+      String nombrePet = cita.getPet() != null ? cita.getPet().getNombre() : "Nueva Mascota";
+      String ownerNombre =
+        cita.getPet() != null && cita.getPet().getOwner() != null
+          ? cita.getPet().getOwner().getNombre()
+          : "-";
 
-      CitaDTO citaDto = CitaDTO.builder()
+      CitaDto citaDto = CitaDto.builder()
         .id(cita.getId())
         .diaSemana(diaSemana)
         .hora(hora)
         .tipoCitaNombre(cita.getTipoCita().getNombre())
         .duracionMinutos(cita.getTipoCita().getDuracionMinutos())
-        .petNombre(cita.getPet().getNombre())
-        .ownerNombre(cita.getPet().getOwner().getNombre())
+        .petNombre(nombrePet)
+        .ownerNombre(ownerNombre)
+        .build();
+
+      citasDto.add(citaDto);
+    }
+
+    return citasDto;
+  }
+
+  public List<CitaDto> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
+    if (!vetsRepo.existsById(vetId)) {
+      throw new VetNoExisteException(vetId);
+    }
+
+    List<CitaDto> citasDto = new ArrayList<>();
+    List<Cita> citas = citasService.getCitasSemanaByVetIdSinMascota(vetId, numSemana);
+
+    for (Cita cita : citas) {
+      String diaSemana = formatearDiaSemana(cita.getFechaHora().getDayOfWeek());
+      LocalTime hora = cita.getFechaHora().toLocalTime();
+
+      CitaDto citaDto = CitaDto.builder()
+        .id(cita.getId())
+        .diaSemana(diaSemana)
+        .hora(hora)
+        .tipoCitaNombre(cita.getTipoCita().getNombre())
         .build();
 
       citasDto.add(citaDto);

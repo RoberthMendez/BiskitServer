@@ -1,6 +1,6 @@
 package com.example.biskit.specifications;
 
-import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class PetsSpecification {
 
-  public static Specification<Pet> conFiltros(PetsFiltrosDTO filtros) {
+  public static Specification<Pet> conFiltros(PetsFiltrosDto filtros) {
     return (root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 

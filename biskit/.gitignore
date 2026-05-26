@@ -37,7 +37,7 @@ Thumbs.db
 .DS_Store
 
 # Archivos con datos sensibles
-src/main/resources/application-correo.properties
+#src/main/resources/application-correo.properties
 
 mydatabase.mv.db
 testdb.mv.db

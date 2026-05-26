@@ -1,0 +1,13 @@
+package com.example.biskit.model;
+
+public enum PasoConversacion {
+  BIENVENIDA,
+  CONFIRMAR_REINICIO,
+  TIPO_CITA,
+  VETERINARIO,
+  HORARIO,
+  VERIFICACION_MASCOTA,
+  CEDULA_CLIENTE,
+  SELECCION_MASCOTA,
+  REINTENTO_CREAR_CITA,
+}

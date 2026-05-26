@@ -1,8 +1,9 @@
 package com.example.biskit.service.Pets;
 
+import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.DTOs.KPIs.TopDTO;
-import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
 import com.example.biskit.entities.Pets.Pet;
 import com.example.biskit.entities.Tratamiento;
 import com.example.biskit.errors.NoExiste.ClientNoExisteException;
@@ -52,6 +53,19 @@ public class PetsImpl implements PetsService {
   public Pet addPet(Pet pet) {
     Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
     petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+    return petsRepo.save(petConRelaciones);
+  }
+
+  @Override
+  public Pet addPet(Pet pet, Long citaId) {
+    Pet petConRelaciones = asignarRelacionesDePetPorIds(pet);
+    petConRelaciones = asignarOwnerDePetPorId(petConRelaciones);
+
+    Cita cita = citasRepo
+      .findById(citaId)
+      .orElseThrow(() -> new RuntimeException("No se encontró la cita con id: " + citaId));
+    cita.setPet(petConRelaciones);
+    citasRepo.save(cita);
     return petsRepo.save(petConRelaciones);
   }
 
@@ -168,7 +182,7 @@ public class PetsImpl implements PetsService {
   }
 
   @Override
-  public List<Pet> getPetsFiltrados(PetsFiltrosDTO filtros) {
+  public List<Pet> getPetsFiltrados(PetsFiltrosDto filtros) {
     return petsRepo.findAll(PetsSpecification.conFiltros(filtros));
   }
 

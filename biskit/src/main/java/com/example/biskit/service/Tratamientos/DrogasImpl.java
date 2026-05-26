@@ -71,7 +71,7 @@ public class DrogasImpl implements DrogasService {
 
   @Override
   public List<StockDrogaDTO> getDrogasBajasStock() {
-    List<Droga> drogasBajasStock = drogasRepo.findByStockLessThanEqual();
+    List<Droga> drogasBajasStock = drogasRepo.findByUnidadesDisponiblesLessThanEqual(2);
     List<StockDrogaDTO> stockDrogaDtos = new ArrayList<>();
     for (Droga droga : drogasBajasStock) {
       stockDrogaDtos.add(

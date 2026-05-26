@@ -1,6 +1,6 @@
 package com.example.biskit.controller.Vets;
 
-import com.example.biskit.entities.DTOs.CitaDTO;
+import com.example.biskit.entities.DTOs.CitaDto;
 import com.example.biskit.entities.DTOs.HorarioDia.HorarioDiaDTO;
 import com.example.biskit.entities.DTOs.HorarioDia.HorarioDiaMapper;
 import com.example.biskit.entities.DTOs.Tratamientos.ItemTratamiento.ItemTratamientoDTO;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/vets")
-@CrossOrigin(origins = "http://localhost:4200")
 public class VetsController {
 
   @Autowired
@@ -105,11 +103,22 @@ public class VetsController {
 
   // http://localhost:8080/vets/{id}/citas-semanales?numSemana=x
   @GetMapping("/{id}/citas-semanales")
-  public ResponseEntity<List<CitaDTO>> getCitasSemanaByVetId(
+  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetId(
     @PathVariable Long id,
     @RequestParam(required = true) int numSemana
   ) {
     return new ResponseEntity<>(vetService.getCitasSemanaByVetId(id, numSemana), HttpStatus.OK);
+  }
+
+  @GetMapping("/{id}/citas-semanales-sin-mascota")
+  public ResponseEntity<List<CitaDto>> getCitasSemanaByVetIdSinMascota(
+    @PathVariable Long id,
+    @RequestParam(required = true) int numSemana
+  ) {
+    return new ResponseEntity<>(
+      vetService.getCitasSemanaByVetIdSinMascota(id, numSemana),
+      HttpStatus.OK
+    );
   }
 
   // http://localhost:8080/vets/details

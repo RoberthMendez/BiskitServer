@@ -55,13 +55,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
-@Profile("default")
 public class DataLoader implements CommandLineRunner {
 
   @Autowired
@@ -115,8 +113,23 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   private CustomUserDetailService userDetailsService;
 
+  @Autowired
+  private Environment environment;
+
   @Override
   public void run(String... args) throws Exception {
+    if (!environment.acceptsProfiles(Profiles.of("default"))) {
+      return;
+    }
+
+    cargarDatosCompletos();
+  }
+
+  public boolean hayDatosBasicosCargados() {
+    return rolRepo.count() > 0 || clientsRepo.count() > 0 || petsRepo.count() > 0;
+  }
+
+  public void cargarDatosCompletos() {
     cargarRoles();
     cargarEnfermedades();
     cargarEspecies();
@@ -1914,18 +1927,21 @@ public class DataLoader implements CommandLineRunner {
       Credenciales credenciales = userDetailsService.clientToCredenciales(client);
       credencialesRepo.save(credenciales);
       client.setCredenciales(credenciales);
+      clientsRepo.save(client);
     }
 
     for (Vet vet : vetsRepo.findAll()) {
       Credenciales credenciales = userDetailsService.vetToCredenciales(vet);
       credencialesRepo.save(credenciales);
       vet.setCredenciales(credenciales);
+      vetsRepo.save(vet);
     }
 
     for (Admin admin : adminRepo.findAll()) {
       Credenciales credenciales = userDetailsService.adminToCredenciales(admin);
       credencialesRepo.save(credenciales);
       admin.setCredenciales(credenciales);
+      adminRepo.save(admin);
     }
   }
 
@@ -2175,9 +2191,11 @@ public class DataLoader implements CommandLineRunner {
     LocalDate hoy = LocalDate.now();
     LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
-    cargarCitasParaSemana(inicioSemana, 50, random, citasPorVet, citasPorDia);
-    cargarCitasParaSemana(inicioSemana.plusWeeks(1), 20, random, citasPorVet, citasPorDia);
-    cargarCitasParaSemana(inicioSemana.plusWeeks(2), 10, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.minusWeeks(1), 50, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana, 100, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.plusWeeks(1), 50, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.plusWeeks(2), 50, random, citasPorVet, citasPorDia);
+    cargarCitasParaSemana(inicioSemana.plusWeeks(3), 50, random, citasPorVet, citasPorDia);
   }
 
   private void cargarCitasParaSemana(

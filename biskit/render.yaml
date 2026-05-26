@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: biskit
+    env: docker
+    rootDir: biskit
+    dockerfilePath: biskit/Dockerfile
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: BISKIT_FRONTEND_BASE_URL
+        value: https://biskit.website

@@ -14,7 +14,7 @@ public class TiposCitaImpl implements TiposCitaService {
   @Autowired
   private TiposCitaRepo tiposCitaRepo;
 
-  public List<String> getTiposCitas() {
-    return tiposCitaRepo.findAll().stream().map(TipoCita::getNombre).toList();
+  public List<TipoCita> getTiposCitas() {
+    return tiposCitaRepo.findAll();
   }
 }

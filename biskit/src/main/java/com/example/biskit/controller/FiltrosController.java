@@ -2,8 +2,8 @@ package com.example.biskit.controller;
 
 import com.example.biskit.entities.DTOs.Pets.PetDTO;
 import com.example.biskit.entities.DTOs.Pets.PetMapper;
-import com.example.biskit.entities.DTOs.PetsFiltrosDTO;
-import com.example.biskit.entities.DTOs.VetsFiltrosDTO;
+import com.example.biskit.entities.DTOs.PetsFiltrosDto;
+import com.example.biskit.entities.DTOs.VetsFiltrosDto;
 import com.example.biskit.entities.Vets.Vet;
 import com.example.biskit.service.Pets.PetsService;
 import com.example.biskit.service.Vets.VetService;
@@ -11,14 +11,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/filtros")
 public class FiltrosController {
 
@@ -40,7 +38,7 @@ public class FiltrosController {
     @RequestParam(required = false) Long vetId,
     @RequestParam(required = false) Boolean misMascotas
   ) {
-    PetsFiltrosDTO filtros = new PetsFiltrosDTO(
+    PetsFiltrosDto filtros = new PetsFiltrosDto(
       estado,
       especie,
       raza,
@@ -62,7 +60,7 @@ public class FiltrosController {
     @RequestParam(required = false) String pet,
     @RequestParam(required = false) Long vetId
   ) {
-    VetsFiltrosDTO filtros = new VetsFiltrosDTO(estado, especialidad, tratamientos, pet, vetId);
+    VetsFiltrosDto filtros = new VetsFiltrosDto(estado, especialidad, tratamientos, pet, vetId);
     return new ResponseEntity<>(vetsService.getVetsFiltrados(filtros), HttpStatus.OK);
   }
 }

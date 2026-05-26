@@ -102,12 +102,12 @@ public class DrogasRepoTest {
 
   // Realizar 5 pruebas para diferentes consultas creadas por ustedes.​
   @Test
-  public void DrogasRepo_findByStockLessThanEqual_ListDroga() {
+  public void DrogasRepo_findByUnidadesDisponiblesLessThanEqual_ListDroga() {
 
     // Arrange
 
     // Act
-    List<Droga> drogasBajoStock = drogasRepo.findByStockLessThanEqual();
+    List<Droga> drogasBajoStock = drogasRepo.findByUnidadesDisponiblesLessThanEqual(2);
 
     // Assert
     Assertions.assertThat(drogasBajoStock).isNotNull();
