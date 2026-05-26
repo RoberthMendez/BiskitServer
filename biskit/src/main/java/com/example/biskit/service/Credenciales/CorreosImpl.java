@@ -298,6 +298,27 @@ public class CorreosImpl implements CorreosService {
     }
 
     if (fromAddress.isEmpty()) {
+      fromAddress = clean(System.getenv("BISKIT_MAIL_FROM"));
+      if (!fromAddress.isEmpty()) {
+        logger.warn("Remitente resuelto desde variable de entorno BISKIT_MAIL_FROM.");
+      }
+    }
+
+    if (fromAddress.isEmpty()) {
+      fromAddress = clean(System.getenv("SMTP_USERNAME"));
+      if (!fromAddress.isEmpty()) {
+        logger.warn("Remitente resuelto desde variable de entorno SMTP_USERNAME.");
+      }
+    }
+
+    if (fromAddress.isEmpty()) {
+      fromAddress = clean(System.getenv("SPRING_MAIL_USERNAME"));
+      if (!fromAddress.isEmpty()) {
+        logger.warn("Remitente resuelto desde variable de entorno SPRING_MAIL_USERNAME.");
+      }
+    }
+
+    if (fromAddress.isEmpty()) {
       throw new IllegalStateException(
         "No hay remitente configurado para correo. Define BISKIT_MAIL_FROM o SMTP_USERNAME."
       );
@@ -306,6 +327,7 @@ public class CorreosImpl implements CorreosService {
     try {
       InternetAddress address = new InternetAddress(fromAddress);
       address.validate();
+      logger.info("Correo remitente resuelto correctamente: {}", maskEmail(fromAddress));
       return fromAddress;
     } catch (AddressException e) {
       throw new IllegalStateException(
@@ -317,5 +339,14 @@ public class CorreosImpl implements CorreosService {
 
   private String clean(String value) {
     return value == null ? "" : value.trim();
+  }
+
+  private String maskEmail(String email) {
+    int atIndex = email.indexOf('@');
+    if (atIndex <= 1) {
+      return "***";
+    }
+
+    return email.charAt(0) + "***" + email.substring(atIndex);
   }
 }
