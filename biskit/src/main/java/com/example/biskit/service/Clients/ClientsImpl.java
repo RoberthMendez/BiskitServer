@@ -14,12 +14,18 @@ import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Service
 @Transactional
 public class ClientsImpl implements ClientsService {
+
+  private static final Logger logger = LoggerFactory.getLogger(ClientsImpl.class);
 
   @Autowired
   private ClientsRepo clientsRepo;
@@ -52,7 +58,32 @@ public class ClientsImpl implements ClientsService {
     client.setCredenciales(credenciales);
 
     Client clientGuardado = clientsRepo.save(client);
-    correosService.enviarBienvenida(client);
+
+    Runnable enviarCorreo = () -> {
+      try {
+        correosService.enviarBienvenida(clientGuardado);
+      } catch (Exception e) {
+        logger.warn(
+          "No se pudo enviar el correo de bienvenida al cliente {}",
+          clientGuardado.getCorreo(),
+          e
+        );
+      }
+    };
+
+    if (TransactionSynchronizationManager.isActualTransactionActive()) {
+      TransactionSynchronizationManager.registerSynchronization(
+        new TransactionSynchronization() {
+          @Override
+          public void afterCommit() {
+            enviarCorreo.run();
+          }
+        }
+      );
+    } else {
+      enviarCorreo.run();
+    }
+
     return clientGuardado;
   }
 

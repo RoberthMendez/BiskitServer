@@ -601,13 +601,14 @@ public class ServicioWhatsAppBot {
       return;
     }
 
+    agregarControlesLista(filas, pagina, fin < mascotasValidas.size(), true);
     boolean tieneSiguiente = fin < mascotasValidas.size();
     estado.setOpcionesMascota(opciones);
     estado.setTextosMascota(textos);
     estado.setPasoActual(PasoConversacion.SELECCION_MASCOTA);
     enviarListaSeguro(
       estado.getTelefonoCliente(),
-      "Ahora selecciona para cual de *tus mascotas* deseas agendar la cita 👇🏼",
+      "Ahora selecciona para cual de tus mascotas deseas agendar la cita 👇🏼",
       "Ver mascotas",
       "Mascotas",
       filas
