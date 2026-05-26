@@ -38,7 +38,7 @@ public class CorreosImpl implements CorreosService {
   @Value("${spring.mail.username:}")
   private String mailUsername;
 
-  @Value("${biskit.frontend.base-url:https://biskit.website}")
+  @Value("${biskit.frontend.base-url:http://localhost:4200}")
   private String frontendBaseUrl;
 
   private static final Set<String> ALLOWED_FRONTEND_ORIGINS = Set.of(
@@ -52,7 +52,7 @@ public class CorreosImpl implements CorreosService {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-      String baseUrl = resolverFrontendBaseUrl();
+      String baseUrl = "http://localhost:4200";
 
       helper.setFrom(resolverFromAddress());
       helper.setTo(cliente.getCorreo());
@@ -180,7 +180,7 @@ public class CorreosImpl implements CorreosService {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-      String baseUrl = resolverFrontendBaseUrl();
+      String baseUrl = "http://localhost:4200";
 
       helper.setFrom(resolverFromAddress());
       helper.setTo(contactable.getCorreo());
@@ -379,7 +379,7 @@ public class CorreosImpl implements CorreosService {
   private String construirCuerpoConfirmacionCita(Cita cita, Client owner) {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    
+
     String fecha = cita.getFechaHora().format(dateFormatter);
     String hora = cita.getFechaHora().format(timeFormatter);
     String tipoCita = cita.getTipoCita().getNombre();
