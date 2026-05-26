@@ -2,6 +2,8 @@ package com.example.biskit.entities.Chat;
 
 import java.sql.Timestamp;
 
+import org.apache.poi.hpsf.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
