@@ -3,6 +3,8 @@ package com.example.biskit.service.Credenciales;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Contactable;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import java.util.Set;
@@ -30,6 +32,9 @@ public class CorreosImpl implements CorreosService {
   @Value("${biskit.mail.from}")
   private String fromEmail;
 
+  @Value("${spring.mail.username:}")
+  private String mailUsername;
+
   @Value("${biskit.frontend.base-url:https://biskit.website}")
   private String frontendBaseUrl;
 
@@ -45,7 +50,7 @@ public class CorreosImpl implements CorreosService {
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
       String baseUrl = resolverFrontendBaseUrl();
 
-      helper.setFrom(fromEmail);
+      helper.setFrom(resolverFromAddress());
       helper.setTo(cliente.getCorreo());
       helper.setSubject("¡Bienvenido/a a la Veterinaria Biskit!");
 
@@ -172,7 +177,7 @@ public class CorreosImpl implements CorreosService {
       MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
       String baseUrl = resolverFrontendBaseUrl();
 
-      helper.setFrom(fromEmail);
+      helper.setFrom(resolverFromAddress());
       helper.setTo(contactable.getCorreo());
       helper.setSubject("Restablece tu contraseña - Veterinaria Biskit");
 
@@ -278,5 +283,39 @@ public class CorreosImpl implements CorreosService {
     ServletRequestAttributes servletRequestAttributes =
       (ServletRequestAttributes) requestAttributes;
     return servletRequestAttributes.getRequest().getHeader("Origin");
+  }
+
+  private String resolverFromAddress() {
+    String fromAddress = clean(fromEmail);
+
+    if (fromAddress.isEmpty()) {
+      fromAddress = clean(mailUsername);
+      if (!fromAddress.isEmpty()) {
+        logger.warn(
+          "biskit.mail.from no esta configurado. Se usara spring.mail.username como remitente."
+        );
+      }
+    }
+
+    if (fromAddress.isEmpty()) {
+      throw new IllegalStateException(
+        "No hay remitente configurado para correo. Define BISKIT_MAIL_FROM o SMTP_USERNAME."
+      );
+    }
+
+    try {
+      InternetAddress address = new InternetAddress(fromAddress);
+      address.validate();
+      return fromAddress;
+    } catch (AddressException e) {
+      throw new IllegalStateException(
+        "El remitente configurado no es un correo valido: " + fromAddress,
+        e
+      );
+    }
+  }
+
+  private String clean(String value) {
+    return value == null ? "" : value.trim();
   }
 }
