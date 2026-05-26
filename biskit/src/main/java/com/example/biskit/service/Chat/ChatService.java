@@ -9,6 +9,8 @@ public interface ChatService {
 
     public Chat addChat(Chat chat);
 
+    public Chat addChat(Long idCliente, Long idVeterinario);
+
     public Chat getChatById(Long id);
 
     public Chat updateChat(Chat chat);
