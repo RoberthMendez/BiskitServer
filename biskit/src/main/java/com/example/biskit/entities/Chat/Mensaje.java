@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @Entity
@@ -30,12 +29,12 @@ public class Mensaje {
         private Long id;
 
         @ManyToOne
-        private ParticipanteChat participanteChat;
+        private ParticipanteChat remitente;
 
         @Column(name = "contenido", nullable = false, length = 1000)
         private String contenido;
 
         @Column(name = "timestamp", nullable = false)
         private Timestamp timestamp;
-    
+
 }
