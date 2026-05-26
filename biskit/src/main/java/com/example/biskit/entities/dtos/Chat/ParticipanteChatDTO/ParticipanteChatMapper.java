@@ -11,7 +11,7 @@ import com.example.biskit.entities.Chat.ParticipanteChat;
 public interface ParticipanteChatMapper {
     ParticipanteChatMapper INSTANCE = org.mapstruct.factory.Mappers.getMapper(ParticipanteChatMapper.class);
 
-    @Mapping(target = "credencialesId", source = "credenciales.id")
+    @Mapping(target = "id", source = "credenciales.id")
     @Mapping(target = "rol", source = "credenciales.rol.nombre")
     ParticipanteChatDTO toDTO(ParticipanteChat participanteChat);
 
