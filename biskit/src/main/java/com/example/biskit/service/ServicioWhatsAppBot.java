@@ -601,7 +601,7 @@ public class ServicioWhatsAppBot {
       return;
     }
 
-    agregarControlesLista(filas, pagina, fin < mascotasValidas.size(), true);
+    boolean tieneSiguiente = fin < mascotasValidas.size();
     estado.setOpcionesMascota(opciones);
     estado.setTextosMascota(textos);
     estado.setPasoActual(PasoConversacion.SELECCION_MASCOTA);
@@ -611,6 +611,14 @@ public class ServicioWhatsAppBot {
       "Ver mascotas",
       "Mascotas",
       filas
+    );
+    enviarBotonesNavegacionLista(
+      estado.getTelefonoCliente(),
+      "Otras opciones:",
+      pagina,
+      tieneSiguiente,
+      true,
+      "Ver mas mascotas"
     );
   }
 
