@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,6 +45,7 @@ public class CorreosImpl implements CorreosService {
     "https://biskit-gold.vercel.app"
   );
 
+  @Async
   public void enviarBienvenida(Client cliente) {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
@@ -171,6 +173,7 @@ public class CorreosImpl implements CorreosService {
     """.formatted(nombre, username, password, linkResetPassword);
   }
 
+  @Async
   public void enviarCorreoResetPassword(Contactable contactable) {
     try {
       MimeMessage mensaje = mailSender.createMimeMessage();
