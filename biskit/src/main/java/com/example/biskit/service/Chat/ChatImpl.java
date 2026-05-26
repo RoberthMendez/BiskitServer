@@ -34,12 +34,10 @@ public class ChatImpl implements ChatService {
     private ParticipanteChatRepo participanteChatRepo;
 
     @Autowired
-    private MensajeRepo mensajeRepo;   
-    
+    private MensajeRepo mensajeRepo;
+
     @Autowired
     private CredencialesService credencialesService;
-
-
 
     @Override
     public Chat addChat(Chat chat) {
@@ -51,7 +49,7 @@ public class ChatImpl implements ChatService {
     @Override
     public Chat getChatById(Long id) {
         return chatRepo.findById(id).orElse(null);
-    }   
+    }
 
     @Override
     public Chat updateChat(Chat chat) {
@@ -64,15 +62,11 @@ public class ChatImpl implements ChatService {
         chatRepo.deleteById(id);
     }
 
-
-
-
-
     @Override
     public ParticipanteChat addParticipanteChat(ParticipanteChat participanteChat) {
         return participanteChatRepo.save(participanteChat);
     }
-    
+
     @Override
     public ParticipanteChat getParticipanteChatById(Long id) {
         return participanteChatRepo.findById(id).orElse(null);
@@ -87,8 +81,6 @@ public class ChatImpl implements ChatService {
     public void deleteParticipanteChat(Long id) {
         participanteChatRepo.deleteById(id);
     }
-
-
 
     @Override
     public Mensaje addMensaje(Mensaje mensaje) {
@@ -110,8 +102,6 @@ public class ChatImpl implements ChatService {
         mensajeRepo.deleteById(id);
     }
 
-
-
     @Override
     public void addParticipanteToChat(ParticipanteChat participanteChat, Chat chat) {
         if (chat.getParticipantes() == null) {
@@ -124,22 +114,20 @@ public class ChatImpl implements ChatService {
         validarYAsignarClaveUnica(chat);
         chatRepo.save(chat);
     }
-    
 
     @Override
     public void addMensajeToParticipanteChat(String contenido, ParticipanteChat remitente) {
         Mensaje mensaje = Mensaje.builder()
-                            .contenido(contenido)
-                            .participanteChat(remitente)
-                            .build();
+                .contenido(contenido)
+                .remitente(remitente)
+                .build();
         mensajeRepo.save(mensaje);
     }
 
-
-
     @Override
     public void setCredencialesToParticipanteChat(ParticipanteChat participanteChat) {
-        Long credencialesId = participanteChat.getCredenciales() != null ? participanteChat.getCredenciales().getId() : null;
+        Long credencialesId = participanteChat.getCredenciales() != null ? participanteChat.getCredenciales().getId()
+                : null;
         Credenciales cred = credencialesService.getCredencialesById(credencialesId);
         participanteChat.setCredenciales(cred);
         participanteChatRepo.save(participanteChat);
@@ -150,7 +138,7 @@ public class ChatImpl implements ChatService {
         if (chat.getParticipantes() != null) {
             for (ParticipanteChat participante : chat.getParticipantes()) {
                 participante.setChat(chat);
-                if (participante.getCredenciales() != null) 
+                if (participante.getCredenciales() != null)
                     setCredencialesToParticipanteChat(participante);
             }
         }
@@ -179,7 +167,8 @@ public class ChatImpl implements ChatService {
         }
 
         List<Long> participantesIds = chat.getParticipantes().stream()
-                .map(participante -> participante.getCredenciales() != null ? participante.getCredenciales().getId() : null)
+                .map(participante -> participante.getCredenciales() != null ? participante.getCredenciales().getId()
+                        : null)
                 .filter(Objects::nonNull)
                 .sorted()
                 .collect(Collectors.toList());
@@ -196,5 +185,4 @@ public class ChatImpl implements ChatService {
         return participantesIds.get(0) + "-" + participantesIds.get(1);
     }
 
-    
 }

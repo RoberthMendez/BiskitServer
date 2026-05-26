@@ -16,45 +16,59 @@ import com.example.biskit.service.Chat.ChatService;
 import com.example.biskit.entities.Chat.Chat;
 import com.example.biskit.entities.Chat.Mensaje;
 import com.example.biskit.entities.Chat.ParticipanteChat;
+import com.example.biskit.entities.DTOs.Chat.ParticipanteChatDTO.ParticipanteChatDTO;
+import com.example.biskit.entities.DTOs.Chat.ParticipanteChatDTO.ParticipanteChatMapper;
+import com.example.biskit.entities.DTOs.Chat.ChatDTO.ChatDTO;
+import com.example.biskit.entities.DTOs.Chat.ChatDTO.ChatMapper;
+import com.example.biskit.entities.DTOs.Chat.MensajeDTO.MensajeMapper;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-
 
 @RestController
 @RequestMapping("/chat")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChatController {
-    
+
     @Autowired
     private ChatService chatService;
-
-
-
 
     /* ===================================== CHAT ============================== */
 
     @PostMapping("/add")
-    public ResponseEntity<Chat> addChat(@RequestBody Chat chat) {
-        return new ResponseEntity<>(chatService.addChat(chat), HttpStatus.CREATED);
+    public ResponseEntity<ChatDTO> addChat(@RequestBody Chat chat) {
+        return new ResponseEntity<>(
+                ChatMapper.INSTANCE.toDTO(chatService.addChat(chat),
+                        ParticipanteChatMapper.INSTANCE.toDTOList(chat.getParticipantes()),
+                        MensajeMapper.INSTANCE.toDTOList(chat.getParticipantes().stream()
+                                .flatMap(p -> p.getMensajesEnviados().stream()).toList())),
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chat> getChatById(@PathVariable Long id) {
+    public ResponseEntity<ChatDTO> getChatById(@PathVariable Long id) {
         Chat chat = chatService.getChatById(id);
         if (chat != null) {
-            return new ResponseEntity<>(chat, HttpStatus.OK);
+            return new ResponseEntity<>(ChatMapper.INSTANCE.toDTO(chat,
+                    ParticipanteChatMapper.INSTANCE.toDTOList(chat.getParticipantes()),
+                    MensajeMapper.INSTANCE.toDTOList(
+                            chat.getParticipantes().stream().flatMap(p -> p.getMensajesEnviados().stream()).toList())),
+                    HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Chat> updateChat(@PathVariable Long id, @RequestBody Chat chat) {
+    public ResponseEntity<ChatDTO> updateChat(@PathVariable Long id, @RequestBody Chat chat) {
         chat.setId(id);
         Chat updatedChat = chatService.updateChat(chat);
         if (updatedChat != null) {
-            return new ResponseEntity<>(updatedChat, HttpStatus.OK);
+            return new ResponseEntity<>(ChatMapper.INSTANCE.toDTO(updatedChat,
+                    ParticipanteChatMapper.INSTANCE.toDTOList(updatedChat.getParticipantes()),
+                    MensajeMapper.INSTANCE.toDTOList(updatedChat.getParticipantes().stream()
+                            .flatMap(p -> p.getMensajesEnviados().stream()).toList())),
+                    HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -66,33 +80,13 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
-
-
-
-    /* ===================================== PARTICIPANTE CHAT ============================== */
-
-    @PostMapping("/addParticipanteChat")
-    public ResponseEntity<ParticipanteChat> addParticipanteChat(@RequestBody ParticipanteChat participanteChat) {
-        return new ResponseEntity<>(chatService.addParticipanteChat(participanteChat), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/participanteChat/{id}")
-    public ResponseEntity<ParticipanteChat> getParticipanteChatById(@PathVariable Long id) {
-        ParticipanteChat participanteChat = chatService.getParticipanteChatById(id);
-        if (participanteChat != null) {
-            return new ResponseEntity<>(participanteChat, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @PutMapping("/participanteChat/{id}")
-    public ResponseEntity<ParticipanteChat> updateParticipanteChat(@PathVariable Long id, @RequestBody ParticipanteChat participanteChat) {
+    public ResponseEntity<ParticipanteChatDTO> updateParticipanteChat(@PathVariable Long id,
+            @RequestBody ParticipanteChat participanteChat) {
         participanteChat.setId(id);
         ParticipanteChat updatedParticipanteChat = chatService.updateParticipanteChat(participanteChat);
         if (updatedParticipanteChat != null) {
-            return new ResponseEntity<>(updatedParticipanteChat, HttpStatus.OK);
+            return new ResponseEntity<>(ParticipanteChatMapper.INSTANCE.toDTO(updatedParticipanteChat), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -104,11 +98,9 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
-
-
-
-    /* ===================================== MENSAJE ============================== */
+    /*
+     * ===================================== MENSAJE ==============================
+     */
 
     @PostMapping("/addMensaje")
     public ResponseEntity<Mensaje> addMensaje(@RequestBody Mensaje mensaje) {
