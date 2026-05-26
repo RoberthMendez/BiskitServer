@@ -6,6 +6,8 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -19,6 +21,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Service
 @Transactional
 public class CorreosImpl implements CorreosService {
+
+  private static final Logger logger = LoggerFactory.getLogger(CorreosImpl.class);
 
   @Autowired
   private JavaMailSender mailSender;
@@ -49,7 +53,10 @@ public class CorreosImpl implements CorreosService {
         baseUrl + "/login/reset-password/" + cliente.getId() + "?correo=" + cliente.getCorreo();
 
       // Reconstruir la contraseña desencriptada
-      String passwordDesencriptada = reconstruirContraseña(cliente.getNombre(), cliente.getCedula());
+      String passwordDesencriptada = reconstruirContraseña(
+        cliente.getNombre(),
+        cliente.getCedula()
+      );
 
       helper.setText(
         construirCuerpo(
@@ -65,13 +72,15 @@ public class CorreosImpl implements CorreosService {
       helper.addInline("headerCorreo", img, "image/png");
 
       mailSender.send(mensaje);
-    } catch (MessagingException e) {
+    } catch (Exception e) {
+      logger.error("Error al enviar el correo de bienvenida a {}", cliente.getCorreo(), e);
       throw new RuntimeException("Error al enviar el correo de bienvenida", e);
     }
   }
 
   private String reconstruirContraseña(String nombre, String cedula) {
-    String parteNombre = nombre.length() >= 3 ? nombre.substring(0, 3).toLowerCase() : nombre.toLowerCase();
+    String parteNombre =
+      nombre.length() >= 3 ? nombre.substring(0, 3).toLowerCase() : nombre.toLowerCase();
     String parteCedula = cedula.length() >= 3 ? cedula.substring(0, 3) : cedula;
     return parteNombre + parteCedula;
   }
@@ -183,7 +192,8 @@ public class CorreosImpl implements CorreosService {
       helper.addInline("headerCorreo", img, "image/png");
 
       mailSender.send(mensaje);
-    } catch (MessagingException e) {
+    } catch (Exception e) {
+      logger.error("Error al enviar el correo de reset a {}", contactable.getCorreo(), e);
       throw new RuntimeException("Error al enviar el correo de reset", e);
     }
   }
