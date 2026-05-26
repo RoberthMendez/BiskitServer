@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ParticipanteChatDTO {
 
-    private Long credencialesId;
+    private Long id;
     private String rol;
 }
