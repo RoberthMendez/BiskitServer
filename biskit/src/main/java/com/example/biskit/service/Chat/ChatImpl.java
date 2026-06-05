@@ -63,6 +63,26 @@ public class ChatImpl implements ChatService {
     }
 
     @Override
+    public Chat addChat(Long idCliente, Long idVeterinario) {
+        Client client = clientsService.getClientById(idCliente);
+        Vet vet = vetService.getVetById(idVeterinario);
+
+        if (client == null || vet == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente o veterinario no encontrado");
+        }
+
+        ParticipanteChat participanteCliente = new ParticipanteChat();
+        participanteCliente.setCredenciales(client.getCredenciales());
+
+        ParticipanteChat participanteVet = new ParticipanteChat();
+        participanteVet.setCredenciales(vet.getCredenciales());
+
+        Chat chat = new Chat();
+        chat.setParticipantes(List.of(participanteCliente, participanteVet));
+        return addChat(chat);
+    }
+
+    @Override
     public Chat getChatById(Long id) {
         return chatRepo.findById(id).orElse(null);
     }

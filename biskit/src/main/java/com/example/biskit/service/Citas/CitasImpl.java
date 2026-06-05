@@ -60,8 +60,8 @@ public class CitasImpl implements CitasService {
     LocalDate hoy = LocalDate.now();
     DayOfWeek diaObjetivo = parseDiaSemanaDesdeEspanol(citaDto.getDiaSemana());
     LocalDate inicioSemana = hoy
-      .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-      .plusWeeks(numSemana);
+        .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+        .plusWeeks(numSemana);
     LocalDate fechaCita = inicioSemana.plusDays(diaObjetivo.getValue() - 1);
     LocalDateTime fechaHora = LocalDateTime.of(fechaCita, citaDto.getHora());
 
@@ -95,9 +95,9 @@ public class CitasImpl implements CitasService {
       throw new IllegalArgumentException("diaSemana es null");
     }
     String normalized = Normalizer.normalize(dia, Normalizer.Form.NFD)
-      .replaceAll("\\p{M}", "")
-      .toLowerCase()
-      .trim();
+        .replaceAll("\\p{M}", "")
+        .toLowerCase()
+        .trim();
 
     switch (normalized) {
       case "lunes":
@@ -151,10 +151,9 @@ public class CitasImpl implements CitasService {
     LocalDateTime inicioDia = fecha.atStartOfDay();
     LocalDateTime finDia = fecha.atTime(LocalTime.MAX);
     List<Cita> citasDelDia = citasRepo.findByVetIdAndFechaHoraBetweenOrderByFechaHoraAsc(
-      vetId,
-      inicioDia,
-      finDia
-    );
+        vetId,
+        inicioDia,
+        finDia);
 
     // 5. Verificar conflictos con otras citas
     for (Cita citaExistente : citasDelDia) {
@@ -170,8 +169,7 @@ public class CitasImpl implements CitasService {
       // Conflicto si: horaCita < horaFinExistente AND horaFinCita > horaExistente
       if (horaCita.isBefore(horaFinExistente) && horaFinCita.isAfter(horaExistente)) {
         throw new VeterinarioNoDisponibleException(
-          "El veterinario se encuentra ocupado en el horario solicitado"
-        );
+            "El veterinario se encuentra ocupado en el horario solicitado");
       }
     }
   }
@@ -209,10 +207,9 @@ public class CitasImpl implements CitasService {
     LocalDateTime finSemanaDateTime = finSemana.atTime(LocalTime.MAX);
 
     return citasRepo.findByVetIdAndFechaHoraBetweenOrderByFechaHoraAsc(
-      vetId,
-      inicioSemanaDateTime,
-      finSemanaDateTime
-    );
+        vetId,
+        inicioSemanaDateTime,
+        finSemanaDateTime);
   }
 
   public List<Cita> getCitasSemanaByVetIdSinMascota(Long vetId, int numSemana) {
@@ -224,31 +221,30 @@ public class CitasImpl implements CitasService {
     LocalDateTime finSemanaDateTime = finSemana.atTime(LocalTime.MAX);
 
     return citasRepo.findByVetIdAndFechaHoraBetweenAndPetIsNullOrderByFechaHoraAsc(
-      vetId,
-      inicioSemanaDateTime,
-      finSemanaDateTime
-    );
+        vetId,
+        inicioSemanaDateTime,
+        finSemanaDateTime);
   }
 
   public Cita updateCita(Long id, CitaDto citaDto, int numSemana) {
     Cita citaExistente = citasRepo
-      .findById(id)
-      .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
     TipoCita tipoCita = tiposCitaRepo
-      .findByNombre(citaDto.getTipoCitaNombre())
-      .orElseThrow(() -> new RuntimeException("Tipo de cita no encontrado"));
+        .findByNombre(citaDto.getTipoCitaNombre())
+        .orElseThrow(() -> new RuntimeException("Tipo de cita no encontrado"));
     Pet pet = petsRepo
-      .findById(citaDto.getPetId())
-      .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
+        .findById(citaDto.getPetId())
+        .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
     Vet vet = vetsRepo
-      .findById(citaDto.getVetId())
-      .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+        .findById(citaDto.getVetId())
+        .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
 
     LocalDate hoy = LocalDate.now();
     DayOfWeek diaObjetivo = parseDiaSemanaDesdeEspanol(citaDto.getDiaSemana());
     LocalDate inicioSemana = hoy
-      .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-      .plusWeeks(numSemana);
+        .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+        .plusWeeks(numSemana);
     LocalDate fechaCita = inicioSemana.plusDays(diaObjetivo.getValue() - 1);
     LocalDateTime fechaHora = LocalDateTime.of(fechaCita, citaDto.getHora());
 
@@ -263,8 +259,8 @@ public class CitasImpl implements CitasService {
 
   public void deleteCita(Long id) {
     Cita cita = citasRepo
-      .findById(id)
-      .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
     citasRepo.delete(cita);
   }
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.biskit.entities.DTOs.Chat.ParticipanteChatDTO.ParticipanteChatDTO;
 import com.example.biskit.entities.DTOs.Chat.ParticipanteChatDTO.ParticipanteChatMapper;
+import com.example.biskit.entities.DTOs.Chat.AddChatDTO.AddChatDTO;
 import com.example.biskit.entities.DTOs.Chat.ChatDTO.ChatDTO;
 import com.example.biskit.entities.DTOs.Chat.ChatDTO.ChatMapper;
 import com.example.biskit.entities.DTOs.Chat.MensajeDTO.MensajeDTO;
@@ -33,14 +34,28 @@ public class ChatController {
   /* ===================================== CHAT ============================== */
 
   @PostMapping("/add")
-  public ResponseEntity<ChatDTO> addChat(@RequestBody Chat chat) {
-    return new ResponseEntity<>(
-        ChatMapper.INSTANCE.toDTO(chatService.addChat(chat),
-            ParticipanteChatMapper.INSTANCE.toDTOList(chat.getParticipantes()),
-            MensajeMapper.INSTANCE.toDTOList(chat.getParticipantes().stream()
-                .flatMap(p -> p.getMensajesEnviados().stream()).toList())),
-        HttpStatus.CREATED);
+  public ResponseEntity<Long> addChat(@RequestBody AddChatDTO addChatDTO) {
+    Long idCliente = addChatDTO.getIdCliente();
+    Long idVeterinario = addChatDTO.getIdVeterinario();
+    System.out.println("ID Cliente: " + idCliente);
+    System.out.println("ID Veterinario: " + idVeterinario);
+    Chat createdChat = chatService.addChat(idCliente, idVeterinario);
+    return new ResponseEntity<>(createdChat.getId(), HttpStatus.CREATED);
   }
+
+  /*
+   * // http://localhost:8080/chat/1
+   * 
+   * @GetMapping("/{id}")
+   * public ResponseEntity<ChatDTO> getChatById(@PathVariable Long id) {
+   * Chat chat = chatService.getChatById(id);
+   * if (chat != null) {
+   * return new ResponseEntity<>(ChatMapper.INSTANCE.toDTO(chat,
+   * createdChat.getParticipantes().stream().flatMap(p ->
+   * p.getMensajesEnviados().stream()).toList())),
+   * HttpStatus.CREATED);
+   * }
+   */
 
   // http://localhost:8080/chat/1
   @GetMapping("/{id}")
@@ -141,7 +156,8 @@ public class ChatController {
 
   @PutMapping("/send/{id}")
   public ResponseEntity<Void> sendMensaje(@PathVariable Long id, @RequestBody MensajeDTO mensajeDTO) {
-    Mensaje mensaje = chatService.sendMensaje(id, mensajeDTO);
+    chatService.sendMensaje(id, mensajeDTO);
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
 }
