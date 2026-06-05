@@ -269,6 +269,10 @@ public class CorreosImpl implements CorreosService {
   }
 
   private String resolverFrontendBaseUrl() {
+
+    return "https://biskit.website";
+
+    /* 
     String requestOrigin = obtenerOriginDeLaPeticion();
 
     if (requestOrigin != null && ALLOWED_FRONTEND_ORIGINS.contains(requestOrigin)) {
@@ -276,6 +280,7 @@ public class CorreosImpl implements CorreosService {
     }
 
     return frontendBaseUrl;
+    */
   }
 
   private String obtenerOriginDeLaPeticion() {
