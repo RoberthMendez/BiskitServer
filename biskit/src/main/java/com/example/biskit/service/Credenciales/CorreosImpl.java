@@ -61,7 +61,7 @@ public class CorreosImpl implements CorreosService {
   @Async
   public void enviarBienvenida(Client cliente) {
     try {
-      String baseUrl = "http://localhost:4200";
+      String baseUrl = resolverFrontendBaseUrl();
 
       String linkResetPassword =
         baseUrl + "/login/reset-password/" + cliente.getId() + "?correo=" + cliente.getCorreo();
@@ -179,7 +179,7 @@ public class CorreosImpl implements CorreosService {
   @Async
   public void enviarCorreoResetPassword(Contactable contactable) {
     try {
-      String baseUrl = "http://localhost:4200";
+      String baseUrl = resolverFrontendBaseUrl();
 
       String linkResetPassword =
         baseUrl +
