@@ -3,22 +3,27 @@ package com.example.biskit.service.Credenciales;
 import com.example.biskit.entities.Citas.Cita;
 import com.example.biskit.entities.Client;
 import com.example.biskit.entities.Contactable;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.AddressException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,15 +33,21 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class CorreosImpl implements CorreosService {
 
   private static final Logger logger = LoggerFactory.getLogger(CorreosImpl.class);
-
-  @Autowired
-  private JavaMailSender mailSender;
+  private static final String HEADER_CONTENT_ID = "headerCorreo";
+  private static final String HEADER_IMAGE_PATH = "images/correo.png";
+  private static final Pattern SIMPLE_EMAIL_PATTERN = Pattern.compile(
+    "^[^\\s@<>]+@[^\\s@<>]+\\.[^\\s@<>]+$"
+  );
+  private final RestClient resendClient = RestClient.create();
 
   @Value("${biskit.mail.from}")
   private String fromEmail;
 
-  @Value("${spring.mail.username:}")
-  private String mailUsername;
+  @Value("${resend.api-key:}")
+  private String resendApiKey;
+
+  @Value("${resend.emails-url:https://api.resend.com/emails}")
+  private String resendEmailsUrl;
 
   @Value("${biskit.frontend.base-url:http://localhost:4200}")
   private String frontendBaseUrl;
@@ -50,13 +61,7 @@ public class CorreosImpl implements CorreosService {
   @Async
   public void enviarBienvenida(Client cliente) {
     try {
-      MimeMessage mensaje = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
       String baseUrl = "http://localhost:4200";
-
-      helper.setFrom(resolverFromAddress());
-      helper.setTo(cliente.getCorreo());
-      helper.setSubject("¡Bienvenido/a a la Veterinaria Biskit!");
 
       String linkResetPassword =
         baseUrl + "/login/reset-password/" + cliente.getId() + "?correo=" + cliente.getCorreo();
@@ -67,20 +72,16 @@ public class CorreosImpl implements CorreosService {
         cliente.getCedula()
       );
 
-      helper.setText(
+      enviarConResend(
+        cliente.getCorreo(),
+        "¡Bienvenido/a a la Veterinaria Biskit!",
         construirCuerpo(
           cliente.getNombre(),
           cliente.getCredenciales().getUsername(),
           passwordDesencriptada,
           linkResetPassword
-        ),
-        true
-      ); // true = HTML
-
-      ClassPathResource img = new ClassPathResource("images/correo.png");
-      helper.addInline("headerCorreo", img, "image/png");
-
-      mailSender.send(mensaje);
+        )
+      );
     } catch (Exception e) {
       logger.error("Error al enviar el correo de bienvenida a {}", cliente.getCorreo(), e);
       throw new RuntimeException("Error al enviar el correo de bienvenida", e);
@@ -178,13 +179,7 @@ public class CorreosImpl implements CorreosService {
   @Async
   public void enviarCorreoResetPassword(Contactable contactable) {
     try {
-      MimeMessage mensaje = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
       String baseUrl = "http://localhost:4200";
-
-      helper.setFrom(resolverFromAddress());
-      helper.setTo(contactable.getCorreo());
-      helper.setSubject("Restablece tu contraseña - Veterinaria Biskit");
 
       String linkResetPassword =
         baseUrl +
@@ -193,15 +188,11 @@ public class CorreosImpl implements CorreosService {
         "?correo=" +
         contactable.getCorreo();
 
-      helper.setText(
-        construirCuerpoResetPassword(contactable.getNombre(), linkResetPassword),
-        true
+      enviarConResend(
+        contactable.getCorreo(),
+        "Restablece tu contraseña - Veterinaria Biskit",
+        construirCuerpoResetPassword(contactable.getNombre(), linkResetPassword)
       );
-
-      ClassPathResource img = new ClassPathResource("images/correo.png");
-      helper.addInline("headerCorreo", img, "image/png");
-
-      mailSender.send(mensaje);
     } catch (Exception e) {
       logger.error("Error al enviar el correo de reset a {}", contactable.getCorreo(), e);
       throw new RuntimeException("Error al enviar el correo de reset", e);
@@ -294,15 +285,6 @@ public class CorreosImpl implements CorreosService {
     String fromAddress = clean(fromEmail);
 
     if (fromAddress.isEmpty()) {
-      fromAddress = clean(mailUsername);
-      if (!fromAddress.isEmpty()) {
-        logger.warn(
-          "biskit.mail.from no esta configurado. Se usara spring.mail.username como remitente."
-        );
-      }
-    }
-
-    if (fromAddress.isEmpty()) {
       fromAddress = clean(System.getenv("BISKIT_MAIL_FROM"));
       if (!fromAddress.isEmpty()) {
         logger.warn("Remitente resuelto desde variable de entorno BISKIT_MAIL_FROM.");
@@ -310,36 +292,26 @@ public class CorreosImpl implements CorreosService {
     }
 
     if (fromAddress.isEmpty()) {
-      fromAddress = clean(System.getenv("SMTP_USERNAME"));
+      fromAddress = clean(System.getenv("RESEND_FROM_EMAIL"));
       if (!fromAddress.isEmpty()) {
-        logger.warn("Remitente resuelto desde variable de entorno SMTP_USERNAME.");
-      }
-    }
-
-    if (fromAddress.isEmpty()) {
-      fromAddress = clean(System.getenv("SPRING_MAIL_USERNAME"));
-      if (!fromAddress.isEmpty()) {
-        logger.warn("Remitente resuelto desde variable de entorno SPRING_MAIL_USERNAME.");
+        logger.warn("Remitente resuelto desde variable de entorno RESEND_FROM_EMAIL.");
       }
     }
 
     if (fromAddress.isEmpty()) {
       throw new IllegalStateException(
-        "No hay remitente configurado para correo. Define BISKIT_MAIL_FROM o SMTP_USERNAME."
+        "No hay remitente configurado para correo. Define BISKIT_MAIL_FROM o RESEND_FROM_EMAIL."
       );
     }
 
-    try {
-      InternetAddress address = new InternetAddress(fromAddress);
-      address.validate();
+    if (isValidFromAddress(fromAddress)) {
       logger.info("Correo remitente resuelto correctamente: {}", maskEmail(fromAddress));
       return fromAddress;
-    } catch (AddressException e) {
-      throw new IllegalStateException(
-        "El remitente configurado no es un correo valido: " + fromAddress,
-        e
-      );
     }
+
+    throw new IllegalStateException(
+      "El remitente configurado no es un correo valido: " + fromAddress
+    );
   }
 
   private String clean(String value) {
@@ -355,23 +327,80 @@ public class CorreosImpl implements CorreosService {
     return email.charAt(0) + "***" + email.substring(atIndex);
   }
 
+  private boolean isValidFromAddress(String fromAddress) {
+    String email = fromAddress;
+    int start = fromAddress.indexOf('<');
+    int end = fromAddress.indexOf('>');
+
+    if (start >= 0 && end > start) {
+      email = fromAddress.substring(start + 1, end);
+    }
+
+    return SIMPLE_EMAIL_PATTERN.matcher(email.trim()).matches();
+  }
+
+  private void enviarConResend(String to, String subject, String html) {
+    String apiKey = clean(resendApiKey);
+
+    if (apiKey.isEmpty()) {
+      throw new IllegalStateException("No hay API key de Resend configurada. Define RESEND_API_KEY.");
+    }
+
+    Map<String, Object> body = new HashMap<>();
+    body.put("from", resolverFromAddress());
+    body.put("to", List.of(to));
+    body.put("subject", subject);
+    body.put("html", html);
+    body.put("attachments", List.of(construirHeaderInlineAttachment()));
+
+    try {
+      resendClient
+        .post()
+        .uri(resendEmailsUrl)
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+        .body(body)
+        .retrieve()
+        .toBodilessEntity();
+    } catch (RestClientResponseException e) {
+      logger.error(
+        "Resend rechazo el correo a {}. Status: {}. Respuesta: {}",
+        maskEmail(to),
+        e.getStatusCode(),
+        e.getResponseBodyAsString(),
+        e
+      );
+      throw new RuntimeException("Error al enviar el correo con Resend", e);
+    } catch (RestClientException e) {
+      logger.error("No se pudo enviar el correo a {} usando Resend", maskEmail(to), e);
+      throw new RuntimeException("Error al enviar el correo con Resend", e);
+    }
+  }
+
+  private Map<String, Object> construirHeaderInlineAttachment() {
+    ClassPathResource img = new ClassPathResource(HEADER_IMAGE_PATH);
+
+    try (InputStream inputStream = img.getInputStream()) {
+      Map<String, Object> attachment = new HashMap<>();
+      attachment.put("content", Base64.getEncoder().encodeToString(inputStream.readAllBytes()));
+      attachment.put("filename", "correo.png");
+      attachment.put("content_id", HEADER_CONTENT_ID);
+      attachment.put("content_type", "image/png");
+      return attachment;
+    } catch (IOException e) {
+      throw new IllegalStateException("No se pudo cargar la imagen del correo", e);
+    }
+  }
+
   @Override
   public void enviarConfirmacionCita(Cita cita, Client owner) {
     try {
-      MimeMessage mensaje = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-
-      helper.setFrom(fromEmail);
-      helper.setTo(owner.getCorreo());
-      helper.setSubject("Confirmación de cita agendada - Veterinaria Biskit");
-
-      helper.setText(construirCuerpoConfirmacionCita(cita, owner), true);
-
-      ClassPathResource img = new ClassPathResource("images/correo.png");
-      helper.addInline("headerCorreo", img, "image/png");
-
-      mailSender.send(mensaje);
-    } catch (MessagingException e) {
+      enviarConResend(
+        owner.getCorreo(),
+        "Confirmación de cita agendada - Veterinaria Biskit",
+        construirCuerpoConfirmacionCita(cita, owner)
+      );
+    } catch (Exception e) {
       throw new RuntimeException("Error al enviar el correo de confirmación de cita", e);
     }
   }

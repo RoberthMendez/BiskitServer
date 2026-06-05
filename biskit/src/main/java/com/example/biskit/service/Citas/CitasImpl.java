@@ -54,7 +54,6 @@ public class CitasImpl implements CitasService {
   }
 
   public Cita addCita(CitaDto citaDto, int numSemana) {
-    System.out.println("Holaaaaaaaaaaa");
     TipoCita tipoCita = tiposCitaRepo.findByNombre(citaDto.getTipoCitaNombre()).orElseThrow();
     Vet vet = vetsRepo.findById(citaDto.getVetId()).orElseThrow();
 
